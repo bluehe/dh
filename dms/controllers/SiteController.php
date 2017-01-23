@@ -97,7 +97,7 @@ class SiteController extends Controller {
         } else {
             $this->counter = Yii::$app->session->get('loginCaptchaRequired') + 1;
             Yii::$app->session->set('loginCaptchaRequired', $this->counter);
-            if (($this->counter > $this->attempts && System::getValue('captcha_loginfail') == '1') || System::existValue('captcha_open', '2')) {
+            if ((($this->counter > $this->attempts && System::getValue('captcha_loginfail') == '1') || System::getValue('captcha_loginfail') != '1') && System::existValue('captcha_open', '2')) {
                 $model->setScenario("captchaRequired");
             }
         }
