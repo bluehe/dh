@@ -33,5 +33,4 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
-!/vendor/
 /dms/runtime/
