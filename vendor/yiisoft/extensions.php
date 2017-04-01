@@ -48,15 +48,6 @@ return array (
       '@yii/faker' => $vendorDir . '/yiisoft/yii2-faker',
     ),
   ),
-  'rmrevin/yii2-fontawesome' => 
-  array (
-    'name' => 'rmrevin/yii2-fontawesome',
-    'version' => '2.17.0.0',
-    'alias' => 
-    array (
-      '@rmrevin/yii/fontawesome' => $vendorDir . '/rmrevin/yii2-fontawesome',
-    ),
-  ),
   'cebe/yii2-gravatar' => 
   array (
     'name' => 'cebe/yii2-gravatar',
@@ -91,15 +82,6 @@ return array (
     'alias' => 
     array (
       '@newerton/jcrop' => $vendorDir . '/newerton/yii2-jcrop',
-    ),
-  ),
-  'bluehe/yii2-jcrop' => 
-  array (
-    'name' => 'bluehe/yii2-jcrop',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@bluehe/jcrop' => $vendorDir . '/bluehe/yii2-jcrop',
     ),
   ),
   'yiisoft/yii2-imagine' => 
@@ -145,6 +127,24 @@ return array (
     'alias' => 
     array (
       '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid',
+    ),
+  ),
+  'rmrevin/yii2-fontawesome' => 
+  array (
+    'name' => 'rmrevin/yii2-fontawesome',
+    'version' => '2.17.1.0',
+    'alias' => 
+    array (
+      '@rmrevin/yii/fontawesome' => $vendorDir . '/rmrevin/yii2-fontawesome',
+    ),
+  ),
+  'bluehe/yii2-jcrop' => 
+  array (
+    'name' => 'bluehe/yii2-jcrop',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@bluehe/jcrop' => $vendorDir . '/bluehe/yii2-jcrop',
     ),
   ),
   'kartik-v/yii2-mpdf' => 
