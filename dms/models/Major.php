@@ -2,6 +2,7 @@
 
 namespace dms\models;
 
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -14,7 +15,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property College $college0
  */
-class Major extends \yii\db\ActiveRecord {
+class Major extends ActiveRecord {
 
     /**
      * @inheritdoc
@@ -30,9 +31,9 @@ class Major extends \yii\db\ActiveRecord {
         return [
             [['name', 'sort_order', 'college'], 'required', 'message' => '{attribute}不能为空'],
             [['sort_order', 'college'], 'integer'],
-            [['name'], 'string', 'max' => 30],
+            [['name'], 'string', 'max' => 30, 'message' => '{attribute}最多30个字符'],
             [['college'], 'exist', 'skipOnError' => true, 'targetClass' => College::className(), 'targetAttribute' => ['college' => 'id']],
-            [['name', 'college'], 'unique', 'targetAttribute' => ['name', 'college']],
+            [['name'], 'unique', 'targetAttribute' => ['name', 'college'], 'message' => '{attribute}已经存在'],
         ];
     }
 

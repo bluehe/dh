@@ -56,6 +56,7 @@ class SiteController extends Controller {
      * @inheritdoc
      */
     public function actions() {
+        $captcha_length = System::getValue('captcha_length');
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -63,8 +64,8 @@ class SiteController extends Controller {
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-                'maxLength' => System::getValue('captcha_length'), //最大显示个数
-                'minLength' => System::getValue('captcha_length'), //最少显示个数
+                'maxLength' => $captcha_length, //最大显示个数
+                'minLength' => $captcha_length, //最少显示个数
             ],
         ];
     }
@@ -97,7 +98,8 @@ class SiteController extends Controller {
         } else {
             $this->counter = Yii::$app->session->get('loginCaptchaRequired') + 1;
             Yii::$app->session->set('loginCaptchaRequired', $this->counter);
-            if ((($this->counter > $this->attempts && System::getValue('captcha_loginfail') == '1') || System::getValue('captcha_loginfail') != '1') && System::existValue('captcha_open', '2')) {
+            $captcha_loginfail = System::getValue('captcha_loginfail');
+            if ((($this->counter > $this->attempts && $captcha_loginfail == '1') || $captcha_loginfail != '1') && System::existValue('captcha_open', '2')) {
                 $model->setScenario("captchaRequired");
             }
         }

@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use dms\models\Major;
+use dms\models\Broom;
 
 /* @var $this yii\web\View */
-/* @var $model dms\models\Major */
+/* @var $model dms\models\Broom */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -13,7 +13,7 @@ use dms\models\Major;
     <div class="col-md-12">
         <div class="box box-primary">
             <?php
-            $form = ActiveForm::begin(['id' => 'major-form',
+            $form = ActiveForm::begin(['id' => 'broom-form',
                         'options' => ['class' => 'form-horizontal'],
                         'fieldConfig' => [
                             'template' => "{label}\n<div class=\"col-md-4\">{input}</div>\n<div class=\"col-md-6\">{error}</div>",
@@ -22,11 +22,15 @@ use dms\models\Major;
             ]);
             ?>
             <div class="box-body">
-                <?= $form->field($model, 'college')->dropDownList(Major::get_college_id(), ['prompt' => '请选择']) ?>
+                <?= $form->field($model, 'fid')->dropDownList(Broom::get_forum_id(), ['prompt' => '请选择']) ?>
+
+                <?= $form->field($model, 'floor')->dropDownList(Broom::get_floor_id(), ['prompt' => '请选择']) ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'sort_order')->textInput() ?>
+                <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'stat')->radioList(Broom::$List['stat'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
             </div>
             <div class="box-footer">

@@ -5,7 +5,7 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-dms',
+    'id' => 'dms',
     'name' => '管理系统',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -40,6 +40,10 @@ return [
                 'from' => ['admin@ds9b.com' => '管理系统']
             ],
         ],
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+            'keyPrefix' => 'dms',
+        ],
         'assetManager' => [
             'bundles' => [
                 'dmstr\web\AdminLteAsset' => [
@@ -72,15 +76,6 @@ return [
                 ],
             ],
         ],
-        'as access' => [
-//ACF肯定是要加的，因为粗心导致该配置漏掉了，很是抱歉
-            'class' => 'mdm\admin\components\AccessControl',
-            'allowActions' => [
-//这里是允许访问的action
-//controller/action
-                '*'
-            ]
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -97,6 +92,18 @@ return [
             'thousandSeparator' => ' ',
             'currencyCode' => 'CNY',
         ],
+    ],
+    'as access' => [
+//ACF肯定是要加的，因为粗心导致该配置漏掉了，很是抱歉
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+//这里是允许访问的action
+            'admin/*',
+            'site/*',
+            'debug/*',
+            'gii/*',
+        //'*'
+        ]
     ],
     'on beforeAction' => ['dms\events\initSiteConfig', 'assign'],
     'params' => $params,

@@ -63,7 +63,6 @@ class SystemController extends Controller {
             foreach ($system as $key => $value) {
                 $r = System::setValue($key, $value);
                 if ($r) {
-
                     $res++;
                 } elseif ($r === false) {
                     $res = false;
@@ -71,6 +70,7 @@ class SystemController extends Controller {
                 }
             }
             if ($res) {
+                Yii::$app->cache->delete('system_smtp');
                 Yii::$app->session->setFlash('success', '更新成功。');
             } elseif ($res === false) {
                 Yii::$app->session->setFlash('error', '更新失败。');
@@ -110,6 +110,26 @@ class SystemController extends Controller {
         return $this->render('captcha', [
                     'model' => System::getChildren('captcha'),
         ]);
+    }
+
+    /**
+     * 发送测试邮件
+     */
+    public function actionSendEmail() {
+        if (Yii::$app->request->post()) {
+            $emailto = Yii::$app->request->post('email');
+            $mail = Yii::$app->mailer->compose()
+                    ->setTo($emailto)
+                    ->setSubject(Yii::$app->name . '测试邮件')
+                    ->setTextBody('测试邮件')
+                    ->setHtmlBody('<b>测试邮件</b>');
+
+            if ($mail->send()) {
+                return 'success';
+            } else {
+                return 'fail';
+            }
+        }
     }
 
 }

@@ -2,22 +2,23 @@
 
 namespace dms\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use dms\models\Major;
+use dms\models\Broom;
 
 /**
- * MajorSearch represents the model behind the search form about `dms\models\Major`.
+ * BroomSearch represents the model behind the search form about `dms\models\Broom`.
  */
-class MajorSearch extends Major {
+class BroomSearch extends Broom {
 
     /**
      * @inheritdoc
      */
     public function rules() {
         return [
-            [['id', 'sort_order', 'college'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'fid', 'floor', 'stat'], 'integer'],
+            [['name', 'note'], 'safe'],
         ];
     }
 
@@ -37,24 +38,27 @@ class MajorSearch extends Major {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Major::find();
-        $query->joinWith(['colleges']);
-        //$query->select("{{%major}}.*, {{%college}}.name as cname");
+        $query = Broom::find();
+        $query->joinWith(['forums', 'floors']);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => ['defaultOrder' => [
-                    'college' => SORT_ASC,
-                    'sort_order' => SORT_ASC,
+                    'fid' => SORT_ASC,
+                    'floor' => SORT_ASC,
+                    'name' => SORT_ASC,
                 ]],
         ]);
 
-
         $sort = $dataProvider->getSort();
-        $sort->attributes['college'] = [
-            'asc' => ['{{%college}}.sort_order' => SORT_ASC],
-            'desc' => ['{{%college}}.sort_order' => SORT_DESC],
+        $sort->attributes['fid'] = [
+            'asc' => ['{{%forum}}.fup' => SORT_ASC, '{{%forum}}.sort_order' => SORT_ASC],
+            'desc' => ['{{%forum}}.fup' => SORT_DESC, '{{%forum}}.sort_order' => SORT_DESC],
+        ];
+        $sort->attributes['floor'] = [
+            'asc' => ['{{%parameter}}.sort_order' => SORT_ASC],
+            'desc' => ['{{%parameter}}.sort_order' => SORT_DESC],
         ];
         $dataProvider->setSort($sort);
 
@@ -68,12 +72,14 @@ class MajorSearch extends Major {
 
         // grid filtering conditions
         $query->andFilterWhere([
-            '{{%major}}.id' => $this->id,
-            '{{%major}}.sort_order' => $this->sort_order,
-            '{{%major}}.college' => $this->college,
+            '{{%broom}}.id' => $this->id,
+            '{{%broom}}.fid' => $this->fid,
+            '{{%broom}}.floor' => $this->floor,
+            '{{%broom}}.stat' => $this->stat,
         ]);
 
-        $query->andFilterWhere(['like', '{{%major}}.name', $this->name]);
+        $query->andFilterWhere(['like', '{{%broom}}.name', $this->name])
+                ->andFilterWhere(['like', '{{%broom}}.note', $this->note]);
 
         return $dataProvider;
     }

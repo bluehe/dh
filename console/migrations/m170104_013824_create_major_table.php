@@ -25,6 +25,16 @@ class m170104_013824_create_major_table extends Migration {
             'college' => $this->integer()->notNull(),
             "FOREIGN KEY ([[college]]) REFERENCES {$collegeTable}([[id]]) ON DELETE CASCADE ON UPDATE CASCADE",
                 ], $tableOptions);
+
+        //测试数据
+        $this->batchInsert($table, ['id', 'name', 'sort_order', 'college'], [
+            ['1', '市场营销', '1', '1'],
+            ['2', '经济学', '2', '1'],
+            ['3', '工商管理', '2', '2'],
+            ['4', '电子商务', '1', '2'],
+            ['5', '通信工程', '1', '3'],
+            ['6', '数字信号', '2', '3'],
+        ]);
     }
 
     /**

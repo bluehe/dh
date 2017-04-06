@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use dms\models\Major;
+use dms\models\Forum;
 
 /* @var $this yii\web\View */
-/* @var $model dms\models\Major */
+/* @var $model dms\models\forum */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -13,7 +13,7 @@ use dms\models\Major;
     <div class="col-md-12">
         <div class="box box-primary">
             <?php
-            $form = ActiveForm::begin(['id' => 'major-form',
+            $form = ActiveForm::begin(['id' => 'college-form',
                         'options' => ['class' => 'form-horizontal'],
                         'fieldConfig' => [
                             'template' => "{label}\n<div class=\"col-md-4\">{input}</div>\n<div class=\"col-md-6\">{error}</div>",
@@ -22,11 +22,15 @@ use dms\models\Major;
             ]);
             ?>
             <div class="box-body">
-                <?= $form->field($model, 'college')->dropDownList(Major::get_college_id(), ['prompt' => '请选择']) ?>
+                <?= $form->field($model, 'fup')->dropDownList(Forum::get_forumfup_id(), ['prompt' => '无']) ?>
+
+                <?= $form->field($model, 'mold')->radioList(Forum::$List['mold'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'sort_order')->textInput() ?>
+
+                <?= $form->field($model, 'stat')->radioList(Forum::$List['stat'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
             </div>
             <div class="box-footer">
@@ -41,7 +45,6 @@ use dms\models\Major;
 
             </div>
             <?php ActiveForm::end(); ?>
-
         </div>
     </div>
 </div>

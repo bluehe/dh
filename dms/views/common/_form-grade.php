@@ -12,8 +12,8 @@ use yii\widgets\ActiveForm;
     <div class="col-md-12">
         <div class="box box-primary">
             <?php
-            $form = ActiveForm::begin(['id' => 'college-form',
-                        'options' => [ 'class' => 'form-horizontal'],
+            $form = ActiveForm::begin(['id' => 'grade-form',
+                        'options' => ['class' => 'form-horizontal'],
                         'fieldConfig' => [
                             'template' => "{label}\n<div class=\"col-md-4\">{input}</div>\n<div class=\"col-md-6\">{error}</div>",
                             'labelOptions' => ['class' => 'col-md-2 control-label'],
@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
             ?>
             <div class="box-body">
                 <?= $form->field($model, 'name')->hiddenInput(['value' => 'grade'])->label(false) ?>
-                <?= $form->field($model, 'k')->textInput(['maxlength' => true])->label('编号') ?>
+                <?= $form->field($model, 'sort_order')->textInput() ?>
                 <?= $form->field($model, 'v')->textInput()->label('年级') ?>
 
             </div>

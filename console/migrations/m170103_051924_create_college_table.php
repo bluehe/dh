@@ -22,6 +22,13 @@ class m170103_051924_create_college_table extends Migration {
             'name' => $this->string(30)->notNull(),
             'sort_order' => $this->smallInteger(3)->notNull()->defaultValue(1),
                 ], $tableOptions);
+
+        //测试数据
+        $this->batchInsert($table, ['id', 'name', 'sort_order'], [
+            ['1', '经济学院', '5'],
+            ['2', '管理学院', '2'],
+            ['3', '通信学院', '3'],
+        ]);
     }
 
     /**

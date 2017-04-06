@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'progressUploadThreshold' => 90,
                                 //上传
                                 'uploadAsync' => true,
-                                'uploadUrl' => Url::toRoute(['upload/index']),
+                                'uploadUrl' => Url::toRoute(['account/upload-thumb']),
                                 'uploadExtraData' => ['dir' => 'tmp'],
                                 'maxFileSize' => $maxsize
                             ],

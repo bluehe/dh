@@ -31,26 +31,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'summary' => '第{begin}-{end}条，共{totalCount}条',
                 'columns' => [
                     'id',
-                    'name',
-                    'sort_order',
                     [
                         'attribute' => 'college',
-                        'value' =>
+                        'value' => //'colleges.name',
                         function($model) {
-                    return $model->colleges->name;   //主要通过此种方式实现
-                },
+                            return $model->colleges->name;   //主要通过此种方式实现
+                        },
                         'filter' => Major::get_college_id(), //此处我们可以将筛选项组合成key-value形式
                     ],
+                    'name',
+                    'sort_order',
                     ['class' => 'yii\grid\ActionColumn',
                         'header' => '操作',
                         'template' => '{update} {delete}', //只需要展示删除和更新
                         'buttons' => [
                             'update' => function($url, $model, $key) {
-                        return Html::a('<i class="fa fa-pencil"></i> 修改', ['common/major-update', 'id' => $key], [ 'class' => 'btn btn-primary btn-xs',]);
-                    },
+                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['common/major-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+                            },
                             'delete' => function($url, $model, $key) {
-                        return Html::a('<i class="fa fa-trash-o"></i> 删除', ['common/major-delete', 'id' => $key], [ 'class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除专业将会影响相关教师及学生，此操作不能恢复，你确定要删除专业吗？',]]);
-                    },
+                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['common/major-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除专业将会影响相关教师及学生，此操作不能恢复，你确定要删除专业吗？',]]);
+                            },
                         ],
                     ],
                 ],

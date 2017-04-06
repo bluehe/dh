@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box box-primary">
             <?php
             $form = ActiveForm::begin(['id' => 'smtp-form',
-                        'options' => [ 'class' => 'form-horizontal'],
+                        'options' => ['class' => 'form-horizontal'],
             ]);
             ?>
             <div class="box-body">
@@ -71,7 +71,7 @@ if ($email && _this.hasClass('btn-primary')) {
 _this.addClass('btn-default').removeClass('btn-primary');
 $.ajax({
 type: "POST",
-url: '/ajax/send-email',
+url: '/system/send-email',
 data: {'email': $email},
 success: function(data) {
 if (data == 'success') {

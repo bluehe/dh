@@ -26,10 +26,10 @@ class Parameter extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['name', 'k', 'v'], 'required', 'message' => '不能为空'],
+            [['name', 'sort_order', 'v'], 'required', 'message' => '{attribute}不能为空'],
             [['v'], 'string'],
-            [['name', 'k'], 'string', 'max' => 32],
-            [['name', 'k'], 'unique', 'targetAttribute' => ['name', 'k']],
+            [['name'], 'string', 'max' => 32],
+            [['v'], 'unique', 'targetAttribute' => ['name', 'v'], 'message' => '{attribute}已经存在'],
         ];
     }
 
@@ -40,7 +40,7 @@ class Parameter extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'name' => '类型',
-            'k' => '代码',
+            'sort_order' => '排序',
             'v' => '数值',
         ];
     }

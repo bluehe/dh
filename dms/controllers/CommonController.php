@@ -37,6 +37,9 @@ class CommonController extends Controller {
     public function actionCollege() {
         $dataProvider = new ActiveDataProvider([
             'query' => College::find(),
+            'sort' => ['defaultOrder' => [
+                    'sort_order' => SORT_ASC,
+                ]],
         ]);
 
         return $this->render('college', [
