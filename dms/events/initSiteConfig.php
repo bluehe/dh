@@ -37,6 +37,15 @@ class initSiteConfig extends Event {
                 ],
             ]);
         }
+        $system_info = $cache->get('system_info');
+        if ($system_info === false) {
+            $system_info = System::getChildrenValue('system_info');
+            if (!$system_info['system_name']) {
+                $system_info['system_name'] = Yii::$app->name;
+            }
+            $cache->set('system_info', $system_info);
+        }
+        Yii::$app->name = $system_info['system_name'];
 
         return true;
     }

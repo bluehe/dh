@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\UserAuth;
 use dms\models\SignupForm;
 use dms\models\PasswordResetRequestForm;
 use dms\models\ResetPasswordForm;
@@ -29,10 +30,10 @@ class SiteController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'error', 'signup', 'logout', 'index'],
+                'only' => ['login', 'signup', 'logout', 'index', 'complete'],
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'signup'],
+                        'actions' => ['login', 'signup', 'complete'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -56,18 +57,119 @@ class SiteController extends Controller {
      * @inheritdoc
      */
     public function actions() {
-        $captcha_length = System::getValue('captcha_length');
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'successCallback'],
+            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-                'maxLength' => $captcha_length, //最大显示个数
+                'maxLength' => $captcha_length = System::getValue('captcha_length'), //最大显示个数
                 'minLength' => $captcha_length, //最少显示个数
             ],
         ];
+    }
+
+    public function successCallback($client) {
+        $type = $client->getId(); // qq | sina | weixin
+        $attributes = $client->getUserAttributes(); // basic info
+//        var_dump($attributes);
+//        exit;
+
+        $auth = UserAuth::find()->where(['type' => $type, 'open_id' => $attributes['id']])->one();
+        if ($auth) {
+//存在
+            if (Yii::$app->user->login($auth->user)) {
+                if (!$auth->user->avatar) {
+                    switch ($type) {
+                        case 'github': $auth->user->avatar = $attributes['avatar_url'];
+                            break;
+                        case 'weibo': $auth->user->avatar = $attributes['profile_image_url'];
+                            break;
+                        default:
+                            break;
+                    }
+                    $auth->user->save();
+                }
+                return $this->goHome();
+            }
+        } else {
+//不存在，注册
+            Yii::$app->session->set('auth_type', $type);
+            Yii::$app->session->set('auth_openid', $attributes['id']);
+            return $this->redirect('complete');
+        }
+
+
+// user login or signup comes here
+    }
+
+    public function actionComplete() {
+        $model_l = new LoginForm();
+        $model_s = new SignupForm();
+        if (Yii::$app->request->isPost) {
+
+            if (Yii::$app->request->post('type') === 'bind') {
+                //登录
+                if ($model_l->load(Yii::$app->request->post()) && $model_l->login()) {
+                    Yii::$app->session->remove('loginCaptchaRequired');
+                    //创建第三方记录
+                    $auth = new UserAuth();
+                    $auth->type = Yii::$app->session->get('auth_type');
+                    $auth->open_id = Yii::$app->session->get('auth_openid');
+                    $auth->uid = Yii::$app->user->identity->id;
+                    $auth->created_at = time();
+                    if ($auth->save()) {
+                        Yii::$app->session->remove('auth_type');
+                        Yii::$app->session->remove('auth_openid');
+                        return $this->goHome();
+                    }
+                } else {
+                    $this->counter = Yii::$app->session->get('loginCaptchaRequired') + 1;
+                    Yii::$app->session->set('loginCaptchaRequired', $this->counter);
+                }
+            } else {
+                if ($model_s->load(Yii::$app->request->post())) {
+                    if (Yii::$app->request->isAjax) {
+                        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        return \yii\bootstrap\ActiveForm::validate($model_s);
+                    }
+                    //创建用户
+                    if ($user = $model_s->signup()) {
+                        //登录
+                        if (Yii::$app->getUser()->login($user)) {
+                            //创建第三方记录
+                            $auth = new UserAuth();
+                            $auth->type = Yii::$app->session->get('auth_type');
+                            $auth->open_id = Yii::$app->session->get('auth_openid');
+                            $auth->uid = Yii::$app->user->identity->id;
+                            $auth->created_at = time();
+                            if ($auth->save()) {
+                                Yii::$app->session->remove('auth_type');
+                                Yii::$app->session->remove('auth_openid');
+                                return $this->goHome();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $this->counter = Yii::$app->session->get('loginCaptchaRequired') + 1;
+        $captcha_loginfail = System::getValue('captcha_loginfail');
+        if ((($this->counter > $this->attempts && $captcha_loginfail == '1') || $captcha_loginfail != '1') && System::existValue('captcha_open', '2')) {
+            $model_l->setScenario("captchaRequired");
+        }
+        if (System::existValue('captcha_open', '1')) {
+            $model_s->setScenario("captchaRequired");
+        }
+
+
+        $this->layout = '//main-login';
+        return $this->render('complete', ['model_l' => $model_l, 'model_s' => $model_s,]);
     }
 
     /**
@@ -76,6 +178,7 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
+
 //        var_dump(Yii::$app->user->identity);
 //        exit;
         return $this->render('index');
@@ -87,21 +190,25 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionLogin() {
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         $model = new LoginForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            Yii::$app->session->remove('loginCaptchaRequired');
-            return $this->goBack();
-        } else {
-            $this->counter = Yii::$app->session->get('loginCaptchaRequired') + 1;
-            Yii::$app->session->set('loginCaptchaRequired', $this->counter);
-            $captcha_loginfail = System::getValue('captcha_loginfail');
-            if ((($this->counter > $this->attempts && $captcha_loginfail == '1') || $captcha_loginfail != '1') && System::existValue('captcha_open', '2')) {
-                $model->setScenario("captchaRequired");
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->login()) {
+                Yii::$app->session->remove('loginCaptchaRequired');
+                return $this->goBack();
+            } else {
+                $this->counter = Yii::$app->session->get('loginCaptchaRequired') + 1;
+                Yii::$app->session->set('loginCaptchaRequired', $this->counter);
             }
+        }
+        $this->counter = Yii::$app->session->get('loginCaptchaRequired') + 1;
+        $captcha_loginfail = System::getValue('captcha_loginfail');
+        if ((($this->counter > $this->attempts && $captcha_loginfail == '1') || $captcha_loginfail != '1') && System::existValue('captcha_open', '2')) {
+            $model->setScenario("captchaRequired");
         }
 
         return $this->render('login', [
@@ -127,12 +234,11 @@ class SiteController extends Controller {
      */
     public function actionSignup() {
         $model = new SignupForm();
-        $model->load($_POST);
-        if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return \yii\bootstrap\ActiveForm::validate($model);
-        }
         if ($model->load(Yii::$app->request->post())) {
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return \yii\bootstrap\ActiveForm::validate($model);
+            }
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
@@ -193,7 +299,7 @@ class SiteController extends Controller {
             Yii::$app->session->setFlash('danger', '链接已过期，请重新操作。');
 
             return $this->goHome();
-            //throw new BadRequestHttpException($e->getMessage());
+//throw new BadRequestHttpException($e->getMessage());
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {

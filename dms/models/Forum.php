@@ -78,7 +78,7 @@ class Forum extends ActiveRecord {
 
     //得到顶级楼苑ID-name 键值数组
     public static function get_forumfup_id() {
-        $forums = Forum::find()->where(['fup' => NULL])->orderBy(['sort_order'])->all();
+        $forums = Forum::find()->where(['fup' => NULL])->orderBy(['sort_order' => SORT_ASC])->all();
         return ArrayHelper::map($forums, 'id', 'name');
     }
 

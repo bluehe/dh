@@ -116,8 +116,8 @@ class ForumController extends Controller {
         ]);
         $sort = $dataProvider->getSort();
         $sort->attributes['sort_order'] = [
-            'asc' => ['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC],
-            'desc' => ['fsort' => SORT_DESC, 'mark' => SORT_DESC, 'fup' => SORT_ASC, 'sort_order' => SORT_DESC],
+            'asc' => ['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC],
+            'desc' => ['fsort' => SORT_DESC, 'mark' => SORT_DESC, 'fup' => SORT_ASC, 'sort_order' => SORT_DESC, 'id' => SORT_DESC],
         ];
 
         $dataProvider->setSort($sort);
@@ -137,11 +137,30 @@ class ForumController extends Controller {
         $model->mold = 1;
         $model->stat = 1;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->mark = $model->fup ? $model->fup : $model->id;
-            $model->fsort = $model->fup ? $model->fups->sort_order : $model->sort_order;
-            $model->save();
-            Yii::$app->session->setFlash('success', '创建成功。');
+        if ($model->load(Yii::$app->request->post())) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save();
+                $model->mark = $model->fup ? $model->fup : $model->id;
+                $model->fsort = $model->fup ? $model->fups->sort_order : $model->sort_order;
+                $model->save();
+
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', '创建成功。');
+            } catch (\Exception $e) {
+
+                $transaction->rollBack();
+//                throw $e;
+                Yii::$app->session->setFlash('error', '创建失败。');
+            }
+//            if ($model->save()) {
+//                $model->mark = $model->fup ? $model->fup : $model->id;
+//                $model->fsort = $model->fup ? $model->fups->sort_order : $model->sort_order;
+//                $model->save();
+//                Yii::$app->session->setFlash('success', '创建成功。');
+//            } else {
+//                Yii::$app->session->setFlash('error', '创建失败。');
+//            }
             return $this->redirect(['forum-update', 'id' => $model->id]);
         } else {
             return $this->render('forum-create', [
@@ -162,11 +181,29 @@ class ForumController extends Controller {
         if ($model->load(Yii::$app->request->post())) {
             $model->mark = $model->fup ? $model->fup : $model->id;
             $model->fsort = $model->fup ? $model->fups->sort_order : $model->sort_order;
-            if ($model->save()) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save();
+                if (!$model->fup) {
+                    Forum::updateAll(['fsort' => $model->sort_order], ['fup' => $model->id]);
+                }
+
+                $transaction->commit();
                 Yii::$app->session->setFlash('success', '修改成功。');
-            } else {
+            } catch (\Exception $e) {
+
+                $transaction->rollBack();
+//                throw $e;
                 Yii::$app->session->setFlash('error', '修改失败。');
             }
+//            if ($model->save()) {
+//                if (!$model->fup) {
+//                    Forum::updateAll(['fsort' => $model->sort_order], ['fup' => $model->id]);
+//                }
+//                Yii::$app->session->setFlash('success', '修改成功。');
+//            } else {
+//                Yii::$app->session->setFlash('error', '修改失败。');
+//            }
             return $this->redirect(['forum-update', 'id' => $model->id]);
         }
         return $this->render('forum-update', [

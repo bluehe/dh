@@ -1,6 +1,43 @@
 Change Log: `bootstrap-fileinput`
 =================================
 
+## version 4.3.9
+
+**Date:** 02-Apr-2017
+
+1. (enh #863): New plugin method `zoom` with parameter `frameId` to allow custom triggering of zoomed preview for each thumbnail frame.
+2. (enh #881): Update Spanish Translations.
+3. (bug #882): Correct image resize validation.
+4. (enh #875): Reset form based events more correctly to allow multiple bootstrap file inputs within forms.
+5. (bug #885): Correct validation for `allowedFileTypes`. 
+6. (enh #886): Append zoom modal dialog to `body` element if available to avoid multiple BS modals conflict. 
+7. Enhance events like `fileclear` and `filepreajax` to be aborted via `event.preventDefault()`.
+8. (enh #887): New properties `msgUploadBegin` and `msgUploadEnd` to display a better progress status. The `layoutTemplates.progress` will support a new token `{status}`.
+9. Enhance uploaded thumb frames to not reset or change the frame identifier after successful upload.
+10. (bug #890): Fix doubling of images for async bulk uploads when initial preview is returned via ajax response.
+11. (bug #893): Correct `file-success-remove` event handling.
+12. (enh #894, #895): Correct file size validation for empty files.
+13. (enh #898): New plugin method to get files in preview and config.
+14. (bug #900): Correct `overwriteInitial` validation for async batch uploads returning dynamic initial preview post upload.
+15. (enh #902): Enhance zoom preview styling for large height images.
+16. (enh #905): Prevent duplicate files to be dragged and dropped.
+17. (enh #906): Add Swedish Translations.
+18. (enh #909): Update German Translations.
+19. More correct validation of `allowedFileTypes` to accept null values.
+20. Enhance zoom preview styling for Krajee Explorer theme.
+21. (enh #913): Better id parsing and resetting of uploaded file thumbnails.
+22. (enh #914): Update Portuguese BR translations.
+
+## version 4.3.8
+
+**Date:** 21-Feb-2017
+
+1. (bug #870): Correct config.width parsing.
+2. (bug #872): Correct typo in `bootstrap.min.css`.
+3. (enh #874): Enhance/Standardize CSS Styles for Krajee Default Theme.
+4. (enh #876): Update Spanish Translations.
+5. (enh #879): Update Russian Translations.
+
 ## version 4.3.7
 
 **Date:** 11-Feb-2017

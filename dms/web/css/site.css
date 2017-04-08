@@ -113,3 +113,76 @@ a.desc:after {
     height: 35px;
     line-height: 35px;
 }
+
+/*第三方登录*/
+.social-icon p{
+    color: #999;
+}
+.social-icon p:after, .social-icon p:before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 30%;
+    position: relative;
+    background-color: #ebebeb;
+}
+.social-icon p:before {
+    left: 0;
+    top: 10px;
+}
+.social-icon p:after {
+    right:-70%;
+    top: -11px;
+}
+.auth-clients{
+    padding: 0;
+}
+.auth-clients .github{
+    background-color: #000000;
+}
+.auth-clients .weibo{
+    background-color: #D7172E;
+}
+.auth-icon.weibo:before{
+    font-size: 24px;
+    line-height: 32px;
+    content:'\f18a';
+    font-family: FontAwesome;
+    color:#fff;
+}
+.auth-clients .qq{
+    background-color: #12B7F5;
+}
+.auth-icon.qq:before{
+    font-size: 24px;
+    line-height: 32px;
+    content:'\f1d6';
+    font-family: FontAwesome;
+    color:#fff;
+}
+.auth-clients .weixin{
+    background-color: #3caf36;
+}
+.auth-icon.weixin:before{
+    font-size: 24px;
+    line-height: 32px;
+    content:'\f1d7';
+    font-family: FontAwesome;
+    color:#fff;
+}
+.auth-clients .renren{
+    background-color: #2e7cb8;
+}
+.auth-icon.renren:before{
+    font-size: 30px;
+    line-height: 32px;
+    content:'\f18b';
+    font-family: FontAwesome;
+    color:#fff;
+}
+
+.complete>ul.nav-tabs>li{
+    margin-right: 0;
+    text-align: center;
+    width: 50%;
+}

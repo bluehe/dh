@@ -53,8 +53,8 @@ class BroomSearch extends Broom {
 
         $sort = $dataProvider->getSort();
         $sort->attributes['fid'] = [
-            'asc' => ['{{%forum}}.fup' => SORT_ASC, '{{%forum}}.sort_order' => SORT_ASC],
-            'desc' => ['{{%forum}}.fup' => SORT_DESC, '{{%forum}}.sort_order' => SORT_DESC],
+            'asc' => ['{{%forum}}.fsort' => SORT_ASC, '{{%forum}}.mark' => SORT_ASC, '{{%forum}}.fup' => SORT_ASC, '{{%forum}}.sort_order' => SORT_ASC, '{{%forum}}.sort_order' => SORT_ASC],
+            'desc' => ['{{%forum}}.fsort' => SORT_DESC, '{{%forum}}.mark' => SORT_DESC, '{{%forum}}.fup' => SORT_ASC, '{{%forum}}.sort_order' => SORT_DESC, '{{%forum}}.id' => SORT_DESC],
         ];
         $sort->attributes['floor'] = [
             'asc' => ['{{%parameter}}.sort_order' => SORT_ASC],

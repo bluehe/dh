@@ -85,7 +85,7 @@ class Broom extends ActiveRecord {
 
     //得到楼苑ID-name 键值数组
     public static function get_forum_id() {
-        $forum = Forum::find()->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC])->all();
+        $forum = Forum::find()->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
         return ArrayHelper::map($forum, 'id', 'name');
     }
 

@@ -148,6 +148,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['member', '1', '会员', null, null, '1482820123', '1482820123'],
             ['student', '1', '学生', null, null, '1482820123', '1482820123'],
             ['teacher', '1', '教师', null, null, '1482820123', '1482820123'],
+            ['guest', '1', '游客', null, null, '1482820123', '1482820123'],
             ['参数设置', '2', '参数设置', null, null, '1482820123', '1482820123'],
             ['楼苑设置', '2', '楼苑设置', null, null, '1482820123', '1482820123'],
             ['系统设置', '2', '系统设置', null, null, '1482820123', '1482820123'],
@@ -162,6 +163,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['admin', '楼苑设置'],
             ['admin', '系统设置'],
             ['admin', '账号信息'],
+            ['guest', '账号信息'],
         ]);
         $this->batchInsert($authManager->assignmentTable, ['item_name', 'user_id', 'created_at'], [
             ['admin', '1', '1482481221'],

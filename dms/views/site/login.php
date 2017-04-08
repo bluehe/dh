@@ -68,21 +68,25 @@ $fieldOptions2 = [
 
 
         <?php ActiveForm::end(); ?>
-        <!--
-                <div class="social-auth-links text-center">
-                    <p>- OR -</p>
-                    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in
-                        using Facebook</a>
-                    <a href="#" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Sign
-                        in using Google+</a>
-                </div>-->
-        <!-- /.social-auth-links -->
         <?=
         Html::a('忘记密码', ['/site/request-password-reset'])
         ?>
         <?=
         Html::a('注册新账号', ['/site/signup'], ['class' => 'pull-right'])
         ?>
+        <div class="social-auth-links text-center social-icon">
+            <p>第三方账号登录</p>
+            <?=
+            yii\authclient\widgets\AuthChoice::widget(['baseAuthUrl' => ['site/auth'], 'popupMode' => false,])
+            ?>
+        </div>
+        <!--        <div class="social-auth-links text-center social-icon">
+                    <p>第三方账号登录</p>
+                    <a href="#" class="qq-icon"><i class="fa fa-qq"></i></a>
+                    <a href="#" class="weibo-icon"><i class="fa fa-weibo"></i></a>
+                </div>-->
+        <!--        /.social-auth-links -->
+
 
     </div>
     <!-- /.login-box-body -->

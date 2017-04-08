@@ -40,6 +40,7 @@ class SystemController extends Controller {
                 }
             }
             if ($res) {
+                Yii::$app->cache->delete('system_info');
                 Yii::$app->session->setFlash('success', '更新成功。');
             } elseif ($res === false) {
                 Yii::$app->session->setFlash('error', '更新失败。');
