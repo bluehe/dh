@@ -1,18 +1,15 @@
 <?php
-
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model dms\models\Broom */
 
 $this->title = '创建房间';
 $this->params['breadcrumbs'][] = ['label' => '楼苑设置', 'url' => ['forum/forum']];
-$this->params['breadcrumbs'][] = ['label' => '房间管理', 'url' => ['forum/broom']];
+$this->params['breadcrumbs'][] = ['label' => '房间管理', 'url' => ['forum/room']];
 ?>
-<div class="broom-create">
+<div class="room-create">
 
     <?=
-    $this->render('_form-broom', [
+    $this->render('_form-room', [
         'model' => $model,
     ])
     ?>

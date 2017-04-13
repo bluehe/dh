@@ -22,9 +22,8 @@ use dms\models\Forum;
             ]);
             ?>
             <div class="box-body">
-                <?= $form->field($model, 'fup')->dropDownList(Forum::get_forumfup_id(), ['prompt' => '无']) ?>
+                <?= $form->field($model, 'fup')->dropDownList($model->get_forumfup_id($model->id), ['prompt' => '无']) ?>
 
-                <?= $form->field($model, 'mold')->radioList(Forum::$List['mold'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

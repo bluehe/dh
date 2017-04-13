@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         function($model) {
                             return $model->colleges->name;   //主要通过此种方式实现
                         },
-                        'filter' => Major::get_college_id(), //此处我们可以将筛选项组合成key-value形式
+                        'filter' => Major::get_major_college(), //此处我们可以将筛选项组合成key-value形式
                     ],
                     'name',
                     'sort_order',

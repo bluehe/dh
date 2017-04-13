@@ -22,7 +22,7 @@ if (Yii::$app->controller->action->id === 'login') {
         backend\assets\AppAsset::register($this);
     }
 
-    dmstr\web\AdminLteAsset::register($this);
+    //dmstr\web\AdminLteAsset::register($this);
 
     $directoryAsset = Yii::$app->assetManager->getPublishedUrl('dms/web');
     ?>

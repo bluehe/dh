@@ -1,52 +1,245 @@
 <?php
 /* @var $this yii\web\View */
 
-$this->title = '管理系统';
+$this->title = '首页';
 ?>
 <div class="site-index">
+    <div class="row">
+        <div class="col-md-3">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Draggable Events</h4>
+                </div>
+                <div class="box-body">
+                    <!-- the events -->
+                    <div id="external-events">
+                        <div class="external-event bg-green">Lunch</div>
+                        <div class="external-event bg-yellow">Go home</div>
+                        <div class="external-event bg-aqua">Do homework</div>
+                        <div class="external-event bg-light-blue">Work on UI design</div>
+                        <div class="external-event bg-red">Sleep tight</div>
+                        <div class="checkbox">
+                            <label for="drop-remove">
+                                <input type="checkbox" id="drop-remove">
+                                remove after drop
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <!-- /. box -->
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Create Event</h3>
+                </div>
+                <div class="box-body">
+                    <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                      <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+                        <ul class="fc-color-picker" id="color-chooser">
+                            <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-muted" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- /btn-group -->
+                    <div class="input-group">
+                        <input id="new-event" type="text" class="form-control" placeholder="Event Title">
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                        <div class="input-group-btn">
+                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Add</button>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                    <!-- /input-group -->
+                </div>
             </div>
         </div>
-
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-body no-padding">
+                    <!-- THE CALENDAR -->
+                    <div id="calendar"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
     </div>
 </div>
+<script>
+<?php $this->beginBlock('calendar') ?>
+
+    $(function () {
+
+        /* initialize the external events
+         -----------------------------------------------------------------*/
+        function ini_events(ele) {
+            ele.each(function () {
+
+                // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+                // it doesn't need to have a start or end
+                var eventObject = {
+                    title: $.trim($(this).text()) // use the element's text as the event title
+                };
+                // store the Event Object in the DOM element so we can get to it later
+                $(this).data('eventObject', eventObject);
+                // make the event draggable using jQuery UI
+                $(this).draggable({
+                    zIndex: 1070,
+                    revert: true, // will cause the event to go back to its
+                    revertDuration: 0  //  original position after the drag
+                });
+            });
+        }
+
+        ini_events($('#external-events div.external-event'));
+        /* initialize the calendar
+         -----------------------------------------------------------------*/
+        //Date for the calendar events (dummy data)
+        var date = new Date();
+        var d = date.getDate(),
+                m = date.getMonth(),
+                y = date.getFullYear();
+        $('#calendar').fullCalendar({
+
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            titleFormat: {
+                month: 'YYYY年M月', // September 2013
+                week: "YYYY年M月D日", // Sep 7 - 13 2013
+                day: 'YYYY年M月D日  dddd ' // Tuesday, Sep 8, 2013
+            },
+            buttonText: {
+                today: '今天',
+                month: '月',
+                week: '周',
+                day: '日'
+            },
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            dayNamesShort: ['日', '一', '二', '三', '四', '五', '六'],
+            weekNumberTitle: '周',
+            allDayText: '全天',
+            slotMinutes: 10,
+            //Random default events
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: new Date(y, m, 1),
+                    backgroundColor: "#f56954", //red
+                    borderColor: "#f56954" //red
+                },
+                {
+                    title: 'Long Event',
+                    start: new Date(y, m, d - 5),
+                    end: new Date(y, m, d - 2),
+                    backgroundColor: "#f39c12", //yellow
+                    borderColor: "#f39c12" //yellow
+                },
+                {
+                    title: 'Meeting',
+                    start: new Date(y, m, d, 10, 30),
+                    allDay: false,
+                    backgroundColor: "#0073b7", //Blue
+                    borderColor: "#0073b7" //Blue
+                },
+                {
+                    title: 'Lunch',
+                    start: new Date(y, m, d, 12, 0),
+                    end: new Date(y, m, d, 14, 0),
+                    allDay: false,
+                    backgroundColor: "#00c0ef", //Info (aqua)
+                    borderColor: "#00c0ef" //Info (aqua)
+                },
+                {
+                    title: 'Birthday Party',
+                    start: new Date(y, m, d + 1, 19, 0),
+                    end: new Date(y, m, d + 1, 22, 30),
+                    allDay: false,
+                    backgroundColor: "#00a65a", //Success (green)
+                    borderColor: "#00a65a" //Success (green)
+                },
+                {
+                    title: 'Click for Google',
+                    start: new Date(y, m, 28),
+                    end: new Date(y, m, 29),
+                    url: 'http://google.com/',
+                    backgroundColor: "#3c8dbc", //Primary (light-blue)
+                    borderColor: "#3c8dbc" //Primary (light-blue)
+                }
+            ],
+            editable: true,
+            droppable: true, // this allows things to be dropped onto the calendar !!!
+            drop: function (date, allDay) { // this function is called when something is dropped
+
+                // retrieve the dropped element's stored Event Object
+                var originalEventObject = $(this).data('eventObject');
+                // we need to copy it, so that multiple events don't have a reference to the same object
+                var copiedEventObject = $.extend({}, originalEventObject);
+                // assign it the date that was reported
+                copiedEventObject.start = date;
+                copiedEventObject.allDay = allDay;
+                copiedEventObject.backgroundColor = $(this).css("background-color");
+                copiedEventObject.borderColor = $(this).css("border-color");
+                // render the event on the calendar
+                // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+                // is the "remove after drop" checkbox checked?
+                if ($('#drop-remove').is(':checked')) {
+                    // if so, remove the element from the "Draggable Events" list
+                    $(this).remove();
+                }
+
+            }
+        });
+        /* ADDING EVENTS */
+        var currColor = "#3c8dbc"; //Red by default
+        //Color chooser button
+        var colorChooser = $("#color-chooser-btn");
+        $("#color-chooser > li > a").click(function (e) {
+            e.preventDefault();
+            //Save color
+            currColor = $(this).css("color");
+            //Add color effect to button
+            $('#add-new-event').css({"background-color": currColor, "border-color": currColor});
+        });
+        $("#add-new-event").click(function (e) {
+            e.preventDefault();
+            //Get value and make sure it is not null
+            var val = $("#new-event").val();
+            if (val.length == 0) {
+                return;
+            }
+
+            //Create events
+            var event = $("<div />");
+            event.css({"background-color": currColor, "border-color": currColor, "color": "#fff"}).addClass("external-event");
+            event.html(val);
+            $('#external-events').prepend(event);
+            //Add draggable funtionality
+            ini_events(event);
+            //Remove event from text input
+            $("#new-event").val("");
+        });
+    });
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJs($this->blocks['calendar'], \yii\web\View::POS_END); ?>

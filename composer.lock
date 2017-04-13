@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb6a34025b8bbed76ce9b130fc9f1bc6",
+    "content-hash": "dd69c5f4a17ad95a717adaa33f8bc77c",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1610,51 +1610,6 @@
                 "yii2"
             ],
             "time": "2016-09-09T11:48:11+00:00"
-        },
-        {
-            "name": "yujiandong/yii2-authclient",
-            "version": "1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yujiandong/yii2-authclient.git",
-                "reference": "83b259fdbca6bbac730e55e5fec0683e84139b26"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/yujiandong/yii2-authclient/83b259fdbca6bbac730e55e5fec0683e84139b26.zip",
-                "reference": "83b259fdbca6bbac730e55e5fec0683e84139b26",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "yujiandong\\authclient\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Yu Jiandong",
-                    "email": "flyyjd@gmail.com",
-                    "homepage": "http://simpleforum.org/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Yii Authclient for Weibo, QQ, Wechat and etc",
-            "homepage": "https://github.com/yujiandong/yii2-authclient",
-            "keywords": [
-                "QQ Auth",
-                "Wechat Auth",
-                "Weibo Auth",
-                "yii authclient"
-            ],
-            "time": "2015-11-03T01:40:43+00:00"
         }
     ],
     "packages-dev": [

@@ -54,15 +54,15 @@ return [
                     'clientSecret' => '62038bff76991c3f21c37ba110c5e7f69b11d40e',
                 ],
                 'weibo' => [
-                    'class' => 'yujiandong\authclient\Weibo',
+                    'class' => 'common\widgets\WeiboClient',
                     'clientId' => '69078040',
                     'clientSecret' => '2c021b94f29e78fd8f7055958b1c329d',
                 ],
-//                'qq' => [
-//                    'class' => 'yujiandong\authclient\Qq',
-//                    'clientId' => '101301060',
-//                    'clientSecret' => '0e17aed2d10e22bd6d9b48a789f09820',
-//                ],
+                'qq' => [
+                    'class' => 'common\widgets\QQClient',
+                    'clientId' => '101389884',
+                    'clientSecret' => '0f7af7103526adaff8904219831b101f',
+                ],
 //                'weixin' => [
 //                    'class' => 'yujiandong\authclient\Weixin',
 //                    'clientId' => 'weixin_appid',
@@ -71,6 +71,7 @@ return [
             ],
         ],
         'assetManager' => [
+            'appendTimestamp' => true,
             'bundles' => [
                 'dmstr\web\AdminLteAsset' => [
                     'skin' => 'skin-blue',

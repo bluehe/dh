@@ -12,7 +12,7 @@ if (class_exists('dms\assets\AppAsset')) {
 } else {
     backend\assets\AppAsset::register($this);
 }
-dmstr\web\AdminLteAsset::register($this);
+//dmstr\web\AdminLteAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

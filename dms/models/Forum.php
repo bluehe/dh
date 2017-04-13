@@ -18,8 +18,8 @@ use yii\helpers\ArrayHelper;
  */
 class Forum extends ActiveRecord {
 
-    const MOLD_SIG = 1;
-    const MOLD_MUL = 2;
+//    const MOLD_SIG = 1;
+//    const MOLD_MUL = 2;
     const STAT_OPEN = 1;
     const STAT_CLOSE = 2;
 
@@ -35,13 +35,13 @@ class Forum extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['fup', 'sort_order', 'mold', 'stat', 'mark'], 'integer'],
-            [['name', 'sort_order', 'mold', 'stat'], 'required', 'message' => '{attribute}不能为空'],
+            [['fup', 'sort_order', 'stat', 'mark'], 'integer'],
+            [['name', 'sort_order', 'stat'], 'required', 'message' => '{attribute}不能为空'],
             [['name'], 'string', 'max' => 30, 'message' => '{attribute}最多30个字符'],
             [['fup'], 'exist', 'skipOnError' => true, 'targetClass' => Forum::className(), 'targetAttribute' => ['fup' => 'id']],
             [['name'], 'unique', 'targetAttribute' => ['name'], 'message' => '{attribute}已经存在'],
-            [['mold'], 'default', 'value' => self::MOLD_SIG],
-            [['mold'], 'in', 'range' => [self::MOLD_SIG, self::MOLD_MUL]],
+//            [['mold'], 'default', 'value' => self::MOLD_SIG],
+//            [['mold'], 'in', 'range' => [self::MOLD_SIG, self::MOLD_MUL]],
             [['stat'], 'default', 'value' => self::STAT_OPEN],
             [['stat'], 'in', 'range' => [self::STAT_OPEN, self::STAT_CLOSE]],
         ];
@@ -56,7 +56,7 @@ class Forum extends ActiveRecord {
             'fup' => '上级楼苑',
             'name' => '名称',
             'sort_order' => '排序',
-            'mold' => '房型',
+//            'mold' => '房型',
             'stat' => '状态',
             'mark' => '标志',
         ];
@@ -65,38 +65,38 @@ class Forum extends ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFups() {
-        return $this->hasOne(Forum::className(), ['id' => 'fup'])->from(Forum::tableName() . ' fup');
+    public function getParent() {
+        return $this->hasOne(Forum::className(), ['id' => 'fup'])->from(Forum::tableName() . ' p');
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getForums() {
-        return $this->hasMany(Forum::className(), ['fup' => 'id'])->from(Forum::tableName() . ' sub');
+    public function getChildren() {
+        return $this->hasMany(Forum::className(), ['fup' => 'id'])->from(Forum::tableName() . ' c');
     }
 
     //得到顶级楼苑ID-name 键值数组
-    public static function get_forumfup_id() {
-        $forums = Forum::find()->where(['fup' => NULL])->orderBy(['sort_order' => SORT_ASC])->all();
+    public static function get_forumfup_id($id) {
+        $forums = Forum::find()->where(['fup' => NULL])->andFilterWhere(['<>', 'id', $id])->orderBy(['sort_order' => SORT_ASC])->all();
         return ArrayHelper::map($forums, 'id', 'name');
     }
 
     public static $List = [
-        'mold' => [
-            self::MOLD_SIG => "单间",
-            self::MOLD_MUL => "套间"
-        ],
+//        'mold' => [
+//            self::MOLD_SIG => "单间",
+//            self::MOLD_MUL => "套间"
+//        ],
         'stat' => [
-            self::STAT_OPEN => "开放",
+            self::STAT_OPEN => "启用",
             self::STAT_CLOSE => "关闭"
         ]
     ];
 
-    public function getMold() {
-        $mold = self::$List['mold'][$this->mold];
-        return isset($mold) ? $mold : null;
-    }
+//    public function getMold() {
+//        $mold = self::$List['mold'][$this->mold];
+//        return isset($mold) ? $mold : null;
+//    }
 
     public function getStat() {
 

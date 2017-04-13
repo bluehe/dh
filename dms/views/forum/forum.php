@@ -32,21 +32,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\SerialColumn'], //序列号从1自增长
                     // 'id',
                     'name',
-                    [
-                        'attribute' => 'fup',
-                        'value' =>
-                        function($model) {
-                            return $model->fup ? $model->fups->name : $model->fup;   //主要通过此种方式实现
-                        },
-                    //'filter' => Forum::get_forumfup_id(), //此处我们可以将筛选项组合成key-value形式
-                    ],
-                    [
-                        'attribute' => 'mold',
-                        'value' =>
-                        function($model) {
-                            return $model->Mold;   //主要通过此种方式实现
-                        },
-                    ],
+//                    [
+//                        'attribute' => 'fup',
+//                        'value' =>
+//                        function($model) {
+//                            return $model->fup ? $model->fups->name : $model->fup;   //主要通过此种方式实现
+//                        },
+//                    //'filter' => Forum::get_forumfup_id(), //此处我们可以将筛选项组合成key-value形式
+//                    ],
+//                    [
+//                        'attribute' => 'mold',
+//                        'value' =>
+//                        function($model) {
+//                            return $model->Mold;   //主要通过此种方式实现
+//                        },
+//                    ],
                     'sort_order',
                     [
                         'attribute' => 'stat',

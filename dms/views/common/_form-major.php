@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use dms\models\Major;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\Major */
@@ -22,7 +21,7 @@ use dms\models\Major;
             ]);
             ?>
             <div class="box-body">
-                <?= $form->field($model, 'college')->dropDownList(Major::get_college_id(), ['prompt' => '请选择']) ?>
+                <?= $form->field($model, 'college')->dropDownList($model->get_college_id(), ['prompt' => '请选择']) ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

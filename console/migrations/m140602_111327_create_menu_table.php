@@ -47,7 +47,7 @@ class m140602_111327_create_menu_table extends \yii\db\Migration {
             [13, '楼苑设置', NULL, '/forum/forum', 4, '{"icon":"fa fa-cubes"}'],
             [14, '楼层设置', 13, '/forum/floor', 1, '{"icon":"fa fa-tasks", "multi-action":[ "floor", "floor-create", "floor-update"]}'],
             [15, '楼苑管理', 13, '/forum/forum', 2, '{"icon":"fa fa-building-o", "multi-action":[ "forum", "forum-create", "forum-update"]}'],
-            [16, '房间管理', 13, '/forum/broom', 2, '{"icon":"fa fa-calendar", "multi-action":[ "broom", "broom-create", "broom-update"]}'],
+            [16, '房间管理', 13, '/forum/room', 3, '{"icon":"fa fa-calendar", "multi-action":[ "room", "room-create", "room-update"]}'],
         ]);
         //$this->insert($menuTable, ['id' => 1, 'name' => '系统设置', 'parent' => NULL, 'route' => '/system/index', 'order' => 2, 'data' => '{"icon":"fa fa-cogs"}']);
         //$this->insert($menuTable, ['id' => 2, 'name' => '系统信息', 'parent' => 1, 'route' => '/system/index', 'order' => 1, 'data' => '{"icon":"fa fa-cog"}']);

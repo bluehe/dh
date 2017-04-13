@@ -63,30 +63,32 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<script>
 <?php $this->beginBlock('sendemail') ?>
-$('.testemail').on('click', function() {
-var $email = $('#smtp-test').val();
-var _this = $(this);
-if ($email && _this.hasClass('btn-primary')) {
-_this.addClass('btn-default').removeClass('btn-primary');
-$.ajax({
-type: "POST",
-url: '/system/send-email',
-data: {'email': $email},
-success: function(data) {
-if (data == 'success') {
-$('.content').prepend('<div id="w0-success" class="alert-success alert fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><i class="icon fa fa-check"></i>测试邮件发送成功。</div>');
-} else {
-$('.content').prepend('<div id="w0-error" class="alert-error alert fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><i class="icon fa fa-check"></i>测试邮件发送失败。</div>');
-}
-_this.addClass('btn-primary').removeClass('btn-default');
-},
-error: function() {
-$('.content').prepend('<div id="w0-error" class="alert-error alert fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><i class="icon fa fa-check"></i>测试邮件发送失败。</div>');
-_this.addClass('btn-primary').removeClass('btn-default');
-}
-});
-}
-});
+    $('.testemail').on('click', function () {
+        var $email = $('#smtp-test').val();
+        var _this = $(this);
+        if ($email && _this.hasClass('btn-primary')) {
+            _this.addClass('btn-default').removeClass('btn-primary');
+            $.ajax({
+                type: "POST",
+                url: '/system/send-email',
+                data: {'email': $email},
+                success: function (data) {
+                    if (data == 'success') {
+                        $('.content').prepend('<div id="w0-success" class="alert-success alert fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><i class="icon fa fa-check"></i>测试邮件发送成功。</div>');
+                    } else {
+                        $('.content').prepend('<div id="w0-error" class="alert-error alert fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><i class="icon fa fa-check"></i>测试邮件发送失败。</div>');
+                    }
+                    _this.addClass('btn-primary').removeClass('btn-default');
+                },
+                error: function () {
+                    $('.content').prepend('<div id="w0-error" class="alert-error alert fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><i class="icon fa fa-check"></i>测试邮件发送失败。</div>');
+                    _this.addClass('btn-primary').removeClass('btn-default');
+                }
+            });
+        }
+    });
 <?php $this->endBlock() ?>
+</script>
 <?php $this->registerJs($this->blocks['sendemail'], \yii\web\View::POS_END); ?>

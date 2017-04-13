@@ -90,6 +90,8 @@ class SiteController extends Controller {
                             break;
                         case 'weibo': $auth->user->avatar = $attributes['profile_image_url'];
                             break;
+                        case 'qq': $auth->user->avatar = $attributes['figureurl_qq_2'];
+                            break;
                         default:
                             break;
                     }

@@ -138,7 +138,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['/forum/*', '2', null, null, null, '1482820123', '1482820123'],
             ['/forum/floor', '2', null, null, null, '1482820123', '1482820123'],
             ['/forum/forum', '2', null, null, null, '1482820123', '1482820123'],
-            ['/forum/broom', '2', null, null, null, '1482820123', '1482820123'],
+            ['/forum/room', '2', null, null, null, '1482820123', '1482820123'],
             ['/system/*', '2', null, null, null, '1482820123', '1482820123'],
             ['/system/captcha', '2', null, null, null, '1482820123', '1482820123'],
             ['/system/index', '2', null, null, null, '1482820123', '1482820123'],

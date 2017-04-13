@@ -17,7 +17,6 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
     public static $prefixLengthsPsr4 = array (
         'y' => 
         array (
-            'yujiandong\\authclient\\' => 22,
             'yii\\swiftmailer\\' => 16,
             'yii\\imagine\\' => 12,
             'yii\\httpclient\\' => 15,
@@ -104,10 +103,6 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
     );
 
     public static $prefixDirsPsr4 = array (
-        'yujiandong\\authclient\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/yujiandong/yii2-authclient',
-        ),
         'yii\\swiftmailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',

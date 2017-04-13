@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use dms\models\Broom;
+use dms\models\Room;
 
 /* @var $this yii\web\View */
 /* @var $searchModel dms\models\BroomSearch */
@@ -20,25 +20,36 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
             <p>
-                <?= Html::a('创建房间', ['forum/broom-create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('创建房间', ['forum/room-create'], ['class' => 'btn btn-success']) ?>
             </p>
             <?php Pjax::begin(); ?>
             <?=
             GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
+                "id" => "grid",
                 'layout' => "{summary}\n<div class=table-responsive>{items}</div>\n{pager}",
                 'summary' => "第{begin}-{end}条，共{totalCount}条",
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+                'tableOptions' => ['class' => 'table table-bordered table-hover'],
+                'rowOptions' => function($model) {
+                    return ['class' => $model->rid ? '' : 'success'];
+                },
+                'showFooter' => true, //设置显示最下面的footer
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'class' => 'yii\grid\CheckboxColumn',
+                        'name' => 'id',
+                        'footer' => Html::a('<i class="fa fa-trash-o"></i> 批量删除', ['forum/room-delete'], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除房间将会影响相关小室及床位，此操作不能恢复，你确定要删除房间吗？',]]),
+                        'footerOptions' => ['colspan' => 7],
+                    ],
                     [
                         'attribute' => 'fid',
                         'value' => //'forums.name',
                         function($model) {
                             return $model->forums->name;   //主要通过此种方式实现
                         },
-                        'filter' => Broom::get_forum_id(), //此处我们可以将筛选项组合成key-value形式
+                        'filter' => Room::get_room_forum(), //此处我们可以将筛选项组合成key-value形式
+                        'footerOptions' => ['class' => 'hide'],
                     ],
                     [
                         'attribute' => 'floor',
@@ -46,29 +57,32 @@ $this->params['breadcrumbs'][] = $this->title;
                         function($model) {
                             return $model->floors->v;   //主要通过此种方式实现
                         },
-                        'filter' => Broom::get_floor_id(), //此处我们可以将筛选项组合成key-value形式
+                        'filter' => Room::get_room_floor(), //此处我们可以将筛选项组合成key-value形式
+                        'footerOptions' => ['class' => 'hide'],
                     ],
-                    'name',
-                    'note',
+                    ['attribute' => 'name', 'footerOptions' => ['class' => 'hide'],],
+                    ['attribute' => 'note', 'footerOptions' => ['class' => 'hide'],],
                     [
                         'attribute' => 'stat',
                         'value' => //'colleges.name',
                         function($model) {
                             return $model->Stat;   //主要通过此种方式实现
                         },
-                        'filter' => Broom::$List['stat'], //此处我们可以将筛选项组合成key-value形式
+                        'filter' => Room::$List['stat'], //此处我们可以将筛选项组合成key-value形式
+                        'footerOptions' => ['class' => 'hide'],
                     ],
                     ['class' => 'yii\grid\ActionColumn',
                         'header' => '操作',
                         'template' => '{update} {delete}', //只需要展示删除和更新
                         'buttons' => [
                             'update' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['forum/broom-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['forum/room-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
                             },
                             'delete' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['forum/broom-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除房间将会影响相关小室及床位，此操作不能恢复，你确定要删除房间吗？',]]);
+                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['forum/room-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除房间将会影响相关小室及床位，此操作不能恢复，你确定要删除房间吗？',]]);
                             },
                         ],
+                        'footerOptions' => ['class' => 'hide'],
                     ],
                 ],
             ]);

@@ -25,8 +25,7 @@
         "kartik-v/yii2-widget-fileinput": "@dev",
         "kartik-v/yii2-grid": "*",
         "kartik-v/yii2-mpdf": "@dev",
-        "yiisoft/yii2-authclient": "*",
-        "yujiandong/yii2-authclient": "^1.0"
+        "yiisoft/yii2-authclient": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
