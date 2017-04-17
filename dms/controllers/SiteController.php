@@ -14,6 +14,11 @@ use dms\models\SignupForm;
 use dms\models\PasswordResetRequestForm;
 use dms\models\ResetPasswordForm;
 use dms\models\System;
+use dms\models\Forum;
+use dms\models\Room;
+use dms\models\Bed;
+use common\models\User;
+use yii\data\Pagination;
 
 /**
  * Site controller
@@ -75,26 +80,26 @@ class SiteController extends Controller {
     }
 
     public function successCallback($client) {
-        $type = $client->getId(); // qq | sina | weixin
+        $type = $client->getId(); // qq | weibo | github
         $attributes = $client->getUserAttributes(); // basic info
-//        var_dump($attributes);
-//        exit;
 
         $auth = UserAuth::find()->where(['type' => $type, 'open_id' => $attributes['id']])->one();
+        switch ($type) {
+            case 'github': $avatar = $attributes['avatar_url'];
+                break;
+            case 'weibo': $avatar = $attributes['profile_image_url'];
+                break;
+            case 'qq': $avatar = $attributes['figureurl_qq_2'];
+                break;
+            default:
+                $avatar = '';
+                break;
+        }
         if ($auth) {
 //存在
             if (Yii::$app->user->login($auth->user)) {
                 if (!$auth->user->avatar) {
-                    switch ($type) {
-                        case 'github': $auth->user->avatar = $attributes['avatar_url'];
-                            break;
-                        case 'weibo': $auth->user->avatar = $attributes['profile_image_url'];
-                            break;
-                        case 'qq': $auth->user->avatar = $attributes['figureurl_qq_2'];
-                            break;
-                        default:
-                            break;
-                    }
+                    $auth->user->avatar = $avatar;
                     $auth->user->save();
                 }
                 return $this->goHome();
@@ -103,6 +108,7 @@ class SiteController extends Controller {
 //不存在，注册
             Yii::$app->session->set('auth_type', $type);
             Yii::$app->session->set('auth_openid', $attributes['id']);
+            Yii::$app->session->set('auth_avatar', $avatar);
             return $this->redirect('complete');
         }
 
@@ -126,8 +132,13 @@ class SiteController extends Controller {
                     $auth->uid = Yii::$app->user->identity->id;
                     $auth->created_at = time();
                     if ($auth->save()) {
+                        if (!$auth->user->avatar) {
+                            $auth->user->avatar = Yii::$app->session->get('auth_avatar');
+                            $auth->user->save();
+                        }
                         Yii::$app->session->remove('auth_type');
                         Yii::$app->session->remove('auth_openid');
+                        Yii::$app->session->remove('auth_avatar');
                         return $this->goHome();
                     }
                 } else {
@@ -151,8 +162,13 @@ class SiteController extends Controller {
                             $auth->uid = Yii::$app->user->identity->id;
                             $auth->created_at = time();
                             if ($auth->save()) {
+                                if (!$auth->user->avatar) {
+                                    $auth->user->avatar = Yii::$app->session->get('auth_avatar');
+                                    $auth->user->save();
+                                }
                                 Yii::$app->session->remove('auth_type');
                                 Yii::$app->session->remove('auth_openid');
+                                Yii::$app->session->remove('auth_avatar');
                                 return $this->goHome();
                             }
                         }
@@ -181,9 +197,25 @@ class SiteController extends Controller {
      */
     public function actionIndex() {
 
-//        var_dump(Yii::$app->user->identity);
-//        exit;
-        return $this->render('index');
+        $total['building'] = Forum::find()->count();
+        $total['broom'] = Room::find()->where(['rid' => NULL])->count();
+        $total['room'] = Room::find()->count();
+        $total['bed'] = Bed::find()->count();
+        $total['user'] = User::find()->count();
+        // 创建一个 DB 查询来获得所有 status 为 1 的文章
+        $query = Bed::find()->where(['stat' => 1]);
+
+// 得到文章的总数（但是还没有从数据库取数据）
+        $count = $query->count();
+
+// 使用总数来创建一个分页对象
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 1]);
+
+// 使用分页对象来填充 limit 子句并取得文章数据
+        $beds = $query->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->all();
+        return $this->render('index', ['total' => $total, 'beds' => $beds, 'pagination' => $pagination]);
     }
 
     /**

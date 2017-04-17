@@ -7,8 +7,8 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '学院设置';
-$this->params['breadcrumbs'][] = ['label' => '参数设置', 'url' => ['common/college']];
+$this->title = '学院管理';
+$this->params['breadcrumbs'][] = ['label' => '学院设置', 'url' => ['college/college']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="college-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
 
             <p>
-                <?= Html::a('创建学院', ['common/college-create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('创建学院', ['college-create'], ['class' => 'btn btn-success']) ?>
             </p>
             <?php Pjax::begin(); ?>
             <?=
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'summary' => '第{begin}-{end}条，共{totalCount}条',
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
                 'columns' => [
-                    'id',
+                    ['class' => 'yii\grid\SerialColumn'], //序列号从1自增长
                     'name',
                     'sort_order',
                     ['class' => 'yii\grid\ActionColumn',
@@ -35,10 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '{update} {delete}', //只需要展示删除和更新
                         'buttons' => [
                             'update' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['common/college-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['college-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
                             },
                             'delete' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['common/college-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除学院会一起删除相关的专业，影响教师、学生等信息，此操作不能恢复，你确定要删除学院吗？',]]);
+                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['college-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除学院会一起删除相关的专业，影响教师、学生等信息，此操作不能恢复，你确定要删除学院吗？',]]);
                             },
                         ],
                     ],

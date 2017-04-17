@@ -48,7 +48,7 @@ class SystemController extends Controller {
         }
 
         return $this->render('index', [
-                    'model' => System::getChildren('system_info'),
+                    'model' => System::getChildren('system'),
         ]);
     }
 
@@ -110,6 +110,36 @@ class SystemController extends Controller {
 
         return $this->render('captcha', [
                     'model' => System::getChildren('captcha'),
+        ]);
+    }
+
+    /**
+     * 业务设置
+     */
+    public function actionBusiness() {
+
+        if (Yii::$app->request->post()) {
+            $system = Yii::$app->request->post('System');
+            $res = 0;
+            foreach ($system as $key => $value) {
+                $r = System::setValue($key, $value);
+                if ($r) {
+                    $res++;
+                } elseif ($r === false) {
+                    $res = false;
+                    break;
+                }
+            }
+            if ($res) {
+
+                Yii::$app->session->setFlash('success', '更新成功。');
+            } elseif ($res === false) {
+                Yii::$app->session->setFlash('error', '更新失败。');
+            }
+        }
+
+        return $this->render('business', [
+                    'model' => System::getChildren('business'),
         ]);
     }
 

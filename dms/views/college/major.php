@@ -9,8 +9,8 @@ use dms\models\Major;
 /* @var $searchModel dms\models\MajorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '专业设置';
-$this->params['breadcrumbs'][] = ['label' => '参数设置', 'url' => ['common/college']];
+$this->title = '专业管理';
+$this->params['breadcrumbs'][] = ['label' => '学院设置', 'url' => ['college/college']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="major-index">
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php // echo $this->render('_search', ['model' => $searchModel]);    ?>
 
             <p>
-                <?= Html::a('创建专业', ['common/major-create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('创建专业', ['major-create'], ['class' => 'btn btn-success']) ?>
             </p>
             <?php Pjax::begin(); ?>
             <?=
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'layout' => "{summary}\n<div class=table-responsive>{items}</div>\n{pager}",
                 'summary' => '第{begin}-{end}条，共{totalCount}条',
                 'columns' => [
-                    'id',
+                    ['class' => 'yii\grid\SerialColumn'], //序列号从1自增长
                     [
                         'attribute' => 'college',
                         'value' => //'colleges.name',
@@ -46,10 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '{update} {delete}', //只需要展示删除和更新
                         'buttons' => [
                             'update' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['common/major-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['major-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
                             },
                             'delete' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['common/major-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除专业将会影响相关教师及学生，此操作不能恢复，你确定要删除专业吗？',]]);
+                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['major-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除专业将会影响相关教师及学生，此操作不能恢复，你确定要删除专业吗？',]]);
                             },
                         ],
                     ],

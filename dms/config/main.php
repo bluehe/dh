@@ -72,6 +72,7 @@ return [
         ],
         'assetManager' => [
             'appendTimestamp' => true,
+//            'linkAssets' => true,
             'bundles' => [
                 'dmstr\web\AdminLteAsset' => [
                     'skin' => 'skin-blue',

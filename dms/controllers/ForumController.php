@@ -11,6 +11,8 @@ use dms\models\Forum;
 use dms\models\Parameter;
 use dms\models\Room;
 use dms\models\RoomSearch;
+use dms\models\Bed;
+use dms\models\BedSearch;
 
 /**
  * ForumController implements the CRUD actions for forum model.
@@ -221,7 +223,7 @@ class ForumController extends Controller {
     }
 
     /**
-     * Lists all Broom models.
+     * Lists all Room models.
      * @return mixed
      */
     public function actionRoom() {
@@ -236,8 +238,7 @@ class ForumController extends Controller {
     }
 
     /**
-     * Creates a new Broom model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Creates a new Room model.
      * @return mixed
      */
     public function actionRoomCreate() {
@@ -284,10 +285,6 @@ class ForumController extends Controller {
                 Yii::$app->session->setFlash('error', '创建失败。');
                 return $this->redirect(Yii::$app->request->referrer);
             }
-
-//            return $this->render('room-create', [
-//                        'model' => $model,
-//            ]);
         }
         return $this->render('room-create', [
                     'model' => $model,
@@ -330,8 +327,7 @@ class ForumController extends Controller {
     }
 
     /**
-     * Deletes an existing Broom model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * Deletes an existing Room model.
      * @param integer $id
      * @return mixed
      */
@@ -344,12 +340,21 @@ class ForumController extends Controller {
     }
 
     /**
+     * Deletes an existing Room model.
+     * @param string $ids
+     * @return mixed
+     */
+    public function actionRoomDeletes($ids) {
+        return Room::deleteAll(['id' => explode(',', $ids)]);
+    }
+
+    /**
      * Function output the site that you selected.
      * @param int $fid
      * @param int $floor
      */
     public function actionBroomList($fid, $floor, $new = true, $id = NULL) {
-
+        //$new更新允许选择无，$id排除上级为自己
         $model = new Room();
         $broom = $model->getBroomList($fid, $floor, $id);
         $str = '';
@@ -357,6 +362,135 @@ class ForumController extends Controller {
             $str = Html::tag('option', '无', array('value' => ''));
         }
         foreach ($broom as $value => $name) {
+            $str .= Html::tag('option', Html::encode($name), array('value' => $value));
+        }
+        return $str;
+    }
+
+    /**
+     * Lists all Bed models.
+     * @return mixed
+     */
+    public function actionBed() {
+
+        $searchModel = new BedSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('bed', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Creates a new Bed model.
+     * @return mixed
+     */
+    public function actionBedCreate() {
+        $model = new Bed();
+        $model->stat = 1;
+
+        if ($model->load(Yii::$app->request->post())) {
+//            if (!$model->rid) {
+//                $this->addError($model, 'rid', '房间不能为空');
+//            }
+            $br1 = explode("~", $model->name);
+            $br2 = explode(',', $model->name);
+            $beds = [];
+            if (count($br1) > 1) {
+                //用~分隔
+                for ($a = $br1[0]; $a <= $br1[1]; $a++) {
+                    $beds[] = $a;
+                }
+            } else {
+                $beds = $br2;
+            }
+            //添加数据
+            $rids = $model->rid ? $model->rid : array(0 => NULL);
+            $transaction = Yii::$app->db->beginTransaction(); //事务无效
+            try {
+                foreach ($rids as $rid) {
+                    if (count($beds) > 0) {
+                        foreach ($beds as $bed) {
+                            $_model = clone $model;
+                            $_model->rid = $rid;
+                            $_model->name = (string) $bed;
+                            if (!$_model->save()) {
+                                throw new \Exception("创建失败");
+                            }
+                        }
+                    }
+                }
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', '创建成功。');
+            } catch (\Exception $e) {
+
+                $transaction->rollBack();
+//                throw $e;
+                Yii::$app->session->setFlash('error', '创建失败。');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+        return $this->render('bed-create', [
+                    'model' => $model,
+        ]);
+    }
+
+    /**
+     * Updates an existing Bed model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionBedUpdate($id) {
+        $model = Bed::findOne($id);
+        $model->fid = $model->room->fid;
+        $model->flid = $model->room->floor;
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '修改成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '修改失败。');
+            }
+        }
+        return $this->render('bed-update', [
+                    'model' => $model,
+        ]);
+    }
+
+    /**
+     * Deletes an existing Bed model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionBedDelete($id) {
+        $model = Bed::findOne($id);
+        if ($model !== null) {
+            $model->delete();
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Deletes an existing Bed model.
+     * @param string $ids
+     * @return mixed
+     */
+    public function actionBedDeletes($ids) {
+        return Bed::deleteAll(['id' => explode(',', $ids)]);
+    }
+
+    /**
+     * Function output the site that you selected.
+     * @param int $fid
+     * @param int $floor
+     */
+    public function actionRoomList($fid, $floor) {
+
+        $model = new Bed();
+        $room = $model->getRoomList($fid, $floor);
+        $str = '';
+        foreach ($room as $value => $name) {
             $str .= Html::tag('option', Html::encode($name), array('value' => $value));
         }
         return $str;

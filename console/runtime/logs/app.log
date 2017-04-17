@@ -1,0 +1,452 @@
+2017-04-15 18:37:31 [-][-][-][error][yii\db\Exception] exception 'PDOException' with message 'SQLSTATE[42S01]: Base table or view already exists: 1050 La table 'dms_room' existe déjà' in F:\www\dms\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170405_060302_create_room_table.php(34): yii\db\Migration->createTable('{{%room}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170405_060302_create_room_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170405_060302_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\db\Exception' with message 'SQLSTATE[42S01]: Base table or view already exists: 1050 La table 'dms_room' existe déjà
+The SQL being executed was: CREATE TABLE `dms_room` (
+	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`fid` int(11),
+	`floor` int(11),
+	`rid` int(11),
+	`name` varchar(32) NOT NULL,
+	`note` varchar(64),
+	`fname` varchar(32) NOT NULL,
+	`stat` smallint(6) NOT NULL DEFAULT 1,
+	FOREIGN KEY (`fid`) REFERENCES `dms_forum`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`floor`) REFERENCES `dms_parameter`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (`rid`) REFERENCES `dms_room`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB COMMENT="房间表"' in F:\www\dms\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'CREATE TABLE `d...')
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170405_060302_create_room_table.php(34): yii\db\Migration->createTable('{{%room}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170405_060302_create_room_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170405_060302_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S01
+    [1] => 1050
+    [2] => La table 'dms_room' existe déjà
+)
+
+2017-04-15 18:37:29 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss6548' => '75783840'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1492274249.9306
+    'REQUEST_TIME' => 1492274249
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]
+2017-04-15 18:38:14 [-][-][-][error][yii\db\Exception] exception 'PDOException' with message 'SQLSTATE[42S01]: Base table or view already exists: 1050 La table 'dms_room' existe déjà' in F:\www\dms\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170405_060302_create_room_table.php(34): yii\db\Migration->createTable('{{%room}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170405_060302_create_room_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170405_060302_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\db\Exception' with message 'SQLSTATE[42S01]: Base table or view already exists: 1050 La table 'dms_room' existe déjà
+The SQL being executed was: CREATE TABLE `dms_room` (
+	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`fid` int(11),
+	`floor` int(11),
+	`rid` int(11),
+	`name` varchar(32) NOT NULL,
+	`note` varchar(64),
+	`fname` varchar(32) NOT NULL,
+	`stat` smallint(6) NOT NULL DEFAULT 1,
+	FOREIGN KEY (`fid`) REFERENCES `dms_forum`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`floor`) REFERENCES `dms_parameter`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (`rid`) REFERENCES `dms_room`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB COMMENT="房间表"' in F:\www\dms\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'CREATE TABLE `d...')
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170405_060302_create_room_table.php(34): yii\db\Migration->createTable('{{%room}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170405_060302_create_room_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170405_060302_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S01
+    [1] => 1050
+    [2] => La table 'dms_room' existe déjà
+)
+
+2017-04-15 18:38:12 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss6548' => '75783840'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1492274292.7286
+    'REQUEST_TIME' => 1492274292
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]
+2017-04-15 18:38:59 [-][-][-][error][yii\db\Exception] exception 'PDOException' with message 'SQLSTATE[42S01]: Base table or view already exists: 1050 La table 'dms_room' existe déjà' in F:\www\dms\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170405_060302_create_room_table.php(34): yii\db\Migration->createTable('{{%room}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170405_060302_create_room_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170405_060302_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\db\Exception' with message 'SQLSTATE[42S01]: Base table or view already exists: 1050 La table 'dms_room' existe déjà
+The SQL being executed was: CREATE TABLE `dms_room` (
+	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`fid` int(11),
+	`floor` int(11),
+	`rid` int(11),
+	`name` varchar(32) NOT NULL,
+	`note` varchar(64),
+	`fname` varchar(32) NOT NULL,
+	`stat` smallint(6) NOT NULL DEFAULT 1,
+	FOREIGN KEY (`fid`) REFERENCES `dms_forum`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`floor`) REFERENCES `dms_parameter`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (`rid`) REFERENCES `dms_room`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB COMMENT="房间表"' in F:\www\dms\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'CREATE TABLE `d...')
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170405_060302_create_room_table.php(34): yii\db\Migration->createTable('{{%room}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170405_060302_create_room_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170405_060302_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S01
+    [1] => 1050
+    [2] => La table 'dms_room' existe déjà
+)
+
+2017-04-15 18:38:58 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss6548' => '75783840'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1492274338.123
+    'REQUEST_TIME' => 1492274338
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]
+2017-04-15 18:46:43 [-][-][-][error][yii\db\Exception] exception 'PDOException' with message 'SQLSTATE[42S01]: Base table or view already exists: 1050 La table 'dms_room' existe déjà' in F:\www\dms\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170405_060302_create_room_table.php(34): yii\db\Migration->createTable('{{%room}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170405_060302_create_room_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170405_060302_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\db\Exception' with message 'SQLSTATE[42S01]: Base table or view already exists: 1050 La table 'dms_room' existe déjà
+The SQL being executed was: CREATE TABLE `dms_room` (
+	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`fid` int(11),
+	`floor` int(11),
+	`rid` int(11),
+	`name` varchar(32) NOT NULL,
+	`note` varchar(64),
+	`fname` varchar(32) NOT NULL,
+	`stat` smallint(6) NOT NULL DEFAULT 1,
+	FOREIGN KEY (`fid`) REFERENCES `dms_forum`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`floor`) REFERENCES `dms_parameter`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (`rid`) REFERENCES `dms_room`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB COMMENT="房间表"' in F:\www\dms\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'CREATE TABLE `d...')
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170405_060302_create_room_table.php(34): yii\db\Migration->createTable('{{%room}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170405_060302_create_room_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170405_060302_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S01
+    [1] => 1050
+    [2] => La table 'dms_room' existe déjà
+)
+
+2017-04-15 18:46:41 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss6548' => '75783840'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1492274801.6752
+    'REQUEST_TIME' => 1492274801
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]

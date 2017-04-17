@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dms\models\Bed;
 use dms\models\Room;
-use dms\models\System;
 
 /* @var $this yii\web\View */
-/* @var $model dms\models\Room */
+/* @var $model dms\models\Bed */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -14,7 +14,7 @@ use dms\models\System;
     <div class="col-md-12">
         <div class="box box-primary">
             <?php
-            $form = ActiveForm::begin(['id' => 'room-form',
+            $form = ActiveForm::begin(['id' => 'bed-form',
                         'options' => ['class' => 'form-horizontal'],
                         'fieldConfig' => [
                             'template' => "{label}\n<div class=\"col-md-4\">{input}</div>\n<div class=\"col-md-6\">{error}</div>",
@@ -24,23 +24,23 @@ use dms\models\System;
             ?>
             <div class="box-body">
                 <?=
-                $form->field($model, 'fid')->dropDownList($model->get_forum_id(), ['prompt' => '请选择',
-                    'onchange' => '$.post("' . Yii::$app->urlManager->createUrl('forum/broom-list') . '?fid="+$(this).val()+"&floor="+$("#room-floor").find("option:selected").val()+"&new=' . $model->isNewRecord . '&id=' . $model->id . '",function(data){$("select#room-rid").html(data);});'
+                $form->field($model, 'fid')->dropDownList(Room::get_forum_id(), ['prompt' => '请选择',
+                    'onchange' => '$.post("' . Yii::$app->urlManager->createUrl('forum/room-list') . '?fid="+$(this).val()+"&floor="+$("#bed-flid").find("option:selected").val(),function(data){$("select#bed-rid").html(data);});'
                 ])
                 ?>
 
                 <?=
-                $form->field($model, 'floor')->dropDownList($model->get_floor_id(), ['prompt' => '请选择',
-                    'onchange' => '$.post("' . Yii::$app->urlManager->createUrl('forum/broom-list') . '?fid="+$("#room-fid").find("option:selected").val()+"&floor="+$(this).val()+"&new=' . $model->isNewRecord . '&id=' . $model->id . '",function(data){$("select#room-rid").html(data);});'])
+                $form->field($model, 'flid')->dropDownList(Room::get_floor_id(), ['prompt' => '请选择',
+                    'onchange' => '$.post("' . Yii::$app->urlManager->createUrl('forum/room-list') . '?fid="+$("#bed-fid").find("option:selected").val()+"&floor="+$(this).val(),function(data){$("select#bed-rid").html(data);});'])
                 ?>
-                <?php if (System::getValue('business_roomtype') === '1') { ?>
-                    <?= $form->field($model, 'rid')->dropDownList($model->getBroomList($model->fid, $model->floor, $model->id), $model->isNewRecord ? ['multiple' => true, 'class' => 'form-control select2'] : ['prompt' => '无', 'class' => 'form-control select2']) ?>
-                <?php } ?>
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true])->hint('可以用",","~"进行批量输入') ?>
+
+                <?= $form->field($model, 'rid')->dropDownList($model->getRoomList($model->fid, $model->flid), $model->isNewRecord ? ['multiple' => true, 'class' => 'form-control select2'] : ['prompt' => '无', 'class' => 'form-control select2']) ?>
+
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'stat')->radioList(Room::$List['stat'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
+                <?= $form->field($model, 'stat')->radioList(Bed::$List['stat'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
             </div>
             <div class="box-footer">

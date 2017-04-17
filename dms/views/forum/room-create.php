@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $model dms\models\Broom */
+/* @var $model dms\models\Room */
 
 $this->title = '创建房间';
 $this->params['breadcrumbs'][] = ['label' => '楼苑设置', 'url' => ['forum/forum']];

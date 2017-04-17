@@ -7,8 +7,8 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '年级设置';
-$this->params['breadcrumbs'][] = ['label' => '参数设置', 'url' => ['common/college']];
+$this->title = '年级管理';
+$this->params['breadcrumbs'][] = ['label' => '学院设置', 'url' => ['college/college']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="grade-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
 
             <p>
-                <?= Html::a('创建年级', ['common/grade-create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('创建年级', ['grade-create'], ['class' => 'btn btn-success']) ?>
             </p>
             <?php Pjax::begin(); ?>
             <?=
@@ -35,10 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '{update} {delete}', //只需要展示删除和更新
                         'buttons' => [
                             'update' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['common/grade-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['grade-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
                             },
                             'delete' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['common/grade-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除年级将会影响相关的学生等信息，此操作不能恢复，你确定要删除年级吗？',]]);
+                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['grade-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除年级将会影响相关的学生等信息，此操作不能恢复，你确定要删除年级吗？',]]);
                             },
                         ],
                     ],

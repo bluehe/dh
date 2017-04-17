@@ -4,6 +4,7 @@ namespace dms\models;
 
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use dms\models\System;
 
 /**
  * This is the model class for table "{{%room}}".
@@ -43,7 +44,9 @@ class Room extends ActiveRecord {
             [['note'], 'string', 'max' => 60, 'message' => '{attribute}最长60字符'],
             [['fid'], 'exist', 'skipOnError' => true, 'targetClass' => Forum::className(), 'targetAttribute' => ['fid' => 'id']],
             [['floor'], 'exist', 'skipOnError' => true, 'targetClass' => Parameter::className(), 'targetAttribute' => ['floor' => 'id']],
-                //[['rid'], 'exist', 'skipOnError' => true, 'targetClass' => Room::className(), 'targetAttribute' => ['rid' => 'id']],
+            [['rid'], 'exist', 'skipOnError' => true, 'targetClass' => Room::className(), 'targetAttribute' => ['rid' => 'id']],
+            [['stat'], 'default', 'value' => self::STAT_OPEN],
+            [['stat'], 'in', 'range' => [self::STAT_OPEN, self::STAT_CLOSE]],
         ];
     }
 
@@ -55,7 +58,7 @@ class Room extends ActiveRecord {
             'id' => 'ID',
             'fid' => '楼苑',
             'floor' => '楼层',
-            'name' => '名称',
+            'name' => '房间',
             'note' => '备注',
             'stat' => '状态',
             'rid' => '大室',
@@ -122,18 +125,18 @@ class Room extends ActiveRecord {
 
     //得到楼苑ID-name 键值数组
     public static function get_forum_id() {
-        $forum = Forum::find()->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
+        $query = Forum::find()->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC]);
+        if (System::getValue('business_forum') === '1' && System::getValue('business_room') === '2') {
+            $query->andWhere(['not', ['fup' => NULL]]);
+        }
+        $forum = $query->all();
         return ArrayHelper::map($forum, 'id', 'name');
     }
 
     //得到楼苑ID-name 键值数组
     public static function get_room_forum() {
-        $fids = static::find()->select(['fid'])->distinct()->asArray()->all();
-        $forum_id = array();
-        foreach ($fids as $fid) {
-            $forum_id[] = $fid['fid'];
-        }
-        $forum = Forum::find()->where(['id' => $forum_id])->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
+        $fids = static::find()->select(['fid'])->distinct()->column();
+        $forum = Forum::find()->where(['id' => $fids])->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
         return ArrayHelper::map($forum, 'id', 'name');
     }
 
@@ -143,14 +146,10 @@ class Room extends ActiveRecord {
         return ArrayHelper::map($floor, 'id', 'v');
     }
 
-    //得到楼苑ID-name 键值数组
+    //得到楼层ID-name 键值数组
     public static function get_room_floor() {
-        $fids = static::find()->select(['floor'])->distinct()->asArray()->all();
-        $floor_id = array();
-        foreach ($fids as $fid) {
-            $floor_id[] = $fid['floor'];
-        }
-        $floor = Parameter::find()->where(['name' => 'floor', 'id' => $floor_id])->orderBy(['sort_order' => SORT_ASC])->all();
+        $floors = static::find()->select(['floor'])->distinct()->column();
+        $floor = Parameter::find()->where(['name' => 'floor', 'id' => $floors])->orderBy(['sort_order' => SORT_ASC])->all();
         return ArrayHelper::map($floor, 'id', 'v');
     }
 

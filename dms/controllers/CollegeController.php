@@ -14,7 +14,7 @@ use dms\models\Parameter;
 /**
  * CollegeController implements the CRUD actions for College model.
  */
-class CommonController extends Controller {
+class CollegeController extends Controller {
 
     /**
      * @inheritdoc
@@ -80,7 +80,7 @@ class CommonController extends Controller {
             } else {
                 Yii::$app->session->setFlash('error', '修改失败。');
             }
-//            return $this->redirect(['common/college-update', 'id' => $model->id]);
+//            return $this->redirect(['college-update', 'id' => $model->id]);
         }
         return $this->render('college-update', [
                     'model' => $model,
@@ -150,7 +150,7 @@ class CommonController extends Controller {
             } else {
                 Yii::$app->session->setFlash('error', '修改失败。');
             }
-//            return $this->redirect(['common/major-update', 'id' => $model->id]);
+//            return $this->redirect(['major-update', 'id' => $model->id]);
         }
         return $this->render('major-update', [
                     'model' => $model,
@@ -219,7 +219,7 @@ class CommonController extends Controller {
             } else {
                 Yii::$app->session->setFlash('error', '修改失败。');
             }
-//            return $this->redirect(['common/grade-update', 'id' => $model->id]);
+//            return $this->redirect(['grade-update', 'id' => $model->id]);
         }
         return $this->render('grade-update', [
                     'model' => $model,

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dms\models\Forum;
+use dms\models\System;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\forum */
@@ -22,8 +23,9 @@ use dms\models\Forum;
             ]);
             ?>
             <div class="box-body">
-                <?= $form->field($model, 'fup')->dropDownList($model->get_forumfup_id($model->id), ['prompt' => '无']) ?>
-
+                <?php if (System::getValue('business_forum') === '1') { ?>
+                    <?= $form->field($model, 'fup')->dropDownList($model->get_forumfup_id($model->id), ['prompt' => '无']) ?>
+                <?php } ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

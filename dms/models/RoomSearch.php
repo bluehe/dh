@@ -50,19 +50,6 @@ class RoomSearch extends Room {
 //                ]],
         ]);
 
-//        $sort = $dataProvider->getSort();
-//        $sort->attributes['fid'] = [
-//            'asc' => ['{{%forum}}.fsort' => SORT_ASC, '{{%forum}}.mark' => SORT_ASC, '{{%forum}}.fup' => SORT_ASC, '{{%forum}}.sort_order' => SORT_ASC, '{{%forum}}.id' => SORT_ASC],
-//            'desc' => ['{{%forum}}.fsort' => SORT_DESC, '{{%forum}}.mark' => SORT_DESC, '{{%forum}}.fup' => SORT_ASC, '{{%forum}}.sort_order' => SORT_DESC, '{{%forum}}.id' => SORT_DESC],
-//        ];
-//        $sort->attributes['floor'] = [
-//            'asc' => ['{{%parameter}}.sort_order' => SORT_ASC],
-//            'desc' => ['{{%parameter}}.sort_order' => SORT_DESC],
-//        ];
-//        $sort->attributes['name'] = [
-//            'asc' => ['fname' => SORT_ASC, 'rid' => SORT_ASC, 'name' => SORT_ASC],
-//            'desc' => ['fname' => SORT_DESC, 'rid' => SORT_ASC, 'name' => SORT_DESC],
-//        ];
         $dataProvider->setSort(false);
 
         $this->load($params);

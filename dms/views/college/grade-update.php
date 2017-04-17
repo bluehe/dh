@@ -5,8 +5,8 @@
 /* @var $model dms\models\College */
 
 $this->title = '更新年级: ' . $model->v;
-$this->params['breadcrumbs'][] = ['label' => '参数设置', 'url' => ['common/college']];
-$this->params['breadcrumbs'][] = ['label' => '年级设置', 'url' => ['common/grade']];
+$this->params['breadcrumbs'][] = ['label' => '学院设置', 'url' => ['college/college']];
+$this->params['breadcrumbs'][] = ['label' => '年级管理', 'url' => ['college/grade']];
 ?>
 <div class="grade-update">
 

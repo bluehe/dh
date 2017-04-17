@@ -131,35 +131,37 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['/account/change-password', '2', null, null, null, '1482820123', '1482820123'],
             ['/account/index', '2', null, null, null, '1482820123', '1482820123'],
             ['/account/thumb', '2', null, null, null, '1482820123', '1482820123'],
-            ['/common/*', '2', null, null, null, '1482820123', '1482820123'],
-            ['/common/college', '2', null, null, null, '1482820123', '1482820123'],
-            ['/common/grade', '2', null, null, null, '1482820123', '1482820123'],
-            ['/common/major', '2', null, null, null, '1482820123', '1482820123'],
+            ['/college/*', '2', null, null, null, '1482820123', '1482820123'],
+            ['/college/college', '2', null, null, null, '1482820123', '1482820123'],
+            ['/college/grade', '2', null, null, null, '1482820123', '1482820123'],
+            ['/college/major', '2', null, null, null, '1482820123', '1482820123'],
             ['/forum/*', '2', null, null, null, '1482820123', '1482820123'],
             ['/forum/floor', '2', null, null, null, '1482820123', '1482820123'],
             ['/forum/forum', '2', null, null, null, '1482820123', '1482820123'],
             ['/forum/room', '2', null, null, null, '1482820123', '1482820123'],
+            ['/forum/bed', '2', null, null, null, '1482820123', '1482820123'],
             ['/system/*', '2', null, null, null, '1482820123', '1482820123'],
             ['/system/captcha', '2', null, null, null, '1482820123', '1482820123'],
             ['/system/index', '2', null, null, null, '1482820123', '1482820123'],
             ['/system/smtp', '2', null, null, null, '1482820123', '1482820123'],
+            ['/system/business', '2', null, null, null, '1482820123', '1482820123'],
             ['admin', '1', '管理员', null, null, '1482820123', '1482820123'],
             ['employee', '1', '员工', null, null, '1482820123', '1482820123'],
             ['member', '1', '会员', null, null, '1482820123', '1482820123'],
             ['student', '1', '学生', null, null, '1482820123', '1482820123'],
             ['teacher', '1', '教师', null, null, '1482820123', '1482820123'],
             ['guest', '1', '游客', null, null, '1482820123', '1482820123'],
-            ['参数设置', '2', '参数设置', null, null, '1482820123', '1482820123'],
+            ['学院设置', '2', '学院设置', null, null, '1482820123', '1482820123'],
             ['楼苑设置', '2', '楼苑设置', null, null, '1482820123', '1482820123'],
             ['系统设置', '2', '系统设置', null, null, '1482820123', '1482820123'],
             ['账号信息', '2', '账号信息', null, null, '1482820123', '1482820123'],
         ]);
         $this->batchInsert($authManager->itemChildTable, ['parent', 'child'], [
             ['账号信息', '/account/*'],
-            ['参数设置', '/common/*'],
+            ['学院设置', '/college/*'],
             ['楼苑设置', '/forum/*'],
             ['系统设置', '/system/*'],
-            ['admin', '参数设置'],
+            ['admin', '学院设置'],
             ['admin', '楼苑设置'],
             ['admin', '系统设置'],
             ['admin', '账号信息'],
@@ -168,41 +170,6 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
         $this->batchInsert($authManager->assignmentTable, ['item_name', 'user_id', 'created_at'], [
             ['admin', '1', '1482481221'],
         ]);
-
-//        $this->insert($authManager->itemTable, ['name' => '/account/*', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/account/change-password', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/account/index', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/account/thumb', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/common/*', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/common/college', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/common/grade', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/common/major', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/system/*', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/system/captcha', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/system/index', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/system/smtp', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/forum/*', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/forum/floor', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '/forum/forum', 'type' => '2', 'description' => NULL, 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => 'admin', 'type' => '1', 'description' => '管理员', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => 'employee', 'type' => '1', 'description' => '员工', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => 'member', 'type' => '1', 'description' => '会员', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => 'student', 'type' => '1', 'description' => '学生', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => 'teacher', 'type' => '1', 'description' => '教师', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '参数设置', 'type' => '2', 'description' => '参数设置', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '系统设置', 'type' => '2', 'description' => '系统设置', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '账号信息', 'type' => '2', 'description' => '账号信息', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemTable, ['name' => '楼苑设置', 'type' => '2', 'description' => '楼苑设置', 'rule_name' => NULL, 'data' => NULL, 'created_at' => '1482820123', 'updated_at' => '1482820123']);
-//        $this->insert($authManager->itemChildTable, ['parent' => '账号信息', 'child' => '/account/*']);
-//        $this->insert($authManager->itemChildTable, ['parent' => '参数设置', 'child' => '/common/*']);
-//        $this->insert($authManager->itemChildTable, ['parent' => '系统设置', 'child' => '/system/*']);
-//        $this->insert($authManager->itemChildTable, ['parent' => '楼苑设置', 'child' => '/forum/*']);
-//        $this->insert($authManager->itemChildTable, ['parent' => 'admin', 'child' => '参数设置']);
-//        $this->insert($authManager->itemChildTable, ['parent' => 'admin', 'child' => '系统设置']);
-//        $this->insert($authManager->itemChildTable, ['parent' => 'admin', 'child' => '账号信息']);
-//        $this->insert($authManager->itemChildTable, ['parent' => 'admin', 'child' => '楼苑设置']);
-//
-//        $this->insert($authManager->assignmentTable, ['item_name' => 'admin', 'user_id' => '1', 'created_at' => '1482481221']);
     }
 
     /**
