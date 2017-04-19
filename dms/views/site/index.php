@@ -6,59 +6,61 @@ use yii\widgets\LinkPager;
 $this->title = '首页';
 ?>
 <!-- Small boxes (Stat box) -->
-<div class="row">
-    <div class="col-lg-3 col-xs-6">
-        <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
+<?php if (Yii::$app->user->can('楼苑设置')) { ?>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
 
-            <div class="info-box-content">
-                <span class="info-box-text">楼苑</span>
-                <span class="info-box-number"><?= $total['building'] ?></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">楼苑</span>
+                    <span class="info-box-number"><?= $total['building'] ?></span>
+                </div>
+                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
+            <!-- /.info-box -->
         </div>
-        <!-- /.info-box -->
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-        <div class="info-box">
-            <span class="info-box-icon bg-red"><i class="fa fa-home"></i></span>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-home"></i></span>
 
-            <div class="info-box-content">
-                <span class="info-box-text">房间</span>
-                <span class="info-box-number"><?= $total['room'] ?></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">房间</span>
+                    <span class="info-box-number"><?= $total['room'] ?></span>
+                </div>
+                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
+            <!-- /.info-box -->
         </div>
-        <!-- /.info-box -->
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3  col-xs-6">
-        <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="fa fa-bed"></i></span>
+        <!-- ./col -->
+        <div class="col-lg-3  col-xs-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="fa fa-bed"></i></span>
 
-            <div class="info-box-content">
-                <span class="info-box-text">床位</span>
-                <span class="info-box-number"><?= $total['bed'] ?></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">床位</span>
+                    <span class="info-box-number"><?= $total['bed'] ?></span>
+                </div>
+                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
+            <!-- /.info-box -->
         </div>
-        <!-- /.info-box -->
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-        <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
 
-            <div class="info-box-content">
-                <span class="info-box-text">用户</span>
-                <span class="info-box-number"><?= $total['user'] ?></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">用户</span>
+                    <span class="info-box-number"><?= $total['user'] ?></span>
+                </div>
+                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
+            <!-- /.info-box -->
         </div>
-        <!-- /.info-box -->
     </div>
-</div>
+<?php } ?>
 <!-- ./col -->
 
 <!-- /.row -->

@@ -124,8 +124,8 @@ class Room extends ActiveRecord {
     }
 
     //得到楼苑ID-name 键值数组
-    public static function get_forum_id() {
-        $query = Forum::find()->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC]);
+    public static function get_forum_id($id = array()) {
+        $query = Forum::find()->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->andFilterWhere(['id' => $id]);
         if (System::getValue('business_forum') === '1' && System::getValue('business_room') === '2') {
             $query->andWhere(['not', ['fup' => NULL]]);
         }

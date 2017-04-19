@@ -21,7 +21,7 @@ class m170103_040539_create_member_table extends Migration {
         }
         $this->createTable($table, [
             'id' => $this->primaryKey(),
-            'uid' => $this->integer()->notNull(),
+            'uid' => $this->integer(),
             'name' => $this->string(10),
             'gender' => $this->string(2),
             'bday' => $this->date(),
@@ -29,7 +29,7 @@ class m170103_040539_create_member_table extends Migration {
             'tel' => $this->string(20),
             'qq' => $this->string(13),
             'stat' => $this->smallInteger()->notNull()->defaultValue(10),
-            "FOREIGN KEY ([[uid]]) REFERENCES {$userTable}([[id]]) ON DELETE CASCADE ON UPDATE CASCADE",
+            "FOREIGN KEY ([[uid]]) REFERENCES {$userTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
                 ], $tableOptions);
     }
 
