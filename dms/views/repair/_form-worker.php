@@ -41,6 +41,8 @@ use dms\models\Room;
 
                 <?= $form->field($model, 'stat')->radioList(\dms\models\RepairWorker::$List['stat'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
+                <?= $form->field($model, 'uid')->dropDownList($model->get_user_id(), ['prompt' => '无', 'class' => 'form-control select2']) ?>
+
             </div>
             <div class="box-footer">
                 <div class="col-md-1 col-lg-offset-2 col-xs-6 text-right">
@@ -58,3 +60,12 @@ use dms\models\Room;
         </div>
     </div>
 </div>
+<script>
+<?php $this->beginBlock('js') ?>
+    $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+    });
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJs($this->blocks['js'], \yii\web\View::POS_END); ?>

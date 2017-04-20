@@ -205,22 +205,34 @@ class RepairController extends Controller {
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 $model->save(false);
-                $type->worker = $model->id;
-                foreach ($model->type as $t) {
-                    $_type = clone $type;
-                    $_type->type = $t;
-                    if (!$_type->save()) {
-                        throw new \Exception("创建失败");
+                if ($model->uid) {
+                    $auth = Yii::$app->authManager;
+                    $authRole = $auth->getRole('repair_worker');
+                    if (!$auth->getAssignment($authRole->name, $model->uid)) {
+                        $auth->assign($authRole, $model->uid);
                     }
                 }
-                $area->worker = $model->id;
-                foreach ($model->area as $a) {
-                    $_area = clone $area;
-                    $_area->area = $a;
-                    if (!$_area->save()) {
-                        throw new \Exception("创建失败");
+                if ($model->type) {
+                    $type->worker = $model->id;
+                    foreach ($model->type as $t) {
+                        $_type = clone $type;
+                        $_type->type = $t;
+                        if (!$_type->save()) {
+                            throw new \Exception("创建失败");
+                        }
                     }
                 }
+                if ($model->area) {
+                    $area->worker = $model->id;
+                    foreach ($model->area as $a) {
+                        $_area = clone $area;
+                        $_area->area = $a;
+                        if (!$_area->save()) {
+                            throw new \Exception("创建失败");
+                        }
+                    }
+                }
+
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', '创建成功。');
                 return $this->redirect(['worker-update', 'id' => $model->id]);
@@ -246,16 +258,30 @@ class RepairController extends Controller {
         $model = RepairWorker::findOne($id);
         $model->type = RepairWorker::get_worker_type($model->id);
         $model->area = RepairWorker::get_worker_area($model->id);
+        $uid = $model->uid;
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $rw = Yii::$app->request->post('RepairWorker');
-            $types = $rw['type'];
-            $areas = $rw['area'];
+            $types = $rw['type'] ? $rw['type'] : array();
+            $areas = $rw['area'] ? $rw['area'] : array();
             $type = new RepairWorkerType();
             $area = new RepairWorkerArea();
 
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 $model->save(false);
+
+                if ((int) $model->uid != $uid) {
+
+                    $auth = Yii::$app->authManager;
+                    $authorRole = $auth->getRole('repair_worker');
+                    if (!RepairWorker::find()->where(['uid' => $uid])->andWhere(['<>', 'id', $model->id])->one()) {
+                        $auth->revoke($authorRole, $uid);
+                    }
+                    if ($model->uid && !$auth->getAssignment($authorRole->name, $model->uid)) {
+                        $auth->assign($authorRole, $model->uid);
+                    }
+                }
                 $type->worker = $model->id;
                 $t1 = array_diff($types, $model->type); //新增
                 $t2 = array_diff($model->type, $types); //删除
@@ -316,6 +342,38 @@ class RepairController extends Controller {
         }
 
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionBind($id) {
+        $model = RepairWorker::findOne($id);
+        $uid = $model->uid;
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save(false);
+
+                if ((int) $model->uid != $uid) {
+                    $auth = Yii::$app->authManager;
+                    $authorRole = $auth->getRole('repair_worker');
+                    if (!RepairWorker::find()->where(['uid' => $uid])->andWhere(['<>', 'id', $model->id])->one()) {
+                        $auth->revoke($authorRole, $uid);
+                    }
+                    if ($model->uid && !$auth->getAssignment($authorRole->name, $model->uid)) {
+                        $auth->assign($authorRole, $model->uid);
+                    }
+                }
+                $transaction->commit();
+            } catch (\Exception $e) {
+
+                $transaction->rollBack();
+//                throw $e;
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            return $this->renderAjax('_form-bind', [
+                        'model' => $model,
+            ]);
+        }
     }
 
 }

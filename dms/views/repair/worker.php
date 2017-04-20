@@ -1,9 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use dms\models\Room;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -45,14 +47,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'type',
                         'value' =>
                         function($model) {
-                            return implode(',', $model->get_type_id($model->get_worker_type($model->id)));   //主要通过此种方式实现
+                            return $model->get_worker_type($model->id) ? implode(',', $model->get_type_id($model->get_worker_type($model->id))) : '';   //主要通过此种方式实现
                         },
                     ],
                     [
                         'attribute' => 'area',
                         'value' =>
                         function($model) {
-                            return implode(',', Room::get_forum_id($model->get_worker_area($model->id)));   //主要通过此种方式实现
+                            return $model->get_worker_area($model->id) ? implode(',', Room::get_forum_id($model->get_worker_area($model->id))) : '';   //主要通过此种方式实现
                         },
                     ],
                     [
@@ -66,8 +68,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'uid',
                         'value' =>
                         function($model) {
-                            return $model->uid ? $model->user->name : '';   //主要通过此种方式实现
+                            return $model->uid ? $model->user->username : Html::a('绑定用户', '#', [
+                                        'data-toggle' => 'modal',
+                                        'data-target' => '#binduser-modal',
+                                        'class' => 'btn btn-success btn-xs user-bind',
+                                        'data-id' => $model->id,
+                            ]);
+                            //主要通过此种方式实现
                         },
+                        'format' => 'raw',
                     ],
                     ['class' => 'yii\grid\ActionColumn',
                         'header' => '操作',
@@ -84,6 +93,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]);
             ?>
-            <?php Pjax::end(); ?>        </div>
+            <?php Pjax::end(); ?>
+        </div>
     </div>
 </div>
+<?php
+Modal::begin([
+    'id' => 'binduser-modal',
+    'header' => '<h4 class="modal-title">绑定用户</h4>',
+    'options' => [
+        'tabindex' => false
+    ],
+]);
+Modal::end();
+?>
+<script>
+<?php $this->beginBlock('bind') ?>
+    $('.user-bind').on('click', function () {
+        $.get('<?= Url::toRoute('bind') ?>', {id: $(this).closest('tr').data('key')},
+                function (data) {
+                    $('.modal-body').html(data);
+                }
+        );
+    });
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJs($this->blocks['bind'], \yii\web\View::POS_END); ?>

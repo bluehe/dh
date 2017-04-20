@@ -128,7 +128,7 @@ class RepairWorker extends \yii\db\ActiveRecord {
 
     //得到ID-name 键值数组
     public static function get_unit_id() {
-        $units = RepairUnit::find()->where(['stat' => 1])->all();
+        $units = RepairUnit::find()->where(['stat' => RepairUnit::STAT_OPEN])->all();
         return ArrayHelper::map($units, 'id', 'name');
     }
 
@@ -136,6 +136,12 @@ class RepairWorker extends \yii\db\ActiveRecord {
     public static function get_type_id($id = array()) {
         $types = Parameter::find()->where(['name' => 'repair_type'])->andFilterWhere(['id' => $id])->all();
         return ArrayHelper::map($types, 'id', 'v');
+    }
+
+    //得到ID-name 键值数组
+    public static function get_user_id() {
+        $users = User::find()->where(['status' => User::STATUS_ACTIVE])->all();
+        return ArrayHelper::map($users, 'id', 'username');
     }
 
     //得到数组
