@@ -66,24 +66,6 @@ return array (
       '@newerton/jcrop' => $vendorDir . '/newerton/yii2-jcrop',
     ),
   ),
-  'yiisoft/yii2-imagine' => 
-  array (
-    'name' => 'yiisoft/yii2-imagine',
-    'version' => '2.1.0.0',
-    'alias' => 
-    array (
-      '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
-    ),
-  ),
-  'kartik-v/yii2-widget-fileinput' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-fileinput',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/file' => $vendorDir . '/kartik-v/yii2-widget-fileinput',
-    ),
-  ),
   'kartik-v/yii2-dialog' => 
   array (
     'name' => 'kartik-v/yii2-dialog',
@@ -181,6 +163,33 @@ return array (
     'alias' => 
     array (
       '@yii/authclient' => $vendorDir . '/yiisoft/yii2-authclient',
+    ),
+  ),
+  'kartik-v/yii2-widget-fileinput' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-fileinput',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/file' => $vendorDir . '/kartik-v/yii2-widget-fileinput',
+    ),
+  ),
+  'callmez/yii2-wechat-sdk' => 
+  array (
+    'name' => 'callmez/yii2-wechat-sdk',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@callmez/wechat/sdk' => $vendorDir . '/callmez/yii2-wechat-sdk',
+    ),
+  ),
+  'yiisoft/yii2-imagine' => 
+  array (
+    'name' => 'yiisoft/yii2-imagine',
+    'version' => '2.1.0.0',
+    'alias' => 
+    array (
+      '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
     ),
   ),
 );

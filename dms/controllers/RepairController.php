@@ -125,7 +125,7 @@ class RepairController extends Controller {
     public function actionUnitCreate() {
         $model = new RepairUnit();
 
-        $model->stat = 1;
+        $model->stat = RepairUnit::STAT_OPEN;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', '创建成功。');
             return $this->redirect(['unit-update', 'id' => $model->id]);
@@ -195,7 +195,7 @@ class RepairController extends Controller {
     public function actionWorkerCreate() {
         $model = new RepairWorker();
 
-        $model->stat = 1;
+        $model->stat = RepairWorker::STAT_OPEN;
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $rw = Yii::$app->request->post('RepairWorker');
             $model->type = $rw['type'];

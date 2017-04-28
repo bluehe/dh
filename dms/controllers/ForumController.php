@@ -148,7 +148,7 @@ class ForumController extends Controller {
     public function actionForumCreate() {
         $model = new Forum();
 //        $model->mold = 1;
-        $model->stat = 1;
+        $model->stat = Forum::STAT_OPEN;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $transaction = Yii::$app->db->beginTransaction();
@@ -243,7 +243,7 @@ class ForumController extends Controller {
      */
     public function actionRoomCreate() {
         $model = new Room();
-        $model->stat = 1;
+        $model->stat = Room::STAT_OPEN;
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -388,7 +388,7 @@ class ForumController extends Controller {
      */
     public function actionBedCreate() {
         $model = new Bed();
-        $model->stat = 1;
+        $model->stat = Bed::STAT_OPEN;
 
         if ($model->load(Yii::$app->request->post())) {
 //            if (!$model->rid) {

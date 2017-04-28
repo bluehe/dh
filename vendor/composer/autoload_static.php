@@ -9,8 +9,8 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
     );
 
@@ -56,6 +56,7 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
+            'callmez\\wechat\\sdk\\' => 19,
         ),
         'b' => 
         array (
@@ -188,6 +189,10 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'callmez\\wechat\\sdk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/callmez/yii2-wechat-sdk',
         ),
         'bluehe\\jcrop\\' => 
         array (

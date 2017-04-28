@@ -1469,115 +1469,6 @@
         ]
     },
     {
-        "name": "imagine/imagine",
-        "version": "v0.6.3",
-        "version_normalized": "0.6.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/avalanche123/Imagine.git",
-            "reference": "149041d2a1b517107bfe270ca2b1a17aa341715d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/149041d2a1b517107bfe270ca2b1a17aa341715d",
-            "reference": "149041d2a1b517107bfe270ca2b1a17aa341715d",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.2"
-        },
-        "require-dev": {
-            "sami/sami": "dev-master"
-        },
-        "suggest": {
-            "ext-gd": "to use the GD implementation",
-            "ext-gmagick": "to use the Gmagick implementation",
-            "ext-imagick": "to use the Imagick implementation"
-        },
-        "time": "2015-09-19T16:54:05+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-develop": "0.7-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Imagine": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Bulat Shakirzyanov",
-                "email": "mallluhuct@gmail.com",
-                "homepage": "http://avalanche123.com"
-            }
-        ],
-        "description": "Image processing for PHP 5.3",
-        "homepage": "http://imagine.readthedocs.org/",
-        "keywords": [
-            "drawing",
-            "graphics",
-            "image manipulation",
-            "image processing"
-        ]
-    },
-    {
-        "name": "yiisoft/yii2-imagine",
-        "version": "2.1.0",
-        "version_normalized": "2.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/yiisoft/yii2-imagine.git",
-            "reference": "59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-imagine/zipball/59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411",
-            "reference": "59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411",
-            "shasum": ""
-        },
-        "require": {
-            "imagine/imagine": "~0.6.0",
-            "yiisoft/yii2": "~2.0.0"
-        },
-        "time": "2016-11-03T19:28:39+00:00",
-        "type": "yii2-extension",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "yii\\imagine\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Antonio Ramirez",
-                "email": "amigo.cobos@gmail.com"
-            }
-        ],
-        "description": "The Imagine integration for the Yii framework",
-        "keywords": [
-            "helper",
-            "image",
-            "imagine",
-            "yii2"
-        ]
-    },
-    {
         "name": "kartik-v/yii2-dialog",
         "version": "v1.0.1",
         "version_normalized": "1.0.1.0",
@@ -2041,63 +1932,6 @@
         ]
     },
     {
-        "name": "kartik-v/yii2-widget-fileinput",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
-            "reference": "744e12c1f5be45357ec50eea6f678ecc9ba67dc2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/744e12c1f5be45357ec50eea6f678ecc9ba67dc2",
-            "reference": "744e12c1f5be45357ec50eea6f678ecc9ba67dc2",
-            "shasum": ""
-        },
-        "require": {
-            "kartik-v/bootstrap-fileinput": "~4.2",
-            "kartik-v/yii2-krajee-base": "~1.7"
-        },
-        "time": "2016-10-18T06:35:15+00:00",
-        "type": "yii2-extension",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "kartik\\file\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Kartik Visweswaran",
-                "email": "kartikv2@gmail.com",
-                "homepage": "http://www.krajee.com/"
-            }
-        ],
-        "description": "An enhanced FileInput widget for Bootstrap 3.x with file preview, multiple selection, and more features (sub repo split from yii2-widgets)",
-        "homepage": "https://github.com/kartik-v/yii2-widget-fileinput",
-        "keywords": [
-            "extension",
-            "file",
-            "form",
-            "input",
-            "jquery",
-            "plugin",
-            "upload",
-            "widget",
-            "yii2"
-        ]
-    },
-    {
         "name": "mdmsoft/yii2-admin",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -2363,62 +2197,6 @@
             }
         ],
         "description": "BDD assertion library for PHPUnit"
-    },
-    {
-        "name": "swiftmailer/swiftmailer",
-        "version": "v5.4.6",
-        "version_normalized": "5.4.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/swiftmailer/swiftmailer.git",
-            "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/swiftmailer/swiftmailer/81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e.zip",
-            "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "mockery/mockery": "~0.9.1",
-            "symfony/phpunit-bridge": "~3.2"
-        },
-        "time": "2017-02-13T07:52:53+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "5.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "lib/swift_required.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Chris Corbyn"
-            },
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            }
-        ],
-        "description": "Swiftmailer, free feature-rich PHP mailer",
-        "homepage": "http://swiftmailer.org",
-        "keywords": [
-            "email",
-            "mail",
-            "mailer"
-        ]
     },
     {
         "name": "almasaeed2010/adminlte",
@@ -3972,6 +3750,272 @@
             "api",
             "auth",
             "oauth",
+            "yii2"
+        ]
+    },
+    {
+        "name": "swiftmailer/swiftmailer",
+        "version": "v5.4.7",
+        "version_normalized": "5.4.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/swiftmailer/swiftmailer.git",
+            "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/swiftmailer/swiftmailer/56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4.zip",
+            "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9.1",
+            "symfony/phpunit-bridge": "~3.2"
+        },
+        "time": "2017-04-20T17:32:18+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "5.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/swift_required.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Chris Corbyn"
+            },
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Swiftmailer, free feature-rich PHP mailer",
+        "homepage": "http://swiftmailer.org",
+        "keywords": [
+            "email",
+            "mail",
+            "mailer"
+        ]
+    },
+    {
+        "name": "kartik-v/yii2-widget-fileinput",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
+            "reference": "6b9c344c41df5d5c305589770893e14628e6eacc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/kartik-v/yii2-widget-fileinput/6b9c344c41df5d5c305589770893e14628e6eacc.zip",
+            "reference": "6b9c344c41df5d5c305589770893e14628e6eacc",
+            "shasum": ""
+        },
+        "require": {
+            "kartik-v/bootstrap-fileinput": "~4.2",
+            "kartik-v/yii2-krajee-base": "~1.7"
+        },
+        "time": "2017-04-15T05:25:51+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "kartik\\file\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "An enhanced FileInput widget for Bootstrap 3.x with file preview, multiple selection, and more features (sub repo split from yii2-widgets)",
+        "homepage": "https://github.com/kartik-v/yii2-widget-fileinput",
+        "keywords": [
+            "extension",
+            "file",
+            "form",
+            "input",
+            "jquery",
+            "plugin",
+            "upload",
+            "widget",
+            "yii2"
+        ]
+    },
+    {
+        "name": "callmez/yii2-wechat-sdk",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/callmez/yii2-wechat-sdk.git",
+            "reference": "160988a1194d290e906956e293be579661dcd918"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/callmez/yii2-wechat-sdk/160988a1194d290e906956e293be579661dcd918.zip",
+            "reference": "160988a1194d290e906956e293be579661dcd918",
+            "shasum": ""
+        },
+        "require": {
+            "yiisoft/yii2": "*"
+        },
+        "time": "2016-08-22T13:20:24+00:00",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "callmez\\wechat\\sdk\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "CallMeZ",
+                "email": "callme-z@qq.com"
+            }
+        ],
+        "description": "The wechat api for the Yii framework",
+        "keywords": [
+            "sdk",
+            "wechat",
+            "weixin",
+            "yii2"
+        ]
+    },
+    {
+        "name": "imagine/imagine",
+        "version": "v0.6.3",
+        "version_normalized": "0.6.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/avalanche123/Imagine.git",
+            "reference": "149041d2a1b517107bfe270ca2b1a17aa341715d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/avalanche123/Imagine/149041d2a1b517107bfe270ca2b1a17aa341715d.zip",
+            "reference": "149041d2a1b517107bfe270ca2b1a17aa341715d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "sami/sami": "dev-master"
+        },
+        "suggest": {
+            "ext-gd": "to use the GD implementation",
+            "ext-gmagick": "to use the Gmagick implementation",
+            "ext-imagick": "to use the Imagick implementation"
+        },
+        "time": "2015-09-19T16:54:05+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-develop": "0.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Imagine": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bulat Shakirzyanov",
+                "email": "mallluhuct@gmail.com",
+                "homepage": "http://avalanche123.com"
+            }
+        ],
+        "description": "Image processing for PHP 5.3",
+        "homepage": "http://imagine.readthedocs.org/",
+        "keywords": [
+            "drawing",
+            "graphics",
+            "image manipulation",
+            "image processing"
+        ]
+    },
+    {
+        "name": "yiisoft/yii2-imagine",
+        "version": "2.1.0",
+        "version_normalized": "2.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-imagine.git",
+            "reference": "59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/yiisoft/yii2-imagine/59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411.zip",
+            "reference": "59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411",
+            "shasum": ""
+        },
+        "require": {
+            "imagine/imagine": "~0.6.0",
+            "yiisoft/yii2": "~2.0.0"
+        },
+        "time": "2016-11-03T19:28:39+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii\\imagine\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Antonio Ramirez",
+                "email": "amigo.cobos@gmail.com"
+            }
+        ],
+        "description": "The Imagine integration for the Yii framework",
+        "keywords": [
+            "helper",
+            "image",
+            "imagine",
             "yii2"
         ]
     }

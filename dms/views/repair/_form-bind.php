@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use dms\models\Room;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\RepairWorker */

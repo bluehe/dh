@@ -28,6 +28,14 @@ class m170417_065121_create_repair_worker extends Migration {
             "FOREIGN KEY ([[unit_id]]) REFERENCES {$unitTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
             "FOREIGN KEY ([[uid]]) REFERENCES {$userTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
                 ], $tableOptions);
+
+        //测试数据
+        $this->batchInsert($table, ['id', 'uid', 'unit_id', 'name', 'tel', 'email', 'address', 'note', 'stat'], [
+            ['1', null, '1', '张三', '15112341234', '', '', '', '1'],
+            ['2', '2', '2', '李四', '15112341236', '', '', '', '1'],
+            ['3', '2', '1', '张龙', '1511234123488', '', '', '', '1'],
+            ['4', null, '1', '老迟', '15112341234', '', '', '', '1'],
+        ]);
     }
 
     public function down() {

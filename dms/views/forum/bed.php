@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
-                "id" => "grid",
+                'id' => "grid",
                 'layout' => "{summary}\n<div class=table-responsive>{items}</div>\n{pager}",
                 'summary' => "第{begin}-{end}条，共{totalCount}条",
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],

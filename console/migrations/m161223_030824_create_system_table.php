@@ -59,6 +59,8 @@ class m161223_030824_create_system_table extends Migration {
             [402, 4, 'business_room', '房间设置', 'radio', '{"1":"一级","2":"二级"}', '', '2', 2],
             [403, 4, 'business_roomtype', '房型设置', 'radio', '{"1":"套间","2":"单间"}', '', '1', 3],
             [404, 4, 'business_bed', '床位设置', 'radio', '{"1":"大室","2":"小室"}', '', '2', 4],
+            [405, 4, 'business_accept', '报修受理', 'radio', '{"1":"派工","2":"受理"}', '', '1', 5],
+            [406, 4, 'business_dispatch', '派工设置', 'radio', '{"1":"全部","2":"匹配"}', '', '1', 6],
         ]);
     }
 

@@ -10,6 +10,9 @@ return [
     'version' => '3.0 Beta',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'charset' => 'utf-8',
+    'language' => 'zh-CN',
+    'timeZone' => 'Asia/Shanghai',
     'controllerNamespace' => 'dms\controllers',
     'modules' => [
         'admin' => [
@@ -17,7 +20,7 @@ return [
             "layout" => "left-menu",
         ],
         'gridview' => [
-            'class' => '\kartik\grid\Module'
+            'class' => 'kartik\grid\Module'
         ]
     ],
     'aliases' => [
@@ -32,7 +35,7 @@ return [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.ym.163.com',
                 'username' => 'admin@ds9b.com',
-                'password' => '19881006',
+                'password' => 'he19881006',
                 'port' => '25',
                 'encryption' => 'tls',
             ],
@@ -45,11 +48,17 @@ return [
             'class' => 'yii\caching\FileCache',
             'keyPrefix' => 'dms',
         ],
+//        'wechat' => [
+//            'class' => 'callmez\wechat\sdk\MpWechat',
+//            'appId' => 'wx5f06fff8635a37d4',
+//            'appSecret' => '911a61b191219f8b024219f3ec675f39',
+//            'token' => 'weixin'
+//        ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [
                 'github' => [
-                    'class' => 'yii\authclient\clients\Github',
+                    'class' => 'yii\authclient\clients\GitHub',
                     'clientId' => 'ee994356d9e2453508bc',
                     'clientSecret' => '62038bff76991c3f21c37ba110c5e7f69b11d40e',
                 ],
@@ -128,6 +137,7 @@ return [
 //这里是允许访问的action
             'admin/*',
             'site/*',
+            'wechat/*',
             'debug/*',
             'gii/*',
         //'*'

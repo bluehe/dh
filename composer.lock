@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd69c5f4a17ad95a717adaa33f8bc77c",
+    "content-hash": "d53c3d9873fafa9bb78c8f5d490405a8",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -327,6 +327,48 @@
             ]
         },
         {
+            "name": "callmez/yii2-wechat-sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/callmez/yii2-wechat-sdk.git",
+                "reference": "160988a1194d290e906956e293be579661dcd918"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/callmez/yii2-wechat-sdk/160988a1194d290e906956e293be579661dcd918.zip",
+                "reference": "160988a1194d290e906956e293be579661dcd918",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "callmez\\wechat\\sdk\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CallMeZ",
+                    "email": "callme-z@qq.com"
+                }
+            ],
+            "description": "The wechat api for the Yii framework",
+            "keywords": [
+                "sdk",
+                "wechat",
+                "weixin",
+                "yii2"
+            ],
+            "time": "2016-08-22T13:20:24+00:00"
+        },
+        {
             "name": "cebe/markdown",
             "version": "1.1.1",
             "source": {
@@ -594,7 +636,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/149041d2a1b517107bfe270ca2b1a17aa341715d",
+                "url": "https://files.phpcomposer.com/files/avalanche123/Imagine/149041d2a1b517107bfe270ca2b1a17aa341715d.zip",
                 "reference": "149041d2a1b517107bfe270ca2b1a17aa341715d",
                 "shasum": ""
             },
@@ -905,12 +947,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
-                "reference": "744e12c1f5be45357ec50eea6f678ecc9ba67dc2"
+                "reference": "6b9c344c41df5d5c305589770893e14628e6eacc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/744e12c1f5be45357ec50eea6f678ecc9ba67dc2",
-                "reference": "744e12c1f5be45357ec50eea6f678ecc9ba67dc2",
+                "url": "https://files.phpcomposer.com/files/kartik-v/yii2-widget-fileinput/6b9c344c41df5d5c305589770893e14628e6eacc.zip",
+                "reference": "6b9c344c41df5d5c305589770893e14628e6eacc",
                 "shasum": ""
             },
             "require": {
@@ -952,7 +994,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-10-18T06:35:15+00:00"
+            "time": "2017-04-15T05:25:51+00:00"
         },
         {
             "name": "mdmsoft/yii2-admin",
@@ -1166,16 +1208,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.6",
+            "version": "v5.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e"
+                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/swiftmailer/swiftmailer/81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e.zip",
-                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
+                "url": "https://files.phpcomposer.com/files/swiftmailer/swiftmailer/56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4.zip",
+                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
                 "shasum": ""
             },
             "require": {
@@ -1216,7 +1258,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-02-13T07:52:53+00:00"
+            "time": "2017-04-20T17:32:18+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -1523,7 +1565,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-imagine/zipball/59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411",
+                "url": "https://files.phpcomposer.com/files/yiisoft/yii2-imagine/59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411.zip",
                 "reference": "59dcd0b43c2b0e5495c7e5c0320e2cbc1cd57411",
                 "shasum": ""
             },
@@ -3843,7 +3885,8 @@
         "mdmsoft/yii2-admin": 20,
         "bluehe/yii2-jcrop": 20,
         "kartik-v/yii2-widget-fileinput": 20,
-        "kartik-v/yii2-mpdf": 20
+        "kartik-v/yii2-mpdf": 20,
+        "callmez/yii2-wechat-sdk": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

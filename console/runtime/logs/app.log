@@ -1340,3 +1340,489 @@ Array
     ]
     'argc' => 2
 ]
+2017-04-20 10:10:18 [-][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class 'Configs' not found' in F:\www\dms\console\migrations\m170420_071949_create_repair_order.php:12
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp()
+#1 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): yii\console\controllers\BaseMigrateController->actionUp()
+#2 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): ::call_user_func_array:{F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php:57}()
+#3 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction()
+#5 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction()
+#6 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction()
+#7 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction()
+#8 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest()
+#9 F:\www\dms\yii(27): yii\base\Application->run()
+#10 {main}
+2017-04-20 10:10:16 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss6460' => '96529232'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1492675816.6052
+    'REQUEST_TIME' => 1492675816
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]
+2017-04-20 10:10:42 [-][-][-][error][yii\db\Exception] exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Champ 'name' inconnu dans field list' in F:\www\dms\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(218): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170420_071949_create_repair_order.php(49): yii\db\Migration->batchInsert('{{%repair_order...', Array, Array)
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170420_071949_create_repair_order->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170420_071949_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\db\Exception' with message 'SQLSTATE[42S22]: Column not found: 1054 Champ 'name' inconnu dans field list
+The SQL being executed was: INSERT INTO `dms_repair_order` (`id`, `name`, `company`, `tel`, `email`, `address`, `note`, `stat`) VALUES (1, '东吴', '东吴物业', '', '', '', '', 1), (2, '华盈', '华盈物业', '', '', '', '', 1)' in F:\www\dms\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `dm...')
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(218): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170420_071949_create_repair_order.php(49): yii\db\Migration->batchInsert('{{%repair_order...', Array, Array)
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170420_071949_create_repair_order->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170420_071949_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Champ 'name' inconnu dans field list
+)
+
+2017-04-20 10:10:41 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss6460' => '96529232'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1492675841.0904
+    'REQUEST_TIME' => 1492675841
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]
+2017-04-20 10:11:17 [-][-][-][error][yii\db\Exception] exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Champ 'name' inconnu dans field list' in F:\www\dms\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(218): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170420_071949_create_repair_order.php(49): yii\db\Migration->batchInsert('{{%repair_order...', Array, Array)
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170420_071949_create_repair_order->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170420_071949_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\db\Exception' with message 'SQLSTATE[42S22]: Column not found: 1054 Champ 'name' inconnu dans field list
+The SQL being executed was: INSERT INTO `dms_repair_order` (`id`, `name`, `company`, `tel`, `email`, `address`, `note`, `stat`) VALUES (1, '东吴', '东吴物业', '', '', '', '', 1), (2, '华盈', '华盈物业', '', '', '', '', 1)' in F:\www\dms\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `dm...')
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(218): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m170420_071949_create_repair_order.php(49): yii\db\Migration->batchInsert('{{%repair_order...', Array, Array)
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m170420_071949_create_repair_order->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m170420_071949_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Champ 'name' inconnu dans field list
+)
+
+2017-04-20 10:11:15 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss6460' => '96529232'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1492675875.5155
+    'REQUEST_TIME' => 1492675875
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]
+2017-04-27 14:47:54 [-][-][-][error][yii\db\Exception] exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1072 La clé 'role' n'existe pas dans la table' in F:\www\dms\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m160312_050000_create_user.php(33): yii\db\Migration->createTable('{{%user}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m160312_050000_create_user->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m160312_050000_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\db\Exception' with message 'SQLSTATE[42000]: Syntax error or access violation: 1072 La clé 'role' n'existe pas dans la table
+The SQL being executed was: CREATE TABLE `dms_user` (
+	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`username` varchar(32) NOT NULL,
+	`auth_key` varchar(32) NOT NULL,
+	`password_hash` varchar(255) NOT NULL,
+	`password_reset_token` varchar(255),
+	`email` varchar(255) NOT NULL,
+	`avatar` varchar(255) NOT NULL,
+	`status` smallint(6) NOT NULL DEFAULT 10,
+	`created_at` int(11) NOT NULL,
+	`updated_at` int(11) NOT NULL,
+	FOREIGN KEY (`role`) REFERENCES `dms_auth_item`(`name`) ON DELETE SET NULL ON UPDATE CASCADE
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB' in F:\www\dms\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'CREATE TABLE `d...')
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m160312_050000_create_user.php(33): yii\db\Migration->createTable('{{%user}}', Array, 'CHARACTER SET u...')
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m160312_050000_create_user->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m160312_050000_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42000
+    [1] => 1072
+    [2] => La clé 'role' n'existe pas dans la table
+)
+
+2017-04-27 14:47:50 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss5680' => '6694784'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1493297270.6992
+    'REQUEST_TIME' => 1493297270
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]
+2017-04-27 14:49:21 [-][-][-][error][yii\db\IntegrityException] exception 'PDOException' with message 'SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicata du champ '405' pour la clef 'PRIMARY'' in F:\www\dms\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(218): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m161223_030824_create_system_table.php(64): yii\db\Migration->batchInsert('{{%system}}', Array, Array)
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m161223_030824_create_system_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m161223_030824_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\db\IntegrityException' with message 'SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicata du champ '405' pour la clef 'PRIMARY'
+The SQL being executed was: INSERT INTO `dms_system` (`id`, `parent_id`, `code`, `tag`, `type`, `store_range`, `store_dir`, `value`, `sort_order`) VALUES (1, NULL, 'system', '系统信息', 'group', '', '', '', 1), (2, NULL, 'smtp', '邮件设置', 'group', '', '', '', 2), (3, NULL, 'captcha', '验证码设置', 'group', '', '', '', 3), (4, NULL, 'business', '业务设置', 'group', '', '', '', 4), (101, 1, 'system_name', '网站名称', 'text', '', '', '', 1), (102, 1, 'system_title', '网站标题', 'text', '', '', '', 2), (103, 1, 'system_keywords', '关键字', 'textarea', '3', '', '', 3), (104, 1, 'system_desc', '网站描述', 'textarea', '3', '', '', 4), (105, 1, 'system_icp', '备案信息', 'text', '', '', '', 5), (106, 1, 'system_statcode', '第三方统计', 'textarea', '3', '', '', 6), (201, 2, 'smtp_service', '自定义邮件', 'radio', '{\"0\":\"否\",\"1\":\"是\"}', '', '0', 1), (202, 2, 'smtp_ssl', '加密连接(SSL)', 'radio', '{\"0\":\"否\",\"1\":\"是\"}', '', '0', 2), (203, 2, 'smtp_host', 'SMTP服务器', 'text', '', '', '', 3), (204, 2, 'smtp_port', 'SMTP端口', 'text', '', '', '', 4), (205, 2, 'smtp_from', '发件人地址', 'text', '', '', '', 5), (206, 2, 'smtp_username', 'SMTP用户名', 'text', '', '', '', 6), (207, 2, 'smtp_password', 'SMTP密码', 'password', '', '', '', 7), (208, 2, 'smtp_charset', '邮件编码', 'radio', '{\"1\":\"UTF-8\",\"2\":\"GB2312\"}', '', '1', 8), (301, 3, 'captcha_open', '启用验证码', 'checkbox', '{\"1\":\"新用户注册\",\"2\":\"用户登录\",\"3\":\"找回密码\"}', '', '', 1), (302, 3, 'captcha_loginfail', '登录失败显示', 'radio', '{\"0\":\"否\",\"1\":\"是\"}', '', '0', 2), (303, 3, 'captcha_length', '验证码长度', 'text', '', '', '6', 3), (401, 4, 'business_forum', '楼苑设置', 'radio', '{\"1\":\"楼群\",\"2\":\"独栋\"}', '', '1', 1), (402, 4, 'business_room', '房间设置', 'radio', '{\"1\":\"一级\",\"2\":\"二级\"}', '', '2', 2), (403, 4, 'business_roomtype', '房型设置', 'radio', '{\"1\":\"套间\",\"2\":\"单间\"}', '', '1', 3), (404, 4, 'business_bed', '床位设置', 'radio', '{\"1\":\"大室\",\"2\":\"小室\"}', '', '2', 4), (405, 4, 'business_accept', '报修受理', 'radio', '{\"1\":\"派工\",\"2\":\"受理\"}', '', '1', 5), (405, 4, 'business_dispatch', '派工设置', 'radio', '{\"1\":\"手动\",\"2\":\"自动\"}', '', '1', 6)' in F:\www\dms\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 F:\www\dms\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `dm...')
+#1 F:\www\dms\vendor\yiisoft\yii2\db\Migration.php(218): yii\db\Command->execute()
+#2 F:\www\dms\console\migrations\m161223_030824_create_system_table.php(64): yii\db\Migration->batchInsert('{{%system}}', Array, Array)
+#3 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m161223_030824_create_system_table->up()
+#4 F:\www\dms\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m161223_030824_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 F:\www\dms\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 F:\www\dms\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 F:\www\dms\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 F:\www\dms\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 F:\www\dms\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 F:\www\dms\vendor\yiisoft\yii2\base\Application.php(393): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 F:\www\dms\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 23000
+    [1] => 1062
+    [2] => Duplicata du champ '405' pour la clef 'PRIMARY'
+)
+
+2017-04-27 14:49:19 [-][-][-][info][application] $_SERVER = [
+    '#envTSLOGsss5680' => '6694784'
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'THINKPAD'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\ThinkPad'
+    'LOCALAPPDATA' => 'C:\\Users\\ThinkPad\\AppData\\Local'
+    'LOGONSERVER' => '\\\\THINKPAD'
+    'NUMBER_OF_PROCESSORS' => '4'
+    'OneDrive' => 'C:\\Users\\ThinkPad\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\wamp\\bin\\php\\php5.5.12;C:\\ProgramData\\ComposerSetup\\bin;D:\\nodejs\\;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\Users\\ThinkPad\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\ThinkPad\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\ThinkPad\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 61 Stepping 4, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3d04'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\ThinkPad\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'THINKPAD'
+    'USERDOMAIN_ROAMINGPROFILE' => 'THINKPAD'
+    'USERNAME' => 'ThinkPad'
+    'USERPROFILE' => 'C:\\Users\\ThinkPad'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'F:\\www\\dms\\'
+    'PHP_SELF' => 'F:\\www\\dms\\yii'
+    'SCRIPT_NAME' => 'F:\\www\\dms\\yii'
+    'SCRIPT_FILENAME' => 'F:\\www\\dms\\yii'
+    'PATH_TRANSLATED' => 'F:\\www\\dms\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1493297359.2442
+    'REQUEST_TIME' => 1493297359
+    'argv' => [
+        0 => 'F:\\www\\dms\\yii'
+        1 => 'migrate'
+    ]
+    'argc' => 2
+]

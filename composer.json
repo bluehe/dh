@@ -21,11 +21,12 @@
         "dmstr/yii2-adminlte-asset": "2.*",
         "mdmsoft/yii2-admin": "2.x-dev",
         "bluehe/yii2-jcrop": "dev-master",
-        "yiisoft/yii2-imagine": "^2.1",
+        "yiisoft/yii2-imagine": "^2.0.0",
         "kartik-v/yii2-widget-fileinput": "@dev",
         "kartik-v/yii2-grid": "*",
         "kartik-v/yii2-mpdf": "@dev",
-        "yiisoft/yii2-authclient": "*"
+        "yiisoft/yii2-authclient": "*",
+        "callmez/yii2-wechat-sdk": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

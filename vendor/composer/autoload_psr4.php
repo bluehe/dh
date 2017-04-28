@@ -27,6 +27,7 @@ return array(
     'kartik\\base\\' => array($vendorDir . '/kartik-v/yii2-krajee-base'),
     'dmstr\\' => array($vendorDir . '/dmstr/yii2-adminlte-asset'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
+    'callmez\\wechat\\sdk\\' => array($vendorDir . '/callmez/yii2-wechat-sdk'),
     'bluehe\\jcrop\\' => array($vendorDir . '/bluehe/yii2-jcrop'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),

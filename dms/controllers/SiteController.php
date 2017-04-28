@@ -203,13 +203,13 @@ class SiteController extends Controller {
         $total['bed'] = Bed::find()->count();
         $total['user'] = User::find()->count();
         // 创建一个 DB 查询来获得所有 status 为 1 的文章
-        $query = Bed::find()->where(['stat' => 1]);
+        $query = Bed::find()->where(['stat' => Bed::STAT_OPEN]);
 
 // 得到文章的总数（但是还没有从数据库取数据）
         $count = $query->count();
 
 // 使用总数来创建一个分页对象
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 1]);
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 5]);
 
 // 使用分页对象来填充 limit 子句并取得文章数据
         $beds = $query->offset($pagination->offset)
