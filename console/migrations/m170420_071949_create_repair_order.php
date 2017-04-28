@@ -15,6 +15,7 @@ class m170420_071949_create_repair_order extends Migration {
         $areaTable = '{{%forum}}';
         $workerTable = '{{%repair_worker}}';
 
+
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
@@ -49,12 +50,6 @@ class m170420_071949_create_repair_order extends Migration {
             "FOREIGN KEY ([[repair_type]]) REFERENCES {$typeTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
             "FOREIGN KEY ([[repair_area]]) REFERENCES {$areaTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
                 ], $tableOptions);
-
-        //测试数据
-//        $this->batchInsert($table, ['id', 'name', 'company', 'tel', 'email', 'address', 'note', 'stat'], [
-//            ['1', '东吴', '东吴物业', '', '', '', '', '1'],
-//            ['2', '华盈', '华盈物业', '', '', '', '', '1'],
-//        ]);
     }
 
     /**

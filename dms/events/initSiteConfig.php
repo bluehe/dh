@@ -5,6 +5,7 @@ namespace dms\events;
 use Yii;
 use yii\base\Event;
 use dms\models\System;
+use dms\models\Crontab;
 
 class initSiteConfig extends Event {
 
@@ -47,7 +48,46 @@ class initSiteConfig extends Event {
         }
         Yii::$app->name = $system['system_name'];
 
+        //定时任务
+        $event_scheduler = Yii::$app->db->createCommand("SELECT @@event_scheduler;")->queryScalar();
+        if ($event_scheduler != 'ON') {
+            if (!Yii::$app->db->createCommand("set GLOBAL event_scheduler = ON;")->execute()) {
+                //未成功，不能通过mysql-event执行定时任务
+                self::crontab();
+            }
+        }
+
         return true;
+    }
+
+    public static function crontab() {
+        $crontabs = Crontab::find()->where(['AND', ['stat' => Crontab::STAT_OPEN], ['<=', 'start_at', time()], ['OR', ['end_at' => null], ['>', 'end_at', time()]]])->andWhere(['OR', ['AND', ['interval_time' => null], ['exc_at' => null]], ['AND', ['NOT', ['interval_time' => null]], ['OR', ['exc_at' => null], 'exc_at+interval_time<=unix_timestamp(now())']]])->all();
+
+        foreach ($crontabs as $crontab) {
+            $sqls = explode(';', $crontab->content);
+
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                foreach ($sqls as $sql) {
+                    //执行操作
+                    Yii::$app->db->createCommand($sql)->execute();
+                }
+                $NOW = time();
+                if ($crontab->interval_time == null) {
+                    $crontab->exc_at = $NOW;
+                } else {
+                    $crontab->exc_at = $NOW - ($NOW - $crontab->start_at) % $crontab->interval_time;
+                }
+                if (!$crontab->save()) {
+                    throw new \Exception("操作失败");
+                }
+                $transaction->commit();
+            } catch (\Exception $e) {
+
+                $transaction->rollBack();
+//                throw $e;
+            }
+        }
     }
 
 }

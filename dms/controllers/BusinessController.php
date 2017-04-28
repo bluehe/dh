@@ -4,6 +4,7 @@ namespace dms\controllers;
 
 use Yii;
 use dms\models\RepairOrder;
+use dms\models\System;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -68,7 +69,9 @@ class BusinessController extends Controller {
      */
     public function actionRepairCreate() {
         $model = new RepairOrder();
-
+        if (System::getValue('business_repair') === '1') {
+            $model->setScenario('repair');
+        }
         if ($model->load(Yii::$app->request->post())) {
 
             $str = 'BX' . date('ymd', time());
@@ -98,6 +101,9 @@ class BusinessController extends Controller {
      */
     public function actionRepairUpdate($id) {
         $model = RepairOrder::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => RepairOrder::STAT_OPEN]);
+        if (System::getValue('business_repair') === '1') {
+            $model->setScenario('repair');
+        }
         if ($model !== null) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 Yii::$app->session->setFlash('success', '修改成功。');

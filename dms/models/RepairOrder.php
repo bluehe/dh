@@ -57,6 +57,7 @@ class RepairOrder extends ActiveRecord {
             [['uid', 'repair_type', 'repair_area', 'evaluate', 'created_at', 'accept_at', 'accept_uid', 'dispatch_at', 'dispatch_uid', 'repair_at', 'repair_uid', 'worker_id', 'end_at', 'stat'], 'integer'],
             [['address', 'content', 'created_at', 'serial'], 'required', 'message' => '{attribute}不能为空'],
             [['worker_id'], 'required', 'message' => '{attribute}不能为空', 'on' => 'dispatch'],
+            [['repair_type', 'repair_area'], 'required', 'message' => '{attribute}不能为空', 'on' => 'repair'],
             [['serial'], 'string', 'max' => 16, 'message' => '{attribute}最长16个字符'],
             [['address', 'title', 'content', 'note'], 'string', 'max' => 250, 'message' => '{attribute}最长250个字符'],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
