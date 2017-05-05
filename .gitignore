@@ -36,3 +36,4 @@ phpunit.phar
 /dms/runtime/
 /dms/web/assets/
 /console/runtime/
+/dms/web/data/
