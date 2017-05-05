@@ -21,6 +21,9 @@ class m170417_083813_create_worker_type extends Migration {
             "FOREIGN KEY ([[worker]]) REFERENCES {$workerTable}([[id]]) ON DELETE CASCADE ON UPDATE CASCADE",
             "FOREIGN KEY ([[type]]) REFERENCES {$typeTable}([[id]]) ON DELETE CASCADE ON UPDATE CASCADE",
                 ], $tableOptions);
+
+        //测试数据
+        $this->batchInsert($table, ['worker', 'type'], [['1', '14'], ['2', '14'], ['4', '14'], ['1', '15'], ['2', '15'], ['3', '16']]);
     }
 
     public function down() {

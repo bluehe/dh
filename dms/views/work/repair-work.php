@@ -20,9 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box box-primary">
         <div class="box-body">
 
+            <p>
+                <?= Html::a('全部导出', ['repair-export?' . Yii::$app->request->queryString], ['class' => 'btn btn-success']) ?>
+            </p>
 
 
-            <?php Pjax::begin(); ?>
             <?=
             GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -140,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]);
             ?>
-            <?php Pjax::end(); ?>        </div>
+        </div>
     </div>
 </div>
 <?php

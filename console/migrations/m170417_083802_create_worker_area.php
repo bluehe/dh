@@ -21,6 +21,9 @@ class m170417_083802_create_worker_area extends Migration {
             "FOREIGN KEY ([[worker]]) REFERENCES {$workerTable}([[id]]) ON DELETE CASCADE ON UPDATE CASCADE",
             "FOREIGN KEY ([[area]]) REFERENCES {$areaTable}([[id]]) ON DELETE CASCADE ON UPDATE CASCADE",
                 ], $tableOptions);
+
+        //测试数据
+        $this->batchInsert($table, ['worker', 'area'], [['3', '4'], ['4', '4'], ['1', '5'], ['2', '5'], ['2', '6'], ['3', '6']]);
     }
 
     public function down() {

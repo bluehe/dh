@@ -37,22 +37,38 @@ class RepairOrderSearch extends RepairOrder {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params, $pageSize = '') {
         $query = RepairOrder::find()->joinWith('type')->joinWith('area')->joinWith('worker');
 
         // add conditions that should always apply here
 
 
-        if (!Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
+        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
             $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
             $query->andWhere(['worker_id' => $worker]);
+        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
         }
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => ['defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]],
-        ]);
+        if ($pageSize > 0) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pageSize' => $pageSize,
+                ],
+                'sort' => ['defaultOrder' => [
+                        'id' => SORT_DESC,
+                    ]],
+            ]);
+        } else {
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'sort' => ['defaultOrder' => [
+                        'id' => SORT_DESC,
+                    ]],
+            ]);
+        }
 
         $this->load($params);
 

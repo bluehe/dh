@@ -25,6 +25,8 @@ use dms\models\Room;
 
                 <?= $form->field($model, 'unit_id')->dropDownList($model->get_unit_id(), ['prompt' => '无']) ?>
 
+                <?= $form->field($model, 'role')->radioList(\dms\models\RepairWorker::$List['role'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
+
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'tel')->textInput(['maxlength' => true]) ?>

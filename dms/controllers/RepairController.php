@@ -196,6 +196,7 @@ class RepairController extends Controller {
         $model = new RepairWorker();
 
         $model->stat = RepairWorker::STAT_OPEN;
+        $model->role = RepairWorker::ROLE_WORKER;
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $rw = Yii::$app->request->post('RepairWorker');
             $model->type = $rw['type'];
@@ -207,9 +208,11 @@ class RepairController extends Controller {
                 $model->save(false);
                 if ($model->uid) {
                     $auth = Yii::$app->authManager;
-                    $authRole = $auth->getRole('repair_worker');
-                    if (!$auth->getAssignment($authRole->name, $model->uid)) {
-                        $auth->assign($authRole, $model->uid);
+                    $Role_worker = $auth->getRole('repair_worker');
+                    $Role_admin = $auth->getRole('repair_admin');
+                    $Role_new = $model->role == RepairWorker::ROLE_ADMIN ? $Role_admin : $Role_worker;
+                    if (!$auth->getAssignment($Role_new->name, $model->uid)) {
+                        $auth->assign($Role_new, $model->uid);
                     }
                 }
                 if ($model->type) {
@@ -259,6 +262,7 @@ class RepairController extends Controller {
         $model->type = RepairWorker::get_worker_type($model->id);
         $model->area = RepairWorker::get_worker_area($model->id);
         $uid = $model->uid;
+        $role = $model->role;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $rw = Yii::$app->request->post('RepairWorker');
@@ -271,15 +275,20 @@ class RepairController extends Controller {
             try {
                 $model->save(false);
 
-                if ((int) $model->uid != $uid) {
+                if ((int) $model->uid != $uid || (int) $model->role != $role) {
 
                     $auth = Yii::$app->authManager;
-                    $authorRole = $auth->getRole('repair_worker');
-                    if (!RepairWorker::find()->where(['uid' => $uid])->andWhere(['<>', 'id', $model->id])->one()) {
-                        $auth->revoke($authorRole, $uid);
+                    $Role_worker = $auth->getRole('repair_worker');
+                    $Role_admin = $auth->getRole('repair_admin');
+                    $Role_new = $model->role == RepairWorker::ROLE_ADMIN ? $Role_admin : $Role_worker;
+                    $Role_old = $role == RepairWorker::ROLE_ADMIN ? $Role_admin : $Role_worker;
+
+                    if (!RepairWorker::find()->where(['uid' => $uid, 'role' => $role])->andWhere(['<>', 'id', $model->id])->one()) {
+                        $auth->revoke($Role_old, $uid);
                     }
-                    if ($model->uid && !$auth->getAssignment($authorRole->name, $model->uid)) {
-                        $auth->assign($authorRole, $model->uid);
+
+                    if ($model->uid && !$auth->getAssignment($Role_new->name, $model->uid)) {
+                        $auth->assign($Role_new, $model->uid);
                     }
                 }
                 $type->worker = $model->id;

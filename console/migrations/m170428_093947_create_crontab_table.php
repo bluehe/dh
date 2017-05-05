@@ -20,6 +20,8 @@ class m170428_093947_create_crontab_table extends Migration {
         }
         $this->createTable($table, [
             'id' => $this->primaryKey(),
+            'name' => $this->string()->notNull()->unique(),
+            'title' => $this->string()->notNull(),
             'start_at' => $this->integer()->notNull(),
             'end_at' => $this->integer(),
             'interval_time' => $this->integer(),
@@ -34,13 +36,14 @@ class m170428_093947_create_crontab_table extends Migration {
         $evaluate = \dms\models\RepairOrder::EVALUATE_VSAT;
 //        $this->execute("set GLOBAL event_scheduler = ON;");
         $this->execute("DROP EVENT IF EXISTS `event_repairorder`;");
-        $this->execute("CREATE EVENT `event_repairorder` ON SCHEDULE EVERY 1 DAY STARTS '2017-01-01 00:00:00'
+        $this->execute("CREATE EVENT `event_repairevaluate` ON SCHEDULE EVERY 1 DAY STARTS '2017-01-01 00:00:00'
             ENABLE
             DO
             BEGIN
                 UPDATE {$repair_order_table} SET stat={$stat_e},evaluate={$evaluate},end_at=unix_timestamp(now()),note='系统默认' WHERE stat={$stat_r} AND repair_at<unix_timestamp(now())-3600*24*7;
+                UPDATE {$table} SET exc_at=unix_timestamp(now()) WHERE name='repair_evaluate';
             END");
-        $this->insert($table, ['id' => 1, 'start_at' => 1483200000, 'end_at' => NULL, 'interval_time' => 86400, 'content' => " UPDATE {$repair_order_table} SET stat={$stat_e},evaluate={$evaluate},end_at=unix_timestamp(now()),note='系统默认' WHERE stat={$stat_r} AND repair_at<unix_timestamp(now())-3600*24*7", 'exc_at' => NULL, 'stat' => 1]);
+        $this->insert($table, ['id' => 1, 'name' => 'event_repairevaluate', 'title' => '维修完成7天后自动评价', 'start_at' => 1483200000, 'end_at' => NULL, 'interval_time' => 86400, 'content' => " UPDATE {$repair_order_table} SET stat={$stat_e},evaluate={$evaluate},end_at=unix_timestamp(now()),note='系统默认' WHERE stat={$stat_r} AND repair_at<unix_timestamp(now())-3600*24*7", 'exc_at' => NULL, 'stat' => 1]);
     }
 
     /**
@@ -48,7 +51,7 @@ class m170428_093947_create_crontab_table extends Migration {
      */
     public function down() {
         $this->dropTable('{{%crontab}}');
-        $this->execute('DROP EVENT IF EXISTS `event_repairorder`;');
+        $this->execute('DROP EVENT IF EXISTS `event_repairevaluate`;');
     }
 
 }

@@ -38,6 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             return $model->unit_id ? $model->unit->name : '';   //主要通过此种方式实现
                         },
                     ],
+                    [
+                        'attribute' => 'role',
+                        'value' =>
+                        function($model) {
+                            return $model->Role;   //主要通过此种方式实现
+                        },
+                    ],
                     'name',
                     'tel',
                     'email',

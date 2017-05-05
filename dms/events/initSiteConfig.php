@@ -49,12 +49,20 @@ class initSiteConfig extends Event {
         Yii::$app->name = $system['system_name'];
 
         //定时任务
-        $event_scheduler = Yii::$app->db->createCommand("SELECT @@event_scheduler;")->queryScalar();
-        if ($event_scheduler != 'ON') {
-            if (!Yii::$app->db->createCommand("set GLOBAL event_scheduler = ON;")->execute()) {
-                //未成功，不能通过mysql-event执行定时任务
-                self::crontab();
+        $event_scheduler = $cache->get('event_scheduler');
+
+        if ($event_scheduler === false) {
+            $event_scheduler = Yii::$app->db->createCommand("SELECT @@event_scheduler;")->queryScalar();
+            if ($event_scheduler != 'ON') {
+                Yii::$app->db->createCommand("set GLOBAL event_scheduler = ON;")->execute();
+                $event_scheduler = Yii::$app->db->createCommand("SELECT @@event_scheduler;")->queryScalar();
             }
+            $cache->set('event_scheduler', $event_scheduler);
+        }
+
+        if ($event_scheduler != 'ON') {
+            //未成功，不能通过mysql-event执行定时任务
+            self::crontab();
         }
 
         return true;

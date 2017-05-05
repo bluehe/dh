@@ -23,6 +23,8 @@ class RepairWorker extends \yii\db\ActiveRecord {
 
     const STAT_OPEN = 1;
     const STAT_CLOSE = 2;
+    const ROLE_ADMIN = 1;
+    const ROLE_WORKER = 2;
 
     public $type;
     public $area;
@@ -39,8 +41,8 @@ class RepairWorker extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['uid', 'unit_id', 'stat'], 'integer'],
-            [['name', 'tel'], 'required', 'message' => '{attribute}不能为空'],
+            [['uid', 'unit_id', 'role', 'stat'], 'integer'],
+            [['name', 'tel', 'role'], 'required', 'message' => '{attribute}不能为空'],
             [['name'], 'string', 'max' => 8, 'message' => '{attribute}最长8个字符'],
             [['tel', 'email'], 'string', 'max' => 64, 'message' => '{attribute}最长64个字符'],
             ['email', 'email', 'message' => '{attribute}格式错误'],
@@ -49,6 +51,8 @@ class RepairWorker extends \yii\db\ActiveRecord {
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['stat'], 'default', 'value' => self::STAT_OPEN],
             [['stat'], 'in', 'range' => [self::STAT_OPEN, self::STAT_CLOSE]],
+            [['role'], 'default', 'value' => self::ROLE_WORKER],
+            [['role'], 'in', 'range' => [self::ROLE_ADMIN, self::ROLE_WORKER]],
         ];
     }
 
@@ -67,6 +71,7 @@ class RepairWorker extends \yii\db\ActiveRecord {
             'note' => '备注',
             'stat' => '状态',
             'type' => '类型',
+            'role' => '角色',
             'area' => '区域',
         ];
     }
@@ -75,6 +80,10 @@ class RepairWorker extends \yii\db\ActiveRecord {
         'stat' => [
             self::STAT_OPEN => "启用",
             self::STAT_CLOSE => "关闭"
+        ],
+        'role' => [
+            self::ROLE_ADMIN => '管理员',
+            self::ROLE_WORKER => '维修工'
         ]
     ];
 
@@ -82,6 +91,12 @@ class RepairWorker extends \yii\db\ActiveRecord {
 
         $stat = self::$List['stat'][$this->stat];
         return isset($stat) ? $stat : null;
+    }
+
+    public function getRole() {
+
+        $role = self::$List['role'][$this->role];
+        return isset($role) ? $role : null;
     }
 
     /**

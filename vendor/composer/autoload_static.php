@@ -47,6 +47,7 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
             'kartik\\grid\\' => 12,
             'kartik\\file\\' => 12,
             'kartik\\dialog\\' => 14,
+            'kartik\\datetime\\' => 16,
             'kartik\\base\\' => 12,
         ),
         'd' => 
@@ -60,6 +61,7 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
         ),
         'b' => 
         array (
+            'bluehe\\phpexcel\\' => 16,
             'bluehe\\jcrop\\' => 13,
         ),
         'W' => 
@@ -178,6 +180,10 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog',
         ),
+        'kartik\\datetime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker',
+        ),
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
@@ -193,6 +199,10 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
         'callmez\\wechat\\sdk\\' => 
         array (
             0 => __DIR__ . '/..' . '/callmez/yii2-wechat-sdk',
+        ),
+        'bluehe\\phpexcel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bluehe/yii2-phpexcel',
         ),
         'bluehe\\jcrop\\' => 
         array (
@@ -285,6 +295,10 @@ class ComposerStaticInit965a7601d444bc11bdc6817974803f66
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
+            ),
+            'PHPExcel' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
             ),
         ),
         'I' => 
