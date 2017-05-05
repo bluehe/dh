@@ -1,5 +1,4 @@
 # yii console commands
-/yii
 /yii_test
 /yii_test.bat
 
@@ -36,3 +35,6 @@ phpunit.phar
 /dms/runtime/
 /dms/web/assets/
 /console/runtime/
+/dms/tests/
+/dms/web/data/
+!/vendor/

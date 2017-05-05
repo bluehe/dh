@@ -3,14 +3,15 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.3
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
+ * @version   3.1.4
  */
 
 namespace kartik\grid;
 
 use kartik\base\Config;
 use kartik\dialog\Dialog;
+use kartik\mpdf\Pdf;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonDropdown;
@@ -909,7 +910,7 @@ HTML;
     /**
      * Sets a default css class within `options` if not set
      *
-     * @param array $options the HTML options
+     * @param array  $options the HTML options
      * @param string $css the CSS class to test and append
      */
     protected static function initCss(&$options, $css)
@@ -1051,30 +1052,40 @@ HTML;
                 is_array($action) ? $action : [$action],
                 'post',
                 [
-                   'class' => 'kv-export-form',
-                   'style' => 'display:none',
-                   'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
+                    'class' => 'kv-export-form',
+                    'style' => 'display:none',
+                    'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
                 ]
             ) . "\n" .
+            Html::hiddenInput('export_hash') . "\n" .
             Html::hiddenInput('export_filetype') . "\n" .
             Html::hiddenInput('export_filename') . "\n" .
             Html::hiddenInput('export_mime') . "\n" .
             Html::hiddenInput('export_config') . "\n" .
             Html::hiddenInput('export_encoding', $encoding) . "\n" .
             Html::hiddenInput('export_bom', $bom) . "\n" .
-            Html::textarea('export_content') . "\n</form>";
+            Html::textarea('export_content') . "\n" .
+            "</form>";
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($this->exportConfig as $format => $setting) {
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
             Html::addCssClass($iconOptions, $iconPrefix . $setting['icon']);
             $label = (empty($setting['icon']) || $setting['icon'] == '') ? $setting['label'] :
                 Html::tag('i', '', $iconOptions) . ' ' . $setting['label'];
+            $mime = ArrayHelper::getValue($setting, 'mime', 'text/plain');
+            $config = ArrayHelper::getValue($setting, 'config', []);
+            if ($format === self::JSON) {
+                unset($config['jsonReplacer']);
+            }
+            $dataToHash = $setting['filename'] . $mime . $encoding . $bom . Json::encode($config);
+            $hash = Yii::$app->security->hashData($dataToHash, $this->_module->exportEncryptSalt);
             $items[] = [
                 'label' => $label,
                 'url' => '#',
                 'linkOptions' => [
                     'class' => 'export-' . $format,
-                    'data-format' => ArrayHelper::getValue($setting, 'mime', 'text/plain'),
+                    'data-mime' => $mime,
+                    'data-hash' => $hash,
                 ],
                 'options' => $setting['options'],
             ];
@@ -1379,6 +1390,12 @@ HTML;
                 ],
             ],
         ];
+
+        // Remove PDF if dependency is not loaded.
+        if (!class_exists("\\kartik\\mpdf\\Pdf")) {
+            unset($defaultExportConfig[self::PDF]);
+        }
+
         $this->exportConfig = self::parseExportConfig($this->exportConfig, $defaultExportConfig);
     }
 
@@ -1731,9 +1748,10 @@ HTML;
         }
         Dialog::widget($this->krajeeDialogSettings);
         $gridId = $this->options['id'];
+        $NS = '.' . str_replace('-', '_', $gridId);
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
-            $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
+            $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK);
             $gridOpts = Json::encode(
                 [
                     'gridId' => $gridId,
@@ -1771,6 +1789,7 @@ HTML;
                 $script .= "{$id}.gridexport({$expOptsVar});";
             }
         }
+        $container = '$("#' . $this->containerOptions['id'] . '")';
         if ($this->resizableColumns) {
             $rcDefaults = [];
             if ($this->persistResize) {
@@ -1779,11 +1798,9 @@ HTML;
                 $rcDefaults = ['store' => null];
             }
             $rcOptions = Json::encode(array_replace_recursive($rcDefaults, $this->resizableColumnsOptions));
-            $contId = $this->containerOptions['id'];
             GridResizeColumnsAsset::register($view);
-            $script .= "$('#{$contId}').resizableColumns('destroy').resizableColumns({$rcOptions});";
+            $script .= "{$container}.resizableColumns('destroy').resizableColumns({$rcOptions});";
         }
-        $container = "\$('#{$this->containerOptions['id']}')";
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
             // fix floating header for IE browser when using group grid functionality
@@ -1800,6 +1817,12 @@ HTML;
             $this->floatHeaderOptions = array_replace_recursive($opts, $this->floatHeaderOptions);
             $opts = Json::encode($this->floatHeaderOptions);
             $script .= "$('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
+            // integrate resizeableColumns with floatThead
+            if ($this->resizableColumns) {
+                $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){" .
+                    "\$('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow');" .
+                    "});";
+            }
         }
         if ($this->perfectScrollbar) {
             GridPerfectScrollbarAsset::register($view);

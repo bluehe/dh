@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -30,18 +29,16 @@ use yii\helpers\ArrayHelper;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class BaseImage {
-
+class BaseImage
+{
     /**
      * GD2 driver definition for Imagine implementation using the GD library.
      */
     const DRIVER_GD2 = 'gd2';
-
     /**
      * imagick driver definition.
      */
     const DRIVER_IMAGICK = 'imagick';
-
     /**
      * gmagick driver definition.
      */
@@ -52,11 +49,11 @@ class BaseImage {
      * If the latter, the first available driver will be used.
      */
     public static $driver = [self::DRIVER_GMAGICK, self::DRIVER_IMAGICK, self::DRIVER_GD2];
-
     /**
      * @var ImagineInterface instance.
      */
     private static $_imagine;
+
 
     /**
      * @var string background color to use when creating thumbnails in `ImageInterface::THUMBNAIL_INSET` mode with
@@ -65,7 +62,6 @@ class BaseImage {
      * @since 2.0.4
      */
     public static $thumbnailBackgroundColor = 'FFF';
-
     /**
      * @var string background alpha (transparency) to use when creating thumbnails in `ImageInterface::THUMBNAIL_INSET`
      * mode with both width and height specified. Default is solid.
@@ -78,7 +74,8 @@ class BaseImage {
      * Returns the `Imagine` object that supports various image manipulations.
      * @return ImagineInterface the `Imagine` object
      */
-    public static function getImagine() {
+    public static function getImagine()
+    {
         if (self::$_imagine === null) {
             self::$_imagine = static::createImagine();
         }
@@ -89,7 +86,8 @@ class BaseImage {
     /**
      * @param ImagineInterface $imagine the `Imagine` object.
      */
-    public static function setImagine($imagine) {
+    public static function setImagine($imagine)
+    {
         self::$_imagine = $imagine;
     }
 
@@ -98,7 +96,8 @@ class BaseImage {
      * @return ImagineInterface the new `Imagine` object
      * @throws InvalidConfigException if [[driver]] is unknown or the system doesn't support any [[driver]].
      */
-    protected static function createImagine() {
+    protected static function createImagine()
+    {
         foreach ((array) static::$driver as $driver) {
             switch ($driver) {
                 case self::DRIVER_GMAGICK:
@@ -131,7 +130,8 @@ class BaseImage {
      * @throws \yii\base\InvalidParamException
      * @since 2.1.0
      */
-    protected static function ensureImageInterfaceInstance($image) {
+    protected static function ensureImageInterfaceInstance($image)
+    {
         if ($image instanceof ImageInterface) {
             return $image;
         }
@@ -166,14 +166,15 @@ class BaseImage {
      * @return ImageInterface
      * @throws InvalidParamException if the `$start` parameter is invalid
      */
-    public static function crop($image, $width, $height, array $start = [0, 0]) {
+    public static function crop($image, $width, $height, array $start = [0, 0])
+    {
         if (!isset($start[0], $start[1])) {
             throw new InvalidParamException('$start must be an array of two elements.');
         }
 
         return static::ensureImageInterfaceInstance($image)
-                        ->copy()
-                        ->crop(new Point($start[0], $start[1]), new Box($width, $height));
+            ->copy()
+            ->crop(new Point($start[0], $start[1]), new Box($width, $height));
     }
 
     /**
@@ -184,8 +185,9 @@ class BaseImage {
      * @return \Imagine\Image\ImageInterface
      * @since 2.1.0
      */
-    public static function autorotate($image, $color = '000000') {
-        return (new Autorotate($color))->apply(static::ensureImageInterfaceInstance($image));
+    public static function autorotate($image, $color = '000000')
+    {
+    	return (new Autorotate($color))->apply(static::ensureImageInterfaceInstance($image));
     }
 
     /**
@@ -212,7 +214,8 @@ class BaseImage {
      * @param string $mode mode of resizing original image to use in case both width and height specified
      * @return ImageInterface
      */
-    public static function thumbnail($image, $width, $height, $mode = ManipulatorInterface::THUMBNAIL_OUTBOUND) {
+    public static function thumbnail($image, $width, $height, $mode = ManipulatorInterface::THUMBNAIL_OUTBOUND)
+    {
         $img = self::ensureImageInterfaceInstance($image);
 
         /** @var BoxInterface $sourceBox */
@@ -275,7 +278,8 @@ class BaseImage {
      *
      * @since 2.1.1
      */
-    public static function resize($image, $width, $height, $keepAspectRatio = true, $allowUpscaling = false) {
+    public static function resize($image, $width, $height, $keepAspectRatio = true, $allowUpscaling = false)
+    {
         $img = self::ensureImageInterfaceInstance($image)->copy();
 
         /** @var BoxInterface $sourceBox */
@@ -297,7 +301,8 @@ class BaseImage {
      * @return ImageInterface
      * @throws InvalidParamException if `$start` is invalid
      */
-    public static function watermark($image, $watermarkImage, array $start = [0, 0]) {
+    public static function watermark($image, $watermarkImage, array $start = [0, 0])
+    {
         if (!isset($start[0], $start[1])) {
             throw new InvalidParamException('$start must be an array of two elements.');
         }
@@ -324,7 +329,8 @@ class BaseImage {
      * @return ImageInterface
      * @throws InvalidParamException if `$fontOptions` is invalid
      */
-    public static function text($image, $text, $fontFile, array $start = [0, 0], array $fontOptions = []) {
+    public static function text($image, $text, $fontFile, array $start = [0, 0], array $fontOptions = [])
+    {
         if (!isset($start[0], $start[1])) {
             throw new InvalidParamException('$start must be an array of two elements.');
         }
@@ -352,7 +358,8 @@ class BaseImage {
      * @param int $alpha the alpha value of the frame.
      * @return ImageInterface
      */
-    public static function frame($image, $margin = 20, $color = '666', $alpha = 100) {
+    public static function frame($image, $margin = 20, $color = '666', $alpha = 100)
+    {
         $img = static::getImagine()->open(Yii::getAlias($image));
 
         $size = $img->getSize();
@@ -382,13 +389,15 @@ class BaseImage {
      *
      * @since 2.0.4
      */
-    protected static function getThumbnailBox(BoxInterface $sourceBox, $width, $height) {
+    protected static function getThumbnailBox(BoxInterface $sourceBox, $width, $height)
+    {
         if ($width !== null && $height !== null) {
             return new Box($width, $height);
         }
 
         return self::getBox($sourceBox, $width, $height, false);
     }
+
 
     /**
      * Returns box for an image to be created.
@@ -408,7 +417,8 @@ class BaseImage {
      *
      * @since 2.1.1
      */
-    protected static function getBox(BoxInterface $sourceBox, $width, $height, $keepAspectRatio = true) {
+    protected static function getBox(BoxInterface $sourceBox, $width, $height, $keepAspectRatio = true)
+    {
         if ($width === null && $height === null) {
             throw new InvalidParamException('Width and height cannot be null at same time.');
         }
@@ -442,8 +452,8 @@ class BaseImage {
      * @param BoxInterface $destinationBox
      * @return bool
      */
-    protected static function isUpscaling(BoxInterface $sourceBox, BoxInterface $destinationBox) {
+    protected  static function isUpscaling(BoxInterface $sourceBox, BoxInterface $destinationBox)
+    {
         return ($sourceBox->getWidth() <= $destinationBox->getWidth() && $sourceBox->getHeight() <= $destinationBox->getHeight()) || (!$destinationBox->getWidth() && !$destinationBox->getHeight());
     }
-
 }

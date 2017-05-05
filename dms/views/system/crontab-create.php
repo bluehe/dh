@@ -8,10 +8,10 @@ $this->params['breadcrumbs'][] = ['label' => '计划任务', 'url' => ['crontab'
 ?>
 <div class="crontab-create">
 
-<?=
-$this->render('_form-crontab', [
-    'model' => $model,
-])
-?>
+    <?=
+    $this->render('_form-crontab', [
+        'model' => $model,
+    ])
+    ?>
 
 </div>
