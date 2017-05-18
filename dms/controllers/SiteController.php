@@ -204,7 +204,6 @@ class SiteController extends Controller {
         $total['user'] = User::find()->count();
         // 创建一个 DB 查询来获得所有 status 为 1 的文章
         $query = Bed::find()->where(['stat' => Bed::STAT_OPEN]);
-
 // 得到文章的总数（但是还没有从数据库取数据）
         $count = $query->count();
 

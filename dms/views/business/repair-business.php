@@ -51,7 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'address',
                     //'title',
                     'content',
-                    // 'evaluate',
 //                    [
 //                        "attribute" => "created_at",
 //                        "format" => ["date", "php:Y-m-d H:i:s"],

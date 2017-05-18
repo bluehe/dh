@@ -12,6 +12,7 @@ class SignupForm extends Model {
 
     public $username;
     public $email;
+    public $tel;
     public $password;
     public $password1;
     public $verifyCode;
@@ -21,21 +22,17 @@ class SignupForm extends Model {
      */
     public function rules() {
         return [
-            ['username', 'trim'],
-            ['username', 'required', 'message' => '用户名不能为空'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => '用户名已经存在'],
+            [['username', 'email', 'tel'], 'trim'],
+            ['username', 'required', 'message' => '{attribute}不能为空'],
+            [['username', 'email', 'tel'], 'unique', 'targetClass' => '\common\models\User', 'message' => '{attribute}已经存在'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-            ['email', 'trim'],
-            ['email', 'required', 'message' => 'E-mail不能为空'],
-            ['email', 'email', 'message' => 'E-mail格式不正确'],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'E-mail已经存在'],
+            ['email', 'email', 'message' => '{attribute}格式不正确'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'E-mail已经被使用'],
             [['password', 'password1'], 'required', 'message' => '密码不能为空'],
-            ['password', 'string', 'min' => 4, 'message' => '密码不能少于4个字符'],
+            ['password', 'string', 'min' => 4, 'message' => '{attribute}不能少于4个字符'],
             ['password1', 'compare', 'compareAttribute' => 'password', 'message' => '两次密码不一致'],
             // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha', 'message' => '验证码不正确', 'on' => 'captchaRequired'],
+            ['verifyCode', 'captcha', 'message' => '{attribute}不正确', 'on' => 'captchaRequired'],
         ];
     }
 
@@ -46,6 +43,7 @@ class SignupForm extends Model {
         return array(
             'username' => '用户名',
             'email' => '电子邮件',
+            'tel' => '联系电话',
             'password' => '密码',
             'password1' => '确认密码',
             'verifyCode' => '验证码'
@@ -65,6 +63,7 @@ class SignupForm extends Model {
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->tel = $this->tel;
         $user->setPassword($this->password);
         $user->generateAuthKey();
 

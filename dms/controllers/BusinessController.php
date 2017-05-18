@@ -131,10 +131,14 @@ class BusinessController extends Controller {
 
     public function actionRepairEvaluate($id) {
         $model = RepairOrder::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => RepairOrder::STAT_REPAIRED]);
+        $model->evaluate1 = RepairOrder::EVALUATE_VSAT;
+        $model->evaluate2 = RepairOrder::EVALUATE_VSAT;
+        $model->evaluate3 = RepairOrder::EVALUATE_VSAT;
 
         if ($model->load(Yii::$app->request->post())) {
 
             $model->stat = RepairOrder::STAT_EVALUATE;
+            $model->evaluate = RepairOrder::EVALUATE_USER;
             $model->end_at = time();
 
 

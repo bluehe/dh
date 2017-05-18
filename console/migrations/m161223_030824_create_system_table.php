@@ -62,6 +62,7 @@ class m161223_030824_create_system_table extends Migration {
             [405, 4, 'business_repair', '报修设置', 'radio', '{"1":"类型区域必填","2":"类型区域可为空"}', '', '1', 5],
             [406, 4, 'business_accept', '报修受理', 'radio', '{"1":"派工","2":"受理"}', '', '1', 6],
             [407, 4, 'business_dispatch', '派工设置', 'radio', '{"1":"全部","2":"匹配"}', '', '2', 7],
+            [408, 4, 'business_repairupdate', '报修修改', 'radio', '{"1":"允许","2":"不允许"}', '', '1', 8],
         ]);
     }
 

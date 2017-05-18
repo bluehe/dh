@@ -30,9 +30,9 @@ use yii\helpers\ArrayHelper;
 class RepairOrder extends ActiveRecord {
 
     const STAT_OPEN = 1;
-    const STAT_CLOSE = -1;
+    const STAT_CLOSE = -2;
     const STAT_ACCEPT = 2;
-    const STAT_NO_ACCEPT = -2;
+    const STAT_NO_ACCEPT = -1;
     const STAT_DISPATCH = 3;
     const STAT_REPAIRED = 4;
     const STAT_EVALUATE = 5;
@@ -41,6 +41,8 @@ class RepairOrder extends ActiveRecord {
     const EVALUATE_COM = 3;
     const EVALUATE_DIS = 2;
     const EVALUATE_VDIS = 1;
+    const EVALUATE_SYSTEM = 1;
+    const EVALUATE_USER = 2;
 
     /**
      * @inheritdoc
@@ -54,7 +56,7 @@ class RepairOrder extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['uid', 'repair_type', 'repair_area', 'evaluate', 'created_at', 'accept_at', 'accept_uid', 'dispatch_at', 'dispatch_uid', 'repair_at', 'repair_uid', 'worker_id', 'end_at', 'stat'], 'integer'],
+            [['uid', 'repair_type', 'repair_area', 'evaluate1', 'evaluate2', 'evaluate3', 'created_at', 'accept_at', 'accept_uid', 'dispatch_at', 'dispatch_uid', 'repair_at', 'repair_uid', 'worker_id', 'end_at', 'evaluate', 'stat'], 'integer'],
             [['address', 'content', 'created_at', 'serial'], 'required', 'message' => '{attribute}不能为空'],
             [['worker_id'], 'required', 'message' => '{attribute}不能为空', 'on' => 'dispatch'],
             [['repair_type', 'repair_area'], 'required', 'message' => '{attribute}不能为空', 'on' => 'repair'],
@@ -80,7 +82,9 @@ class RepairOrder extends ActiveRecord {
             'address' => '详细地址',
             'title' => '标题',
             'content' => '内容',
-            'evaluate' => '评价',
+            'evaluate1' => '服务态度',
+            'evaluate2' => '响应速度',
+            'evaluate3' => '服务质量',
             'created_at' => '报修时间',
             'accept_at' => '受理时间',
             'accept_uid' => '受理人',
@@ -91,6 +95,7 @@ class RepairOrder extends ActiveRecord {
             'worker_id' => '维修工',
             'end_at' => '结束时间',
             'note' => '备注',
+            'evaluate' => '评价人',
             'stat' => '状态',
         ];
     }
@@ -111,6 +116,10 @@ class RepairOrder extends ActiveRecord {
             self::EVALUATE_COM => '一般',
             self::EVALUATE_DIS => '不满意',
             self::EVALUATE_VDIS => '非常不满意',
+        ],
+        'evaluate_user' => [
+            self::EVALUATE_SYSTEM => '系统',
+            self::EVALUATE_USER => '用户',
         ]
     ];
 
@@ -120,9 +129,21 @@ class RepairOrder extends ActiveRecord {
         return isset($stat) ? $stat : null;
     }
 
-    public function getEvaluate() {
+    public function getEvaluate1() {
 
-        $evaluate = self::$List['evaluate'][$this->evaluate];
+        $evaluate = self::$List['evaluate'][$this->evaluate1];
+        return isset($evaluate) ? $evaluate : null;
+    }
+
+    public function getEvaluate2() {
+
+        $evaluate = self::$List['evaluate'][$this->evaluate2];
+        return isset($evaluate) ? $evaluate : null;
+    }
+
+    public function getEvaluate3() {
+
+        $evaluate = self::$List['evaluate'][$this->evaluate3];
         return isset($evaluate) ? $evaluate : null;
     }
 
@@ -131,6 +152,13 @@ class RepairOrder extends ActiveRecord {
      */
     public function getU() {
         return $this->hasOne(User::className(), ['id' => 'uid']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser($uid) {
+        return User::findIdentity($uid);
     }
 
     /**

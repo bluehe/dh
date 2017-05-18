@@ -97,10 +97,10 @@ class WorkController extends Controller {
                     'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
                 ],
                 [
-                    'attribute' => 'evaluate',
+                    'attribute' => 'evaluate1',
                     'value' =>
                     function($model) {
-                        return $model->evaluate ? $model->Evaluate : NULL;   //主要通过此种方式实现
+                        return $model->evaluate1 ? $model->Evaluate1 : NULL;   //主要通过此种方式实现
                     },
                     'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
                 ],
@@ -174,8 +174,54 @@ class WorkController extends Controller {
      * @param integer $id
      * @return mixed
      */
+    public function actionRepairUpdate($id) {
+        $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
+        if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+        }
+        $model = $query->one();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+//            if (Yii::$app->request->isAjax) {
+//                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+//                return \yii\widgets\ActiveForm::validate($model);
+//            }
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '操作成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '操作失败。');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            if ($model !== null) {
+                return $this->renderAjax('repair-update', [
+                            'model' => $model,
+                ]);
+            } else {
+                Yii::$app->session->setFlash('error', '没有权限。');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+    }
+
+    /**
+     * Updates an existing RepairOrder model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
     public function actionRepairAccept($id) {
-        $model = RepairOrder::findOne(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
+        $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
+        if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+        }
+        $model = $query->one();
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -232,7 +278,13 @@ class WorkController extends Controller {
         $transaction = Yii::$app->db->beginTransaction(); //事务无效
         try {
             foreach ($order_ids as $id) {
-                $model = RepairOrder::findOne(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
+                $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
+                if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+                    $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+                    $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+                    $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+                }
+                $model = $query->one();
                 if ($model !== null) {
                     if ($business_accept === '1') {
 

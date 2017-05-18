@@ -23,6 +23,10 @@ $fieldOptions3 = [
     'options' => ['class' => 'form-group has-feedback'],
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
 ];
+$fieldOptions4 = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-phone form-control-feedback'></span>"
+];
 ?>
 
 <div class="login-box">
@@ -46,13 +50,6 @@ $fieldOptions3 = [
         ?>
         <?=
                 $form
-                ->field($model, 'email', $fieldOptions2)
-                ->label(false)
-                ->textInput(['placeholder' => $model->getAttributeLabel('email')])
-        ?>
-
-        <?=
-                $form
                 ->field($model, 'password', $fieldOptions3)
                 ->label(false)
                 ->passwordInput(['placeholder' => $model->getAttributeLabel('password')])
@@ -63,6 +60,21 @@ $fieldOptions3 = [
                 ->label(false)
                 ->passwordInput(['placeholder' => $model->getAttributeLabel('password1')])
         ?>
+        <?=
+                $form
+                ->field($model, 'email', $fieldOptions2)
+                ->label(false)
+                ->textInput(['placeholder' => $model->getAttributeLabel('email')])
+        ?>
+
+        <?=
+                $form
+                ->field($model, 'tel', $fieldOptions4)
+                ->label(false)
+                ->textInput(['placeholder' => $model->getAttributeLabel('tel')])
+        ?>
+
+
         <?php if ($model->scenario == 'captchaRequired'): ?>
             <?=
             $form->field($model, 'verifyCode')->widget(Captcha::className(), [

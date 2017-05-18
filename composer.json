@@ -28,7 +28,8 @@
         "yiisoft/yii2-authclient": "*",
         "callmez/yii2-wechat-sdk": "dev-master",
         "kartik-v/yii2-widget-datetimepicker": "*",
-        "bluehe/yii2-phpexcel": "*"
+        "bluehe/yii2-phpexcel": "*",
+        "kartik-v/yii2-widget-rating": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

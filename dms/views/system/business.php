@@ -51,6 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                             break;
                                         case 'business_dispatch':echo '选择“全部”显示全部维修人员，选择“匹配”只会选择符合类型和地区的维修人员（批量受理如果为直接派工，将自动随机分派）。';
                                             break;
+                                        case 'business_repairupdate':echo '是否允许管理员受理报修单前对报修单进行修改。';
+                                            break;
                                         default:echo '';
                                     }
                                     ?></div></div>

@@ -17,7 +17,7 @@ class RepairOrderSearch extends RepairOrder {
      */
     public function rules() {
         return [
-            [['id', 'uid', 'repair_type', 'repair_area', 'evaluate', 'accept_at', 'accept_uid', 'repair_at', 'repair_uid', 'worker_id', 'end_at', 'stat'], 'integer'],
+            [['id', 'uid', 'repair_type', 'repair_area', 'evaluate1', 'evaluate2', 'evaluate3', 'accept_at', 'accept_uid', 'repair_at', 'repair_uid', 'worker_id', 'end_at', 'evaluate', 'stat'], 'integer'],
             [['serial', 'address', 'title', 'content', 'created_at', 'note'], 'safe'],
         ];
     }
@@ -84,13 +84,16 @@ class RepairOrderSearch extends RepairOrder {
             'uid' => $this->uid,
             'repair_type' => $this->repair_type,
             'repair_area' => $this->repair_area,
-            'evaluate' => $this->evaluate,
+            'evaluate1' => $this->evaluate1,
+            'evaluate2' => $this->evaluate2,
+            'evaluate3' => $this->evaluate3,
             'accept_at' => $this->accept_at,
             'accept_uid' => $this->accept_uid,
             'repair_at' => $this->repair_at,
             'repair_uid' => $this->repair_uid,
             'worker_id' => $this->worker_id,
             'end_at' => $this->end_at,
+            'evaluate' => $this->evaluate,
             '{{%repair_order}}.stat' => $this->stat,
         ]);
 

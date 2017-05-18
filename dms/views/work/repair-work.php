@@ -3,9 +3,10 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
+//use yii\widgets\Pjax;
 use dms\models\RepairOrder;
 use yii\bootstrap\Modal;
+use dms\models\System;
 
 /* @var $this yii\web\View */
 /* @var $searchModel dms\models\RepairOrderSearch */
@@ -85,10 +86,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'evaluate_at',
                     // 'note',
                     [
-                        'attribute' => 'evaluate',
+                        'attribute' => 'evaluate1',
                         'value' =>
                         function($model) {
-                            return $model->evaluate ? $model->Evaluate : NULL;   //主要通过此种方式实现
+                            return $model->evaluate1 ? $model->Evaluate1 : NULL;   //主要通过此种方式实现
                         },
                         'filter' => RepairOrder::$List['evaluate'],
                         'footerOptions' => ['class' => 'hide'],
@@ -105,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\ActionColumn',
                         'header' => '操作',
                         'footerOptions' => ['class' => 'hide'],
-                        'template' => '{view} {accept} {dispatch} {repair}', //只需要展示删除和更新
+                        'template' => '{view} {update} {accept} {dispatch} {repair}', //只需要展示删除和更新
                         'buttons' => [
                             'view' => function($url, $model, $key) {
                                 return Html::a('<i class="fa fa-eye"></i> 详情', '#', [
@@ -113,6 +114,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'data-target' => '#view-modal',
                                             'class' => 'btn btn-success btn-xs view',
                                 ]);
+                            },
+                            'update' => function($url, $model, $key) {
+                                if ($model->stat === RepairOrder::STAT_OPEN && System::getValue('business_repairupdate') === '1') {
+
+//                                    return Html::a('<i class="fa fa-pencil"></i> 修改', ['repair-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+
+                                    return Html::a('<i class="fa fa-pencil"></i> 修改', '#', [
+                                                'data-toggle' => 'modal',
+                                                'data-target' => '#view-modal',
+                                                'class' => 'btn btn-warning btn-xs update',
+                                    ]);
+                                }
                             },
                             'accept' => function($url, $model, $key) {
                                 if ($model->stat === RepairOrder::STAT_OPEN) {
@@ -180,6 +193,14 @@ Modal::end();
     $('.view').on('click', function () {
         $('.modal-title').html('报修详情');
         $.get('<?= Url::toRoute('repair-view') ?>', {id: $(this).closest('tr').data('key')},
+                function (data) {
+                    $('.modal-body').html(data);
+                }
+        );
+    });
+    $('.update').on('click', function () {
+        $('.modal-title').html('报修修改');
+        $.get('<?= Url::toRoute('repair-update') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);
                 }

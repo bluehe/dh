@@ -33,15 +33,15 @@ return [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.ym.163.com',
-                'username' => 'admin@ds9b.com',
-                'password' => 'he19881006',
+                'host' => 'smtp.exmail.qq.com',
+                'username' => 'admin@gxgygl.com',
+                'password' => 'He19881006',
                 'port' => '25',
                 'encryption' => 'tls',
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['admin@ds9b.com' => '管理系统']
+                'from' => ['admin@gxgygl.com' => '管理系统']
             ],
         ],
         'cache' => [

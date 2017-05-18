@@ -42,6 +42,7 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
         ),
         'k' => 
         array (
+            'kartik\\rating\\' => 14,
             'kartik\\plugins\\fileinput\\' => 25,
             'kartik\\mpdf\\' => 12,
             'kartik\\grid\\' => 12,
@@ -159,6 +160,10 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
         'mdm\\admin\\' => 
         array (
             0 => __DIR__ . '/..' . '/mdmsoft/yii2-admin',
+        ),
+        'kartik\\rating\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-rating',
         ),
         'kartik\\plugins\\fileinput\\' => 
         array (

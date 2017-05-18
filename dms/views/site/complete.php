@@ -23,6 +23,10 @@ $fieldOptions3 = [
     'options' => ['class' => 'form-group has-feedback'],
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
 ];
+$fieldOptions4 = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-phone form-control-feedback'></span>"
+];
 ?>
 
 <div class="login-box">
@@ -94,12 +98,7 @@ $fieldOptions3 = [
                             ->label(false)
                             ->textInput(['placeholder' => $model_s->getAttributeLabel('username')])
                     ?>
-                    <?=
-                            $form
-                            ->field($model_s, 'email', $fieldOptions2)
-                            ->label(false)
-                            ->textInput(['placeholder' => $model_s->getAttributeLabel('email')])
-                    ?>
+
 
                     <?=
                             $form
@@ -112,6 +111,20 @@ $fieldOptions3 = [
                             ->field($model_s, 'password1', $fieldOptions3)
                             ->label(false)
                             ->passwordInput(['placeholder' => $model_s->getAttributeLabel('password1')])
+                    ?>
+
+                    <?=
+                            $form
+                            ->field($model_s, 'email', $fieldOptions2)
+                            ->label(false)
+                            ->textInput(['placeholder' => $model_s->getAttributeLabel('email')])
+                    ?>
+
+                    <?=
+                            $form
+                            ->field($model_s, 'tel', $fieldOptions4)
+                            ->label(false)
+                            ->textInput(['placeholder' => $model_s->getAttributeLabel('tel')])
                     ?>
                     <?php if ($model_s->scenario == 'captchaRequired'): ?>
                         <?=

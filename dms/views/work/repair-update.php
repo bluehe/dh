@@ -3,7 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dms\models\RepairOrder;
-use kartik\rating\StarRating;
+use dms\models\Room;
+use dms\models\RepairWorker;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\RepairOrder */
@@ -12,7 +13,8 @@ use kartik\rating\StarRating;
     <div class="col-md-12">
 
         <?php
-        $form = ActiveForm::begin(['id' => 'repair-order-evaluate-form',
+        $form = ActiveForm::begin(['id' => 'repair-order-update-form',
+//                    'enableAjaxValidation' => true,
                     'options' => ['class' => 'form-horizontal'],
                     'fieldConfig' => [
                         'template' => "{label}\n<div class=\"col-md-6\">{input}</div>\n<div class=\"col-md-3\">{error}</div>",
@@ -21,23 +23,14 @@ use kartik\rating\StarRating;
         ]);
         ?>
 
-        <?=
-        $form->field($model, 'evaluate1')->widget(StarRating::classname(), [
-            'pluginOptions' => ['step' => 1, 'showClear' => false, 'size' => 'xs', 'starCaptions' => RepairOrder::$List['evaluate']]
-        ])
-        ?>
-        <?=
-        $form->field($model, 'evaluate2')->widget(StarRating::classname(), [
-            'pluginOptions' => ['step' => 1, 'showClear' => false, 'size' => 'xs', 'starCaptions' => RepairOrder::$List['evaluate']]
-        ])
-        ?>
-        <?=
-        $form->field($model, 'evaluate3')->widget(StarRating::classname(), [
-            'pluginOptions' => ['step' => 1, 'showClear' => false, 'size' => 'xs', 'starCaptions' => RepairOrder::$List['evaluate']]
-        ])
-        ?>
+        <?= $form->field($model, 'repair_type')->dropDownList(RepairWorker::get_type_id(), ['prompt' => '无']) ?>
 
-        <?= $form->field($model, 'note')->textarea(['maxlength' => true, 'rows' => '6'])->label('评价详情') ?>
+        <?= $form->field($model, 'repair_area')->dropDownList(Room::get_forum_id(), ['prompt' => '无']) ?>
+
+        <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'content')->textarea(['maxlength' => true, 'rows' => '6']) ?>
+
 
         <div class="col-md-6 col-xs-6 text-right">
 
