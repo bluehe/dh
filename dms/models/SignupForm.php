@@ -2,6 +2,7 @@
 
 namespace dms\models;
 
+use Yii;
 use yii\base\Model;
 use common\models\User;
 
@@ -67,7 +68,14 @@ class SignupForm extends Model {
         $user->setPassword($this->password);
         $user->generateAuthKey();
 
-        return $user->save() ? $user : null;
+        if ($user->save()) {
+            $auth = Yii::$app->authManager;
+            $role = $auth->getRole('member');
+            $auth->assign($role, $user->id);
+            return $user;
+        } else {
+            return null;
+        }
     }
 
 }

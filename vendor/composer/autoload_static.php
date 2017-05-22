@@ -9,8 +9,8 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
     );
 
@@ -38,6 +38,7 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
         ),
         'm' => 
         array (
+            'miloschuman\\highcharts\\' => 23,
             'mdm\\admin\\' => 10,
         ),
         'k' => 
@@ -49,6 +50,7 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
             'kartik\\file\\' => 12,
             'kartik\\dialog\\' => 14,
             'kartik\\datetime\\' => 16,
+            'kartik\\daterange\\' => 17,
             'kartik\\base\\' => 12,
         ),
         'd' => 
@@ -157,6 +159,10 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
+        'miloschuman\\highcharts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/miloschuman/yii2-highcharts-widget/src',
+        ),
         'mdm\\admin\\' => 
         array (
             0 => __DIR__ . '/..' . '/mdmsoft/yii2-admin',
@@ -188,6 +194,10 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
         'kartik\\datetime\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker',
+        ),
+        'kartik\\daterange\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-date-range',
         ),
         'kartik\\base\\' => 
         array (

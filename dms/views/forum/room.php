@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'yii\grid\CheckboxColumn',
                         'name' => 'id',
                         'footer' => Html::a('<i class="fa fa-trash-o"></i> 批量删除', 'javascript:void(0);', ['class' => 'btn btn-danger btn-xs deleteall']),
-                        'footerOptions' => ['colspan' => 7],
+                        'footerOptions' => ['colspan' => 8],
                     ],
                     [
                         'attribute' => 'fid',
@@ -62,6 +62,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     ['attribute' => 'name', 'footerOptions' => ['class' => 'hide'],],
                     ['attribute' => 'note', 'footerOptions' => ['class' => 'hide'],],
+                    ['attribute' => 'gender',
+                        'value' => //'colleges.name',
+                        function($model) {
+                            return $model->Gender;   //主要通过此种方式实现
+                        },
+                        'filter' => Room::$List['gender'], //此处我们可以将筛选项组合成key-value形式
+                        'footerOptions' => ['class' => 'hide'],],
                     [
                         'attribute' => 'stat',
                         'value' => //'colleges.name',

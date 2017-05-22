@@ -308,7 +308,7 @@ class ForumController extends Controller {
                     $model->save(false);
                     if (!$model->rid) {
                         //大室平调,小室需要变更楼苑、楼层、标志;大室变小室，有下属小室,不准变更,否则本步不需要处理
-                        Room::updateAll(['fname' => $model->name, 'fid' => $model->fid, 'floor' => $model->floor], ['rid' => $model->id]);
+                        Room::updateAll(['fname' => $model->name, 'fid' => $model->fid, 'floor' => $model->floor, 'gender' => $model->gender], ['rid' => $model->id]);
                     }
 
                     $transaction->commit();
@@ -319,11 +319,11 @@ class ForumController extends Controller {
 //                throw $e;
                     Yii::$app->session->setFlash('error', '修改失败。');
                 }
+                return $this->redirect(Yii::$app->session->get('room_url'));
             }
         }
-        return $this->render('room-update', [
-                    'model' => $model,
-        ]);
+        Yii::$app->session->set('room_url', Yii::$app->request->referrer);
+        return $this->render('room-update', ['model' => $model,]);
     }
 
     /**
@@ -452,7 +452,9 @@ class ForumController extends Controller {
             } else {
                 Yii::$app->session->setFlash('error', '修改失败。');
             }
+            return $this->redirect(Yii::$app->session->get('bed_url'));
         }
+        Yii::$app->session->set('bed_url', Yii::$app->request->referrer);
         return $this->render('bed-update', [
                     'model' => $model,
         ]);

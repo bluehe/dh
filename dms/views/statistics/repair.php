@@ -1,187 +1,331 @@
 <?php
 /* @var $this yii\web\View */
 
-use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
+use miloschuman\highcharts\Highcharts;
+use yii\web\JsExpression;
+use kartik\daterange\DateRangePicker;
 
-$this->title = '首页';
+$this->title = '报修统计';
+$this->params['breadcrumbs'][] = ['label' => '数据统计', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<!-- Small boxes (Stat box) -->
-<?php if (Yii::$app->user->can('楼苑设置')) { ?>
-    <div class="row">
-        <div class="col-lg-3 col-xs-6">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">楼苑</span>
-                    <span class="info-box-number"><?= $total['building'] ?></span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-home"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">房间</span>
-                    <span class="info-box-number"><?= $total['room'] ?></span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3  col-xs-6">
-            <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-bed"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">床位</span>
-                    <span class="info-box-number"><?= $total['bed'] ?></span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">用户</span>
-                    <span class="info-box-number"><?= $total['user'] ?></span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-    </div>
-<?php } ?>
-<!-- ./col -->
-
-<!-- /.row -->
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-7 connectedSortable">
-
-
-        <!-- TO DO List -->
+    <div class="col-md-12">
         <?php Pjax::begin(); ?>
-        <div class="box box-primary">
-            <div class="box-header">
-                <i class="ion ion-clipboard"></i>
-
-                <h3 class="box-title">任务列表</h3>
-
-                <div class="box-tools pull-right">
+        <div class="nav-tabs-custom">
+            <!-- Tabs within a box -->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#repair_area" data-toggle="tab">区域</a></li>
+                <li><a href="#repair_type" data-toggle="tab">类型</a></li>
+                <li><a href="#repair_evaluate" data-toggle="tab">评价</a></li>
+                <li><a href="#repair_worker" data-toggle="tab">人员</a></li>
+                <li><a href="#repair_time" data-toggle="tab">时间</a></li>
+                <li class="pull-right header">
+<!--                    <button type="button" class="btn btn-default pull-right" id="daterange-btn"><span><i class="fa fa-calendar"></i> 时间选择</span><i class="fa fa-caret-down"></i></button>-->
                     <?=
-                    LinkPager::widget([
-                        'pagination' => $pagination,
-                        'options' => ['class' => 'pagination pagination-sm inline']
+                    DateRangePicker::widget([
+                        'name' => 'daterange',
+                        'useWithAddon' => true,
+                        'presetDropdown' => true,
+                        'convertFormat' => true,
+                        'value' => date('Y-m-d', $start) . '至' . date('Y-m-d', $end),
+//                        'startAttribute' => 'from_date',
+//                        'endAttribute' => 'to_date',
+//                        'startInputOptions' => ['value' => '2017-06-11'],
+//                        'endInputOptions' => ['value' => '2017-07-20'],
+                        'pluginOptions' => [
+                            'timePicker' => false,
+                            'locale' => [
+                                'format' => 'Y-m-d',
+                                'separator' => '至'
+                            ],
+                            'linkedCalendars' => false,
+                        ],
+                        'pluginEvents' => [
+                            "apply.daterangepicker" => "function(start,end,label) {var v=$('.range-value').html(); self.location='/statistics/repair?range='+v;}",
+                        ]
                     ]);
                     ?>
-
+                </li>
+            </ul>
+            <div class="tab-content no-padding">
+                <div class="tab-pane active row" id="repair_area">
+                    <section class="col-md-8">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '报修区域数量统计',
+                                ],
+                                'xAxis' => [
+                                    'type' => 'category'
+                                ],
+                                'yAxis' => [
+                                    'title' => ['text' => '数量'],
+                                    'stackLabels' => [
+                                        'enabled' => true,
+                                        'style' => [
+                                            'fontWeight' => 'bold',
+                                        ]
+                                    ]
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y+'<br/>合计 : '+this.point.stackTotal;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'column' => [
+                                        'stacking' => 'normal',
+                                        'dataLabels' => ['enabled' => true]
+                                    ],
+                                ],
+                                'series' => $series['area'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
+                    <section class="col-md-4">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '报修区域百分比统计',
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => true,
+                                            'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'series' => $series['area_total'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
                 </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <ul class="todo-list">
-                    <li>
+                <div class="tab-pane row" id="repair_type">
+                    <section class="col-md-8">
+                        <?=
+                        Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
+                            'options' => [
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '报修类型数量统计',
+                                ],
+                                'xAxis' => [
+                                    'type' => 'category'
+                                ],
+                                'yAxis' => [
+                                    'title' => ['text' => '数量'],
+                                    'stackLabels' => [
+                                        'enabled' => true,
+                                        'style' => [
+                                            'fontWeight' => 'bold',
+                                        ]
+                                    ]
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y+'<br/>合计 : '+this.point.stackTotal;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'column' => [
+                                        'stacking' => 'normal',
+                                        'dataLabels' => ['enabled' => true]
+                                    ],
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => false
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'series' => $series['type'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
+                    <section class="col-md-4">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '报修类型百分比统计',
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => true,
+                                            'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'series' => $series['type_total'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
+                </div>
+                <div class="tab-pane row" id="repair_evaluate">
 
-                        <!-- todo text -->
-                        <span class="text"><s>Design a nice theme</s></span>
-                        <!-- Emphasis label -->
-                        <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                        <!-- General tools such as edit or delete-->
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Make the theme responsive</span>
-                        <small class="label label-info"><i class="fa fa-clock-o"></i> 4 hours</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="label label-success"><i class="fa fa-clock-o"></i> 3 days</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Check your messages and notifications</span>
-                        <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 week</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="label label-default"><i class="fa fa-clock-o"></i> 1 month</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix no-border">
-                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+                    <section class="col-md-4">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '报修评价统计（' . $model->getAttributeLabel('evaluate1') . '）',
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => true,
+                                            'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'series' => $series['evaluate1'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
+                    <section class="col-md-4">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '报修评价统计（' . $model->getAttributeLabel('evaluate2') . '）',
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => true,
+                                            'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'series' => $series['evaluate2'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
+                    <section class="col-md-4">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '报修评价统计（' . $model->getAttributeLabel('evaluate3') . '）',
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => true,
+                                            'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'series' => $series['evaluate3'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
+                </div>
+                <div class="tab-pane" id="repair_worker">图表</div>
+                <div class="tab-pane" id="repair_time">线图</div>
             </div>
         </div>
         <?php Pjax::end(); ?>
         <!-- /.box -->
-
-    </section>
-    <!-- /.Left col -->
-    <!-- right col (We are only adding the ID to make the widgets sortable)-->
-    <section class="col-lg-5 connectedSortable">
-
-        <!-- Custom tabs (Charts with tabs)-->
-        <div class="nav-tabs-custom">
-            <!-- Tabs within a box -->
-            <ul class="nav nav-tabs pull-right">
-                <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-                <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
-            </ul>
-            <div class="tab-content no-padding">
-                <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-            </div>
-        </div>
-        <!-- /.nav-tabs-custom -->
-
-    </section>
-    <!-- right col -->
+    </div>
 </div>
 <!-- /.row (main row) -->
 <script>

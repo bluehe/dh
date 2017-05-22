@@ -16,6 +16,7 @@ use dms\models\System;
  * @property string $name
  * @property string $note
  * @property string $fname
+ * @property string $gender
  * @property integer $stat
 
  */
@@ -23,6 +24,8 @@ class Room extends ActiveRecord {
 
     const STAT_OPEN = 1;
     const STAT_CLOSE = 2;
+    const GENDER_MALE = 'M';
+    const GENDER_FEMALE = 'F';
 
     /**
      * @inheritdoc
@@ -47,6 +50,7 @@ class Room extends ActiveRecord {
             [['rid'], 'exist', 'skipOnError' => true, 'targetClass' => Room::className(), 'targetAttribute' => ['rid' => 'id']],
             [['stat'], 'default', 'value' => self::STAT_OPEN],
             [['stat'], 'in', 'range' => [self::STAT_OPEN, self::STAT_CLOSE]],
+            [['gender'], 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE]],
         ];
     }
 
@@ -63,6 +67,7 @@ class Room extends ActiveRecord {
             'stat' => '状态',
             'rid' => '大室',
             'fname' => '标志',
+            'gender' => '性别',
         ];
     }
 
@@ -70,6 +75,10 @@ class Room extends ActiveRecord {
         'stat' => [
             self::STAT_OPEN => "启用",
             self::STAT_CLOSE => "关闭"
+        ],
+        'gender' => [
+            self::GENDER_MALE => "男",
+            self::GENDER_FEMALE => "女"
         ]
     ];
 
@@ -77,6 +86,10 @@ class Room extends ActiveRecord {
 
         $stat = self::$List['stat'][$this->stat];
         return isset($stat) ? $stat : null;
+    }
+
+    public function getGender() {
+        return isset(self::$List['gender'][$this->gender]) ? self::$List['gender'][$this->gender] : null;
     }
 
     /**

@@ -120,6 +120,7 @@ Modal::end();
 <?php $this->beginBlock('view') ?>
     $('.view').on('click', function () {
         $('.modal-title').html('报修详情');
+        $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-view') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);
@@ -128,6 +129,7 @@ Modal::end();
     });
     $('.evaluate').on('click', function () {
         $('.modal-title').html('报修评价');
+        $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-evaluate') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);

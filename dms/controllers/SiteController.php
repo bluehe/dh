@@ -18,6 +18,7 @@ use dms\models\Forum;
 use dms\models\Room;
 use dms\models\Bed;
 use common\models\User;
+use dms\models\RepairOrder;
 use yii\data\Pagination;
 
 /**
@@ -196,12 +197,19 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
+        if (Yii::$app->user->can('楼苑设置')) {
+            $forum_fup = Forum::find()->where(['not', ['fup' => NULL]])->select(['fup'])->column();
 
-        $total['building'] = Forum::find()->count();
-        $total['broom'] = Room::find()->where(['rid' => NULL])->count();
-        $total['room'] = Room::find()->count();
-        $total['bed'] = Bed::find()->count();
-        $total['user'] = User::find()->count();
+            $total['building'] = Forum::find()->where(['not', ['id' => $forum_fup]])->count();
+            $total['broom'] = Room::find()->where(['rid' => NULL])->count();
+            $total['sroom'] = Room::find()->where(['not', ['rid' => NULL]])->count();
+            $total['bed'] = Bed::find()->count();
+            $total['user'] = User::find()->count();
+        }
+        if (Yii::$app->user->can('维修管理')) {
+            $total['repair_today'] = RepairOrder::get_repair_today(strtotime(date('Y-m-d', time())));
+            $total['repair'] = RepairOrder::get_stat_total();
+        }
         // 创建一个 DB 查询来获得所有 status 为 1 的文章
         $query = Bed::find()->where(['stat' => Bed::STAT_OPEN]);
 // 得到文章的总数（但是还没有从数据库取数据）

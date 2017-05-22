@@ -3,6 +3,7 @@
 
 use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
+use dms\models\RepairOrder;
 
 $this->title = '首页';
 ?>
@@ -24,11 +25,11 @@ $this->title = '首页';
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-home"></i></span>
+                <span class="info-box-icon bg-blue"><i class="fa fa-home"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">房间</span>
-                    <span class="info-box-number"><?= $total['room'] ?></span>
+                    <span class="info-box-number"><?= $total['broom'] ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -37,7 +38,7 @@ $this->title = '首页';
         <!-- ./col -->
         <div class="col-lg-3  col-xs-6">
             <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-bed"></i></span>
+                <span class="info-box-icon bg-yellow"><i class="fa fa-bed"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">床位</span>
@@ -50,7 +51,7 @@ $this->title = '首页';
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+                <span class="info-box-icon bg-red"><i class="fa fa-users"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">用户</span>
@@ -65,6 +66,70 @@ $this->title = '首页';
 <!-- ./col -->
 
 <!-- /.row -->
+
+<?php if (Yii::$app->user->can('维修管理')) { ?>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3><?= $total['repair_today'] ?></h3>
+                    <p>今日报修</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-wrench"></i>
+                </div>
+                <a href="<?= \yii\helpers\Url::toRoute(['work/repair-work', 'RepairOrderSearch[created_at]' => date('Y-m-d', time())]) ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- ./col -->
+        <?php if (Yii::$app->user->can('报修管理')) { ?>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h3><?= isset($total['repair'][RepairOrder::STAT_OPEN]) ? $total['repair'][RepairOrder::STAT_OPEN] : 0 ?></h3>
+                        <p>待受理</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-wrench"></i>
+                    </div>
+                    <a href="<?= \yii\helpers\Url::toRoute(['work/repair-work', 'RepairOrderSearch[stat]' => RepairOrder::STAT_OPEN]) ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3><?= isset($total['repair'][RepairOrder::STAT_ACCEPT]) ? $total['repair'][RepairOrder::STAT_ACCEPT] : 0 ?></h3>
+                        <p>待派工</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-wrench"></i>
+                    </div>
+                    <a href="<?= \yii\helpers\Url::toRoute(['work/repair-work', 'RepairOrderSearch[stat]' => RepairOrder::STAT_ACCEPT]) ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- ./col -->
+        <?php } ?>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3><?= isset($total['repair'][RepairOrder::STAT_DISPATCH]) ? $total['repair'][RepairOrder::STAT_DISPATCH] : 0 ?></h3>
+                    <p>待修理</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-wrench"></i>
+                </div>
+                <a href="<?= \yii\helpers\Url::toRoute(['work/repair-work', 'RepairOrderSearch[stat]' => RepairOrder::STAT_DISPATCH]) ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- ./col -->
+
+    </div>
+<?php } ?>
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
@@ -73,89 +138,7 @@ $this->title = '首页';
 
         <!-- TO DO List -->
         <?php Pjax::begin(); ?>
-        <div class="box box-primary">
-            <div class="box-header">
-                <i class="ion ion-clipboard"></i>
 
-                <h3 class="box-title">任务列表</h3>
-
-                <div class="box-tools pull-right">
-                    <?=
-                    LinkPager::widget([
-                        'pagination' => $pagination,
-                        'options' => ['class' => 'pagination pagination-sm inline']
-                    ]);
-                    ?>
-
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <ul class="todo-list">
-                    <li>
-
-                        <!-- todo text -->
-                        <span class="text"><s>Design a nice theme</s></span>
-                        <!-- Emphasis label -->
-                        <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                        <!-- General tools such as edit or delete-->
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Make the theme responsive</span>
-                        <small class="label label-info"><i class="fa fa-clock-o"></i> 4 hours</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="label label-success"><i class="fa fa-clock-o"></i> 3 days</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Check your messages and notifications</span>
-                        <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 week</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="label label-default"><i class="fa fa-clock-o"></i> 1 month</small>
-                        <div class="tools">
-                            <i class="fa fa-edit"></i>
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix no-border">
-                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
-            </div>
-        </div>
         <?php Pjax::end(); ?>
         <!-- /.box -->
 
@@ -165,19 +148,7 @@ $this->title = '首页';
     <section class="col-lg-5 connectedSortable">
 
         <!-- Custom tabs (Charts with tabs)-->
-        <div class="nav-tabs-custom">
-            <!-- Tabs within a box -->
-            <ul class="nav nav-tabs pull-right">
-                <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-                <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
-            </ul>
-            <div class="tab-content no-padding">
-                <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-            </div>
-        </div>
+
         <!-- /.nav-tabs-custom -->
 
     </section>

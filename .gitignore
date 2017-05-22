@@ -34,7 +34,7 @@ phpunit.phar
 /.vagrant
 /dms/runtime/
 /dms/web/assets/
-/console/runtime/
 /dms/tests/
 /dms/web/data/
 !/vendor/
+/console/runtime/

@@ -17,7 +17,7 @@ class RoomSearch extends Room {
     public function rules() {
         return [
             [['id', 'fid', 'floor', 'rid', 'stat'], 'integer'],
-            [['name', 'note', 'fname'], 'safe'],
+            [['name', 'note', 'fname', 'gender'], 'safe'],
         ];
     }
 
@@ -66,6 +66,7 @@ class RoomSearch extends Room {
             '{{%room}}.fid' => $this->fid,
             '{{%room}}.floor' => $this->floor,
             '{{%room}}.stat' => $this->stat,
+            '{{%room}}.gender' => $this->gender,
         ]);
 
         $query->andFilterWhere(['like', '{{%room}}.name', $this->name])

@@ -41,6 +41,8 @@ class AppAsset extends AssetBundle {
             $this->depends[] = 'dms\assets\IndexAsset';
         } elseif (($controller_id == 'forum' && ($action_id == 'room-create' || $action_id == 'room-update' || $action_id == 'bed-create' || $action_id == 'bed-update')) || ($controller_id == 'repair' && ($action_id == 'worker' || $action_id == 'worker-create' || $action_id == 'worker-update'))) {
             $this->depends[] = 'dms\assets\Select2Asset';
+        } elseif ($controller_id == 'statistics') {
+            $this->depends[] = 'dms\assets\StatisticsAsset';
         } else {
             $this->depends[] = 'dms\assets\CommonAsset';
         }

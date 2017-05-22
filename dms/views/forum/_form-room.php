@@ -40,6 +40,8 @@ use dms\models\System;
 
                 <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
 
+                <?= $form->field($model, 'gender')->dropDownList(Room::$List['gender'], ['prompt' => '']) ?>
+
                 <?= $form->field($model, 'stat')->radioList(Room::$List['stat'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
             </div>

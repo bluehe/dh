@@ -162,10 +162,11 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['/work/repair-accept', '2', null, null, null, '1482820123', '1482820123'],
             ['/work/repair-accepts', '2', null, null, null, '1482820123', '1482820123'],
             ['/work/repair-dispatch', '2', null, null, null, '1482820123', '1482820123'],
-//            ['/work/repair-dispatch', '2', null, null, null, '1482820123', '1482820123'],
+            ['/statistics/*', '2', null, null, null, '1482820123', '1482820123'],
+            ['/statistics/repair', '2', null, null, null, '1482820123', '1482820123'],
             ['admin', '1', '管理员', null, null, '1482820123', '1482820123'],
-            ['employee', '1', '员工', null, null, '1482820123', '1482820123'],
             ['member', '1', '会员', null, null, '1482820123', '1482820123'],
+            ['employee', '1', '员工', null, null, '1482820123', '1482820123'],
             ['student', '1', '学生', null, null, '1482820123', '1482820123'],
             ['teacher', '1', '教师', null, null, '1482820123', '1482820123'],
             ['repair_worker', '1', '维修工', null, null, '1482820123', '1482820123'],
@@ -180,6 +181,8 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['学院设置', '2', '学院设置', null, null, '1482820123', '1482820123'],
             ['楼苑设置', '2', '楼苑设置', null, null, '1482820123', '1482820123'],
             ['维修设置', '2', '维修设置', null, null, '1482820123', '1482820123'],
+            ['数据统计', '2', '数据统计', null, null, '1482820123', '1482820123'],
+            ['报修统计', '2', '报修统计', null, null, '1482820123', '1482820123'],
         ]);
         $this->batchInsert($authManager->itemChildTable, ['parent', 'child'], [
             ['账号信息', '/account/*'],
@@ -201,20 +204,27 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['学院设置', '/college/*'],
             ['楼苑设置', '/forum/*'],
             ['维修设置', '/repair/*'],
+            ['数据统计', '/statistics/*'],
+            ['报修统计', '/statistics/repair'],
             ['admin', '系统设置'],
             ['admin', '学院设置'],
             ['admin', '楼苑设置'],
             ['admin', '维修设置'],
             ['admin', '日常事务'],
+            ['admin', '数据统计'],
+            ['repair_worker', '报修统计'],
+            ['repair_admin', '报修统计'],
             ['repair_worker', '维修管理'],
             ['repair_admin', '报修管理'],
-            ['guest', '账号信息'],
-            ['guest', '业务中心'],
+            ['member', '账号信息'],
+            ['member', '业务中心'],
         ]);
         $this->batchInsert($authManager->assignmentTable, ['item_name', 'user_id', 'created_at'], [
             ['admin', '1', '1482481221'],
             ['repair_worker', '2', '1482481221'],
             ['repair_admin', '2', '1482481221'],
+            ['member', '1', '1482481221'],
+            ['member', '2', '1482481221'],
         ]);
     }
 

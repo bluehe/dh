@@ -82,7 +82,7 @@ class RepairWorker extends \yii\db\ActiveRecord {
             self::STAT_CLOSE => "关闭"
         ],
         'role' => [
-            self::ROLE_ADMIN => '管理员',
+            self::ROLE_ADMIN => '审核员',
             self::ROLE_WORKER => '维修工'
         ]
     ];

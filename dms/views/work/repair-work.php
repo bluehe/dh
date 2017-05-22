@@ -7,6 +7,7 @@ use yii\grid\GridView;
 use dms\models\RepairOrder;
 use yii\bootstrap\Modal;
 use dms\models\System;
+use kartik\rating\StarRating;
 
 /* @var $this yii\web\View */
 /* @var $searchModel dms\models\RepairOrderSearch */
@@ -86,12 +87,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'evaluate_at',
                     // 'note',
                     [
-                        'attribute' => 'evaluate1',
+                        'attribute' => 'eval',
+                        'label' => '综合评价',
                         'value' =>
                         function($model) {
-                            return $model->evaluate1 ? $model->Evaluate1 : NULL;   //主要通过此种方式实现
+                            return $model->evaluate1 ? StarRating::widget([
+                                        'name' => 'evalute1',
+                                        'value' => Yii::$app->formatter->asDecimal(($model->evaluate1 + $model->evaluate2 + $model->evaluate3) / 3, 2),
+                                        'pluginOptions' => ['displayOnly' => true, 'size' => 'lx']
+                                    ]) : NULL;   //主要通过此种方式实现
                         },
-                        'filter' => RepairOrder::$List['evaluate'],
+                        'format' => 'raw',
+                        'filter' => false,
                         'footerOptions' => ['class' => 'hide'],
                     ],
                     [
@@ -192,6 +199,7 @@ Modal::end();
     });
     $('.view').on('click', function () {
         $('.modal-title').html('报修详情');
+        $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-view') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);
@@ -200,6 +208,7 @@ Modal::end();
     });
     $('.update').on('click', function () {
         $('.modal-title').html('报修修改');
+        $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-update') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);
@@ -208,6 +217,7 @@ Modal::end();
     });
     $('.accept').on('click', function () {
         $('.modal-title').html('报修受理');
+        $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-accept') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);
@@ -216,6 +226,7 @@ Modal::end();
     });
     $('.dispatch').on('click', function () {
         $('.modal-title').html('报修派工');
+        $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-dispatch') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);

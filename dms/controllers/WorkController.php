@@ -97,10 +97,10 @@ class WorkController extends Controller {
                     'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
                 ],
                 [
-                    'attribute' => 'evaluate1',
+                    'attribute' => 'eval',
                     'value' =>
                     function($model) {
-                        return $model->evaluate1 ? $model->Evaluate1 : NULL;   //主要通过此种方式实现
+                        return $model->evaluate1 ? Yii::$app->formatter->asDecimal(($model->evaluate1 + $model->evaluate2 + $model->evaluate3) / 3, 2) : NULL;   //主要通过此种方式实现
                     },
                     'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
                 ],
@@ -122,7 +122,7 @@ class WorkController extends Controller {
                 'address' => '详细地址',
                 'title' => '标题',
                 'content' => '内容',
-                'evaluate' => '评价',
+                'eval' => '综合评价',
                 'created_at' => '报修时间',
                 'accept_at' => '受理时间',
                 'accept_uid' => '受理人',
@@ -149,9 +149,11 @@ class WorkController extends Controller {
         $query = RepairOrder::find()->where(['id' => $id]);
 
         if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
+            //维修工
             $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
             $query->andWhere(['worker_id' => $worker]);
         } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+            //受理员
             $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
             $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
             $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);

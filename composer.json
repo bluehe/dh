@@ -29,7 +29,9 @@
         "callmez/yii2-wechat-sdk": "dev-master",
         "kartik-v/yii2-widget-datetimepicker": "*",
         "bluehe/yii2-phpexcel": "*",
-        "kartik-v/yii2-widget-rating": "*"
+        "kartik-v/yii2-widget-rating": "*",
+        "miloschuman/yii2-highcharts-widget": "dev-master",
+        "kartik-v/yii2-date-range": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

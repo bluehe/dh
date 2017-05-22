@@ -12,6 +12,8 @@ use dms\models\RepairOrder;
  */
 class RepairOrderSearch extends RepairOrder {
 
+    public $eval;
+
     /**
      * @inheritdoc
      */
@@ -38,15 +40,17 @@ class RepairOrderSearch extends RepairOrder {
      * @return ActiveDataProvider
      */
     public function search($params, $pageSize = '') {
-        $query = RepairOrder::find()->joinWith('type')->joinWith('area')->joinWith('worker');
+        $query = RepairOrder::find()->where(['not', ['{{%repair_order}}.stat' => RepairOrder::STAT_CLOSE]])->joinWith('type')->joinWith('area')->joinWith('worker');
 
         // add conditions that should always apply here
 
 
         if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
+            //维修工
             $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
             $query->andWhere(['worker_id' => $worker]);
         } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+            //受理员
             $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
             $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
             $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);

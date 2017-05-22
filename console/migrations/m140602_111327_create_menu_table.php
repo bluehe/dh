@@ -59,6 +59,8 @@ class m140602_111327_create_menu_table extends \yii\db\Migration {
             [51, '网上报修', 50, '/business/repair-business', 1, '{"icon":"fa fa-wrench","multi-action":[ "repair-business", "repair-create","repair-update"]}'],
             [60, '日常事务', NULL, '/work/repair-work', 3, '{"icon":"fa  fa-briefcase"}'],
             [61, '报修管理', 60, '/work/repair-work', 1, '{"icon":"fa fa-wrench"}'],
+            [70, '数据统计', NULL, '/statistics/repair', 8, '{"icon":"fa  fa-bar-chart"}'],
+            [71, '报修统计', 70, '/statistics/repair', 1, '{"icon":"fa fa-wrench"}'],
         ]);
     }
 
