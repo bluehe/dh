@@ -25,6 +25,13 @@ class RepairWorker extends \yii\db\ActiveRecord {
     const STAT_CLOSE = 2;
     const ROLE_ADMIN = 1;
     const ROLE_WORKER = 2;
+    const DAY_SUN = 0;
+    const DAY_MON = 1;
+    const DAY_TUE = 2;
+    const DAY_WED = 3;
+    const DAY_THU = 4;
+    const DAY_FRI = 5;
+    const DAY_SAT = 6;
 
     public $type;
     public $area;
@@ -46,7 +53,7 @@ class RepairWorker extends \yii\db\ActiveRecord {
             [['name'], 'string', 'max' => 8, 'message' => '{attribute}最长8个字符'],
             [['tel', 'email'], 'string', 'max' => 64, 'message' => '{attribute}最长64个字符'],
             ['email', 'email', 'message' => '{attribute}格式错误'],
-            [['address', 'note'], 'string', 'max' => 255],
+            [['address', 'workday', 'note'], 'string', 'max' => 255],
             [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => RepairUnit::className(), 'targetAttribute' => ['unit_id' => 'id']],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['stat'], 'default', 'value' => self::STAT_OPEN],
@@ -68,6 +75,7 @@ class RepairWorker extends \yii\db\ActiveRecord {
             'tel' => '电话',
             'email' => '电子邮箱',
             'address' => '地址',
+            'workday' => '派工周期',
             'note' => '备注',
             'stat' => '状态',
             'type' => '类型',
@@ -84,6 +92,15 @@ class RepairWorker extends \yii\db\ActiveRecord {
         'role' => [
             self::ROLE_ADMIN => '审核员',
             self::ROLE_WORKER => '维修工'
+        ],
+        'workday' => [
+            self::DAY_MON => '一',
+            self::DAY_TUE => '二',
+            self::DAY_WED => '三',
+            self::DAY_THU => '四',
+            self::DAY_FRI => '五',
+            self::DAY_SAT => '六',
+            self::DAY_SUN => '日'
         ]
     ];
 
@@ -97,6 +114,16 @@ class RepairWorker extends \yii\db\ActiveRecord {
 
         $role = self::$List['role'][$this->role];
         return isset($role) ? $role : null;
+    }
+
+    public function getWorkday() {
+        $days = explode(',', $this->workday);
+        foreach ($days as $day) {
+            if (isset(self::$List['workday'][$day])) {
+                $d[] = self::$List['workday'][$day];
+            }
+        }
+        return isset($d) ? implode(',', $d) : null;
     }
 
     /**

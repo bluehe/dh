@@ -70,6 +70,8 @@ class WorkController extends Controller {
             'columns' => [
                 ['attribute' => 'serial', 'style' => ['column_width' => 13, 'row_height' => 20, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
                 ['attribute' => 'created_at', 'format' => ["date", "php:Y-m-d H:i:s"], 'style' => ['column_width' => 21, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
+                ['attribute' => 'name', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                ['attribute' => 'tel', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
                 [
                     'attribute' => 'repair_type',
                     'value' =>

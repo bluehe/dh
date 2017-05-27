@@ -36,8 +36,8 @@ return [
                 'host' => 'smtp.exmail.qq.com',
                 'username' => 'admin@gxgygl.com',
                 'password' => 'He19881006',
-                'port' => '25',
-                'encryption' => 'tls',
+                'port' => '465',
+                'encryption' => 'ssl',
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
@@ -48,12 +48,12 @@ return [
             'class' => 'yii\caching\FileCache',
             'keyPrefix' => 'dms',
         ],
-//        'wechat' => [
-//            'class' => 'callmez\wechat\sdk\MpWechat',
-//            'appId' => 'wx5f06fff8635a37d4',
-//            'appSecret' => '911a61b191219f8b024219f3ec675f39',
-//            'token' => 'weixin'
-//        ],
+        'wechat' => [
+            'class' => 'callmez\wechat\sdk\MpWechat',
+            'appId' => 'wx0b6eaf137bc335ab',
+            'appSecret' => '6d2cb84e77107c4b30fb8a9bd262fb60',
+            'token' => 'weixin'
+        ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [
@@ -64,19 +64,19 @@ return [
                 ],
                 'weibo' => [
                     'class' => 'common\widgets\WeiboClient',
-                    'clientId' => '69078040',
-                    'clientSecret' => '2c021b94f29e78fd8f7055958b1c329d',
+                    'clientId' => '1719713308',
+                    'clientSecret' => '385876be4cc214330c9fbe1aae1dc648',
                 ],
                 'qq' => [
                     'class' => 'common\widgets\QQClient',
                     'clientId' => '101389884',
                     'clientSecret' => '0f7af7103526adaff8904219831b101f',
                 ],
-//                'weixin' => [
-//                    'class' => 'yujiandong\authclient\Weixin',
-//                    'clientId' => 'weixin_appid',
-//                    'clientSecret' => 'weixin_appkey',
-//                ],
+                'weixin' => [
+                    'class' => 'common\widgets\WeixinClient',
+                    'clientId' => 'wx0b6eaf137bc335ab',
+                    'clientSecret' => '6d2cb84e77107c4b30fb8a9bd262fb60',
+                ],
             ],
         ],
         'assetManager' => [

@@ -47,6 +47,13 @@ use dmstr\widgets\Alert;
         <b>Version</b> <?= Yii::$app->version ?>
     </div>
     <strong>Copyright &copy; 2011-<?= date('Y', time()) ?> <a href="<?= Yii::$app->homeUrl ?>">何文斌</a>.</strong> All rights reserved.
+    <?php
+    $statcode = Yii::$app->cache->get('system_statcode');
+    if ($statcode === false) {
+        $statcode = dms\models\System::getValue('system_statcode');
+    }
+    echo $statcode;
+    ?>
 </footer>
 
 <!-- Control Sidebar -->

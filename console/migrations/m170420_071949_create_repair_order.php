@@ -25,6 +25,8 @@ class m170420_071949_create_repair_order extends Migration {
             'id' => $this->primaryKey(),
             'serial' => $this->string(16)->notNull(),
             'uid' => $this->integer(),
+            'name' => $this->string(16),
+            'tel' => $this->string(64),
             'repair_type' => $this->integer(),
             'repair_area' => $this->integer(),
             'address' => $this->string()->notNull(),

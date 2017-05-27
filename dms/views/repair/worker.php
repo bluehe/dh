@@ -51,6 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'address',
                     'note',
                     [
+                        'attribute' => 'workday',
+                        'value' =>
+                        function($model) {
+                            return $model->Workday;   //主要通过此种方式实现
+                        },
+                    ],
+                    [
                         'attribute' => 'type',
                         'value' =>
                         function($model) {

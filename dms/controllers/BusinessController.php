@@ -72,6 +72,14 @@ class BusinessController extends Controller {
         if (System::getValue('business_repair') === '1') {
             $model->setScenario('repair');
         }
+        //默认姓名和电话
+        $repair = RepairOrder::find()->where(['uid' => Yii::$app->user->identity->id])->orderBy(['created_at' => SORT_DESC])->one();
+        if ($repair !== null) {
+            $model->name = $repair->name;
+            $model->tel = $repair->tel;
+            $model->repair_area = $repair->repair_area;
+        }
+
         if ($model->load(Yii::$app->request->post())) {
 
             $str = 'BX' . date('ymd', time());

@@ -31,6 +31,9 @@ use kartik\rating\StarRating;
                             <dt><?= $model->getAttributeLabel('repair_area') ?></dt><dd><?= $model->repair_area ? $model->area->name : $model->repair_area ?></dd>
                             <dt><?= $model->getAttributeLabel('address') ?></dt><dd><?= $model->address ?></dd>
                             <dt><?= $model->getAttributeLabel('content') ?></dt><dd><?= $model->content ?></dd>
+                            <dt><?= $model->getAttributeLabel('name') ?></dt><dd><?= $model->name ?></dd>
+                            <dt><?= $model->getAttributeLabel('tel') ?></dt><dd><?= $model->tel ?></dd>
+
 
 
                         </dl>

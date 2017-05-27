@@ -18,7 +18,7 @@ class StatisticsController extends Controller {
         if (Yii::$app->request->get('range')) {
             $range = explode('至', Yii::$app->request->get('range'));
             $start = isset($range[0]) ? strtotime($range[0]) : $start;
-            $end = isset($range[1]) ? strtotime($range[1]) + 86399 : $end;
+            $end = isset($range[1]) && (strtotime($range[1]) < $end) ? strtotime($range[1]) + 86399 : $end;
         }
 
 
@@ -89,6 +89,20 @@ class StatisticsController extends Controller {
             $data[] = ['name' => RepairOrder::$List['evaluate'][$index], 'y' => (int) $one];
         }
         $series['evaluate3'][] = ['type' => 'pie', 'name' => '合计', 'data' => $data];
+
+        //趋势
+        $day_created = RepairOrder::get_day_total('created_at', $start, $end);
+        $day_repair = RepairOrder::get_day_total('repair_at', $start, $end);
+        $data = [];
+        $data1 = [];
+        for ($i = $start; $i < $end; $i = $i + 86400) {
+            $j = date('Y-m-d', $i);
+            $data[] = ['name' => $j, 'y' => isset($day_created[$j]) ? (int) $day_created[$j] : 0];
+            $data1[] = ['name' => $j, 'y' => isset($day_repair[$j]) ? (int) $day_repair[$j] : 0];
+        }
+        $series['day'][] = ['type' => 'line', 'name' => '报修数', 'data' => $data];
+        $series['day'][] = ['type' => 'line', 'name' => '维修数', 'data' => $data1];
+
 
         return $this->render('repair', ['model' => $model, 'series' => $series, 'start' => $start, 'end' => $end]);
     }

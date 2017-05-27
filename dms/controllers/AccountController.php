@@ -149,6 +149,7 @@ class AccountController extends Controller {
                     @unlink($filename);
                 }
                 if (@move_uploaded_file($files['tmp_name'][$i], $filename)) {
+                    Image::resize($filename, 200, 200, true, true)->save($filename);
                     $success = true;
                     $paths[] = $filename;
                     $urls[] = $url;

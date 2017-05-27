@@ -23,13 +23,19 @@ use dms\models\RepairWorker;
             ]);
             ?>
             <div class="box-body">
-                <?= $form->field($model, 'repair_type')->dropDownList(RepairWorker::get_type_id(), ['prompt' => '无']) ?>
+
 
                 <?= $form->field($model, 'repair_area')->dropDownList(Room::get_forum_id(), ['prompt' => '无']) ?>
+
+                <?= $form->field($model, 'repair_type')->dropDownList(RepairWorker::get_type_id(), ['prompt' => '无']) ?>
 
                 <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'content')->textarea(['maxlength' => true, 'rows' => '6']) ?>
+
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'tel')->textInput(['maxlength' => true]) ?>
 
 
             </div>

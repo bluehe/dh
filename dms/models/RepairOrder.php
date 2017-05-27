@@ -57,7 +57,7 @@ class RepairOrder extends ActiveRecord {
     public function rules() {
         return [
             [['uid', 'repair_type', 'repair_area', 'evaluate1', 'evaluate2', 'evaluate3', 'created_at', 'accept_at', 'accept_uid', 'dispatch_at', 'dispatch_uid', 'repair_at', 'repair_uid', 'worker_id', 'end_at', 'evaluate', 'stat'], 'integer'],
-            [['address', 'content', 'created_at', 'serial'], 'required', 'message' => '{attribute}不能为空'],
+            [['address', 'content', 'created_at', 'serial', 'name', 'tel'], 'required', 'message' => '{attribute}不能为空'],
             [['worker_id'], 'required', 'message' => '{attribute}不能为空', 'on' => 'dispatch'],
             [['repair_type', 'repair_area'], 'required', 'message' => '{attribute}不能为空', 'on' => 'repair'],
             [['serial'], 'string', 'max' => 16, 'message' => '{attribute}最长16个字符'],
@@ -76,6 +76,8 @@ class RepairOrder extends ActiveRecord {
         return [
             'id' => 'ID',
             'uid' => '报修人',
+            'name' => '报修人',
+            'tel' => '联系电话',
             'serial' => '编号',
             'repair_type' => '类型',
             'repair_area' => '区域',
@@ -211,7 +213,7 @@ class RepairOrder extends ActiveRecord {
      */
     public function getWorkerList($type = array(), $area = array()) {
 
-        $query = RepairWorker::find()->where(['stat' => RepairWorker::STAT_OPEN]);
+        $query = RepairWorker::find()->where(['stat' => RepairWorker::STAT_OPEN])->andWhere(['LIKE', 'workday', date('w', time())]);
         if (System::getValue('business_dispatch') === '2') {
             $tids = RepairWorkerType::find()->where(['type' => $type])->select(['worker'])->column();
             $aids = RepairWorkerArea::find()->where(['area' => $area])->select(['worker'])->column();
@@ -304,6 +306,24 @@ class RepairOrder extends ActiveRecord {
         }
         $query->andWhere(['not', [$a => NULL]])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
         return $query->groupBy([$a])->select(['count(*)'])->indexBy($a)->column();
+    }
+
+    public static function get_day_total($a = 'created_at', $start = '', $end = '') {
+
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
+        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+//维修工
+            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+            $query->andWhere(['worker_id' => $worker]);
+        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//受理员
+            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+        }
+
+        $query->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
+        return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME($a, '%Y-%m-%d')")->column();
     }
 
 }

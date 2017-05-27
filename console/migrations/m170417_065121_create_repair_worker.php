@@ -23,6 +23,7 @@ class m170417_065121_create_repair_worker extends Migration {
             'tel' => $this->string(64)->notNull(),
             'email' => $this->string(64),
             'address' => $this->string(),
+            'workday' => $this->string(),
             'note' => $this->string(),
             'role' => $this->smallInteger()->notNull()->defaultValue(2),
             'stat' => $this->smallInteger()->notNull()->defaultValue(1),
@@ -31,11 +32,11 @@ class m170417_065121_create_repair_worker extends Migration {
                 ], $tableOptions);
 
         //测试数据
-        $this->batchInsert($table, ['id', 'uid', 'unit_id', 'name', 'tel', 'email', 'address', 'note', 'role', 'stat'], [
-            ['1', null, '1', '张三', '15112341234', '', '', '', '2', '1'],
-            ['2', '2', '2', '李四', '15112341236', '', '', '', '2', '1'],
-            ['3', '2', '1', '张龙', '1511234123488', '', '', '', '1', '1'],
-            ['4', null, '1', '老迟', '15112341234', '', '', '', '1', '1'],
+        $this->batchInsert($table, ['id', 'uid', 'unit_id', 'name', 'tel', 'email', 'address', 'workday', 'note', 'role', 'stat'], [
+            ['1', null, '1', '张三', '15112341234', '', '', '', '', '2', '1'],
+            ['2', '2', '2', '李四', '15112341236', '', '', '', '', '2', '1'],
+            ['3', '2', '1', '张龙', '1511234123488', '', '', '', '', '1', '1'],
+            ['4', null, '1', '老迟', '15112341234', '', '', '', '', '1', '1'],
         ]);
     }
 

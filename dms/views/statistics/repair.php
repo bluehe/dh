@@ -18,9 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="nav-tabs-custom">
             <!-- Tabs within a box -->
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#repair_area" data-toggle="tab">区域</a></li>
+                <li class="active"><a href="#repair_line" data-toggle="tab">趋势</a></li>
+                <li><a href="#repair_area" data-toggle="tab">区域</a></li>
                 <li><a href="#repair_type" data-toggle="tab">类型</a></li>
                 <li><a href="#repair_evaluate" data-toggle="tab">评价</a></li>
+
                 <li><a href="#repair_worker" data-toggle="tab">人员</a></li>
                 <li><a href="#repair_time" data-toggle="tab">时间</a></li>
                 <li class="pull-right header">
@@ -52,7 +54,49 @@ $this->params['breadcrumbs'][] = $this->title;
                 </li>
             </ul>
             <div class="tab-content no-padding">
-                <div class="tab-pane active row" id="repair_area">
+                <div class="tab-pane active" id="repair_line">
+                    <?=
+                    Highcharts::widget([
+                        'options' => [
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
+                            'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                            'title' => [
+                                'text' => '报修趋势统计',
+                            ],
+                            'xAxis' => [
+                                'type' => 'category'
+                            ],
+                            'yAxis' => [
+                                'title' => ['text' => '数量'],
+//                                'stackLabels' => [
+//                                    'enabled' => true,
+//                                    'style' => [
+//                                        'fontWeight' => 'bold',
+//                                    ]
+//                                ]
+                            ],
+                            'tooltip' => [
+                                'shared' => true,
+                                'crosshairs' => true
+                            ],
+                            'plotOptions' => [
+                                'line' => [
+                                    'dataLabels' => [
+                                        'enabled' => true,
+                                    ],
+                                    'showInLegend' => true,
+                                ]
+                            ],
+                            'series' => $series['day'],
+                        ]
+                    ]);
+                    ?>
+                </div>
+                <div class="tab-pane row" id="repair_area">
                     <section class="col-md-8">
                         <?=
                         Highcharts::widget([
@@ -319,8 +363,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         ?>
                     </section>
                 </div>
-                <div class="tab-pane" id="repair_worker">图表</div>
-                <div class="tab-pane" id="repair_time">线图</div>
+
+                <div class="tab-pane" id="repair_worker">维修工维修量、满意度等图表</div>
+                <div class="tab-pane" id="repair_time">受理时间、派工时间、维修时间</div>
+
             </div>
         </div>
         <?php Pjax::end(); ?>
@@ -328,23 +374,3 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <!-- /.row (main row) -->
-<script>
-<?php $this->beginBlock('index') ?>
-    $(".connectedSortable").sortable({
-        placeholder: "sort-highlight",
-        connectWith: ".connectedSortable",
-        handle: ".box-header, .nav-tabs",
-        forcePlaceholderSize: true,
-        zIndex: 999999
-    });
-    $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
-    //jQuery UI sortable for the todo list
-    $(".todo-list").sortable({
-        placeholder: "sort-highlight",
-        handle: ".handle",
-        forcePlaceholderSize: true,
-        zIndex: 999999
-    });
-<?php $this->endBlock() ?>
-</script>
-<?php $this->registerJs($this->blocks['index'], \yii\web\View::POS_END); ?>

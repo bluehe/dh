@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         FileInput::widget([
                             'name' => 'files[]',
                             'pluginOptions' => [
+                                'language' => 'zh',
                                 //关闭按钮
                                 'showPreview' => false,
                                 'showCancel' => false,
