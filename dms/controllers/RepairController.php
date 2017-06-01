@@ -198,7 +198,7 @@ class RepairController extends Controller {
         $model->stat = RepairWorker::STAT_OPEN;
         $model->role = RepairWorker::ROLE_WORKER;
         if ($model->load(Yii::$app->request->post())) {
-            $model->workday = implode(',', $model->workday);
+            $model->workday = $model->workday ? implode(',', $model->workday) : NULL;
             if ($model->validate()) {
                 $rw = Yii::$app->request->post('RepairWorker');
                 $model->type = $rw['type'];
@@ -270,7 +270,7 @@ class RepairController extends Controller {
         $role = $model->role;
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->workday = implode(',', $model->workday);
+            $model->workday = $model->workday ? implode(',', $model->workday) : NULL;
             if ($model->validate()) {
                 $rw = Yii::$app->request->post('RepairWorker');
                 $types = $rw['type'] ? $rw['type'] : array();

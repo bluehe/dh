@@ -60,7 +60,7 @@ $fieldOptions4 = [
 
                     <?=
                             $form1
-                            ->field($model_l, 'password', $fieldOptions2)
+                            ->field($model_l, 'password', $fieldOptions3)
                             ->label(false)
                             ->passwordInput(['placeholder' => $model_l->getAttributeLabel('password')])
                     ?>

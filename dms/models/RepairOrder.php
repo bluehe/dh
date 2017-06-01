@@ -84,8 +84,8 @@ class RepairOrder extends ActiveRecord {
             'address' => '详细地址',
             'title' => '标题',
             'content' => '内容',
-            'evaluate1' => '服务态度',
-            'evaluate2' => '响应速度',
+            'evaluate1' => '响应速度',
+            'evaluate2' => '服务态度',
             'evaluate3' => '服务质量',
             'created_at' => '报修时间',
             'accept_at' => '受理时间',
@@ -213,7 +213,7 @@ class RepairOrder extends ActiveRecord {
      */
     public function getWorkerList($type = array(), $area = array()) {
 
-        $query = RepairWorker::find()->where(['stat' => RepairWorker::STAT_OPEN])->andWhere(['LIKE', 'workday', date('w', time())]);
+        $query = RepairWorker::find()->where(['stat' => RepairWorker::STAT_OPEN])->andWhere("find_in_set(:workday,workday)", [':workday' => date('w', time()) + 1]);
         if (System::getValue('business_dispatch') === '2') {
             $tids = RepairWorkerType::find()->where(['type' => $type])->select(['worker'])->column();
             $aids = RepairWorkerArea::find()->where(['area' => $area])->select(['worker'])->column();
@@ -308,6 +308,23 @@ class RepairOrder extends ActiveRecord {
         return $query->groupBy([$a])->select(['count(*)'])->indexBy($a)->column();
     }
 
+    public static function get_evaluate_avg($a = 'evaluate1', $start = '', $end = '') {
+
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
+        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+//维修工
+            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+            $query->andWhere(['worker_id' => $worker]);
+        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//受理员
+            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+        }
+        $query->andWhere(['not', [$a => NULL]])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
+        return $query->groupBy(["FROM_UNIXTIME(created_at, '%Y-%m-%d')"])->select(['avg(' . $a . ')'])->indexBy("FROM_UNIXTIME(created_at, '%Y-%m-%d')")->column();
+    }
+
     public static function get_day_total($a = 'created_at', $start = '', $end = '') {
 
         $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
@@ -324,6 +341,24 @@ class RepairOrder extends ActiveRecord {
 
         $query->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
         return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME($a, '%Y-%m-%d')")->column();
+    }
+
+    public static function get_work_total($a = 'accept_at', $b = 'accept_uid', $start = '', $end = '') {
+
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
+        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+//维修工
+            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+            $query->andWhere(['worker_id' => $worker]);
+        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//受理员
+            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+        }
+
+        $query->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
+        return $query->groupBy([$b])->select(['count(*)'])->indexBy($b)->column();
     }
 
 }

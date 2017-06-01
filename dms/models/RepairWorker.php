@@ -25,13 +25,13 @@ class RepairWorker extends \yii\db\ActiveRecord {
     const STAT_CLOSE = 2;
     const ROLE_ADMIN = 1;
     const ROLE_WORKER = 2;
-    const DAY_SUN = 0;
-    const DAY_MON = 1;
-    const DAY_TUE = 2;
-    const DAY_WED = 3;
-    const DAY_THU = 4;
-    const DAY_FRI = 5;
-    const DAY_SAT = 6;
+    const DAY_SUN = 1;
+    const DAY_MON = 2;
+    const DAY_TUE = 3;
+    const DAY_WED = 4;
+    const DAY_THU = 5;
+    const DAY_FRI = 6;
+    const DAY_SAT = 7;
 
     public $type;
     public $area;

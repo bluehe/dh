@@ -64,19 +64,19 @@ return [
                 ],
                 'weibo' => [
                     'class' => 'common\widgets\WeiboClient',
-                    'clientId' => '1719713308',
-                    'clientSecret' => '385876be4cc214330c9fbe1aae1dc648',
+                    'clientId' => '3230780338',
+                    'clientSecret' => '4c79685858dafe77342476612c5e7190',
                 ],
-                'qq' => [
-                    'class' => 'common\widgets\QQClient',
-                    'clientId' => '101389884',
-                    'clientSecret' => '0f7af7103526adaff8904219831b101f',
-                ],
-                'weixin' => [
-                    'class' => 'common\widgets\WeixinClient',
-                    'clientId' => 'wx0b6eaf137bc335ab',
-                    'clientSecret' => '6d2cb84e77107c4b30fb8a9bd262fb60',
-                ],
+//                'qq' => [
+//                    'class' => 'common\widgets\QQClient',
+//                    'clientId' => '101389884',
+//                    'clientSecret' => '0f7af7103526adaff8904219831b101f',
+//                ],
+//                'weixin' => [
+//                    'class' => 'common\widgets\WeixinClient',
+//                    'clientId' => 'wx0b6eaf137bc335ab',
+//                    'clientSecret' => '6d2cb84e77107c4b30fb8a9bd262fb60',
+//                ],
             ],
         ],
         'assetManager' => [

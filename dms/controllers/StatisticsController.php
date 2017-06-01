@@ -90,18 +90,80 @@ class StatisticsController extends Controller {
         }
         $series['evaluate3'][] = ['type' => 'pie', 'name' => '合计', 'data' => $data];
 
+        //满意度趋势
+        $day_evaluate1 = RepairOrder::get_evaluate_avg('evaluate1', $start, $end);
+        $day_evaluate2 = RepairOrder::get_evaluate_avg('evaluate2', $start, $end);
+        $day_evaluate3 = RepairOrder::get_evaluate_avg('evaluate3', $start, $end);
+        $data = [];
+        $data1 = [];
+        $data2 = [];
+        for ($i = $start; $i < $end; $i = $i + 86400) {
+            $j = date('Y-m-d', $i);
+            $data[] = ['name' => $j, 'y' => isset($day_evaluate1[$j]) ? (float) $day_evaluate1[$j] : null];
+            $data1[] = ['name' => $j, 'y' => isset($day_evaluate2[$j]) ? (float) $day_evaluate2[$j] : null];
+            $data2[] = ['name' => $j, 'y' => isset($day_evaluate3[$j]) ? (float) $day_evaluate3[$j] : null];
+        }
+        $series['day_evaluat'][] = ['type' => 'line', 'name' => $model->getAttributeLabel('evaluate1'), 'data' => $data];
+        $series['day_evaluat'][] = ['type' => 'line', 'name' => $model->getAttributeLabel('evaluate2'), 'data' => $data1];
+        $series['day_evaluat'][] = ['type' => 'line', 'name' => $model->getAttributeLabel('evaluate3'), 'data' => $data2];
+
+
         //趋势
         $day_created = RepairOrder::get_day_total('created_at', $start, $end);
+        $day_accept = RepairOrder::get_day_total('accept_at', $start, $end);
         $day_repair = RepairOrder::get_day_total('repair_at', $start, $end);
         $data = [];
         $data1 = [];
+        $data2 = [];
         for ($i = $start; $i < $end; $i = $i + 86400) {
             $j = date('Y-m-d', $i);
             $data[] = ['name' => $j, 'y' => isset($day_created[$j]) ? (int) $day_created[$j] : 0];
-            $data1[] = ['name' => $j, 'y' => isset($day_repair[$j]) ? (int) $day_repair[$j] : 0];
+            $data1[] = ['name' => $j, 'y' => isset($day_accept[$j]) ? (int) $day_accept[$j] : 0];
+            $data2[] = ['name' => $j, 'y' => isset($day_repair[$j]) ? (int) $day_repair[$j] : 0];
         }
         $series['day'][] = ['type' => 'line', 'name' => '报修数', 'data' => $data];
-        $series['day'][] = ['type' => 'line', 'name' => '维修数', 'data' => $data1];
+        $series['day'][] = ['type' => 'line', 'name' => '受理数', 'data' => $data1];
+        $series['day'][] = ['type' => 'line', 'name' => '维修数', 'data' => $data2];
+
+        //人员
+        $work_accept = RepairOrder::get_work_total('accept_at', 'accept_uid', $start, $end);
+        $work_dispatch = RepairOrder::get_work_total('dispatch_at', 'dispatch_uid', $start, $end);
+        $work_repair = RepairOrder::get_work_total('repair_at', 'worker_id', $start, $end);
+        $data = [];
+        $keys = array_unique(array_merge(array_keys($work_accept), array_keys($work_dispatch)));
+
+        foreach ($keys as $one) {
+            $num = RepairWorker::find()->where(['uid' => $one])->count();
+            if ($num == 1) {
+                $worker = RepairWorker::find()->where(['uid' => $one])->one();
+                $work[$worker->id] = ['name' => $worker->name, 'accept' => $work_accept[$one], 'dispatch' => $work_dispatch[$one]];
+            } else {
+                $user = \common\models\User::find()->where(['id' => $one])->one();
+                $work['u' . $user->id] = ['name' => $user->username, 'accept' => $work_accept[$one], 'dispatch' => $work_dispatch[$one]];
+            }
+        }
+        foreach ($work_repair as $k => $one) {
+            if (array_key_exists($k, $work)) {
+                $work[$k]['repair'] = $one;
+            } else {
+                $worker = RepairWorker::find()->where(['id' => $k])->one();
+                $work[$worker->id] = ['name' => $worker->name, 'repair' => $one];
+            }
+        }
+
+        ksort($work);
+        foreach ($work as $w) {
+            $accept[] = ['name' => $w['name'], 'y' => isset($w['accept']) ? (int) $w['accept'] : null];
+            $dispatch[] = ['name' => $w['name'], 'y' => isset($w['dispatch']) ? (int) $w['dispatch'] : null];
+            if (isset($w['repair'])) {
+                $repair[] = ['name' => $w['name'], 'y' => (int) $w['repair']];
+            }
+        }
+        $series['work'][] = ['type' => 'column', 'name' => '受理数', 'data' => $accept];
+        $series['work'][] = ['type' => 'column', 'name' => '派工数', 'data' => $dispatch];
+        $series['work'][] = ['type' => 'column', 'name' => '维修数', 'data' => $repair];
+
+        $series['work_repair'][] = ['type' => 'pie', 'name' => '维修数', 'data' => $repair];
 
 
         return $this->render('repair', ['model' => $model, 'series' => $series, 'start' => $start, 'end' => $end]);

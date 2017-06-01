@@ -36,13 +36,8 @@ class SiteController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'signup', 'logout', 'index', 'complete'],
+                'only' => ['logout', 'index'],
                 'rules' => [
-                    [
-                        'actions' => ['login', 'signup', 'complete'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
                     [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
@@ -118,6 +113,9 @@ class SiteController extends Controller {
     }
 
     public function actionComplete() {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model_l = new LoginForm();
         $model_s = new SignupForm();
         if (Yii::$app->request->isPost) {
@@ -274,6 +272,9 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionSignup() {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if (Yii::$app->request->isAjax) {

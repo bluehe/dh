@@ -21,10 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <li class="active"><a href="#repair_line" data-toggle="tab">趋势</a></li>
                 <li><a href="#repair_area" data-toggle="tab">区域</a></li>
                 <li><a href="#repair_type" data-toggle="tab">类型</a></li>
-                <li><a href="#repair_evaluate" data-toggle="tab">评价</a></li>
+                <li><a href="#repair_evaluate" data-toggle="tab">满意度</a></li>
 
                 <li><a href="#repair_worker" data-toggle="tab">人员</a></li>
-                <li><a href="#repair_time" data-toggle="tab">时间</a></li>
+
                 <li class="pull-right header">
 <!--                    <button type="button" class="btn btn-default pull-right" id="daterange-btn"><span><i class="fa fa-calendar"></i> 时间选择</span><i class="fa fa-caret-down"></i></button>-->
                     <?=
@@ -259,7 +259,42 @@ $this->params['breadcrumbs'][] = $this->title;
                     </section>
                 </div>
                 <div class="tab-pane row" id="repair_evaluate">
-
+                    <section class="col-md-12">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '满意度趋势统计',
+                                ],
+                                'xAxis' => [
+                                    'type' => 'category'
+                                ],
+                                'yAxis' => [
+                                    'title' => ['text' => '满意度'],
+                                ],
+                                'tooltip' => [
+                                    'shared' => true,
+                                    'crosshairs' => true
+                                ],
+                                'plotOptions' => [
+                                    'line' => [
+                                        'dataLabels' => [
+                                            'enabled' => true,
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'series' => $series['day_evaluat'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
                     <section class="col-md-4">
                         <?=
                         Highcharts::widget([
@@ -364,8 +399,83 @@ $this->params['breadcrumbs'][] = $this->title;
                     </section>
                 </div>
 
-                <div class="tab-pane" id="repair_worker">维修工维修量、满意度等图表</div>
-                <div class="tab-pane" id="repair_time">受理时间、派工时间、维修时间</div>
+                <div class="tab-pane row" id="repair_worker">
+                    <section class="col-md-8">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '人员统计',
+                                ],
+                                'xAxis' => [
+                                    'type' => 'category'
+                                ],
+                                'yAxis' => [
+                                    'title' => ['text' => '数量'],
+                                    'stackLabels' => [
+                                        'enabled' => true,
+                                        'style' => [
+                                            'fontWeight' => 'bold',
+                                        ]
+                                    ]
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'column' => [
+                                        'dataLabels' => ['enabled' => true]
+                                    ],
+                                ],
+                                'series' => $series['work'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
+                    <section class="col-md-4">
+                        <?=
+                        Highcharts::widget([
+                            'options' => [
+                                'scripts' => [
+                                    'highcharts-more',
+                                    'modules/exporting',
+                                    'themes/grid-light'
+                                ],
+                                'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
+                                'title' => [
+                                    'text' => '维修统计',
+                                ],
+                                'tooltip' => [
+                                    'formatter' => new JsExpression("function () {return '<b>' + this .point.name + '</b><br/>' +
+                                            this . series . name + ' : ' + this . y;
+                                }")
+                                ],
+                                'plotOptions' => [
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => true,
+                                            'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'series' => $series['work_repair'],
+                            ]
+                        ]);
+                        ?>
+                    </section>
+                </div>
+
 
             </div>
         </div>

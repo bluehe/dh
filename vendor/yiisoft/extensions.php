@@ -174,6 +174,15 @@ return array (
       '@kartik/rating' => $vendorDir . '/kartik-v/yii2-widget-rating',
     ),
   ),
+  'miloschuman/yii2-highcharts-widget' => 
+  array (
+    'name' => 'miloschuman/yii2-highcharts-widget',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@miloschuman/highcharts' => $vendorDir . '/miloschuman/yii2-highcharts-widget/src',
+    ),
+  ),
   'kartik-v/yii2-widget-fileinput' => 
   array (
     'name' => 'kartik-v/yii2-widget-fileinput',
@@ -199,15 +208,6 @@ return array (
     'alias' => 
     array (
       '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
-    ),
-  ),
-  'miloschuman/yii2-highcharts-widget' => 
-  array (
-    'name' => 'miloschuman/yii2-highcharts-widget',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@miloschuman/highcharts' => $vendorDir . '/miloschuman/yii2-highcharts-widget/src',
     ),
   ),
   'kartik-v/yii2-date-range' => 
