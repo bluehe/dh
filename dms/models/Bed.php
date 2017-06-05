@@ -106,6 +106,9 @@ class Bed extends ActiveRecord {
         $query = Room::find()->where(['fid' => $fid, 'floor' => $floor])->orderBy(['fname' => SORT_ASC, 'rid' => SORT_ASC, 'name' => SORT_ASC]);
         if (System::getValue('business_roomtype') === '1' && System::getValue('business_bed') === '2') {
             $query->andWhere(['not', ['rid' => NULL]]);
+        } else {
+            $bids = Room::find()->where(['fid' => $fid, 'floor' => $floor])->andWhere(['not', ['rid' => NULL]])->select(['rid'])->distinct()->column();
+            $query->andWhere(['not', ['id' => $bids]]);
         }
         $rooms = $query->all();
         $result = [];
@@ -129,6 +132,11 @@ class Bed extends ActiveRecord {
         $floors = Room::find()->select(['floor'])->where(['id' => $rids])->distinct()->column();
         $floor = Parameter::find()->where(['name' => 'floor', 'id' => $floors])->orderBy(['sort_order' => SORT_ASC])->all();
         return ArrayHelper::map($floor, 'id', 'v');
+    }
+
+    public static function get_room_bed($id = '') {
+        $bed = static::find()->where(['rid' => $id])->orderBy(['ABS(name)' => SORT_ASC])->all();
+        return $bed;
     }
 
 }

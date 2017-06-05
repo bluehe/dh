@@ -140,6 +140,7 @@ return [
             'wechat/*',
             'debug/*',
             'gii/*',
+            'building/*',
         //'*'
         ]
     ],

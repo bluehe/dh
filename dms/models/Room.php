@@ -136,7 +136,11 @@ class Room extends ActiveRecord {
         return ArrayHelper::map($broom, 'id', 'name');
     }
 
-    //得到楼苑ID-name 键值数组
+    /**
+     * 通过楼苑id获得名称
+     * @param $id 楼苑ID
+     * @return array 楼苑ID-name
+     */
     public static function get_forum_id($id = array()) {
         $query = Forum::find()->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->andFilterWhere(['id' => $id]);
         if (System::getValue('business_forum') === '1' && System::getValue('business_room') === '2') {
@@ -146,24 +150,57 @@ class Room extends ActiveRecord {
         return ArrayHelper::map($forum, 'id', 'name');
     }
 
-    //得到楼苑ID-name 键值数组
+    /**
+     * 获得有房间的楼苑ID及名称
+     * @return array 楼苑ID-name
+     */
     public static function get_room_forum() {
         $fids = static::find()->select(['fid'])->distinct()->column();
         $forum = Forum::find()->where(['id' => $fids])->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
         return ArrayHelper::map($forum, 'id', 'name');
     }
 
-    //得到楼苑ID-name 键值数组
+    /**
+     * 获得所有楼层ID及名称
+     * @return array 楼层ID-name
+     */
     public static function get_floor_id() {
         $floor = Parameter::find()->where(['name' => 'floor'])->orderBy(['sort_order' => SORT_ASC])->all();
         return ArrayHelper::map($floor, 'id', 'v');
     }
 
-    //得到楼层ID-name 键值数组
-    public static function get_room_floor() {
-        $floors = static::find()->select(['floor'])->distinct()->column();
+    /**
+     * 获得有房间的楼层ID及名称
+     * @param $fid 楼苑ID
+     * @return array 楼层ID-name
+     */
+    public static function get_room_floor($fid = '') {
+        $floors = static::find()->andFilterWhere(['fid' => $fid])->select(['floor'])->distinct()->column();
         $floor = Parameter::find()->where(['name' => 'floor', 'id' => $floors])->orderBy(['sort_order' => SORT_ASC])->all();
         return ArrayHelper::map($floor, 'id', 'v');
+    }
+
+    /**
+     * 获得有大室ID及名称
+     * @param $fid 楼苑ID
+     * @param $floor 楼层ID
+     * @return array 大室ID-name
+     */
+    public static function get_broom($fid = '', $floor = '') {
+        $rooms = static::find()->where(['rid' => NULL])->andFilterWhere(['fid' => $fid, 'floor' => $floor])->select(['id', 'name', 'note', 'stat'])->orderBy(['name' => SORT_ASC])->indexBy('id')->asArray()->all();
+
+        return $rooms;
+    }
+
+    /**
+     * 获得有小室ID及名称
+     * @param $bid 大室ID
+     * @return array 大室ID-name
+     */
+    public static function get_sroom($bid = '') {
+        $rooms = static::find()->andFilterWhere(['rid' => $bid])->select(['id', 'name', 'note', 'stat'])->orderBy(['name' => SORT_ASC])->indexBy('id')->asArray()->all();
+
+        return $rooms;
     }
 
 }

@@ -3,13 +3,18 @@
 namespace dms\controllers;
 
 use Yii;
+use yii\web\Controller;
+use yii\filters\VerbFilter;
+use bluehe\phpexcel\Excel;
 use dms\models\RepairOrder;
 use dms\models\RepairOrderSearch;
 use dms\models\RepairWorker;
 use dms\models\System;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use bluehe\phpexcel\Excel;
+use dms\models\Forum;
+use dms\models\Room;
+use dms\models\Bed;
+use dms\models\Teacher;
+use dms\models\TeacherSearch;
 
 class WorkController extends Controller {
 
@@ -418,6 +423,307 @@ class WorkController extends Controller {
             Yii::$app->session->setFlash('error', '操作失败。');
         }
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionBuilding() {
+        //统计
+        $total = [];
+        $total['broom_num'] = Room::find()->where(['rid' => NULL])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+        $total['broom_open'] = Room::find()->where(['rid' => NULL, 'stat' => Room::STAT_OPEN])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+        $total['sroom_open'] = Room::find()->where(['stat' => Room::STAT_OPEN])->andWhere(['not', ['rid' => NULL]])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+        $total['bed_open'] = Bed::find()->joinWith('room')->where([Room::tableName() . '.stat' => Room::STAT_OPEN, Bed::tableName() . '.stat' => Bed::STAT_OPEN])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+        $total['bed_num'] = Bed::find()->select(['count(*)'])->groupBy(['rid'])->indexBy('rid')->column();
+
+
+
+
+        $data = [];
+        $forums = Forum::get_forumfup_id(null, Forum::STAT_OPEN);
+
+        foreach ($forums as $k => $p) {
+            $data[$k]['forum_name'] = $p;
+            //本级楼苑
+            //楼层
+            $floors = Room::get_room_floor($k);
+            $floor = [];
+            foreach ($floors as $k_f => $name) {
+                $floor[$k_f]['floor_name'] = $name;
+
+                //大室
+                $brooms = Room::get_broom($k, $k_f);
+                foreach ($brooms as $bid => $one) {
+                    $brooms[$bid]['sroom'] = Room::get_sroom($bid);
+
+
+                    if ($brooms[$bid]['sroom']) {
+                        //小室床位
+                        foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
+                            $brooms[$bid]['sroom'][$sid]['bed'] = Bed::get_room_bed($sid);
+                        }
+                    } else {
+                        //大室床位
+                        $brooms[$bid]['bed'] = Bed::get_room_bed($bid);
+                    }
+
+                    //设定大室床位数
+                    if (!isset($total['bed_num'][$bid])) {
+                        $num = 0;
+                        foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
+                            if (isset($total['bed_num'][$sid])) {
+                                $num += $total['bed_num'][$sid];
+                            }
+                        }
+                        if ($num) {
+                            $total['bed_num'][$bid] = $num;
+                        }
+                    }
+                }
+
+
+                $floor[$k_f]['broom'] = $brooms;
+            }
+            $data[$k]['floor'] = $floor;
+
+            //下级楼苑
+            $subforums = Forum::get_forumsub_id($k, Forum::STAT_OPEN);
+
+            $sub = [];
+            $broom_num = 0;
+            $broom_open = 0;
+            $sroom_open = 0;
+            $bed_open = 0;
+            foreach ($subforums as $sub_id => $c) {
+                $sub[$sub_id]['forum_name'] = $c;
+
+                //一级楼苑大室数量
+                if (isset($total['broom_num'][$sub_id])) {
+                    $broom_num += $total['broom_num'][$sub_id];
+                }
+                if (isset($total['broom_open'][$sub_id])) {
+                    $broom_open += $total['broom_open'][$sub_id];
+                }
+                if (isset($total['sroom_open'][$sub_id])) {
+                    $sroom_open += $total['sroom_open'][$sub_id];
+                }
+                if (isset($total['bed_open'][$sub_id])) {
+                    $bed_open += $total['bed_open'][$sub_id];
+                }
+
+                //楼层
+                $floors = Room::get_room_floor($sub_id);
+                $floor = [];
+                foreach ($floors as $k_f => $name) {
+                    $floor[$k_f]['floor_name'] = $name;
+
+                    //大室
+                    $brooms = Room::get_broom($sub_id, $k_f);
+                    foreach ($brooms as $bid => $one) {
+                        $brooms[$bid]['sroom'] = Room::get_sroom($bid);
+                        if ($brooms[$bid]['sroom']) {
+                            //小室床位
+                            foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
+                                $brooms[$bid]['sroom'][$sid]['bed'] = Bed::get_room_bed($sid);
+                            }
+                        } else {
+                            //大室床位
+                            $brooms[$bid]['bed'] = Bed::get_room_bed($bid);
+                        }
+                        if (!isset($total['bed_num'][$bid])) {
+                            $bed_num = 0;
+                            foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
+                                if (isset($total['bed_num'][$sid])) {
+                                    $bed_num += $total['bed_num'][$sid];
+                                }
+                            }
+                            if ($bed_num) {
+                                $total['bed_num'][$bid] = $bed_num;
+                            }
+                        }
+                    }
+
+
+                    $floor[$k_f]['broom'] = $brooms;
+                }
+                $sub[$sub_id]['floor'] = $floor;
+            }
+            $data[$k]['children'] = $sub;
+
+            if (!isset($total['broom_num'][$k]) && $broom_num) {
+                $total['broom_num'][$k] = $broom_num;
+                if ($broom_open) {
+                    $total['broom_open'][$k] = $broom_open;
+                }
+                if ($sroom_open) {
+                    $total['sroom_open'][$k] = $sroom_open;
+                }
+                if ($bed_open) {
+                    $total['bed_open'][$k] = $bed_open;
+                }
+            }
+        }
+
+
+        return $this->render('building', [
+                    'forums' => $data, 'total' => $total
+        ]);
+    }
+
+    /**
+     * Lists all Teacher models.
+     * @return mixed
+     */
+    public function actionTeacher() {
+        $searchModel = new TeacherSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('teacher', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Creates a new Teacher model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionTeacherCreate() {
+        $model = new Teacher();
+        $model->stat = Teacher::STAT_OPEN;
+        $model->gender = Teacher::GENDER_MALE;
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->validate()) {
+
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $model->save(false);
+                    if ($model->uid) {
+                        $auth = Yii::$app->authManager;
+                        $Role_new = $auth->getRole('teacher');
+                        if (!$auth->getAssignment($Role_new->name, $model->uid)) {
+                            $auth->assign($Role_new, $model->uid);
+                        }
+                    }
+
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', '创建成功。');
+                    return $this->redirect(['teacher-update', 'id' => $model->id]);
+                } catch (\Exception $e) {
+
+                    $transaction->rollBack();
+//                throw $e;
+                    Yii::$app->session->setFlash('error', '创建失败。');
+                }
+            }
+        }
+        return $this->render('teacher-create', [
+                    'model' => $model,
+        ]);
+    }
+
+    /**
+     * Updates an existing Teacher model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionTeacherUpdate($id) {
+        $model = Teacher::findOne($id);
+
+        $uid = $model->uid;
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->validate()) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $model->save(false);
+
+                    if ((int) $model->uid != $uid) {
+
+                        $auth = Yii::$app->authManager;
+                        $Role = $auth->getRole('teacher');
+
+                        if (!Teacher::find()->where(['uid' => $uid])->andWhere(['<>', 'id', $model->id])->one()) {
+                            $auth->revoke($Role, $uid);
+                        }
+
+                        if ($model->uid && !$auth->getAssignment($Role->name, $model->uid)) {
+                            $auth->assign($Role, $model->uid);
+                        }
+                    }
+
+                    $transaction->commit();
+
+                    Yii::$app->session->setFlash('success', '修改成功。');
+                } catch (\Exception $e) {
+
+                    $transaction->rollBack();
+//                throw $e;
+                    Yii::$app->session->setFlash('error', '修改失败。');
+                }
+            }
+        }
+
+        return $this->render('teacher-update', [
+                    'model' => $model,
+        ]);
+    }
+
+    /**
+     * Deletes an existing Teacher model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionTeacherDelete($id) {
+        $model = Teacher::findOne($id);
+        if ($model !== null) {
+            if ($model->uid) {
+                $auth = Yii::$app->authManager;
+                $Role = $auth->getRole('teacher');
+
+                if (!Teacher::find()->where(['uid' => $model->uid])->andWhere(['<>', 'id', $model->id])->one()) {
+                    $auth->revoke($Role, $model->uid);
+                }
+            }
+            $model->delete();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionTeacherBind($id) {
+        $model = Teacher::findOne($id);
+        $uid = $model->uid;
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save(false);
+
+                if ((int) $model->uid != $uid) {
+                    $auth = Yii::$app->authManager;
+                    $authorRole = $auth->getRole('teacher');
+                    if (!Teacher::find()->where(['uid' => $uid])->andWhere(['<>', 'id', $model->id])->one()) {
+                        $auth->revoke($authorRole, $uid);
+                    }
+                    if ($model->uid && !$auth->getAssignment($authorRole->name, $model->uid)) {
+                        $auth->assign($authorRole, $model->uid);
+                    }
+                }
+                $transaction->commit();
+            } catch (\Exception $e) {
+
+                $transaction->rollBack();
+//                throw $e;
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            return $this->renderAjax('_form-bind', [
+                        'model' => $model,
+            ]);
+        }
     }
 
 }

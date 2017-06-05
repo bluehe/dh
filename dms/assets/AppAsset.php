@@ -39,7 +39,7 @@ class AppAsset extends AssetBundle {
         $action_id = \Yii::$app->controller->action->id;
         if ($controller_id == 'site' && $action_id == 'index') {
             $this->depends[] = 'dms\assets\IndexAsset';
-        } elseif (($controller_id == 'forum' && ($action_id == 'room-create' || $action_id == 'room-update' || $action_id == 'bed-create' || $action_id == 'bed-update')) || ($controller_id == 'repair' && ($action_id == 'worker' || $action_id == 'worker-create' || $action_id == 'worker-update'))) {
+        } elseif (($controller_id == 'forum' && ($action_id == 'room-create' || $action_id == 'room-update' || $action_id == 'bed-create' || $action_id == 'bed-update')) || ($controller_id == 'repair' && ($action_id == 'worker' || $action_id == 'worker-create' || $action_id == 'worker-update')) || ($controller_id == 'work' && ($action_id == 'teacher-create' || $action_id == 'teacher-update'))) {
             $this->depends[] = 'dms\assets\Select2Asset';
         } elseif ($controller_id == 'statistics') {
             $this->depends[] = 'dms\assets\StatisticsAsset';

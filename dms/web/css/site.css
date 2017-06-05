@@ -205,3 +205,99 @@ a.desc:after {
 }
 
 .form-group .rating-container .rating {cursor: pointer}
+
+/*楼苑概况*/
+#navbar-forum{
+    width:65px;
+}
+#navbar-forum.affix {
+    position: fixed;
+    top:0px;
+}
+#navbar-forum.affix-bottom {
+    position: absolute;
+}
+#navbar-forum .nav .nav{
+    display: none;
+}
+#navbar-forum .nav>.active>ul{
+    display: block;
+}
+#navbar-forum .nav>.active>a {
+    margin-left: -2px;
+    font-weight: 700;
+    color: #3c8dbc;
+    border-left: 2px solid #3c8dbc;
+}
+
+#navbar-forum .nav .nav>li>a {
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+}
+#navbar-forum .nav > li > a {
+    display: block;
+    padding: 8px 10px;
+    font-weight: 500;
+    color: #767676;
+}
+#navbar-forum .nav>li>a:hover {
+    margin-left: -1px;
+    color: #3c8dbc;
+    border-left: 1px solid #3c8dbc;
+}
+.floor {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px #f4f4f4 solid;
+    width: 100%;
+}
+.floor:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.clearspace {
+    margin: 0;
+    padding: 0;
+}
+.text_ellipsis {
+    overflow: hidden;
+    margin: 5px 0;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.broom {
+    border: 1px solid #fff;
+    margin: 0 2px 4px 2px;
+}
+.broom>h4 {
+    margin: 0;
+    padding: 5px 0;
+    border: 1px solid #fff;
+}
+.sroom {
+    border: 1px solid #fff;
+    margin: 0 2px 4px 2px;
+    cursor: pointer;
+}
+.sroom i.fa {
+    line-height: 30px;
+    overflow: hidden;
+
+}
+
+.broom .sroom {
+    margin: 0;
+}
+.bed_content{
+    height: 30px;
+}
+.bed_content>div{
+    float:left;
+    border:1px solid #fff;
+    font-size: 12px;
+    line-height: 12px;
+    display: none;
+}

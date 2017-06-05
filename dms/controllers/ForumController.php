@@ -193,6 +193,10 @@ class ForumController extends Controller {
                     Forum::updateAll(['fsort' => $model->sort_order], ['fup' => $model->id]);
                 }
 
+                if ($model->stat == Forum::STAT_CLOSE) {
+                    Forum::updateAll(['stat' => Forum::STAT_CLOSE], ['fup' => $model->id]);
+                }
+
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', '修改成功。');
             } catch (\Exception $e) {
@@ -310,6 +314,10 @@ class ForumController extends Controller {
                         //大室平调,小室需要变更楼苑、楼层、标志;大室变小室，有下属小室,不准变更,否则本步不需要处理
                         Room::updateAll(['fname' => $model->name, 'fid' => $model->fid, 'floor' => $model->floor, 'gender' => $model->gender], ['rid' => $model->id]);
                     }
+                    if ($model->stat == Room::STAT_CLOSE) {
+                        Room::updateAll(['stat' => Room::STAT_CLOSE, 'note' => $model->note], ['rid' => $model->id]);
+                    }
+
 
                     $transaction->commit();
                     Yii::$app->session->setFlash('success', '修改成功。');

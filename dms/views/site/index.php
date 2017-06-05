@@ -10,7 +10,7 @@ $this->title = '首页';
 <!-- Small boxes (Stat box) -->
 <?php if (Yii::$app->user->can('楼苑设置')) { ?>
     <div class="row">
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
 
@@ -23,7 +23,7 @@ $this->title = '首页';
             <!-- /.info-box -->
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
             <div class="info-box">
                 <span class="info-box-icon bg-blue"><i class="fa fa-home"></i></span>
 
@@ -36,7 +36,7 @@ $this->title = '首页';
             <!-- /.info-box -->
         </div>
         <!-- ./col -->
-        <div class="col-lg-3  col-xs-6">
+        <div class="col-md-3  col-xs-6">
             <div class="info-box">
                 <span class="info-box-icon bg-yellow"><i class="fa fa-bed"></i></span>
 
@@ -49,7 +49,7 @@ $this->title = '首页';
             <!-- /.info-box -->
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
             <div class="info-box">
                 <span class="info-box-icon bg-red"><i class="fa fa-users"></i></span>
 
@@ -69,7 +69,7 @@ $this->title = '首页';
 
 <?php if (Yii::$app->user->can('维修管理')) { ?>
     <div class="row">
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3><?= $total['repair_today'] ?></h3>
@@ -84,7 +84,7 @@ $this->title = '首页';
         </div>
         <!-- ./col -->
         <?php if (Yii::$app->user->can('报修管理')) { ?>
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-md-3 col-xs-6">
                 <div class="small-box bg-blue">
                     <div class="inner">
                         <h3><?= isset($total['repair'][RepairOrder::STAT_OPEN]) ? $total['repair'][RepairOrder::STAT_OPEN] : 0 ?></h3>
@@ -98,7 +98,7 @@ $this->title = '首页';
                 <!-- /.info-box -->
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-md-3 col-xs-6">
                 <div class="small-box bg-yellow">
                     <div class="inner">
                         <h3><?= isset($total['repair'][RepairOrder::STAT_ACCEPT]) ? $total['repair'][RepairOrder::STAT_ACCEPT] : 0 ?></h3>
@@ -113,7 +113,7 @@ $this->title = '首页';
             </div>
             <!-- ./col -->
         <?php } ?>
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
             <div class="small-box bg-red">
                 <div class="inner">
                     <h3><?= isset($total['repair'][RepairOrder::STAT_DISPATCH]) ? $total['repair'][RepairOrder::STAT_DISPATCH] : 0 ?></h3>
@@ -133,7 +133,7 @@ $this->title = '首页';
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-7 connectedSortable">
+    <section class="col-md-7 connectedSortable">
 
 
         <!-- TO DO List -->

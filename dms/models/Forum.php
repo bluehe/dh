@@ -76,12 +76,6 @@ class Forum extends ActiveRecord {
         return $this->hasMany(Forum::className(), ['fup' => 'id'])->from(Forum::tableName() . ' c');
     }
 
-    //得到顶级楼苑ID-name 键值数组
-    public static function get_forumfup_id($id) {
-        $forums = Forum::find()->where(['fup' => NULL])->andFilterWhere(['<>', 'id', $id])->orderBy(['sort_order' => SORT_ASC])->all();
-        return ArrayHelper::map($forums, 'id', 'name');
-    }
-
     public static $List = [
 //        'mold' => [
 //            self::MOLD_SIG => "单间",
@@ -102,6 +96,28 @@ class Forum extends ActiveRecord {
 
         $stat = self::$List['stat'][$this->stat];
         return isset($stat) ? $stat : null;
+    }
+
+    /**
+     * 获得上级楼苑的名称
+     * @param $id 楼苑ID
+     * @param $stat 楼苑状态
+     * @return array 楼苑ID-name
+     */
+    public static function get_forumfup_id($id = null, $stat = '') {
+        $forums = Forum::find()->where(['fup' => NULL])->andFilterWhere(['<>', 'id', $id])->andFilterWhere(['stat' => $stat])->orderBy(['sort_order' => SORT_ASC])->all();
+        return ArrayHelper::map($forums, 'id', 'name');
+    }
+
+    /**
+     * 获得下级楼苑的名称
+     * @param $id 楼苑ID
+     * @param $stat 楼苑状态
+     * @return array 楼苑ID-name
+     */
+    public static function get_forumsub_id($id = null, $stat = '') {
+        $forums = Forum::find()->where(['not', ['fup' => NULL]])->andFilterWhere(['fup' => $id])->andFilterWhere(['stat' => $stat])->orderBy(['sort_order' => SORT_ASC])->all();
+        return ArrayHelper::map($forums, 'id', 'name');
     }
 
 }

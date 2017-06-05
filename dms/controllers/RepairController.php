@@ -357,6 +357,16 @@ class RepairController extends Controller {
     public function actionWorkerDelete($id) {
         $model = RepairWorker::findOne($id);
         if ($model !== null) {
+            if ($model->uid) {
+
+                $auth = Yii::$app->authManager;
+                $Role_worker = $auth->getRole('repair_worker');
+                $Role_admin = $auth->getRole('repair_admin');
+                $Role_old = $model->role == RepairWorker::ROLE_ADMIN ? $Role_admin : $Role_worker;
+                if (!RepairWorker::find()->where(['uid' => $model->uid, 'role' => $model->role])->andWhere(['<>', 'id', $model->id])->one()) {
+                    $auth->revoke($Role_old, $model->uid);
+                }
+            }
             $model->delete();
         }
 
