@@ -361,4 +361,28 @@ class RepairOrder extends ActiveRecord {
         return $query->groupBy([$b])->select(['count(*)'])->indexBy($b)->column();
     }
 
+    public static function get_permission() {
+        $sql = [];
+        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
+            //维修工
+            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'role' => RepairWorker::ROLE_WORKER, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
+            $sql = ['worker_id' => $worker];
+        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+            //受理员
+            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'role' => RepairWorker::ROLE_ADMIN, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
+
+            foreach ($worker as $w) {
+                $type = RepairWorker::get_worker_type($w);
+                $area = RepairWorker::get_worker_area($w);
+                $sql = ['OR', $sql, ['AND', ['OR', ['repair_type' => NULL], ['repair_type' => $type]], ['OR', ['repair_area' => NULL], ['repair_area' => $area]]]];
+            }
+            //维修工
+            $worker2 = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'role' => RepairWorker::ROLE_WORKER, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
+            if ($worker2) {
+                $sql = ['OR', $sql, ['worker_id' => $worker2]];
+            }
+        }
+        return $sql;
+    }
+
 }

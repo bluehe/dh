@@ -40,18 +40,6 @@ class WorkController extends Controller {
 
         $searchModel = new RepairOrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-//        $paramsExcel = ''; //这个参数是控制接收view层GridView::widget filter的参数
-//        if (($params = Yii::$app->request->queryParams)) {
-//
-//            foreach ($params as $k => $v) {
-//                if ($v) {
-//                    $paramsExcel .= $k . '=' . $v . '&';
-//                }
-//            }
-//
-//            $paramsExcel = rtrim($paramsExcel, '&');
-//        }
-
 
         return $this->render('repair-work', [
                     'searchModel' => $searchModel,
@@ -154,17 +142,19 @@ class WorkController extends Controller {
      */
     public function actionRepairView($id) {
         $query = RepairOrder::find()->where(['id' => $id]);
+        $query->andWhere(RepairOrder::get_permission());
 
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
-            //维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-            //受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
+//            //维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//            //受理员
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
+//            $type = RepairWorker::get_worker_type($worker);
+//            $area = RepairWorker::get_worker_area($worker);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         $model = $query->one();
 
         if ($model !== null) {
@@ -185,11 +175,12 @@ class WorkController extends Controller {
      */
     public function actionRepairUpdate($id) {
         $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
-        if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query->andWhere(RepairOrder::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         $model = $query->one();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -225,11 +216,12 @@ class WorkController extends Controller {
      */
     public function actionRepairAccept($id) {
         $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
-        if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query->andWhere(RepairOrder::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         $model = $query->one();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -288,11 +280,12 @@ class WorkController extends Controller {
         try {
             foreach ($order_ids as $id) {
                 $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
-                if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-                    $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-                    $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-                    $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-                }
+                $query->andWhere(RepairOrder::get_permission());
+//                if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//                    $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//                    $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//                    $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//                }
                 $model = $query->one();
                 if ($model !== null) {
                     if ($business_accept === '1') {
@@ -368,14 +361,15 @@ class WorkController extends Controller {
 
     public function actionRepairRepair($id) {
         $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_DISPATCH]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query->andWhere(RepairOrder::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         $model = $query->one();
 
         if ($model !== null) {
@@ -395,14 +389,15 @@ class WorkController extends Controller {
         try {
             foreach ($order_ids as $id) {
                 $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_DISPATCH]);
-                if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
-                    $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-                    $query->andWhere(['worker_id' => $worker]);
-                } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-                    $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-                    $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-                    $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-                }
+                $query->andWhere(RepairOrder::get_permission());
+//                if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
+//                    $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//                    $query->andWhere(['worker_id' => $worker]);
+//                } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+//                    $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//                    $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//                    $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//                }
                 $model = $query->one();
 
                 if ($model !== null) {
