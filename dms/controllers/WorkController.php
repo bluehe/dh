@@ -8,7 +8,6 @@ use yii\filters\VerbFilter;
 use bluehe\phpexcel\Excel;
 use dms\models\RepairOrder;
 use dms\models\RepairOrderSearch;
-use dms\models\RepairWorker;
 use dms\models\System;
 use dms\models\Forum;
 use dms\models\Room;
@@ -602,13 +601,13 @@ class WorkController extends Controller {
                     }
 
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', '创建成功。');
+                    Yii::$app->session->setFlash('success', '添加成功。');
                     return $this->redirect(['teacher-update', 'id' => $model->id]);
                 } catch (\Exception $e) {
 
                     $transaction->rollBack();
 //                throw $e;
-                    Yii::$app->session->setFlash('error', '创建失败。');
+                    Yii::$app->session->setFlash('error', '添加失败。');
                 }
             }
         }

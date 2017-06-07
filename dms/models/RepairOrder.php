@@ -185,24 +185,24 @@ class RepairOrder extends ActiveRecord {
     }
 
     public static function get_repair_type() {
-        $tids = static::find()->select(['repair_type'])->distinct()->column();
+        $tids = static::find()->andWhere(self::get_permission())->select(['repair_type'])->distinct()->column();
         $types = Parameter::find()->where(['name' => 'repair_type', 'id' => $tids])->all();
         return ArrayHelper::map($types, 'id', 'v');
     }
 
     public static function get_repair_area() {
-        $fids = static::find()->select(['repair_area'])->distinct()->column();
+        $fids = static::find()->andWhere(self::get_permission())->select(['repair_area'])->distinct()->column();
         $forum = Forum::find()->where(['id' => $fids])->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
         return ArrayHelper::map($forum, 'id', 'name');
     }
 
     public static function get_repair_worker() {
-        $workers = static::find()->select(['worker_id'])->distinct()->column();
+        $workers = static::find()->andWhere(self::get_permission())->select(['worker_id'])->distinct()->column();
         $query = RepairWorker::find()->where(['id' => $workers]);
 
-        if (!Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
-            $query->andWhere(['uid' => Yii::$app->user->identity->id]);
-        }
+//        if (!Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
+//            $query->andWhere(['uid' => Yii::$app->user->identity->id]);
+//        }
         $worker = $query->all();
         return ArrayHelper::map($worker, 'id', 'name');
     }
@@ -226,118 +226,118 @@ class RepairOrder extends ActiveRecord {
 
     public static function get_repair_today($t = '') {
 
-        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
-//维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(self::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+////维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+////受理员
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
 
         return $query->andFilterWhere(['>=', 'created_at', $t])->count();
     }
 
     public static function get_stat_total() {
 
-        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
-//维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(self::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+////维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+////受理员
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         return $query->groupBy(['stat'])->select(['count(*)'])->indexBy('stat')->column();
     }
 
     public static function get_area_total($t = '', $start = '', $end = '') {
 
-        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
-//维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(self::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+////维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+////受理员
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         $query->andFilterWhere(['repair_type' => $t])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<', 'created_at', $end]);
         return $query->groupBy(['repair_area'])->select(['count(*)'])->indexBy('repair_area')->column();
     }
 
     public static function get_type_total($a = '', $start = '', $end = '') {
 
-        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
-//维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(self::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+////维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+////受理员
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         $query->andFilterWhere(['repair_area' => $a])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
         return $query->groupBy(['repair_type'])->select(['count(*)'])->indexBy('repair_type')->column();
     }
 
     public static function get_evaluate_total($a = 'evaluate1', $start = '', $end = '') {
 
-        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
-//维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(self::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+////维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+////受理员
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         $query->andWhere(['not', [$a => NULL]])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
         return $query->groupBy([$a])->select(['count(*)'])->indexBy($a)->column();
     }
 
     public static function get_evaluate_avg($a = 'evaluate1', $start = '', $end = '') {
 
-        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
-//维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(self::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+////维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+////受理员
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
         $query->andWhere(['not', [$a => NULL]])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
         return $query->groupBy(["FROM_UNIXTIME(created_at, '%Y-%m-%d')"])->select(['avg(' . $a . ')'])->indexBy("FROM_UNIXTIME(created_at, '%Y-%m-%d')")->column();
     }
 
     public static function get_day_total($a = 'created_at', $start = '', $end = '') {
 
-        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
-//维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(self::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+////维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+////受理员
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
 
         $query->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
         return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME($a, '%Y-%m-%d')")->column();
@@ -345,17 +345,17 @@ class RepairOrder extends ActiveRecord {
 
     public static function get_work_total($a = 'accept_at', $b = 'accept_uid', $start = '', $end = '') {
 
-        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]]);
-        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
-//维修工
-            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-            $query->andWhere(['worker_id' => $worker]);
-        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//受理员
-            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-        }
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(self::get_permission());
+//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理')) {
+////维修工
+//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
+//            $query->andWhere(['worker_id' => $worker]);
+//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
+////受理员
+//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
+//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
+//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
+//        }
 
         $query->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
         return $query->groupBy([$b])->select(['count(*)'])->indexBy($b)->column();

@@ -104,11 +104,15 @@ class Bed extends ActiveRecord {
     public function getRoomList($fid, $floor) {
 
         $query = Room::find()->where(['fid' => $fid, 'floor' => $floor])->orderBy(['fname' => SORT_ASC, 'rid' => SORT_ASC, 'name' => SORT_ASC]);
-        if (System::getValue('business_roomtype') === '1' && System::getValue('business_bed') === '2') {
-            $query->andWhere(['not', ['rid' => NULL]]);
+        if (System::getValue('business_roomtype') === '1') {
+            if (System::getValue('business_bed') === '2') {
+                $query->andWhere(['not', ['rid' => NULL]]);
+            } else {
+                $bids = Room::find()->where(['fid' => $fid, 'floor' => $floor])->andWhere(['not', ['rid' => NULL]])->select(['rid'])->distinct()->column();
+                $query->andWhere(['not', ['id' => $bids]]);
+            }
         } else {
-            $bids = Room::find()->where(['fid' => $fid, 'floor' => $floor])->andWhere(['not', ['rid' => NULL]])->select(['rid'])->distinct()->column();
-            $query->andWhere(['not', ['id' => $bids]]);
+            $query->andWhere(['rid' => NULL]);
         }
         $rooms = $query->all();
         $result = [];

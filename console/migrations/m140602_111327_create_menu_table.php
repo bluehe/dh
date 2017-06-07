@@ -42,6 +42,7 @@ class m140602_111327_create_menu_table extends \yii\db\Migration {
             [31, '报修管理', 30, '/work/repair-work', 1, '{"icon":"fa fa-wrench"}'],
             [32, '楼苑概况', 30, '/work/building', 2, '{"icon":"fa fa-building-o"}'],
             [33, '教职工管理', 30, '/work/teacher', 3, '{"icon":"fa fa-users","multi-action":[ "teacher", "teacher-create","teacher-update"]}'],
+            [34, '学生管理', 30, '/student/student', 3, '{"icon":"fa fa-graduation-cap","multi-action":[ "student", "student-create","student-update"]}'],
             [40, '系统设置', NULL, '/system/index', 4, '{"icon":"fa fa-cogs"}'],
             [41, '系统信息', 40, '/system/index', 1, '{"icon":"fa fa-cog"}'],
             [42, '邮件设置', 40, '/system/smtp', 2, '{"icon":"fa fa-envelope-o"}'],

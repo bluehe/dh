@@ -47,6 +47,7 @@ class Teacher extends ActiveRecord {
             [['uid', 'college', 'stat'], 'integer'],
             [['name', 'tel'], 'required', 'message' => '{attribute}不能为空'],
             [['name'], 'string', 'max' => 8, 'message' => '{attribute}最长8个字符'],
+            [['name'], 'unique', 'targetAttribute' => ['name', 'college'], 'message' => '{attribute}已经存在'],
             [['tel', 'email'], 'string', 'max' => 64, 'message' => '{attribute}最长64个字符'],
             [['address', 'note'], 'string', 'max' => 255, 'message' => '{attribute}最长255个字符'],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
@@ -69,7 +70,7 @@ class Teacher extends ActiveRecord {
             'gender' => '性别',
             'college' => '学院',
             'tel' => '电话',
-            'email' => '电子邮箱',
+            'email' => 'E-mail',
             'address' => '地址',
             'note' => '备注',
             'stat' => '状态',
@@ -79,7 +80,8 @@ class Teacher extends ActiveRecord {
     public static $List = [
         'stat' => [
             self::STAT_OPEN => "启用",
-            self::STAT_CLOSE => "关闭"
+            self::STAT_CLOSE => "关闭",
+            self::STAT_CHECK => "待审核"
         ],
         'gender' => [
             self::GENDER_MALE => "男",
@@ -115,6 +117,13 @@ class Teacher extends ActiveRecord {
     public static function get_user_id() {
         $users = User::find()->where(['status' => User::STATUS_ACTIVE])->all();
         return ArrayHelper::map($users, 'id', 'username');
+    }
+
+    //得到专业ID-name 键值数组
+    public static function get_college_teacher($id) {
+
+        $teachers = static::find()->where(['college' => $id])->all();
+        return ArrayHelper::map($teachers, 'id', 'name');
     }
 
 }

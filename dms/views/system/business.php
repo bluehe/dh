@@ -43,9 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-md-6"><div class="help-block">
                                     <?php
                                     switch ($one['code']) {
-                                        case 'business_room':echo '选择“一级”允许所有楼苑添加房间，选择“二级”只允许二级楼苑添加房间。';
+                                        case 'business_room':echo '选择“一级”允许所有一级及二级楼苑添加房间，选择“二级”只允许没有二级楼苑的一级楼苑及二级楼苑添加房间。';
                                             break;
-                                        case 'business_bed':echo '选择“大室”允许所有房间添加床位，选择“小室”只允许套间小室添加床位。';
+                                        case 'business_bed':echo '选择“大室”允许没有小室的套间及所有小室添加床位，选择“小室”只允许套间小室添加床位。';
                                             break;
                                         case 'business_accept':echo '选择“派工”可以在受理页面直接派工，选择“受理”只能选择是否受理。';
                                             break;

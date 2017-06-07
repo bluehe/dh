@@ -18,10 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="nav-tabs-custom">
             <!-- Tabs within a box -->
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#repair_line" data-toggle="tab">趋势</a></li>
+                <li class="active"><a href="#repair_line" data-toggle="tab">报修趋势</a></li>
                 <li><a href="#repair_area" data-toggle="tab">区域</a></li>
                 <li><a href="#repair_type" data-toggle="tab">类型</a></li>
-                <li><a href="#repair_evaluate" data-toggle="tab">满意度</a></li>
+                <li><a href="#repair_evaluate_line" data-toggle="tab">满意度趋势</a></li>
+                <li><a href="#repair_evaluate" data-toggle="tab">评价统计</a></li>
 
                 <li><a href="#repair_worker" data-toggle="tab">人员</a></li>
 
@@ -258,7 +259,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         ?>
                     </section>
                 </div>
-                <div class="tab-pane row" id="repair_evaluate">
+                <div class="tab-pane row" id="repair_evaluate_line">
+
+
                     <section class="col-md-12">
                         <?=
                         Highcharts::widget([
@@ -295,6 +298,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                         ?>
                     </section>
+                </div>
+                <div class="tab-pane row" id="repair_evaluate">
                     <section class="col-md-4">
                         <?=
                         Highcharts::widget([
@@ -396,9 +401,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]
                         ]);
                         ?>
-                    </section>
-                </div>
-
+                    </section></div>
                 <div class="tab-pane row" id="repair_worker">
                     <section class="col-md-8">
                         <?=

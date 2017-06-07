@@ -3,6 +3,7 @@
 namespace dms\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%parameter}}".
@@ -43,6 +44,12 @@ class Parameter extends \yii\db\ActiveRecord {
             'sort_order' => '排序',
             'v' => '数值',
         ];
+    }
+
+    //得到ID-name 键值数组
+    public static function get_value($name = '') {
+        $parameter = Parameter::find()->where(['name' => $name])->orderBy(['sort_order' => SORT_ASC])->all();
+        return ArrayHelper::map($parameter, 'id', 'v');
     }
 
 }

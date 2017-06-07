@@ -73,4 +73,11 @@ class Major extends ActiveRecord {
         return ArrayHelper::map($college, 'id', 'name');
     }
 
+    //得到专业ID-name 键值数组
+    public static function get_college_major($id) {
+
+        $majors = static::find()->where(['college' => $id])->orderBy(['sort_order' => SORT_ASC])->all();
+        return ArrayHelper::map($majors, 'id', 'name');
+    }
+
 }

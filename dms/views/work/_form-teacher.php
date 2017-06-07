@@ -39,9 +39,9 @@ use dms\models\Teacher;
 
                 <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'uid')->dropDownList($model->get_user_id(), ['prompt' => '无', 'class' => 'form-control select2']) ?>
-
                 <?= $form->field($model, 'stat')->radioList(Teacher::$List['stat'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
+
+                <?= $form->field($model, 'uid')->dropDownList($model->get_user_id(), ['prompt' => '无', 'class' => 'form-control select2']) ?>
 
             </div>
             <div class="box-footer">

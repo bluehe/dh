@@ -21,7 +21,7 @@ class m170404_110830_create_forum_table extends Migration {
             'id' => $this->primaryKey(),
             'fup' => $this->integer(),
             'mark' => $this->integer(),
-            'name' => $this->string(32)->notNull()->unique(),
+            'name' => $this->string(32)->notNull(),
             'sort_order' => $this->smallInteger(3)->notNull()->defaultValue(1),
             'fsort' => $this->smallInteger(3)->notNull()->defaultValue(1),
 //            'mold' => $this->smallInteger()->notNull()->defaultValue(1), //1-单间；2-套间

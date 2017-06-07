@@ -39,7 +39,7 @@ class Forum extends ActiveRecord {
             [['name', 'sort_order', 'stat'], 'required', 'message' => '{attribute}不能为空'],
             [['name'], 'string', 'max' => 30, 'message' => '{attribute}最多30个字符'],
             [['fup'], 'exist', 'skipOnError' => true, 'targetClass' => Forum::className(), 'targetAttribute' => ['fup' => 'id']],
-            [['name'], 'unique', 'targetAttribute' => ['name'], 'message' => '{attribute}已经存在'],
+            [['name'], 'unique', 'targetAttribute' => ['fup', 'name'], 'message' => '{attribute}已经存在'],
 //            [['mold'], 'default', 'value' => self::MOLD_SIG],
 //            [['mold'], 'in', 'range' => [self::MOLD_SIG, self::MOLD_MUL]],
             [['stat'], 'default', 'value' => self::STAT_OPEN],
@@ -118,6 +118,16 @@ class Forum extends ActiveRecord {
     public static function get_forumsub_id($id = null, $stat = '') {
         $forums = Forum::find()->where(['not', ['fup' => NULL]])->andFilterWhere(['fup' => $id])->andFilterWhere(['stat' => $stat])->orderBy(['sort_order' => SORT_ASC])->all();
         return ArrayHelper::map($forums, 'id', 'name');
+    }
+
+    /**
+     * 获得楼苑的名称
+     * @param $id 楼苑ID
+     * @return string name
+     */
+    public static function get_forum_name($id = null) {
+        $forum = Forum::find()->where(['id' => $id])->one();
+        return $forum !== null ? $forum->name : null;
     }
 
 }

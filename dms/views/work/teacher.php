@@ -13,7 +13,7 @@ use yii\bootstrap\Modal;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '教职工管理';
-$this->params['breadcrumbs'][] = ['label' => '日常事务', 'url' => ['work/repair-work']];
+$this->params['breadcrumbs'][] = ['label' => '日常事务', 'url' => ['work/teacher']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teacher-index">

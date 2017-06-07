@@ -26,13 +26,15 @@ class StatisticsController extends Controller {
 
         $types = RepairWorker::get_type_id();
         $areas = Room::get_forum_id();
+
         $series = [];
         //区域合计
         $repair_area = RepairOrder::get_area_total('', $start, $end);
+
         arsort($repair_area);
         $data = [];
         foreach ($repair_area as $index => $one) {
-            $data[] = ['name' => $areas[$index], 'y' => (int) $one];
+            $data[] = ['name' => isset($areas[$index]) ? $areas[$index] : '未定义', 'y' => (int) $one];
         }
         $series['area_total'][] = ['type' => 'pie', 'name' => '合计', 'data' => $data];
 
@@ -41,7 +43,7 @@ class StatisticsController extends Controller {
             $r = RepairOrder::get_area_total($key, $start, $end);
             $data = [];
             foreach ($r as $index => $one) {
-                $data[] = ['name' => $areas[$index], 'y' => (int) $one];
+                $data[] = ['name' => isset($areas[$index]) ? $areas[$index] : '未定义', 'y' => (int) $one];
             }
             $series['area'][] = ['type' => 'column', 'name' => $type, 'data' => $data];
         }
@@ -51,7 +53,7 @@ class StatisticsController extends Controller {
         arsort($repair_type);
         $data = [];
         foreach ($repair_type as $index => $one) {
-            $data[] = ['name' => $types[$index], 'y' => (int) $one];
+            $data[] = ['name' => isset($types[$index]) ? $types[$index] : '未定义', 'y' => (int) $one];
         }
         $series['type_total'][] = ['type' => 'pie', 'name' => '合计', 'data' => $data];
 
@@ -60,7 +62,7 @@ class StatisticsController extends Controller {
             $r = RepairOrder::get_type_total($key, $start, $end);
             $data = [];
             foreach ($r as $index => $one) {
-                $data[] = ['name' => $types[$index], 'y' => (int) $one];
+                $data[] = ['name' => isset($types[$index]) ? $types[$index] : '未定义', 'y' => (int) $one];
             }
             $series['type'][] = ['type' => 'column', 'name' => $area, 'data' => $data];
         }
@@ -131,7 +133,7 @@ class StatisticsController extends Controller {
         $work_repair = RepairOrder::get_work_total('repair_at', 'worker_id', $start, $end);
         $data = [];
         $keys = array_unique(array_merge(array_keys($work_accept), array_keys($work_dispatch)));
-
+        $work = [];
         foreach ($keys as $one) {
             $num = RepairWorker::find()->where(['uid' => $one])->count();
             if ($num == 1) {
@@ -152,6 +154,9 @@ class StatisticsController extends Controller {
         }
 
         ksort($work);
+        $accept = [];
+        $dispatch = [];
+        $repair = [];
         foreach ($work as $w) {
             $accept[] = ['name' => $w['name'], 'y' => isset($w['accept']) ? (int) $w['accept'] : null];
             $dispatch[] = ['name' => $w['name'], 'y' => isset($w['dispatch']) ? (int) $w['dispatch'] : null];

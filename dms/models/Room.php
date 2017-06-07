@@ -137,17 +137,24 @@ class Room extends ActiveRecord {
     }
 
     /**
-     * 通过楼苑id获得名称
+     * 楼苑id及名称，添加房间中使用
      * @param $id 楼苑ID
      * @return array 楼苑ID-name
      */
     public static function get_forum_id($id = array()) {
         $query = Forum::find()->orderBy(['fsort' => SORT_ASC, 'mark' => SORT_ASC, 'fup' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC])->andFilterWhere(['id' => $id]);
         if (System::getValue('business_forum') === '1' && System::getValue('business_room') === '2') {
-            $query->andWhere(['not', ['fup' => NULL]]);
+
+            $fids = Forum::find()->andFilterWhere(['id' => $id])->andWhere(['not', ['fup' => NULL]])->select(['fup'])->distinct()->column();
+            $query->andWhere(['not', ['id' => $fids]]);
         }
-        $forum = $query->all();
-        return ArrayHelper::map($forum, 'id', 'name');
+
+        $forums = $query->all();
+        $result = [];
+        foreach ($forums as $forum) {
+            $result[$forum['id']] = $forum['fup'] ? Forum::get_forum_name($forum['fup']) . $forum['name'] : $forum['name'];
+        }
+        return $result;
     }
 
     /**
