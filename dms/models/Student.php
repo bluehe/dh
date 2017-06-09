@@ -34,6 +34,7 @@ use yii\helpers\ArrayHelper;
 class Student extends ActiveRecord {
 
     const STAT_OPEN = 1;
+    const STAT_GRADUATE = -1;
     const STAT_CLOSE = 2;
     const STAT_CHECK = 3;
     const GENDER_MALE = 'M';
@@ -93,8 +94,9 @@ class Student extends ActiveRecord {
 
     public static $List = [
         'stat' => [
-            self::STAT_OPEN => "正常",
-            self::STAT_CLOSE => "关闭",
+            self::STAT_OPEN => "在读",
+            self::STAT_GRADUATE => "毕业",
+            self::STAT_CLOSE => " ",
             self::STAT_CHECK => "待审核"
         ],
         'gender' => [
@@ -146,6 +148,15 @@ class Student extends ActiveRecord {
      */
     public function getTeacher0() {
         return $this->hasOne(Teacher::className(), ['id' => 'teacher']);
+    }
+
+    public function getBed() {
+        $order = CheckOrder::find()->where(['related_id' => $this->id, 'related_table' => CheckOrder::TABLE_STUDENT, 'stat' => [CheckOrder::STAT_CHECKWAIT, CheckOrder::STAT_CHECKIN]])->one();
+
+        if ($order !== null) {
+            return $order->bed0->AllName;
+        }
+        return null;
     }
 
     //得到ID-name 键值数组

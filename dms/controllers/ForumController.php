@@ -13,6 +13,7 @@ use dms\models\Room;
 use dms\models\RoomSearch;
 use dms\models\Bed;
 use dms\models\BedSearch;
+use dms\models\CheckOrder;
 
 /**
  * ForumController implements the CRUD actions for forum model.
@@ -430,6 +431,7 @@ class ForumController extends Controller {
                     }
                 }
                 $transaction->commit();
+                Yii::$app->cache->delete('building_data');
                 Yii::$app->session->setFlash('success', '创建成功。');
             } catch (\Exception $e) {
 
@@ -455,10 +457,15 @@ class ForumController extends Controller {
         $model->flid = $model->room->floor;
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', '修改成功。');
+            if ($model->stat == Bed::STAT_CLOSE && CheckOrder::findOne(['bed' => $id, 'stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])) {
+                Yii::$app->session->setFlash('error', '此床位有人住宿，请先退宿。');
             } else {
-                Yii::$app->session->setFlash('error', '修改失败。');
+                if ($model->save()) {
+                    Yii::$app->cache->delete('building_data');
+                    Yii::$app->session->setFlash('success', '修改成功。');
+                } else {
+                    Yii::$app->session->setFlash('error', '修改失败。');
+                }
             }
             return $this->redirect(Yii::$app->session->get('bed_url'));
         }
@@ -476,7 +483,12 @@ class ForumController extends Controller {
     public function actionBedDelete($id) {
         $model = Bed::findOne($id);
         if ($model !== null) {
-            $model->delete();
+            if (CheckOrder::findOne(['bed' => $id, 'stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])) {
+                Yii::$app->session->setFlash('error', '此床位有人住宿，请先退宿。');
+            } else {
+                Yii::$app->cache->delete('building_data');
+                $model->delete();
+            }
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -487,7 +499,12 @@ class ForumController extends Controller {
      * @return mixed
      */
     public function actionBedDeletes($ids) {
-        return Bed::deleteAll(['id' => explode(',', $ids)]);
+        $bids = explode(',', $ids);
+
+        $cids = CheckOrder::find()->where(['bed' => $bids, 'stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['bed'])->column();
+        $bids = array_diff($bids, $cids);
+        Yii::$app->cache->delete('building_data');
+        return Bed::deleteAll(['id' => $bids]);
     }
 
     /**

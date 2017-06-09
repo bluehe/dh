@@ -41,7 +41,6 @@ class BedSearch extends Bed {
      */
     public function search($params) {
         $query = Bed::find()->joinWith('room')->joinWith('forum')->joinWith('floor')->orderBy(['{{%forum}}.fsort' => SORT_ASC, '{{%forum}}.mark' => SORT_ASC, '{{%forum}}.fup' => SORT_ASC, '{{%forum}}.sort_order' => SORT_ASC, '{{%forum}}.id' => SORT_ASC, '{{%parameter}}.sort_order' => SORT_ASC, '{{%room}}.fname' => SORT_ASC, '{{%room}}.rid' => SORT_ASC, '{{%room}}.name' => SORT_ASC, 'name' => SORT_ASC]);
-        ;
 
         // add conditions that should always apply here
 

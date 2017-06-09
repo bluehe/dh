@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'yii\grid\CheckboxColumn',
                         'name' => 'id',
                         'footer' => Html::a('<i class="fa fa-trash-o"></i> 批量删除', 'javascript:void(0);', ['class' => 'btn btn-danger btn-xs deleteall']),
-                        'footerOptions' => ['colspan' => 14],
+                        'footerOptions' => ['colspan' => 12],
                     ],
                     ['attribute' => 'name', 'footerOptions' => ['class' => 'hide'],],
                     ['attribute' => 'stuno', 'footerOptions' => ['class' => 'hide'],],
@@ -129,9 +129,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Student::get_teacher(), //此处我们可以将筛选项组合成key-value形式
                         'footerOptions' => ['class' => 'hide'],
                     ],
-                    ['attribute' => 'tel', 'footerOptions' => ['class' => 'hide'],],
-                    ['attribute' => 'email', 'footerOptions' => ['class' => 'hide'],],
-                    ['attribute' => 'note', 'footerOptions' => ['class' => 'hide'],],
+//                    ['attribute' => 'tel', 'footerOptions' => ['class' => 'hide'],],
+//                    ['attribute' => 'email', 'footerOptions' => ['class' => 'hide'],],
+//                    ['attribute' => 'note', 'footerOptions' => ['class' => 'hide'],],
                     [
                         'attribute' => 'stat',
                         'value' =>
@@ -139,6 +139,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             return $model->Stat;   //主要通过此种方式实现
                         },
                         'filter' => Student::$List['stat'], //此处我们可以将筛选项组合成key-value形式
+                        'footerOptions' => ['class' => 'hide'],
+                    ],
+                    [
+                        'attribute' => 'bed',
+                        'label' => '床位',
+                        'value' =>
+                        function($model) {
+                            return $model->bed;   //主要通过此种方式实现
+                        },
+                        'filter' => false, //此处我们可以将筛选项组合成key-value形式
                         'footerOptions' => ['class' => 'hide'],
                     ],
                     [

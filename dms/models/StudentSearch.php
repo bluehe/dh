@@ -12,13 +12,15 @@ use dms\models\Student;
  */
 class StudentSearch extends Student {
 
+    public $bed;
+
     /**
      * @inheritdoc
      */
     public function rules() {
         return [
             [['id', 'uid', 'college', 'major', 'grade', 'teacher', 'stat'], 'integer'],
-            [['name', 'stuno', 'gender', 'tel', 'email', 'address', 'note'], 'safe'],
+            [['name', 'stuno', 'gender', 'tel', 'email', 'address', 'note', 'bed'], 'safe'],
         ];
     }
 
@@ -38,7 +40,7 @@ class StudentSearch extends Student {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Student::find()->joinWith('college0')->joinWith('major0')->joinWith('grade0')->joinWith('teacher0');
+        $query = Student::find()->joinWith('college0')->joinWith('major0')->joinWith('grade0')->joinWith('teacher0')->orderBy(['{{%student}}.id' => SORT_DESC]);
 
         // add conditions that should always apply here
 

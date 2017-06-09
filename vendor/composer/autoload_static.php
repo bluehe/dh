@@ -43,11 +43,15 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
         ),
         'k' => 
         array (
+            'kartik\\touchspin\\' => 17,
             'kartik\\rating\\' => 14,
+            'kartik\\popover\\' => 15,
+            'kartik\\plugins\\popover\\' => 23,
             'kartik\\plugins\\fileinput\\' => 25,
             'kartik\\mpdf\\' => 12,
             'kartik\\grid\\' => 12,
             'kartik\\file\\' => 12,
+            'kartik\\editable\\' => 16,
             'kartik\\dialog\\' => 14,
             'kartik\\datetime\\' => 16,
             'kartik\\daterange\\' => 17,
@@ -167,9 +171,21 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
         array (
             0 => __DIR__ . '/..' . '/mdmsoft/yii2-admin',
         ),
+        'kartik\\touchspin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-touchspin',
+        ),
         'kartik\\rating\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-rating',
+        ),
+        'kartik\\popover\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-popover-x',
+        ),
+        'kartik\\plugins\\popover\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-popover-x',
         ),
         'kartik\\plugins\\fileinput\\' => 
         array (
@@ -186,6 +202,10 @@ class ComposerStaticInitabc25184be8e440b444abecd13c2aafb
         'kartik\\file\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-fileinput',
+        ),
+        'kartik\\editable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-editable',
         ),
         'kartik\\dialog\\' => 
         array (

@@ -11,6 +11,7 @@ use dms\models\Student;
 use dms\models\StudentSearch;
 use dms\models\Major;
 use dms\models\Teacher;
+use dms\models\CheckOrder;
 
 /**
  * StudentController implements the CRUD actions for Student model.
@@ -36,6 +37,7 @@ class StudentController extends Controller {
      * @return mixed
      */
     public function actionStudent() {
+
         $searchModel = new StudentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

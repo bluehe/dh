@@ -14,6 +14,7 @@ use dms\models\Room;
 use dms\models\Bed;
 use dms\models\Teacher;
 use dms\models\TeacherSearch;
+use dms\models\CheckOrder;
 
 class WorkController extends Controller {
 
@@ -280,11 +281,6 @@ class WorkController extends Controller {
             foreach ($order_ids as $id) {
                 $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
                 $query->andWhere(RepairOrder::get_permission());
-//                if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//                    $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-//                    $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-//                    $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-//                }
                 $model = $query->one();
                 if ($model !== null) {
                     if ($business_accept === '1') {
@@ -361,14 +357,7 @@ class WorkController extends Controller {
     public function actionRepairRepair($id) {
         $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_DISPATCH]);
         $query->andWhere(RepairOrder::get_permission());
-//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
-//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-//            $query->andWhere(['worker_id' => $worker]);
-//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-//        }
+
         $model = $query->one();
 
         if ($model !== null) {
@@ -389,14 +378,7 @@ class WorkController extends Controller {
             foreach ($order_ids as $id) {
                 $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_DISPATCH]);
                 $query->andWhere(RepairOrder::get_permission());
-//                if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
-//                    $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id])->distinct()->column();
-//                    $query->andWhere(['worker_id' => $worker]);
-//                } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//                    $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-//                    $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-//                    $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-//                }
+
                 $model = $query->one();
 
                 if ($model !== null) {
@@ -420,99 +402,41 @@ class WorkController extends Controller {
     }
 
     public function actionBuilding() {
-        //统计
-        $total = [];
-        $total['broom_num'] = Room::find()->where(['rid' => NULL])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
-        $total['broom_open'] = Room::find()->where(['rid' => NULL, 'stat' => Room::STAT_OPEN])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
-        $total['sroom_open'] = Room::find()->where(['stat' => Room::STAT_OPEN])->andWhere(['not', ['rid' => NULL]])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
-        $total['bed_open'] = Bed::find()->joinWith('room')->where([Room::tableName() . '.stat' => Room::STAT_OPEN, Bed::tableName() . '.stat' => Bed::STAT_OPEN])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
-        $total['bed_num'] = Bed::find()->select(['count(*)'])->groupBy(['rid'])->indexBy('rid')->column();
+        $cache = Yii::$app->cache;
+        $total = $cache->get('building_total');
+        $data = $cache->get('building_data');
+        if ($total === false || $data === false) {
+            //统计
+            $total = [];
+            $total['broom_num'] = Room::find()->where(['rid' => NULL])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+            $total['broom_open'] = Room::find()->where(['rid' => NULL, 'stat' => Room::STAT_OPEN])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+            $total['sroom_open'] = Room::find()->where(['stat' => Room::STAT_OPEN])->andWhere(['not', ['rid' => NULL]])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+            $total['bed_open'] = Bed::find()->joinWith('room')->where([Room::tableName() . '.stat' => Room::STAT_OPEN, Bed::tableName() . '.stat' => Bed::STAT_OPEN])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+            $total['bed_num'] = Bed::find()->where(['stat' => Bed::STAT_OPEN])->select(['count(*)'])->groupBy(['rid'])->indexBy('rid')->column();
+            $total['forum_check'] = CheckOrder::find()->joinWith('room')->where([CheckOrder::tableName() . '.stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
+            $total['room_check'] = CheckOrder::find()->joinWith('bed0')->where([CheckOrder::tableName() . '.stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['count(*)'])->groupBy(['rid'])->indexBy('rid')->column();
+            $total['bed_check'] = CheckOrder::find()->where(['stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['stat'])->indexBy('bed')->column();
+            $total['bed_student'] = CheckOrder::find()->joinWith('student')->where(['related_table' => 'student', CheckOrder::tableName() . '.stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['bed', 'gender', 'grade', 'related_id'])->indexBy('bed')->asArray()->all();
 
 
+            $data = [];
+            $forums = Forum::get_forumfup_id(null, Forum::STAT_OPEN);
 
-
-        $data = [];
-        $forums = Forum::get_forumfup_id(null, Forum::STAT_OPEN);
-
-        foreach ($forums as $k => $p) {
-            $data[$k]['forum_name'] = $p;
-            //本级楼苑
-            //楼层
-            $floors = Room::get_room_floor($k);
-            $floor = [];
-            foreach ($floors as $k_f => $name) {
-                $floor[$k_f]['floor_name'] = $name;
-
-                //大室
-                $brooms = Room::get_broom($k, $k_f);
-                foreach ($brooms as $bid => $one) {
-                    $brooms[$bid]['sroom'] = Room::get_sroom($bid);
-
-
-                    if ($brooms[$bid]['sroom']) {
-                        //小室床位
-                        foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
-                            $brooms[$bid]['sroom'][$sid]['bed'] = Bed::get_room_bed($sid);
-                        }
-                    } else {
-                        //大室床位
-                        $brooms[$bid]['bed'] = Bed::get_room_bed($bid);
-                    }
-
-                    //设定大室床位数
-                    if (!isset($total['bed_num'][$bid])) {
-                        $num = 0;
-                        foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
-                            if (isset($total['bed_num'][$sid])) {
-                                $num += $total['bed_num'][$sid];
-                            }
-                        }
-                        if ($num) {
-                            $total['bed_num'][$bid] = $num;
-                        }
-                    }
-                }
-
-
-                $floor[$k_f]['broom'] = $brooms;
-            }
-            $data[$k]['floor'] = $floor;
-
-            //下级楼苑
-            $subforums = Forum::get_forumsub_id($k, Forum::STAT_OPEN);
-
-            $sub = [];
-            $broom_num = 0;
-            $broom_open = 0;
-            $sroom_open = 0;
-            $bed_open = 0;
-            foreach ($subforums as $sub_id => $c) {
-                $sub[$sub_id]['forum_name'] = $c;
-
-                //一级楼苑大室数量
-                if (isset($total['broom_num'][$sub_id])) {
-                    $broom_num += $total['broom_num'][$sub_id];
-                }
-                if (isset($total['broom_open'][$sub_id])) {
-                    $broom_open += $total['broom_open'][$sub_id];
-                }
-                if (isset($total['sroom_open'][$sub_id])) {
-                    $sroom_open += $total['sroom_open'][$sub_id];
-                }
-                if (isset($total['bed_open'][$sub_id])) {
-                    $bed_open += $total['bed_open'][$sub_id];
-                }
-
+            foreach ($forums as $k => $p) {
+                $data[$k]['forum_name'] = $p;
+                //本级楼苑
                 //楼层
-                $floors = Room::get_room_floor($sub_id);
+                $floors = Room::get_room_floor($k);
                 $floor = [];
                 foreach ($floors as $k_f => $name) {
                     $floor[$k_f]['floor_name'] = $name;
 
                     //大室
-                    $brooms = Room::get_broom($sub_id, $k_f);
+                    $brooms = Room::get_broom($k, $k_f);
                     foreach ($brooms as $bid => $one) {
                         $brooms[$bid]['sroom'] = Room::get_sroom($bid);
+
+
                         if ($brooms[$bid]['sroom']) {
                             //小室床位
                             foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
@@ -522,15 +446,30 @@ class WorkController extends Controller {
                             //大室床位
                             $brooms[$bid]['bed'] = Bed::get_room_bed($bid);
                         }
+
+                        //设定大室床位数
                         if (!isset($total['bed_num'][$bid])) {
-                            $bed_num = 0;
+                            $num = 0;
                             foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
                                 if (isset($total['bed_num'][$sid])) {
-                                    $bed_num += $total['bed_num'][$sid];
+                                    $num += $total['bed_num'][$sid];
                                 }
                             }
-                            if ($bed_num) {
-                                $total['bed_num'][$bid] = $bed_num;
+                            if ($num) {
+                                $total['bed_num'][$bid] = $num;
+                            }
+                        }
+
+                        //设定大室入住数
+                        if (!isset($total['room_check'][$bid])) {
+                            $num = 0;
+                            foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
+                                if (isset($total['room_check'][$sid])) {
+                                    $num += $total['room_check'][$sid];
+                                }
+                            }
+                            if ($num) {
+                                $total['room_check'][$bid] = $num;
                             }
                         }
                     }
@@ -538,25 +477,100 @@ class WorkController extends Controller {
 
                     $floor[$k_f]['broom'] = $brooms;
                 }
-                $sub[$sub_id]['floor'] = $floor;
-            }
-            $data[$k]['children'] = $sub;
+                $data[$k]['floor'] = $floor;
 
-            if (!isset($total['broom_num'][$k]) && $broom_num) {
-                $total['broom_num'][$k] = $broom_num;
-                if ($broom_open) {
-                    $total['broom_open'][$k] = $broom_open;
+                //下级楼苑
+                $subforums = Forum::get_forumsub_id($k, Forum::STAT_OPEN);
+
+                $sub = [];
+                $broom_num = 0;
+                $broom_open = 0;
+                $sroom_open = 0;
+                $bed_open = 0;
+                foreach ($subforums as $sub_id => $c) {
+                    $sub[$sub_id]['forum_name'] = $c;
+
+                    //一级楼苑大室数量
+                    if (isset($total['broom_num'][$sub_id])) {
+                        $broom_num += $total['broom_num'][$sub_id];
+                    }
+                    if (isset($total['broom_open'][$sub_id])) {
+                        $broom_open += $total['broom_open'][$sub_id];
+                    }
+                    if (isset($total['sroom_open'][$sub_id])) {
+                        $sroom_open += $total['sroom_open'][$sub_id];
+                    }
+                    if (isset($total['bed_open'][$sub_id])) {
+                        $bed_open += $total['bed_open'][$sub_id];
+                    }
+
+                    //楼层
+                    $floors = Room::get_room_floor($sub_id);
+                    $floor = [];
+                    foreach ($floors as $k_f => $name) {
+                        $floor[$k_f]['floor_name'] = $name;
+
+                        //大室
+                        $brooms = Room::get_broom($sub_id, $k_f);
+                        foreach ($brooms as $bid => $one) {
+                            $brooms[$bid]['sroom'] = Room::get_sroom($bid);
+                            if ($brooms[$bid]['sroom']) {
+                                //小室床位
+                                foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
+                                    $brooms[$bid]['sroom'][$sid]['bed'] = Bed::get_room_bed($sid);
+                                }
+                            } else {
+                                //大室床位
+                                $brooms[$bid]['bed'] = Bed::get_room_bed($bid);
+                            }
+                            if (!isset($total['bed_num'][$bid])) {
+                                $bed_num = 0;
+                                foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
+                                    if (isset($total['bed_num'][$sid])) {
+                                        $bed_num += $total['bed_num'][$sid];
+                                    }
+                                }
+                                if ($bed_num) {
+                                    $total['bed_num'][$bid] = $bed_num;
+                                }
+                            }
+                            //设定大室入住数
+                            if (!isset($total['room_check'][$bid])) {
+                                $num = 0;
+                                foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
+                                    if (isset($total['room_check'][$sid])) {
+                                        $num += $total['room_check'][$sid];
+                                    }
+                                }
+                                if ($num) {
+                                    $total['room_check'][$bid] = $num;
+                                }
+                            }
+                        }
+
+
+                        $floor[$k_f]['broom'] = $brooms;
+                    }
+                    $sub[$sub_id]['floor'] = $floor;
                 }
-                if ($sroom_open) {
-                    $total['sroom_open'][$k] = $sroom_open;
-                }
-                if ($bed_open) {
-                    $total['bed_open'][$k] = $bed_open;
+                $data[$k]['children'] = $sub;
+
+                if (!isset($total['broom_num'][$k]) && $broom_num) {
+                    $total['broom_num'][$k] = $broom_num;
+                    if ($broom_open) {
+                        $total['broom_open'][$k] = $broom_open;
+                    }
+                    if ($sroom_open) {
+                        $total['sroom_open'][$k] = $sroom_open;
+                    }
+                    if ($bed_open) {
+                        $total['bed_open'][$k] = $bed_open;
+                    }
                 }
             }
+            $cache->set('building_total', $total);
+            $cache->set('building_data', $data);
         }
-
-
         return $this->render('building', [
                     'forums' => $data, 'total' => $total
         ]);

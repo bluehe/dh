@@ -67,11 +67,11 @@ return [
                     'clientId' => '3230780338',
                     'clientSecret' => '4c79685858dafe77342476612c5e7190',
                 ],
-//                'qq' => [
-//                    'class' => 'common\widgets\QQClient',
-//                    'clientId' => '101389884',
-//                    'clientSecret' => '0f7af7103526adaff8904219831b101f',
-//                ],
+                'qq' => [
+                    'class' => 'common\widgets\QQClient',
+                    'clientId' => '101404858',
+                    'clientSecret' => '39f2a0ea2801309c778e2126c5bc7cad',
+                ],
 //                'weixin' => [
 //                    'class' => 'common\widgets\WeixinClient',
 //                    'clientId' => 'wx0b6eaf137bc335ab',
@@ -140,7 +140,7 @@ return [
             'wechat/*',
             'debug/*',
             'gii/*',
-            'student/*',
+            'gridview/*',
         //'*'
         ]
     ],

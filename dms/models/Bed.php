@@ -76,6 +76,13 @@ class Bed extends ActiveRecord {
         return isset($stat) ? $stat : null;
     }
 
+    public function getAllName() {
+        $forum = $this->forum->fup ? $this->forum->parent->name . $this->forum->name : $this->forum->name;
+        $floor = $this->floor->v;
+        $room = $this->room->fname ? $this->room->fname . '-' . $this->room->name : $this->room->name;
+        return $forum . $floor . $room . '-' . $this->name;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
