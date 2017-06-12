@@ -96,7 +96,7 @@ class Student extends ActiveRecord {
         'stat' => [
             self::STAT_OPEN => "在读",
             self::STAT_GRADUATE => "毕业",
-            self::STAT_CLOSE => " ",
+            self::STAT_CLOSE => "关闭",
             self::STAT_CHECK => "待审核"
         ],
         'gender' => [
@@ -154,12 +154,18 @@ class Student extends ActiveRecord {
         $order = CheckOrder::find()->where(['related_id' => $this->id, 'related_table' => CheckOrder::TABLE_STUDENT, 'stat' => [CheckOrder::STAT_CHECKWAIT, CheckOrder::STAT_CHECKIN]])->one();
 
         if ($order !== null) {
-            return $order->bed0->AllName;
+            $cache = Yii::$app->cache;
+            $bedname = $cache->get('bedname_' . $order->bed);
+            if ($bedname === false) {
+                $bedname = $order->bed0->AllName;
+                $cache->set('bedname_' . $order->id, $bedname);
+            }
+            return $bedname;
         }
         return null;
     }
 
-    //得到ID-name 键值数组
+//得到ID-name 键值数组
     public static function get_user_id() {
         $users = User::find()->where(['status' => User::STATUS_ACTIVE])->all();
         return ArrayHelper::map($users, 'id', 'username');
@@ -183,31 +189,31 @@ class Student extends ActiveRecord {
         return ArrayHelper::map($types, 'id', 'name');
     }
 
-    //通过中文名得到性别代号
+//通过中文名得到性别代号
     public static function get_id_gender($gender) {
 
         return arry_search($gender, self::$List['gender']);
     }
 
-    //通过名称得到学院id
+//通过名称得到学院id
     public static function get_id_college($college) {
         $result = College::find()->where(['name' => $college])->select(['id'])->scalar();
         return $result ? $result : NULL;
     }
 
-    //通过名称得到专业id
+//通过名称得到专业id
     public static function get_id_major($major, $cid = NULL) {
         $result = Major::find()->where(['name' => $major])->andFilterWhere(['college' => $cid])->select(['id'])->scalar();
         return $result ? $result : NULL;
     }
 
-    //通过名称得到教师id
+//通过名称得到教师id
     public static function get_id_teacher($teacher, $cid = NULL) {
         $result = Teacher::find()->where(['name' => $teacher])->andFilterWhere(['college' => $cid])->select(['id'])->scalar();
         return $result ? $result : NULL;
     }
 
-    //通过名称得到年级id
+//通过名称得到年级id
     public static function get_id_grade($grade) {
         $result = Parameter::find()->where(['name' => 'grade', 'v' => $grade])->select(['id'])->scalar();
         return $result ? $result : NULL;

@@ -146,8 +146,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         'label' => '床位',
                         'value' =>
                         function($model) {
-                            return $model->bed;   //主要通过此种方式实现
+                            return $model->bed ? Html::a($model->bed, '#', [
+                                        'data-toggle' => 'modal',
+                                        'data-target' => '#checkbed-modal',
+                                        'class' => 'check-bed',
+                                        'data-id' => $model->id,
+                                    ]) : Html::a('分配床位', '#', [
+                                        'data-toggle' => 'modal',
+                                        'data-target' => '#checkbed-modal',
+                                        'class' => 'btn btn-info btn-xs check-bed',
+                                        'data-id' => $model->id,
+                            ]);   //主要通过此种方式实现
                         },
+                        'format' => 'raw',
                         'filter' => false, //此处我们可以将筛选项组合成key-value形式
                         'footerOptions' => ['class' => 'hide'],
                     ],
@@ -195,13 +206,29 @@ Modal::begin([
     ],
 ]);
 Modal::end();
+
+Modal::begin([
+    'id' => 'checkbed-modal',
+    'header' => '<h4 class="modal-title">分配床位</h4>',
+    'options' => [
+        'tabindex' => false
+    ],
+]);
+Modal::end();
 ?>
 <script>
 <?php $this->beginBlock('bind') ?>
     $('.user-bind').on('click', function () {
         $.get('<?= Url::toRoute('student-bind') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
-                    $('.modal-body').html(data);
+                    $('#binduser-modal .modal-body').html(data);
+                }
+        );
+    });
+    $('.check-bed').on('click', function () {
+        $.get('<?= Url::toRoute('student-checkbed') ?>', {id: $(this).closest('tr').data('key')},
+                function (data) {
+                    $('#checkbed-modal .modal-body').html(data);
                 }
         );
     });

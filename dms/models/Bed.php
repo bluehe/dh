@@ -2,6 +2,7 @@
 
 namespace dms\models;
 
+use Yii;
 use \yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use dms\models\System;
@@ -77,10 +78,16 @@ class Bed extends ActiveRecord {
     }
 
     public function getAllName() {
-        $forum = $this->forum->fup ? $this->forum->parent->name . $this->forum->name : $this->forum->name;
-        $floor = $this->floor->v;
-        $room = $this->room->fname ? $this->room->fname . '-' . $this->room->name : $this->room->name;
-        return $forum . $floor . $room . '-' . $this->name;
+        $cache = Yii::$app->cache;
+        $bedname = $cache->get('bedname_' . $this->id);
+        if ($bedname === false) {
+            $forum = $this->forum->fup ? $this->forum->parent->name . $this->forum->name : $this->forum->name;
+            $floor = $this->floor->v;
+            $room = $this->room->rid ? $this->room->fname . '-' . $this->room->name : $this->room->name;
+            $bedname = $forum . $floor . $room . '-' . $this->name;
+            $cache->set('bedname_' . $this->id, $bedname);
+        }
+        return $bedname;
     }
 
     /**

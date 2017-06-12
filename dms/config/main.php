@@ -46,8 +46,15 @@ return [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+            //'class' => 'yii\redis\Cache',
             'keyPrefix' => 'dms',
         ],
+//        'redis' => [
+//            'class' => 'yii\redis\Connection',
+//            'hostname' => '127.0.0.1',
+//            'port' => 6379,
+//            'database' => 0,
+//        ],
         'wechat' => [
             'class' => 'callmez\wechat\sdk\MpWechat',
             'appId' => 'wx0b6eaf137bc335ab',

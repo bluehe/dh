@@ -246,4 +246,13 @@ return array (
       '@kartik/touchspin' => $vendorDir . '/kartik-v/yii2-widget-touchspin',
     ),
   ),
+  'yiisoft/yii2-redis' => 
+  array (
+    'name' => 'yiisoft/yii2-redis',
+    'version' => '2.0.6.0',
+    'alias' => 
+    array (
+      '@yii/redis' => $vendorDir . '/yiisoft/yii2-redis',
+    ),
+  ),
 );

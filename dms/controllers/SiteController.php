@@ -195,6 +195,7 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
+        $total = [];
         if (Yii::$app->user->can('楼苑设置')) {
             $forum_fup = Forum::find()->where(['not', ['fup' => NULL]])->select(['fup'])->column();
 

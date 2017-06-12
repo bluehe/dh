@@ -4,6 +4,7 @@ namespace dms\models;
 
 use Yii;
 use common\models\User;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%check_order}}".
@@ -43,9 +44,18 @@ class CheckOrder extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
+    public function behaviors() {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules() {
         return [
-            [['related_table', 'related_id', 'bed', 'created_at'], 'required', 'message' => '{attribute}不能为空'],
+            [['related_table', 'related_id', 'bed'], 'required', 'message' => '{attribute}不能为空'],
             [['related_id', 'bed', 'created_at', 'updated_at', 'checkout_at', 'created_uid', 'updated_uid', 'checkout_uid', 'stat'], 'integer'],
             [['related_table', 'note'], 'string', 'max' => 255],
             [['created_uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_uid' => 'id']],
@@ -125,6 +135,23 @@ class CheckOrder extends \yii\db\ActiveRecord {
 
     public function getStudent() {
         return $this->hasOne(Student::className(), ['id' => 'related_id']);
+    }
+
+    public static function get_bed($sid = '') {
+        $student = Student::find()->where(['id' => $sid])->one();
+        $bid = static::find()->where(['related_table' => self::TABLE_STUDENT, 'stat' => [self::STAT_CHECKIN, self::STAT_CHECKWAIT]])->andFilterWhere(['not', ['related_id' => $sid]])->select(['bed'])->column();
+        $forum = Forum::find()->where(['stat' => Forum::STAT_OPEN])->select(['id'])->column();
+        $query = Room::find()->where(['stat' => Room::STAT_OPEN, 'fid' => $forum]);
+        if ($student->gender) {
+            $query->andWhere(['gender' => [NULL, $student->gender]]);
+        }
+        $room = $query->select(['id'])->column();
+        $beds = Bed::find()->where(['stat' => Bed::STAT_OPEN])->andWhere(['not', ['id' => $bid]])->andFilterWhere(['rid' => $room])->all();
+        $result = [];
+        foreach ($beds as $bed) {
+            $result[$bed['id']] = $bed->getAllName();
+        }
+        return $result;
     }
 
 }

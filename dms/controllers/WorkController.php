@@ -416,7 +416,7 @@ class WorkController extends Controller {
             $total['forum_check'] = CheckOrder::find()->joinWith('room')->where([CheckOrder::tableName() . '.stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
             $total['room_check'] = CheckOrder::find()->joinWith('bed0')->where([CheckOrder::tableName() . '.stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['count(*)'])->groupBy(['rid'])->indexBy('rid')->column();
             $total['bed_check'] = CheckOrder::find()->where(['stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['stat'])->indexBy('bed')->column();
-            $total['bed_student'] = CheckOrder::find()->joinWith('student')->where(['related_table' => 'student', CheckOrder::tableName() . '.stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['bed', 'gender', 'grade', 'related_id'])->indexBy('bed')->asArray()->all();
+            $total['bed_student'] = CheckOrder::find()->joinWith('student')->where(['related_table' => 'student', CheckOrder::tableName() . '.stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]])->select(['bed', 'name', 'gender', 'grade', 'related_id'])->indexBy('bed')->asArray()->all();
 
 
             $data = [];

@@ -209,7 +209,7 @@ class StudentController extends Controller {
 
                 if ((int) $model->uid != $uid) {
                     $auth = Yii::$app->authManager;
-                    $authorRole = $auth->getRole('tstudent');
+                    $authorRole = $auth->getRole('student');
                     if (!Student::find()->where(['uid' => $uid])->andWhere(['<>', 'id', $model->id])->one()) {
                         $auth->revoke($authorRole, $uid);
                     }
@@ -226,6 +226,29 @@ class StudentController extends Controller {
             return $this->redirect(Yii::$app->request->referrer);
         } else {
             return $this->renderAjax('_form-bind', [
+                        'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionStudentCheckbed($id) {
+        $model = CheckOrder::findOne(['related_id' => $id, 'related_table' => CheckOrder::TABLE_STUDENT, 'stat' => [CheckOrder::STAT_CHECKIN, CheckOrder::STAT_CHECKWAIT]]);
+        if ($model == null) {
+            $model = new CheckOrder();
+            $model->related_table = CheckOrder::TABLE_STUDENT;
+            $model->related_id = $id;
+            $model->created_uid = Yii::$app->user->identity->id;
+            $model->stat = CheckOrder::STAT_CHECKIN;
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated_uid = Yii::$app->user->identity->id;
+            $model->save();
+            Yii::$app->cache->delete('building_data');
+            // return $model;
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            return $this->renderAjax('_form-checkbed', [
                         'model' => $model,
             ]);
         }
@@ -321,6 +344,14 @@ class StudentController extends Controller {
                 ['attribute' => 'address', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
                 ['attribute' => 'note', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
                 [
+                    'attribute' => 'bed',
+                    'value' =>
+                    function($model) {
+                        return $model->bed;   //主要通过此种方式实现
+                    },
+                    'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]], 'column_width' => 23]
+                ],
+                [
                     'attribute' => 'stat',
                     'value' =>
                     function($model) {
@@ -342,6 +373,7 @@ class StudentController extends Controller {
                 'email' => 'E-mail',
                 'address' => '地址',
                 'note' => '备注',
+                'bed' => '床位',
                 'stat' => '状态',
             ],
         ]);
