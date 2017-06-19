@@ -64,7 +64,7 @@ class WorkController extends Controller {
                 ['attribute' => 'serial', 'style' => ['column_width' => 13, 'row_height' => 20, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
                 ['attribute' => 'created_at', 'format' => ["date", "php:Y-m-d H:i:s"], 'style' => ['column_width' => 21, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
                 ['attribute' => 'name', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
-                ['attribute' => 'tel', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                ['attribute' => 'tel', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]], 'column_width' => 13],],
                 [
                     'attribute' => 'repair_type',
                     'value' =>
@@ -77,7 +77,7 @@ class WorkController extends Controller {
                     'attribute' => 'repair_area',
                     'value' =>
                     function($model) {
-                        return $model->repair_area ? $model->area->name : $model->repair_area;
+                        return $model->repair_area ? Forum::get_forum_allname($model->repair_area) : $model->repair_area;
                     },
                     'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
                 ],
@@ -483,6 +483,7 @@ class WorkController extends Controller {
                 $subforums = Forum::get_forumsub_id($k, Forum::STAT_OPEN);
 
                 $sub = [];
+                $forum_check = 0;
                 $broom_num = 0;
                 $broom_open = 0;
                 $sroom_open = 0;
@@ -491,6 +492,9 @@ class WorkController extends Controller {
                     $sub[$sub_id]['forum_name'] = $c;
 
                     //一级楼苑大室数量
+                    if (isset($total['forum_check'][$sub_id])) {
+                        $forum_check += $total['forum_check'][$sub_id];
+                    }
                     if (isset($total['broom_num'][$sub_id])) {
                         $broom_num += $total['broom_num'][$sub_id];
                     }
@@ -554,6 +558,10 @@ class WorkController extends Controller {
                     $sub[$sub_id]['floor'] = $floor;
                 }
                 $data[$k]['children'] = $sub;
+
+                if (!isset($total['forum_check'][$k]) && $forum_check) {
+                    $total['forum_check'][$k] = $forum_check;
+                }
 
                 if (!isset($total['broom_num'][$k]) && $broom_num) {
                     $total['broom_num'][$k] = $broom_num;

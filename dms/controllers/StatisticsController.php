@@ -12,7 +12,7 @@ class StatisticsController extends Controller {
 
     public function actionRepair() {
 
-        $start = strtotime('-29 days');
+        $start = strtotime('-1 month +1 days');
         $end = strtotime('today') + 86399;
 
         if (Yii::$app->request->get('range')) {

@@ -20,6 +20,7 @@ use dms\models\Bed;
 use common\models\User;
 use dms\models\RepairOrder;
 use yii\data\Pagination;
+use yii\data\ActiveDataProvider;
 
 /**
  * Site controller
@@ -209,19 +210,39 @@ class SiteController extends Controller {
             $total['repair_today'] = RepairOrder::get_repair_today(strtotime(date('Y-m-d', time())));
             $total['repair'] = RepairOrder::get_stat_total();
         }
-        // 创建一个 DB 查询来获得所有 status 为 1 的文章
-        $query = Bed::find()->where(['stat' => Bed::STAT_OPEN]);
-// 得到文章的总数（但是还没有从数据库取数据）
-        $count = $query->count();
 
-// 使用总数来创建一个分页对象
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 5]);
+//        $query = RepairOrder::find()->where(['not', ['stat' => RepairOrder::STAT_CLOSE]]);
+//        $count = $query->count();
+//        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 5]);
+//        $repairorders = $query->offset($pagination->offset)
+//                ->limit($pagination->limit)
+//                ->all();
+        $query = RepairOrder::find()->where(['not', ['{{%repair_order}}.stat' => RepairOrder::STAT_CLOSE]])->joinWith('type')->joinWith('area')->orderBy(['{{%repair_order}}.id' => SORT_DESC]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 5],
+        ]);
+        $dataProvider->setSort(false);
+        return $this->render('index', ['total' => $total, 'dataProvider' => $dataProvider]);
+    }
 
-// 使用分页对象来填充 limit 子句并取得文章数据
-        $beds = $query->offset($pagination->offset)
-                ->limit($pagination->limit)
-                ->all();
-        return $this->render('index', ['total' => $total, 'beds' => $beds, 'pagination' => $pagination]);
+    /**
+     * Displays a single RepairOrder model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionRepairView($id) {
+        $query = RepairOrder::find()->where(['id' => $id]);
+        $model = $query->one();
+
+        if ($model !== null) {
+            return $this->renderAjax('/site/repair-view', [
+                        'model' => $model,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', '没有权限。');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     }
 
     /**

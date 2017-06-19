@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'repair_area',
                         'value' =>
                         function($model) {
-                            return $model->repair_area ? $model->area->name : $model->repair_area;
+                            return $model->repair_area ? dms\models\Forum::get_forum_allname($model->repair_area) : $model->repair_area;
                         },
                         'filter' => RepairOrder::get_repair_area(), //此处我们可以将筛选项组合成key-value形式
                         'footerOptions' => ['class' => 'hide'],

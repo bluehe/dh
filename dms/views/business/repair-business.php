@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'repair_area',
                         'value' =>
                         function($model) {
-                            return $model->repair_area ? $model->area->name : $model->repair_area;
+                            return $model->repair_area ? dms\models\Forum::get_forum_allname($model->repair_area) : $model->repair_area;
                         },
                     ],
                     'address',

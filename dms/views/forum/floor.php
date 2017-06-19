@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '楼层设置';
+$this->title = '楼层管理';
 $this->params['breadcrumbs'][] = ['label' => '楼苑设置', 'url' => ['forum/forum']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

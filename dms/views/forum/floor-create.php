@@ -4,7 +4,7 @@
 
 $this->title = '添加楼层';
 $this->params['breadcrumbs'][] = ['label' => '楼苑设置', 'url' => ['forum/forum']];
-$this->params['breadcrumbs'][] = ['label' => '楼层设置', 'url' => ['forum/floor']];
+$this->params['breadcrumbs'][] = ['label' => '楼层管理', 'url' => ['forum/floor']];
 ?>
 <div class="floor-create">
 

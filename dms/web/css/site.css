@@ -301,3 +301,12 @@ a.desc:after {
     line-height: 12px;
     display: none;
 }
+
+.baidunews>div:not(.baidu),.baidu div{
+    display: none;
+}
+
+.baidu{
+    line-height: 24px;
+}
+.baidu span{color:#6f6f6f;font-size:12px}

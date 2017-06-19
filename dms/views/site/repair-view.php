@@ -5,6 +5,8 @@
 use dms\models\RepairOrder;
 use kartik\rating\StarRating;
 
+mb_regex_encoding("UTF-8");
+
 /* @var $this yii\web\View */
 /* @var $model dms\models\RepairOrder */
 ?>
@@ -21,9 +23,7 @@ use kartik\rating\StarRating;
             <li>
                 <i class="fa bg-teal">报修</i>
                 <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->created_at) ?></span>
-
-                    <h3 class="timeline-header"><?= $model->u->username ?></h3>
+                    <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->created_at) ?></h3>
 
                     <div class="timeline-body">
                         <dl class="dl-horizontal">
@@ -31,8 +31,8 @@ use kartik\rating\StarRating;
                             <dt><?= $model->getAttributeLabel('repair_area') ?></dt><dd><?= $model->repair_area ? dms\models\Forum::get_forum_allname($model->repair_area) : $model->repair_area ?></dd>
                             <dt><?= $model->getAttributeLabel('address') ?></dt><dd><?= $model->address ?></dd>
                             <dt><?= $model->getAttributeLabel('content') ?></dt><dd><?= $model->content ?></dd>
-                            <dt><?= $model->getAttributeLabel('name') ?></dt><dd><?= $model->name ?></dd>
-                            <dt><?= $model->getAttributeLabel('tel') ?></dt><dd><?= $model->tel ?></dd>
+                            <dt><?= $model->getAttributeLabel('name') ?></dt><dd><?= mb_substr($model->name, 0, 1, 'utf-8') . mb_substr(mb_ereg_replace('\w', '*', $model->name), 1) ?></dd>
+                            <dt><?= $model->getAttributeLabel('tel') ?></dt><dd><?= substr_replace($model->tel, '****', 3, 4) ?></dd>
 
 
 
@@ -49,8 +49,8 @@ use kartik\rating\StarRating;
                     <i class="fa bg-red">取消</i>
 
                     <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->end_at) ?></span>
-                        <h3 class="timeline-header"><?= $model->u->username ?></h3>
+
+                        <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->end_at) ?></h3>
                     </div>
                 </li>
                 <!-- END timeline item -->
@@ -61,8 +61,7 @@ use kartik\rating\StarRating;
                     <i class="fa bg-red">未受理</i>
 
                     <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->accept_at) ?></span>
-                        <h3 class="timeline-header"><?= $model->getUser($model->accept_uid)->username ?></h3>
+                        <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->end_at) ?></h3>
                         <div class="timeline-body">
                             <dl class="dl-horizontal">
                                 <dt><?= $model->getAttributeLabel('note') ?></dt><dd><?= $model->note ?></dd>
@@ -78,8 +77,8 @@ use kartik\rating\StarRating;
                     <i class="fa bg-blue">受理</i>
 
                     <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->accept_at) ?></span>
-                        <h3 class="timeline-header"><?= $model->getUser($model->accept_uid)->username ?></h3>
+
+                        <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->accept_at) ?></h3>
                     </div>
                 </li>
                 <!-- END timeline item -->
@@ -89,12 +88,12 @@ use kartik\rating\StarRating;
                         <i class="fa bg-yellow">派工</i>
 
                         <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->dispatch_at) ?></span>
-                            <h3 class="timeline-header"><?= $model->getUser($model->dispatch_uid)->username ?></h3>
+
+                            <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->dispatch_at) ?></h3>
                             <div class="timeline-body">
                                 <dl class="dl-horizontal">
-                                    <dt><?= $model->getAttributeLabel('worker_id') ?></dt><dd><?= $model->worker_id ? $model->worker->name : $model->worker_id ?></dd>
-                                    <dt>联系电话</dt><dd><?= $model->worker_id ? $model->worker->tel : $model->worker_id ?></dd>
+                                    <dt><?= $model->getAttributeLabel('worker_id') ?></dt><dd><?= $model->worker_id ? mb_substr($model->worker->name, 0, 1, 'utf-8') . mb_substr(mb_ereg_replace('\w', '*', $model->worker->name), 1) : $model->worker_id ?></dd>
+                                    <dt>联系电话</dt><dd><?= $model->worker_id ? substr_replace($model->worker->tel, '****', 3, 4) : $model->worker_id ?></dd>
                                 </dl>
                             </div>
                         </div>
@@ -109,8 +108,8 @@ use kartik\rating\StarRating;
                         <i class="fa bg-green">维修</i>
 
                         <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->repair_at) ?></span>
-                            <h3 class="timeline-header"><?= $model->getUser($model->repair_uid)->username ?></h3>
+
+                            <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->repair_at) ?></h3>
 
                         </div>
                     </li>
@@ -124,8 +123,8 @@ use kartik\rating\StarRating;
                         <i class="fa bg-fuchsia">评价</i>
 
                         <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->end_at) ?></span>
-                            <h3 class="timeline-header"><?= $model->evaluate === RepairOrder::EVALUATE_USER ? $model->u->username : '系统' ?></h3>
+
+                            <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->end_at) ?></h3>
                             <div class="timeline-body">
                                 <dl class="dl-horizontal">
                                     <dt><?= $model->getAttributeLabel('evaluate1') ?></dt><dd><?=

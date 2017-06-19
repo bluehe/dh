@@ -130,4 +130,14 @@ class Forum extends ActiveRecord {
         return $forum !== null ? $forum->name : null;
     }
 
+    /**
+     * 获得楼苑的名称
+     * @param $id 楼苑ID
+     * @return string name
+     */
+    public static function get_forum_allname($id = null) {
+        $forum = Forum::find()->where(['id' => $id])->one();
+        return $forum !== null ? ($forum->fup ? $forum->parent->name . $forum->name : $forum->name ) : null;
+    }
+
 }

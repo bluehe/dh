@@ -21,7 +21,7 @@ return [
         ],
         'gridview' => [
             'class' => 'kartik\grid\Module'
-        ]
+        ],
     ],
     'aliases' => [
         '@mdm/admin' => '@vendor/mdmsoft/yii2-admin',
@@ -58,8 +58,9 @@ return [
         'wechat' => [
             'class' => 'callmez\wechat\sdk\MpWechat',
             'appId' => 'wx0b6eaf137bc335ab',
-            'appSecret' => '6d2cb84e77107c4b30fb8a9bd262fb60',
-            'token' => 'weixin'
+            'appSecret' => '671fbde452f7e879816f217204b7f684',
+            'token' => 'weixin',
+            'encodingAesKey' => 'AuiE2rp84lwCfGZKcvqXaHxxJtdVFf2TdigFRYOMPwJ'
         ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
@@ -81,8 +82,8 @@ return [
                 ],
 //                'weixin' => [
 //                    'class' => 'common\widgets\WeixinClient',
-//                    'clientId' => 'wx0b6eaf137bc335ab',
-//                    'clientSecret' => '6d2cb84e77107c4b30fb8a9bd262fb60',
+//                    'clientId' => 'wx5f06fff8635a37d4',
+//                    'clientSecret' => '911a61b191219f8b024219f3ec675f39',
 //                ],
             ],
         ],
@@ -148,6 +149,7 @@ return [
             'debug/*',
             'gii/*',
             'gridview/*',
+            'weixin/*'
         //'*'
         ]
     ],
