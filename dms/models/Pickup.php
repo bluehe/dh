@@ -28,6 +28,7 @@ class Pickup extends \yii\db\ActiveRecord {
     const STAT_OPEN = 1;
     const STAT_SUCCESS = 2;
     const STAT_FAIL = 3;
+    const STAT_CLOSE = -1;
     const TYPE_PICK = 1;
     const TYPE_LOSE = 2;
 
@@ -44,13 +45,14 @@ class Pickup extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['type', 'name', 'tel', 'goods', 'stat'], 'required', 'message' => '{attribute}不能为空'],
-            [['uid', 'created_at', 'end_at', 'stat'], 'integer'],
+            [['uid', 'end_uid', 'created_at', 'end_at', 'stat'], 'integer'],
             [['type', 'goods', 'address', 'content'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 16, 'message' => '{attribute}最长16个字符'],
             [['tel'], 'string', 'max' => 64, 'message' => '{attribute}最长64个字符'],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
+            [['end_uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['end_uid' => 'id']],
             [['stat'], 'default', 'value' => self::STAT_OPEN],
-            [['stat'], 'in', 'range' => [self::STAT_OPEN, self::STAT_SUCCESS, self::STAT_FAIL]],
+            [['stat'], 'in', 'range' => [self::STAT_OPEN, self::STAT_SUCCESS, self::STAT_FAIL, self::STAT_CLOSE]],
         ];
     }
 
@@ -69,6 +71,7 @@ class Pickup extends \yii\db\ActiveRecord {
             'content' => '内容',
             'created_at' => '发布时间',
             'end_at' => '结束时间',
+            'end_uid' => '结束人',
             'stat' => '状态',
         ];
     }
@@ -78,6 +81,7 @@ class Pickup extends \yii\db\ActiveRecord {
             self::STAT_OPEN => "进行中",
             self::STAT_SUCCESS => "成功",
             self::STAT_FAIL => "失败",
+            self::STAT_CLOSE => "关闭",
         ],
         'type' => [
             self::TYPE_PICK => '招领',
@@ -102,6 +106,10 @@ class Pickup extends \yii\db\ActiveRecord {
      */
     public function getU() {
         return $this->hasOne(User::className(), ['id' => 'uid']);
+    }
+
+    public function getE() {
+        return $this->hasOne(User::className(), ['id' => 'end_uid']);
     }
 
     public static function get_type_total($a = '', $start = '', $end = '') {

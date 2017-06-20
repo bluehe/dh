@@ -10,13 +10,12 @@ use dms\models\Pickup;
 /**
  * PickupSearch represents the model behind the search form about `dms\models\Pickup`.
  */
-class PickupSearch extends Pickup
-{
+class PickupSearch extends Pickup {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'uid', 'created_at', 'end_at', 'stat'], 'integer'],
             [['type', 'name', 'tel', 'goods', 'address', 'content'], 'safe'],
@@ -26,8 +25,7 @@ class PickupSearch extends Pickup
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,14 +37,16 @@ class PickupSearch extends Pickup
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Pickup::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]],
         ]);
 
         $this->load($params);
@@ -61,18 +61,23 @@ class PickupSearch extends Pickup
         $query->andFilterWhere([
             'id' => $this->id,
             'uid' => $this->uid,
-            'created_at' => $this->created_at,
             'end_at' => $this->end_at,
+            'type' => $this->type,
             'stat' => $this->stat,
         ]);
 
-        $query->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'tel', $this->tel])
-            ->andFilterWhere(['like', 'goods', $this->goods])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'content', $this->content]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+                ->andFilterWhere(['like', 'tel', $this->tel])
+                ->andFilterWhere(['like', 'goods', $this->goods])
+                ->andFilterWhere(['like', 'address', $this->address])
+                ->andFilterWhere(['like', 'content', $this->content]);
+        if ($this->created_at) {
+            $createdAt = strtotime($this->created_at);
+            $createdAtEnd = $createdAt + 24 * 3600;
+            $query->andWhere(['>=', 'created_at', $createdAt])->andWhere(['<=', 'created_at', $createdAtEnd]);
+        }
 
         return $dataProvider;
     }
+
 }

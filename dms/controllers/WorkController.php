@@ -15,6 +15,8 @@ use dms\models\Bed;
 use dms\models\Teacher;
 use dms\models\TeacherSearch;
 use dms\models\CheckOrder;
+use dms\models\Pickup;
+use dms\models\PickupSearch;
 
 class WorkController extends Controller {
 
@@ -143,18 +145,6 @@ class WorkController extends Controller {
     public function actionRepairView($id) {
         $query = RepairOrder::find()->where(['id' => $id]);
         $query->andWhere(RepairOrder::get_permission());
-
-//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
-//            //维修工
-//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
-//            $query->andWhere(['worker_id' => $worker]);
-//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//            //受理员
-//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
-//            $type = RepairWorker::get_worker_type($worker);
-//            $area = RepairWorker::get_worker_area($worker);
-//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-//        }
         $model = $query->one();
 
         if ($model !== null) {
@@ -176,19 +166,10 @@ class WorkController extends Controller {
     public function actionRepairUpdate($id) {
         $query = RepairOrder::find()->where(['id' => $id, 'stat' => RepairOrder::STAT_OPEN]);
         $query->andWhere(RepairOrder::get_permission());
-//        if (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//            $type = RepairWorker::get_worker_type(Yii::$app->user->identity->id);
-//            $area = RepairWorker::get_worker_area(Yii::$app->user->identity->id);
-//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-//        }
+
         $model = $query->one();
 
         if ($model->load(Yii::$app->request->post())) {
-
-//            if (Yii::$app->request->isAjax) {
-//                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-//                return \yii\widgets\ActiveForm::validate($model);
-//            }
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '操作成功。');
@@ -398,6 +379,107 @@ class WorkController extends Controller {
 //                throw $e;
             Yii::$app->session->setFlash('error', '操作失败。');
         }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Lists all Pickup models.
+     * @return mixed
+     */
+    public function actionPickupWork() {
+
+        $searchModel = new PickupSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('pickup-work', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionPickupClose($id) {
+        $model = Pickup::findOne(['id' => $id, 'stat' => Pickup::STAT_OPEN]);
+
+        if ($model !== null) {
+            $model->end_uid = Yii::$app->user->identity->id;
+            $model->stat = Pickup::STAT_CLOSE;
+            $model->end_at = time();
+            $model->save();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionPickupView($id) {
+        $model = Pickup::findOne(['id' => $id]);
+        if ($model !== null) {
+            return $this->renderAjax('/business/pickup-view', [
+                        'model' => $model,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', '没有权限。');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+
+    public function actionPickupExport() {
+        $searchModel = new PickupSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 1000);
+
+        Excel::export([
+            'models' => $dataProvider->getModels(),
+            'fileName' => '拾物招领记录(' . date('Y-m-d', time()) . ')',
+            'format' => 'Excel5',
+            'style' => ['font_name' => '宋体', 'font_size' => 12, 'alignment_horizontal' => 'center', 'alignment_vertical' => 'center', 'row_height' => 20],
+            'headerTitle' => ['title' => '拾物招领记录(' . date('Y-m-d', time()) . ')', 'style' => ['font_bold' => true, 'font_size' => 16, 'row_height' => 30]],
+            'firstTitle' => ['font_bold' => true, 'row_height' => 20, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
+            'columns' => [
+                ['attribute' => 'created_at', 'format' => ["date", "php:Y-m-d H:i:s"], 'style' => ['column_width' => 21, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
+                [
+                    'attribute' => 'type',
+                    'value' =>
+                    function($model) {
+                        return $model->Type;   //主要通过此种方式实现
+                    },
+                    'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
+                ],
+                ['attribute' => 'goods', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                ['attribute' => 'address', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                ['attribute' => 'content', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                ['attribute' => 'name', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                ['attribute' => 'tel', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]], 'column_width' => 13],],
+                [
+                    'attribute' => 'end_at',
+                    'value' =>
+                    function($model) {
+                        return $model->end_at ? date('Y-m-d H:i:s', $model->end_at) : NULL;   //主要通过此种方式实现
+                    },
+                    'style' => ['column_width' => 21, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
+                [
+                    'attribute' => 'stat',
+                    'value' =>
+                    function($model) {
+                        return $model->Stat;   //主要通过此种方式实现
+                    },
+                    'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
+                ],
+            ],
+            'headers' => [
+                'id' => 'ID',
+                'type' => '类型',
+                'uid' => '用户',
+                'name' => '联系人',
+                'tel' => '联系电话',
+                'goods' => '物品',
+                'address' => '地址',
+                'content' => '内容',
+                'created_at' => '发布时间',
+                'end_at' => '结束时间',
+                'end_uid' => '结束人',
+                'stat' => '状态',
+            ],
+        ]);
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 

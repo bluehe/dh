@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'summary' => "第{begin}-{end}条，共{totalCount}条",
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                    'created_at:datetime',
                     [
                         'attribute' => 'type',
                         'value' =>
@@ -43,7 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'goods',
                     'address',
                     'content',
-                    'created_at:datetime',
                     'end_at:datetime',
                     [
                         'attribute' => 'stat',

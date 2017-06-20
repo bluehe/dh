@@ -50,11 +50,13 @@ class StatisticsController extends Controller {
         }
         //未设置类型
         $r = RepairOrder::get_area_total(NULL, $start, $end);
-        $data = [];
-        foreach ($r as $index => $one) {
-            $data[] = ['name' => isset($areas[$index]) ? $areas[$index] : '未定义', 'y' => (int) $one];
+        if ($r !== null) {
+            $data = [];
+            foreach ($r as $index => $one) {
+                $data[] = ['name' => isset($areas[$index]) ? $areas[$index] : '未定义', 'y' => (int) $one];
+            }
+            $series['area'][] = ['type' => 'column', 'name' => '未设置', 'data' => $data];
         }
-        $series['area'][] = ['type' => 'column', 'name' => '未设置', 'data' => $data];
 
         //类型合计
         $repair_type = RepairOrder::get_type_total('', $start, $end);
@@ -76,12 +78,13 @@ class StatisticsController extends Controller {
         }
         //未设置区域
         $r = RepairOrder::get_type_total(NULL, $start, $end);
-        $data = [];
-        foreach ($r as $index => $one) {
-            $data[] = ['name' => isset($types[$index]) ? $types[$index] : '未定义', 'y' => (int) $one];
+        if ($r !== null) {
+            $data = [];
+            foreach ($r as $index => $one) {
+                $data[] = ['name' => isset($types[$index]) ? $types[$index] : '未定义', 'y' => (int) $one];
+            }
+            $series['type'][] = ['type' => 'column', 'name' => '未设置', 'data' => $data];
         }
-        $series['type'][] = ['type' => 'column', 'name' => '未设置', 'data' => $data];
-
         //评价
         $evaluate1 = RepairOrder::get_evaluate_total('evaluate1', $start, $end);
         arsort($evaluate1);

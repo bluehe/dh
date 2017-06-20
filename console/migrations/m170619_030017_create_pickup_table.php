@@ -31,8 +31,10 @@ class m170619_030017_create_pickup_table extends Migration {
             'content' => $this->string(),
             'created_at' => $this->integer()->notNull(),
             'end_at' => $this->integer(),
+            'end_uid' => $this->integer(),
             'stat' => $this->smallInteger()->notNull()->defaultValue(1),
             "FOREIGN KEY ([[uid]]) REFERENCES {$userTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
+            "FOREIGN KEY ([[end_uid]]) REFERENCES {$userTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
                 ], $tableOptions);
     }
 

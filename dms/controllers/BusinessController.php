@@ -237,6 +237,7 @@ class BusinessController extends Controller {
         $model = Pickup::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => Pickup::STAT_OPEN]);
 
         if ($model !== null) {
+            $model->end_uid = Yii::$app->user->identity->id;
             $model->stat = $stat;
             $model->end_at = time();
             $model->save();

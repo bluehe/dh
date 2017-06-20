@@ -19,8 +19,8 @@ use dms\models\Pickup;
                 <i class="fa bg-teal">发布</i>
                 <div class="timeline-item">
 
-
-                    <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->created_at) ?></h3>
+                    <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->created_at) ?></span>
+                    <h3 class="timeline-header"><?= $model->u->username ?></h3>
 
                     <div class="timeline-body">
                         <dl class="dl-horizontal">
@@ -37,13 +37,14 @@ use dms\models\Pickup;
             </li>
             <!-- END timeline item -->
             <?php
-            if ($model->stat === Pickup::STAT_SUCCESS || $model->stat === Pickup::STAT_FAIL) {
+            if ($model->stat === Pickup::STAT_SUCCESS || $model->stat === Pickup::STAT_FAIL || $model->stat === Pickup::STAT_CLOSE) {
                 ?><!-- timeline item -->
                 <li>
-                    <?= $model->stat === Pickup::STAT_SUCCESS ? '<i class="fa bg-green">成功</i>' : '<i class="fa bg-red">失败</i>' ?>
+                    <?= $model->stat === Pickup::STAT_SUCCESS ? '<i class="fa bg-green">成功</i>' : ($model->stat === Pickup::STAT_FAIL ? '<i class="fa bg-red">失败</i>' : '<i class="fa bg-yellow">关闭</i>') ?>
 
                     <div class="timeline-item">
-                        <h3 class="timeline-header"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->end_at) ?></h3>
+                        <span class="time"><i class="fa fa-clock-o"></i> <?= date('Y-m-d H:i:s', $model->end_at) ?></span>
+                        <h3 class="timeline-header"><?= $model->e->username ?></h3>
                     </div>
                 </li>
                 <!-- END timeline item -->
