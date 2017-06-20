@@ -7,6 +7,7 @@ use yii\web\Controller;
 use dms\models\RepairOrder;
 use dms\models\RepairWorker;
 use dms\models\Room;
+use dms\models\Pickup;
 
 class StatisticsController extends Controller {
 
@@ -47,6 +48,13 @@ class StatisticsController extends Controller {
             }
             $series['area'][] = ['type' => 'column', 'name' => $type, 'data' => $data];
         }
+        //未设置类型
+        $r = RepairOrder::get_area_total(NULL, $start, $end);
+        $data = [];
+        foreach ($r as $index => $one) {
+            $data[] = ['name' => isset($areas[$index]) ? $areas[$index] : '未定义', 'y' => (int) $one];
+        }
+        $series['area'][] = ['type' => 'column', 'name' => '未设置', 'data' => $data];
 
         //类型合计
         $repair_type = RepairOrder::get_type_total('', $start, $end);
@@ -66,6 +74,13 @@ class StatisticsController extends Controller {
             }
             $series['type'][] = ['type' => 'column', 'name' => $area, 'data' => $data];
         }
+        //未设置区域
+        $r = RepairOrder::get_type_total(NULL, $start, $end);
+        $data = [];
+        foreach ($r as $index => $one) {
+            $data[] = ['name' => isset($types[$index]) ? $types[$index] : '未定义', 'y' => (int) $one];
+        }
+        $series['type'][] = ['type' => 'column', 'name' => '未设置', 'data' => $data];
 
         //评价
         $evaluate1 = RepairOrder::get_evaluate_total('evaluate1', $start, $end);
@@ -172,6 +187,60 @@ class StatisticsController extends Controller {
 
 
         return $this->render('repair', ['model' => $model, 'series' => $series, 'start' => $start, 'end' => $end]);
+    }
+
+    public function actionPickup() {
+
+        $start = strtotime('-1 month +1 days');
+        $end = strtotime('today') + 86399;
+
+        if (Yii::$app->request->get('range')) {
+            $range = explode('至', Yii::$app->request->get('range'));
+            $start = isset($range[0]) ? strtotime($range[0]) : $start;
+            $end = isset($range[1]) && (strtotime($range[1]) < $end) ? strtotime($range[1]) + 86399 : $end;
+        }
+
+
+        $model = new Pickup();
+
+        $series = [];
+
+        //趋势
+        $day_pick = Pickup::find()->where(['type' => Pickup::TYPE_PICK])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end])->groupBy(["FROM_UNIXTIME(created_at, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME(created_at, '%Y-%m-%d')")->column();
+        $day_lose = Pickup::find()->where(['type' => Pickup::TYPE_LOSE])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end])->groupBy(["FROM_UNIXTIME(created_at, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME(created_at, '%Y-%m-%d')")->column();
+
+        $data1 = [];
+        $data2 = [];
+        for ($i = $start; $i < $end; $i = $i + 86400) {
+            $j = date('Y-m-d', $i);
+            $data1[] = ['name' => $j, 'y' => isset($day_pick[$j]) ? (int) $day_pick[$j] : 0];
+            $data2[] = ['name' => $j, 'y' => isset($day_lose[$j]) ? (int) $day_lose[$j] : 0];
+        }
+
+        $series['day'][] = ['type' => 'line', 'name' => '招领数', 'data' => $data1];
+        $series['day'][] = ['type' => 'line', 'name' => '寻物数', 'data' => $data2];
+
+        //类型合计
+        $pickup_type = Pickup::get_type_total('', $start, $end);
+        arsort($pickup_type);
+        $data = [];
+        foreach ($pickup_type as $index => $one) {
+            $data[] = ['name' => isset(Pickup::$List['type'][$index]) ? Pickup::$List['type'][$index] : '未定义', 'y' => (int) $one];
+        }
+
+        $series['type_total'][] = ['type' => 'pie', 'name' => '合计', 'data' => $data];
+
+        //类型状态
+        foreach (Pickup::$List['stat'] as $key => $stat) {
+            $r = Pickup::get_type_total($key, $start, $end);
+            $data = [];
+            foreach ($r as $index => $one) {
+                $data[] = ['name' => isset(Pickup::$List['type'][$index]) ? Pickup::$List['type'][$index] : '未定义', 'y' => (int) $one];
+            }
+            $series['type'][] = ['type' => 'column', 'name' => $stat, 'data' => $data];
+        }
+
+        return $this->render('pickup', ['model' => $model, 'series' => $series, 'start' => $start, 'end' => $end]);
     }
 
 }

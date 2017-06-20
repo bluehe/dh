@@ -7,7 +7,7 @@ use yii\web\JsExpression;
 use kartik\daterange\DateRangePicker;
 
 $this->title = '报修统计';
-$this->params['breadcrumbs'][] = ['label' => '数据统计', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '数据统计', 'url' => ['repair']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <!-- Main row -->
@@ -58,11 +58,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="tab-pane active" id="repair_line">
                     <?=
                     Highcharts::widget([
+                        'scripts' => [
+                            'highcharts-more',
+                            'modules/exporting',
+                            'themes/grid-light'
+                        ],
                         'options' => [
-                            'scripts' => [
-                                'highcharts-more',
-                                'modules/exporting',
-                                'themes/grid-light'
+                            'lang' => [
+                                'printChart' => "打印图表",
+                                'downloadJPEG' => "下载JPEG 图片",
+                                'downloadPDF' => "下载PDF文档",
+                                'downloadPNG' => "下载PNG 图片",
+                                'downloadSVG' => "下载SVG 矢量图",
+                                'exportButtonTitle' => "导出图片"
                             ],
                             'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                             'title' => [
@@ -101,11 +109,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-8">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
@@ -142,11 +158,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-4">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
@@ -184,6 +208,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'themes/grid-light'
                             ],
                             'options' => [
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
+                                ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
                                     'text' => '报修类型数量统计',
@@ -227,11 +259,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-4">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
@@ -265,11 +305,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-12">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
@@ -303,11 +351,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-4">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
@@ -337,11 +393,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-4">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
@@ -371,11 +435,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-4">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
@@ -406,11 +478,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-8">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [
@@ -446,11 +526,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <section class="col-md-4">
                         <?=
                         Highcharts::widget([
+                            'scripts' => [
+                                'highcharts-more',
+                                'modules/exporting',
+                                'themes/grid-light'
+                            ],
                             'options' => [
-                                'scripts' => [
-                                    'highcharts-more',
-                                    'modules/exporting',
-                                    'themes/grid-light'
+                                'lang' => [
+                                    'printChart' => "打印图表",
+                                    'downloadJPEG' => "下载JPEG 图片",
+                                    'downloadPDF' => "下载PDF文档",
+                                    'downloadPNG' => "下载PNG 图片",
+                                    'downloadSVG' => "下载SVG 矢量图",
+                                    'exportButtonTitle' => "导出图片"
                                 ],
                                 'credits' => ['enabled' => true, 'text' => Yii::$app->request->hostInfo, 'href' => Yii::$app->request->hostInfo],
                                 'title' => [

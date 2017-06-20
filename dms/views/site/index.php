@@ -10,6 +10,8 @@ use yii\helpers\Url;
 use yii\bootstrap\Modal;
 
 $this->title = '首页';
+
+mb_regex_encoding("UTF-8");
 ?>
 <!-- Small boxes (Stat box) -->
 <?php if (Yii::$app->user->can('楼苑设置')) { ?>
@@ -146,20 +148,17 @@ $this->title = '首页';
 
                 <h3 class="box-title"><i class="fa fa-wrench"></i> 报修广场</h3>
 
-                <div class="box-tools pull-right">
 
-                </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
                 <?php
                 Pjax::begin();
-                mb_regex_encoding("UTF-8");
                 ?>
                 <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
                 <?=
                 GridView::widget([
-                    'dataProvider' => $dataProvider,
+                    'dataProvider' => $repairorder,
                     'layout' => "<div class=table-responsive>{items}</div>\n{pager}",
                     'pager' => [
                         'options' => ['class' => 'pagination pagination-sm inline']
@@ -215,6 +214,58 @@ $this->title = '首页';
 
             </div>
             <!-- /.box-body -->
+
+        </div>
+
+        <div class="box box-primary pickuporder">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+
+
+                <h3 class="box-title"><i class="fa fa-suitcase"></i> 拾物招领</h3>
+
+
+            </div>
+            <!-- /.box-header -->
+
+            <div class="box-body">
+                <?php
+                Pjax::begin();
+                ?>
+                <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+                <?=
+                GridView::widget([
+                    'dataProvider' => $pickup,
+                    'layout' => "<div class=table-responsive>{items}</div>\n{pager}",
+                    'pager' => [
+                        'options' => ['class' => 'pagination pagination-sm inline']
+                    ],
+                    'tableOptions' => ['class' => 'table table-bordered table-hover'],
+                    'rowOptions' => function($model) {
+                        return ['class' => $model->type == \dms\models\Pickup::TYPE_PICK ? 'success' : 'danger'];
+                    },
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        'created_at:datetime',
+                        [
+                            'attribute' => 'type',
+                            'value' =>
+                            function($model) {
+                                return $model->Type;   //主要通过此种方式实现
+                            },
+                        ],
+                        'goods',
+                        'address',
+                        'content',
+                        'name',
+                        'tel',
+                    ],
+                ]);
+                ?>
+                <?php Pjax::end(); ?>
+
+            </div>
+            <!-- /.box-body -->
+
 
         </div>
 

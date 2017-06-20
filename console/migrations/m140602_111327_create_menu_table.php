@@ -38,6 +38,7 @@ class m140602_111327_create_menu_table extends \yii\db\Migration {
             [4, '头像设置', 1, '/account/thumb', 3, '{"icon":"fa fa-camera-retro"}'],
             [20, '业务中心', NULL, '/business/repair-business', 2, '{"icon":"fa  fa-briefcase"}'],
             [21, '网上报修', 20, '/business/repair-business', 1, '{"icon":"fa fa-wrench","multi-action":[ "repair-business", "repair-create","repair-update"]}'],
+            [22, '拾物招领', 20, '/business/pickup-business', 2, '{"icon":"fa fa-suitcase","multi-action":[ "pickup-business", "pickup-create", "pickup-update"]}'],
             [30, '日常事务', NULL, '/work/repair-work', 3, '{"icon":"fa  fa-briefcase"}'],
             [31, '报修管理', 30, '/work/repair-work', 1, '{"icon":"fa fa-wrench"}'],
             [32, '楼苑概况', 30, '/work/building', 2, '{"icon":"fa fa-building-o"}'],
@@ -64,6 +65,7 @@ class m140602_111327_create_menu_table extends \yii\db\Migration {
             [73, '人员管理', 70, '/repair/worker', 3, '{"icon":"fa fa-user", "multi-action":[ "worker", "worker-create", "worker-update"]}'],
             [80, '数据统计', NULL, '/statistics/repair', 8, '{"icon":"fa  fa-bar-chart"}'],
             [81, '报修统计', 80, '/statistics/repair', 1, '{"icon":"fa fa-wrench"}'],
+            [82, '拾物统计', 80, '/statistics/pickup', 2, '{"icon":"fa fa-suitcase"}'],
         ]);
     }
 

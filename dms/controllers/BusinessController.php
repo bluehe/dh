@@ -8,6 +8,7 @@ use dms\models\System;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use dms\models\Pickup;
 
 /**
  * BusinessController implements the CRUD actions for RepairOrder model.
@@ -165,6 +166,94 @@ class BusinessController extends Controller {
                 Yii::$app->session->setFlash('error', '没有权限。');
                 return $this->redirect(Yii::$app->request->referrer);
             }
+        }
+    }
+
+    /**
+     * Lists all Pickup models.
+     * @return mixed
+     */
+    public function actionPickupBusiness() {
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Pickup::find()->andWhere(['uid' => Yii::$app->user->identity->id]),
+            'sort' => ['defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]],
+        ]);
+        return $this->render('pickup-business', [
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Creates a new Pickup model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionPickupCreate() {
+        $model = new Pickup();
+
+        //默认姓名和电话
+        $pickup = Pickup::find()->where(['uid' => Yii::$app->user->identity->id])->orderBy(['created_at' => SORT_DESC])->one();
+        if ($pickup !== null) {
+            $model->name = $pickup->name;
+            $model->tel = $pickup->tel;
+        }
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->uid = Yii::$app->user->identity->id;
+            $model->created_at = time();
+            $model->stat = Pickup::STAT_OPEN;
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '发布成功。');
+                return $this->redirect(['pickup-business']);
+            } else {
+                Yii::$app->session->setFlash('error', '发布失败。');
+            }
+        }
+        return $this->render('pickup-create', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionPickupUpdate($id) {
+        $model = Pickup::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => RepairOrder::STAT_OPEN]);
+
+        if ($model !== null) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', '修改成功。');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+            return $this->render('pickup-update', [
+                        'model' => $model,
+            ]);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionPickupClose($id, $stat) {
+        $model = Pickup::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => Pickup::STAT_OPEN]);
+
+        if ($model !== null) {
+            $model->stat = $stat;
+            $model->end_at = time();
+            $model->save();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionPickupView($id) {
+        $model = Pickup::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id]);
+        if ($model !== null) {
+            return $this->renderAjax('pickup-view', [
+                        'model' => $model,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', '没有权限。');
+            return $this->redirect(Yii::$app->request->referrer);
         }
     }
 

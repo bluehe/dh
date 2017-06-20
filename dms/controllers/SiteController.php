@@ -19,6 +19,7 @@ use dms\models\Room;
 use dms\models\Bed;
 use common\models\User;
 use dms\models\RepairOrder;
+use dms\models\Pickup;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 
@@ -211,19 +212,19 @@ class SiteController extends Controller {
             $total['repair'] = RepairOrder::get_stat_total();
         }
 
-//        $query = RepairOrder::find()->where(['not', ['stat' => RepairOrder::STAT_CLOSE]]);
-//        $count = $query->count();
-//        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 5]);
-//        $repairorders = $query->offset($pagination->offset)
-//                ->limit($pagination->limit)
-//                ->all();
-        $query = RepairOrder::find()->where(['not', ['{{%repair_order}}.stat' => RepairOrder::STAT_CLOSE]])->joinWith('type')->joinWith('area')->orderBy(['{{%repair_order}}.id' => SORT_DESC]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+
+        $repairorder = new ActiveDataProvider([
+            'query' => RepairOrder::find()->where(['not', ['{{%repair_order}}.stat' => RepairOrder::STAT_CLOSE]])->joinWith('type')->joinWith('area')->orderBy(['{{%repair_order}}.id' => SORT_DESC]),
             'pagination' => ['pageSize' => 5],
         ]);
-        $dataProvider->setSort(false);
-        return $this->render('index', ['total' => $total, 'dataProvider' => $dataProvider]);
+        $repairorder->setSort(false);
+
+        $pickup = new ActiveDataProvider([
+            'query' => Pickup::find()->where(['stat' => Pickup::STAT_OPEN])->orderBy(['id' => SORT_DESC]),
+            'pagination' => ['pageSize' => 5],
+        ]);
+        $pickup->setSort(false);
+        return $this->render('index', ['total' => $total, 'repairorder' => $repairorder, 'pickup' => $pickup]);
     }
 
     /**
