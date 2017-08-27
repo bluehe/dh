@@ -3,7 +3,6 @@
 namespace common\widgets;
 
 use yii\authclient\OAuth2;
-use yii\web\HttpException;
 use Yii;
 
 /**
@@ -99,23 +98,27 @@ class WeixinClient extends OAuth2 {
             $defaultParams['scope'] = $this->scope;
         }
         $defaultParams['state'] = $authState;
-        $url = $this->type == 'mp' ? $this->authUrlMp : $this->authUrl;
-        return $this->composeUrl($url, array_merge($defaultParams, $params));
+
+        $url = $this->composeUrl($this->type == 'mp' ? $this->authUrlMp : $this->authUrl, array_merge($defaultParams, $params));
+        return $url;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function fetchAccessToken($authCode, array $params = []) {
-        $authState = $this->getState('authState');
-        if (!isset($_REQUEST['state']) || empty($authState) || strcmp($_REQUEST['state'], $authState) !== 0) {
-            throw new HttpException(400, 'Invalid auth state parameter.');
-        } else {
-            $this->removeState('authState');
+        $defaultParams = [
+            'appid' => $this->clientId,
+            'secret' => $this->clientSecret,
+            'code' => $authCode,
+            'grant_type' => 'authorization_code',
+            'redirect_uri' => $this->getReturnUrl(),
+        ];
+        $response = $this->sendRequest('GET', $this->tokenUrl, array_merge($defaultParams, $params));
+        $token = null;
+        if (isset($response['access_token'])) {
+            $arr['oauth_token_secret'] = $this->clientSecret;
+            $token = $this->createToken(['params' => array_merge($arr, $response), 'class' => WeChatToken::className()]);
+            $this->setAccessToken($token);
         }
-        $params['appid'] = $this->clientId;
-        $params['secret'] = $this->clientSecret;
-        return parent::fetchAccessToken($authCode, $params);
+        return $token;
     }
 
     /**

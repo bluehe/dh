@@ -22,9 +22,9 @@ use yii\widgets\ActiveForm;
         ?>
         <?= $form->field($model, 'uid')->dropDownList($model->get_user_id(), ['prompt' => '无', 'class' => 'form-control select2']) ?>
 
-
-
-
+        <div class="col-md-6 col-md-offset-3">
+            <?= Html::img($qrcode, ['class' => 'img-responsive']) ?>
+        </div>
 
         <div class="col-md-6 col-xs-6 text-right">
 

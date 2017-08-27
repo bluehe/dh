@@ -57,6 +57,7 @@ class Student extends ActiveRecord {
             [['name'], 'string', 'max' => 8, 'message' => '{attribute}最长8个字符'],
             [['stuno'], 'string', 'max' => 16, 'message' => '{attribute}最长16个字符'],
             [['tel', 'email'], 'string', 'max' => 64],
+            ['email', 'email', 'message' => '{attribute}格式错误'],
             [['address', 'note'], 'string', 'max' => 255],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['college'], 'exist', 'skipOnError' => true, 'targetClass' => College::className(), 'targetAttribute' => ['college' => 'id']],

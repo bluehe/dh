@@ -49,6 +49,7 @@ class Teacher extends ActiveRecord {
             [['name'], 'string', 'max' => 8, 'message' => '{attribute}最长8个字符'],
             [['name'], 'unique', 'targetAttribute' => ['name', 'college'], 'message' => '{attribute}已经存在'],
             [['tel', 'email'], 'string', 'max' => 64, 'message' => '{attribute}最长64个字符'],
+            ['email', 'email', 'message' => '{attribute}格式错误'],
             [['address', 'note'], 'string', 'max' => 255, 'message' => '{attribute}最长255个字符'],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['college'], 'exist', 'skipOnError' => true, 'targetClass' => College::className(), 'targetAttribute' => ['college' => 'id']],

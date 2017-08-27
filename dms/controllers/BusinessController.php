@@ -92,6 +92,24 @@ class BusinessController extends Controller {
             $model->stat = RepairOrder::STAT_OPEN;
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '报修成功。');
+                //微信模板消息
+                $wechat = Yii::$app->wechat;
+                $data = [
+                    'touser' => 'o1_oW1YTz5ZjVRuZbvQyft7F3ON0',
+                    'template_id' => 'px-_23ZPiLj9PSKO-Vz2Vn2heXw11djEzZACxxVNjJg',
+                    'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/work/repair-work',
+                    'data' => [
+                        'first' => ['value' => '您好，您有新的报修单',],
+                        'serial' => ['value' => $model->serial,],
+                        'stat' => ['value' => $model->Stat,],
+                        'created_at' => ['value' => date('Y-m-d H:i:s', $model->created_at),],
+                        'user' => ['value' => $model->name,],
+                        'address' => ['value' => ($model->repair_area ? \dms\models\Forum::get_forum_allname($model->repair_area) : '') . '-' . $model->address,],
+                        'type' => ['value' => $model->repair_type ? $model->type->v : $model->repair_type],
+                        'content' => ['value' => $model->content,],
+                        'remark' => ['value' => '点击查看详情！',],
+                ]];
+                $wechat->sendTemplateMessage($data);
                 return $this->redirect(['repair-business']);
             } else {
                 Yii::$app->session->setFlash('error', '报修失败。');

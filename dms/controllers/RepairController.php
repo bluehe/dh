@@ -399,8 +399,11 @@ class RepairController extends Controller {
             }
             return $this->redirect(Yii::$app->request->referrer);
         } else {
+            $wechat = Yii::$app->wechat;
+            $ticket = $wechat->createQrCode(['expire_seconds' => 600, 'action_name' => 'QR_SCENE', 'action_info' => ['scene' => ['scene_id' => Yii::$app->user->identity->id * 100000]]]);
+            $qrcode = $wechat->getQrCode($ticket['ticket']);
             return $this->renderAjax('_form-bind', [
-                        'model' => $model,
+                        'model' => $model, 'qrcode' => $qrcode
             ]);
         }
     }

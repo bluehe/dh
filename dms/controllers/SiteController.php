@@ -78,7 +78,7 @@ class SiteController extends Controller {
     }
 
     public function successCallback($client) {
-        $type = $client->getId(); // qq | weibo | github
+        $type = $client->getId(); // qq | weibo | github |weixin
         $attributes = $client->getUserAttributes(); // basic info
 
         $auth = UserAuth::find()->where(['type' => $type, 'open_id' => $attributes['id']])->one();

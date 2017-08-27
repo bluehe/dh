@@ -1,6 +1,6 @@
 <?php
 
-namespace db\assets;
+namespace weixin\assets;
 
 use yii\web\AssetBundle;
 
