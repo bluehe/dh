@@ -1,6 +1,53 @@
 Change Log: `bootstrap-fileinput`
 =================================
 
+## version 4.4.3
+
+**Date:** 27-Aug-2017
+
+- (enh #1059): Better form reset behavior and update of `reset` method in docs.
+- (enh #1056): Add Lithuanian Translations.
+- (enh #1050): Update Japanese Translations & Locales.
+- (enh #1049): New property `uploadUrlThumb`.
+- (enh #1048): Add ability to retry errored file uploads.
+    - New plugin properties added:
+        - `retryErrorUploads`: _boolean_, will determine if errored out thumbnails can be retried for upload and submitted again.
+        - `fileActionSettings.uploadRetryIcon`: Will change the icon of the upload button to retry icon specified here.
+        - `fileActionSettings.uploadRetryTitle`: Will change the title of the upload button to retry title specified here.
+        - `msgUploadError`: will be displayed within the progress bar on the errored out thumbnails.
+    - Other enhancements include:
+        - resetting progress bar correctly
+        - enhancing upload validation behavior so that if `retryErrorUploads` is `false`, then no upload button is shown on the errored out thumbnails.
+- (enh #1044): Add Slovak Translations.
+- (enh #1043): Add Czech Translations.
+- (enh #1042, #830): Fixes to initial preview delete (related to #1034).
+- (enh #1038): Fix documentation for `{dataKey}`.
+- (enh #1034): Add new event `filebeforedelete` and enhance delete abort logic.
+- (enh #1033): Correct reset of preview in `reset` method.
+- (enh #1031): Update French Translations.
+- (bug #1030): Correct image dimension validation to consider non JPEG images.
+- (enh #1015): Enhancement to RTL styling.
+- (enh #1014): Enhancements to file upload single.
+- (enh #1012): Better formatting of ajax errors display.
+- (enh #1006): Update Farsi Translations.
+
+## version 4.4.2
+
+**Date:** 24-Jun-2017
+
+- (enh #1005): Update Dutch Translations.
+- (enh #1004): New Krajee Explorer Font Awesome Theme.
+- (bug #995): Correct and fix image load jquery event triggering for browser cache scenarios.
+- (enh #991): Add Azerbaijan Translations.
+- (enh #990): Ability to hide thumbnail content (`hideThumbnailContent`) and display only file name/size.
+- (enh #989): Update Chinese Translations.
+- (enh #987): Zoom preview arrows orientation for RTL.
+- (enh #986): Image width parsing and styling enhancements.
+- (enh #985): Do not reset input when upload fails (single-upload mode).
+- (enh #981): Update Hungarian Translations.
+- (enh #977): Add RTL capability (new property `rtl` to be set) - includes new `fileinput-rtl.css` (to be loaded after `fileinput.css` for RTL styling).
+- (enh #973): Add SCSS image path variable and file-image alt style updates.
+
 ## version 4.4.1
 
 **Date:** 25-May-2017
