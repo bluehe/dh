@@ -340,14 +340,14 @@ mb_regex_encoding("UTF-8");
             </ul>
             <div class="tab-content">
                 <div class="baidunews tab-pane" id="enternews" >
-                    <script language="JavaScript" type="text/JavaScript" src="http://news.baidu.com/n?cmd=1&class=enternews&pn=1&tn=newsbrofcu"></script>
+                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=enternews&pn=1&tn=newsbrofcu"></script>
                 </div>
                 <div class="baidunews tab-pane" id="mil" >
-                    <script language="JavaScript" type="text/JavaScript" src="http://news.baidu.com/n?cmd=1&class=mil&pn=1&tn=newsbrofcu"></script>
+                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=mil&pn=1&tn=newsbrofcu"></script>
                 </div>
 
                 <div class="baidunews tab-pane active" id="internet" >
-                    <script language="JavaScript" type="text/JavaScript" src="http://news.baidu.com/n?cmd=1&class=internet&pn=1&tn=newsbrofcu"></script>
+                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=internet&pn=1&tn=newsbrofcu"></script>
                 </div>
 
             </div>
