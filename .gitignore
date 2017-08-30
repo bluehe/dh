@@ -39,3 +39,4 @@ phpunit.phar
 !/vendor/
 /console/runtime/
 /weixin/runtime/
+/dh/runtime/
