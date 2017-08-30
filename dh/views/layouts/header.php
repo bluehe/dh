@@ -14,8 +14,8 @@ use yii\bootstrap\NavBar;
     <div class="main-header">
         <div class="container">
             <div class="pull-left">
-                <a href="javascript:void(0);"><i class="fa fa-refresh"></i> 更换皮肤</a>
-                <a href="javascript:void(0);"><i class="fa fa-exchange"></i> 切换板式</a>
+                <a href="javascript:void(0);"><i class="fa fa-exchange"></i> 更换皮肤</a>
+                <a href="javascript:void(0);"><i class="fa fa-refresh"></i> 切换板式</a>
             </div>
 
 
