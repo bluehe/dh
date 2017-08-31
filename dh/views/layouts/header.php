@@ -35,7 +35,7 @@ use yii\bootstrap\NavBar;
         <?php
         NavBar::begin();
         $menuItems = [
-            ['label' => '网址大全', 'url' => ['/site/index']],
+            ['label' => '网址大全1', 'url' => ['/site/index']],
             ['label' => '我的导航', 'url' => ['/']],
             ['label' => '行业导航', 'url' => ['/']],
             ['label' => '热门推荐', 'url' => ['/']],
