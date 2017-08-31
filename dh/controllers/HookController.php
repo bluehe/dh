@@ -11,14 +11,6 @@ use yii\web\Controller;
  */
 class HookController extends Controller {
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex() {
-        return $this->render('index');
-    }
 
     /**
      * 自动pull
