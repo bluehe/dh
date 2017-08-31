@@ -26,8 +26,7 @@ class HookController extends Controller {
     public function actionGit() {
 
             //调用shell
-            echo exec("/data/wwwroot/dms/git.sh");
-        
+            exec("/data/wwwroot/dms/git.sh");
     }
 
 }
