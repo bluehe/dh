@@ -50,9 +50,9 @@ class HookController extends Controller {
         // 判断签名是否匹配
         if ($hash === $payloadHash) {
             //调用shell
-            echo '11'; //exec("/data/wwwroot/dms/git.sh");
+            return '11'; //exec("/data/wwwroot/dms/git.sh");
         } else {
-            echo '22';
+            return '22';
         }
     }
 
