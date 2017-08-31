@@ -45,16 +45,16 @@ return [
             ],
         ],
         'cache' => [
-            //'class' => 'yii\caching\FileCache',
-            'class' => 'yii\redis\Cache',
+            'class' => 'yii\caching\FileCache',
+            //'class' => 'yii\redis\Cache',
             'keyPrefix' => 'dms',
         ],
-        'redis' => [
-            'class' => 'yii\redis\Connection',
-            'hostname' => '106.14.172.65',
-            'port' => 6379,
-            'database' => 0,
-        ],
+//        'redis' => [
+//            'class' => 'yii\redis\Connection',
+//            'hostname' => '106.14.172.65',
+//            'port' => 6379,
+//            'database' => 0,
+//        ],
         'wechat' => [
             'class' => 'callmez\wechat\sdk\MpWechat',
             'appId' => 'wx5f06fff8635a37d4', //'wx0b6eaf137bc335ab',

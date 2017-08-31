@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use dh\models\Recommend;
 
 /**
  * Site controller
@@ -58,7 +59,9 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
-        return $this->render('index');
+        $recommend = Recommend::get_recommend(Recommend::STATUS_OPEN);
+
+        return $this->render('index', ['recommend' => $recommend]);
     }
 
     /**
