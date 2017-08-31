@@ -64,5 +64,4 @@ use yii\bootstrap\NavBar;
         NavBar::end();
         ?>
     </div>
-
 </header>
