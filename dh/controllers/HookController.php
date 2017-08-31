@@ -20,7 +20,7 @@ class HookController extends Controller {
         //获取http 头
         $json = json_decode(file_get_contents('php://input'), true);
         if (empty($json['token']) || $json['token'] !== $token) {
-            exit('error request');
+            echo 'error request';
         } else {
             //调用shell
             echo exec("/data/wwwroot/dms/git.sh");
