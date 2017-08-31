@@ -10,7 +10,7 @@ use yii\web\Controller;
  * Site controller
  */
 class HookController extends Controller {
-
+    public $layout = false;
 
     /**
      * 自动pull
