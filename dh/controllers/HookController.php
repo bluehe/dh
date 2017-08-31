@@ -41,8 +41,8 @@ class HookController extends Controller {
 //        fwrite($fs, '=======================================================================' . PHP_EOL);
 //        $fs and fclose($fs);
 //这里也可以执行自定义的脚本文件update.sh，脚本内容可以自己定义。
-        //exec("/data/wwwroot/dms/git.sh");
-        exec("cd  /data/wwwroot/dms;git pull");
+        exec("/data/wwwroot/dms/git.sh");
+        //exec("cd  /data/wwwroot/dms;git pull");
         exit;
     }
 
