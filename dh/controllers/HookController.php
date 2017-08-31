@@ -47,11 +47,10 @@ class HookController extends Controller {
         // 计算签名
         $payloadHash = hash_hmac($algo, $payload, $secret);
 
-        // 判断签名是否匹配
-        if ($hash === $payloadHash) {
+      
             //调用shell
             echo exec("/data/wwwroot/dms/git.sh");
-        }
+        
     }
 
 }
