@@ -19,6 +19,7 @@ a:hover{text-decoration: none}
 .nav-header .logo {
     width: 170px;
     height: 80px;
+    float:left;
 }
 .nav-header .nav {
     font-size: 18px;
@@ -36,20 +37,16 @@ a:hover{text-decoration: none}
 
 /*搜索*/
 .nav-header .search {
-    width: 320px;
-    margin-top: 19px;
-    margin-bottom: 10px;
+    width: 300px;
+    height: 40px;
+    margin-top: 20px;
     position: relative;
-}
-@media screen and (max-width: 600px){
-    .nav-header .search {
-        margin-top: 0;
-    }
+    float: right;
 }
 .search input {
-    width: 325px;
-    height: 42px;
-    padding: 0 40px 0 43px;
+    width: 300px;
+    height: 40px;
+    padding: 0 40px 0 40px;
     border-radius: 25px;
     border: 1px solid #839696;
     outline: none;
@@ -62,8 +59,8 @@ a:hover{text-decoration: none}
     left: 10px;
 }
 .search button {
-    height: 42px;
-    width: 42px;
+    height: 40px;
+    width: 40px;
     cursor: pointer;
     border: none;
     outline: none;
@@ -89,4 +86,15 @@ a:hover{text-decoration: none}
 .recommend img:hover {
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
     transform: translate3d(0px, -2px, 0px);
+}
+
+@media screen and (max-width: 600px){
+    .nav-header .logo {
+        margin: 0 auto;
+        float: none;
+    }
+    .nav-header .search {       
+        margin: 0 auto 10px auto;
+        float: none !important;
+    }
 }

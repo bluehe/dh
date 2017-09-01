@@ -26,7 +26,7 @@ use yii\bootstrap\Nav;
     </div>
     <div class="nav-header">
         <div class="container">
-            <div class="logo pull-left">
+            <div class="logo">
                 <a href="/">
                     <img src="<?= $directoryAsset ?>/image/logo.png" alt="导航" class="img-responsive"/>
                 </a>
@@ -46,7 +46,7 @@ use yii\bootstrap\Nav;
             ]);
             ?>
 
-            <div class="pull-right search">
+            <div class="search pull-right">
                 <form action="https://www.baidu.com/s" method="get" target="_blank" accept-charset="utf-8" id="searchform">
                     <span><img src="<?= $directoryAsset ?>/image/baidu.png"></span>
                     <input type="text" name="wd" placeholder="请输入您要搜索的内容..." autocomplete="off">
