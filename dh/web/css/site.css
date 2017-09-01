@@ -37,14 +37,14 @@ a:hover{text-decoration: none}
 
 /*搜索*/
 .nav-header .search {
-    width: 370px;
+    width: 270px;
     height: 40px;
     margin-top: 20px;
     position: relative;
     float: right;
 }
 .search input {
-    width: 370px;
+    width: 270px;
     height: 40px;
     padding: 0 40px 0 40px;
     border-radius: 25px;
