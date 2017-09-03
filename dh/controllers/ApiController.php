@@ -33,11 +33,11 @@ class ApiController extends Controller {
             exit;
         }
 
-        $f1 = @file_get_contents("http://api.byi.pw/favicon/?url=$url");
+        $f1 = @file_get_contents("https://api.byi.pw/favicon/?url=$url");
         @file_put_contents($fav, $f1);
 
-//        $img_info_1 = md5_file("http://api.byi.pw/favicon/?url=$url");
-//        $img_info_2 = md5_file("http://api.byi.pw/favicon/?url=error"); //别人接口默认的值
+//        $img_info_1 = md5_file("https://api.byi.pw/favicon/?url=$url");
+//        $img_info_2 = md5_file("https://api.byi.pw/favicon/?url=error"); //别人接口默认的值
 
         $size = filesize($fav);
         if ($size == 492 || $size == 0 || $size == 726) {
