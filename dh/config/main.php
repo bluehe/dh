@@ -89,8 +89,8 @@ return [
                 ],
                 'qq' => [
                     'class' => 'common\widgets\QQClient',
-                    'clientId' => '101404858',
-                    'clientSecret' => '39f2a0ea2801309c778e2126c5bc7cad',
+                    'clientId' => '101389884',
+                    'clientSecret' => '0f7af7103526adaff8904219831b101f',
                 ],
             ],
         ],
