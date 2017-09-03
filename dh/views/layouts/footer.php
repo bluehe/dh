@@ -19,7 +19,7 @@ use yii\helpers\Html;
 
 
 
-            <div class="copy mt-10 text-c"> Copyright2016-2017&nbsp;&nbsp;<a href="/">云导航</a>&nbsp;&nbsp; All Right Reserved&nbsp;&nbsp;易采通（常州）供应链管理有限公司&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">苏ICP备15048548号-8</a><span> </span></div>
+            <div class="copy mt-10 text-c"> Copyright2016-2017&nbsp;&nbsp;<a href="/">网址收藏夹</a>&nbsp;&nbsp; All Right Reserved&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank"></a><span> </span></div>
 
         </div>
     </div>
