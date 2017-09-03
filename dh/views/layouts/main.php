@@ -4,7 +4,6 @@
 
 use dh\assets\AppAsset;
 use yii\helpers\Html;
-use common\widgets\Alert;
 
 AppAsset::register($this);
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('dh/web');

@@ -40,3 +40,4 @@ phpunit.phar
 /console/runtime/
 /weixin/runtime/
 /dh/runtime/
+/dh/web/data/icon/

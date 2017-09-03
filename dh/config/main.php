@@ -6,9 +6,13 @@ $params = array_merge(
 
 return [
     'id' => 'app-dh',
+    'name' => '网址收藏夹',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'dh\controllers',
     'bootstrap' => ['log'],
+    'charset' => 'utf-8',
+    'language' => 'zh-CN',
+    'timeZone' => 'Asia/Shanghai',
+    'controllerNamespace' => 'dh\controllers',
     'modules' => [],
     'components' => [
         'db' => [
@@ -41,7 +45,7 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
 //            'class' => 'yii\redis\Cache',
-//            'keyPrefix' => 'dms',
+//            'keyPrefix' => 'dh',
         ],
 //        'redis' => [
 //            'class' => 'yii\redis\Connection',
@@ -70,6 +74,26 @@ return [
                 ],
             ],
         ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'github' => [
+                    'class' => 'yii\authclient\clients\GitHub',
+                    'clientId' => '441b767ffa92ee879471',
+                    'clientSecret' => 'b16da9ef4cf8d97a12e035dd4dff413c6198ad0d',
+                ],
+                'weibo' => [
+                    'class' => 'common\widgets\WeiboClient',
+                    'clientId' => '3230780338',
+                    'clientSecret' => '4c79685858dafe77342476612c5e7190',
+                ],
+                'qq' => [
+                    'class' => 'common\widgets\QQClient',
+                    'clientId' => '101404858',
+                    'clientSecret' => '39f2a0ea2801309c778e2126c5bc7cad',
+                ],
+            ],
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -79,6 +103,14 @@ return [
             'rules' => [
             ],
         ],
+        'formatter' => [
+            'dateFormat' => 'yyyy-MM-dd',
+            'datetimeFormat' => 'yyyy-MM-dd HH:mm:ss',
+            'decimalSeparator' => '.',
+            'thousandSeparator' => ',',
+            'currencyCode' => 'CNY',
+        ],
     ],
+    'on beforeAction' => ['dh\events\initSiteConfig', 'assign'],
     'params' => $params,
 ];

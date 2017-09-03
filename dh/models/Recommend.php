@@ -18,9 +18,9 @@ use yii\behaviors\TimestampBehavior;
  */
 class Recommend extends \yii\db\ActiveRecord {
 
-    const STATUS_WAIT = 1;
-    const STATUS_OPEN = 2;
-    const STATUS_CLOSE = 3;
+    const STAT_WAIT = 1;
+    const STAT_OPEN = 2;
+    const STAT_CLOSE = 3;
 
     /**
      * @inheritdoc
@@ -81,9 +81,12 @@ class Recommend extends \yii\db\ActiveRecord {
         return $stat;
     }
 
-    public static function get_recommend($stat = '') {
-        $recommends = static::find()->andFilterWhere(['stat' => $stat])->select(['id', 'name', 'url', 'img', 'stat'])->orderBy(['sort_order' => SORT_DESC])->indexBy('id')->asArray()->all();
-
+    public static function get_recommend($stat = '', $limit = '') {
+        $query = static::find()->andFilterWhere(['stat' => $stat])->select(['id', 'name', 'url', 'img', 'stat'])->orderBy(['sort_order' => SORT_DESC]);
+        if ($limit) {
+            $query->limit($limit);
+        }
+        $recommends = $query->indexBy('id')->asArray()->all();
         return $recommends;
     }
 
