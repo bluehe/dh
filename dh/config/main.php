@@ -84,8 +84,8 @@ return [
                 ],
                 'weibo' => [
                     'class' => 'common\widgets\WeiboClient',
-                    'clientId' => '3230780338',
-                    'clientSecret' => '4c79685858dafe77342476612c5e7190',
+                    'clientId' => '1982328261',
+                    'clientSecret' => 'd9cb383e6c9dc564800a8009a96f9720',
                 ],
                 'qq' => [
                     'class' => 'common\widgets\QQClient',
