@@ -27,6 +27,16 @@ return [
         '@mdm/admin' => '@vendor/mdmsoft/yii2-admin',
     ],
     'components' => [
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'enableSchemaCache' => true,
+            'schemaCacheDuration' => 24 * 3600,
+            'charset' => 'utf8',
+            'tablePrefix' => 'dms_',
+            'dsn' => 'mysql:host=106.14.172.65;dbname=dms',
+            'username' => 'easyscm',
+            'password' => 'easyscm1123',
+        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             //false：非测试状态，发送真实邮件而非存储为文件

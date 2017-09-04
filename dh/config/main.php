@@ -7,6 +7,7 @@ $params = array_merge(
 return [
     'id' => 'app-dh',
     'name' => '网址收藏夹',
+    'version' => '3.0 Beta',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'charset' => 'utf-8',
@@ -44,15 +45,23 @@ return [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
-//            'class' => 'yii\redis\Cache',
-//            'keyPrefix' => 'dh',
+            //'class' => 'yii\redis\Cache',
+            'keyPrefix' => 'dh',
         ],
 //        'redis' => [
 //            'class' => 'yii\redis\Connection',
 //            'hostname' => '106.14.172.65',
 //            'port' => 6379,
 //            'database' => 0,
-//        ],
+//        ],        
+        'assetManager' => [
+            'appendTimestamp' => true,
+//            'linkAssets' => true,
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', //这里记得用单引号而不是双引号
+            'defaultRoles' => ['guest'],
+        ],
         'request' => [
             'csrfParam' => '_csrf-dh',
         ],
@@ -62,7 +71,7 @@ return [
             'identityCookie' => ['name' => '_identity-dh', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the dh
+// this is the name of the session cookie used for login on the dh
             'name' => 'advanced-dh',
         ],
         'log' => [
