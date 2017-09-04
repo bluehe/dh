@@ -24,7 +24,7 @@ $this->title = '我的网址';
                 <?php Pjax::begin(); ?>
                 <div class="website col-lg-12">
                     <?php foreach ($cates as $cate) { ?>
-                        <div class="col-lg-3 category">
+                        <div class="category">
 
                             <div class="website-header">
 

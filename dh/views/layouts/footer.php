@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use yii\helpers\Url
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -40,3 +40,24 @@ use yii\helpers\Html;
 <?php $this->endBlock() ?>
 </script>
 <?php $this->registerJs($this->blocks['baidu'], \yii\web\View::POS_END); ?>
+
+<script>
+<?php $this->beginBlock('main') ?>
+    $('.change-plate').on('click', function () {
+        var plate = $(this).data('plate');
+        $.getJSON({
+            url: '<?= Url::toRoute('ajax/plate') ?>',
+            data: {'id': plate},
+            success: function (data) {
+
+                if (data.stat === 'success') {
+                    $(".website").removeClass('plate-' + plate).addClass('plate-' + data.plate);
+                    $('.change-plate').data('plate', data.plate);
+                }
+
+            }
+        });
+    });
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJs($this->blocks['main'], \yii\web\View::POS_END); ?>

@@ -154,6 +154,18 @@ a:hover{text-decoration: none}
     background-color: #fff;
     border-radius: 4px;
     margin-bottom: 20px;
+    width:25%;
+    float: left;
+}
+.website.plate-2 .category{
+    width: 100%;
+}
+.website.plate-1 .website-content,.website.plate-2 .website-content{
+    height: auto;
+}
+.website.plate-2 .website-content>div{
+    width: 25%;
+    float: left;
 }
 .website-header{
     background-color: #cadcdd;
@@ -388,10 +400,6 @@ a:hover{text-decoration: none}
         margin: 0 auto 10px auto;
     }
 
-    .website-content{
-        height: auto;
-    }
-
 
     .login-box, .register-box {
         width: 100%;
@@ -405,5 +413,17 @@ a:hover{text-decoration: none}
         margin-top: 0;
         padding-top:10px;
         border-top: 1px solid #cadcdd;
+    }
+
+    .website-content{
+        height: auto;
+    }
+    .website .category{
+        width: auto;
+        float:none;
+    }
+    .website.plate-2 .website-content>div{
+        width: auto;
+        float: none;
     }
 }

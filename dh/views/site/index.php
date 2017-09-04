@@ -3,7 +3,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\Pjax;
-use dh\models\Website;
 use yii\widgets\LinkPager;
 
 $this->title = '首页';
@@ -20,9 +19,9 @@ $this->title = '首页';
         <section class="col-lg-9">
             <div class="row">
                 <?php Pjax::begin(); ?>
-                <div class="website col-lg-12">
+                <div class="website plate-0 col-lg-12">
                     <?php foreach ($cates as $cate) { ?>
-                        <div class="col-lg-3 category">
+                        <div class="category">
                             <div class="website-header">
                                 <b><?= $cate['title'] ?></b>
                                 <span class="header-icon pull-right"><i class="fa fa-star-o" title="收藏分类"></i></span>

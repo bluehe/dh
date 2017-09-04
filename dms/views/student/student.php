@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php Pjax::begin(); ?>
             <?=
             GridView::widget([
-                'export' => false,
+                //'export' => false,
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'id' => "grid",

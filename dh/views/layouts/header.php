@@ -15,7 +15,7 @@ use dh\models\Recommend;
 
             <div class="pull-left hidden-xs">
                 <a href="javascript:void(0);"><i class="fa fa-exchange"></i> 更换皮肤</a>
-                <a href="javascript:void(0);"><i class="fa fa-refresh"></i> 切换板式</a>
+                <a href="javascript:void(0);" class="change-plate" data-plate="0"><i class="fa fa-refresh"></i> 切换板式</a>
             </div>
             <!--右侧功能块-->
             <div class="pull-right">
