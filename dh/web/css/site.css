@@ -291,13 +291,13 @@ a:hover{text-decoration: none}
 /*登录*/
 .login-box, .register-box {
     width: 360px;
-    margin: 50px auto;
+    margin: 100px auto;
     min-height: 200px;
 }
 
 /*第三方登录*/
 .social-auth-links{
-    margin-top: 50px;
+    margin-top: 100px;
 }
 .social-icon p:after {
     right:-70%;
