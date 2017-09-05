@@ -446,13 +446,13 @@ a:hover{text-decoration: none}
          column-count: 1;
     }
     .website.plate-0 .website-content{
-        height:391px;
+        max-height:391px;     
     }
     .website.plate-1 .website-content{
-        max-height:391px;
+         height:391px;
     }
-     .website.plate-2 .website-content{
-        height: auto;
+     .website.plate-2 .website-content{       
+          height: auto;
     }
     .website .category{
         width: auto;
