@@ -22,7 +22,7 @@ $this->title = '我的网址';
         <section class="col-lg-9">
             <div class="row">
                 <?php Pjax::begin(); ?>
-                <div class="website col-lg-12">
+                <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12">
                     <?php foreach ($cates as $cate) { ?>
                         <div class="category">
 

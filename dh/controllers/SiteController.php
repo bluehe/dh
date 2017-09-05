@@ -190,10 +190,10 @@ class SiteController extends Controller {
     public function actionIndex() {
 
         $query = Category::get_category_sql();
-        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '4']);
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '8']);
         $cates = $query->offset($pages->offset)->limit($pages->limit)->asArray()->all();
         foreach ($cates as $key => $cate) {
-            $websites = Website::get_website(10, $cate['id']);
+            $websites = Website::get_website(null, $cate['id']);
             $cates[$key]['website'] = $websites;
         }
         return $this->render('index', ['cates' => $cates, 'pages' => $pages,]);
@@ -205,7 +205,7 @@ class SiteController extends Controller {
         $cates = Category::get_category_sql(Yii::$app->user->identity->id)->asArray()->all();
 
         foreach ($cates as $key => $cate) {
-            $websites = Website::get_website(10, $cate['id']);
+            $websites = Website::get_website(NULL, $cate['id']);
             $cates[$key]['website'] = $websites;
         }
         return $this->render('user', ['cates' => $cates]);

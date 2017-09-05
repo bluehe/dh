@@ -11,7 +11,9 @@ class initSiteConfig extends Event {
 
     public static function assign() {
 
+
         $cache = Yii::$app->cache;
+        //邮件配置
         $smtp = $cache->get('system_smtp');
         if ($smtp === false) {
             $smtp = System::getChildrenValue('smtp');
@@ -38,6 +40,7 @@ class initSiteConfig extends Event {
                 ],
             ]);
         }
+        //系统信息
         $system = $cache->get('system_info');
         if ($system === false) {
             $system = System::getChildrenValue('system');
@@ -47,6 +50,13 @@ class initSiteConfig extends Event {
             $cache->set('system_info', $system);
         }
         Yii::$app->name = $system['system_name'];
+
+        //板式
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->params['plate'] = Yii::$app->request->cookies->getValue('plate', 0);
+        } else {
+            Yii::$app->params['plate'] = Yii::$app->user->identity->plate;
+        }
 
         //定时任务
         $event_scheduler = $cache->get('event_scheduler');

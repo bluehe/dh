@@ -13,9 +13,9 @@ use dh\models\Recommend;
     <div class="main-header">
         <div class="container">
 
-            <div class="pull-left hidden-xs">
-                <a href="javascript:void(0);"><i class="fa fa-exchange"></i> 更换皮肤</a>
-                <a href="javascript:void(0);" class="change-plate" data-plate="0"><i class="fa fa-refresh"></i> 切换板式</a>
+            <div class="pull-left">
+                <a href="javascript:void(0);" class="hidden-xs"><i class="fa fa-exchange"></i> 更换皮肤</a>
+                <a href="javascript:void(0);" class="change-plate" data-plate="<?= Yii::$app->params['plate'] ?>"><i class="fa fa-refresh"></i> 切换板式</a>
             </div>
             <!--右侧功能块-->
             <div class="pull-right">

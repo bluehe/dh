@@ -157,6 +157,14 @@ a:hover{text-decoration: none}
     width:25%;
     float: left;
 }
+.website.plate-1{
+    column-count: 4;
+    column-gap: 0;
+}
+.website.plate-1 .category{
+    break-inside: avoid;
+    width: 100%;
+}
 .website.plate-2 .category{
     width: 100%;
 }
@@ -175,6 +183,7 @@ a:hover{text-decoration: none}
     height: 42px;
     line-height: 42px;
     padding: 0 15px;
+    position: relative;
 }
 .header-icon {
     margin-left: 5px;
@@ -211,7 +220,7 @@ a:hover{text-decoration: none}
 .website-content{
     min-height: 40px;
     height: 391px;
-
+    overflow: hidden;
 }
 .list-group{
     margin-bottom: 0;
@@ -234,13 +243,22 @@ a:hover{text-decoration: none}
     overflow: hidden;
     color:#333;
 }
+.website-content .list-group-item .dropdown{
+    display: none;
+}
+.website-content .list-group-item:hover .dropdown{
+    display: inline-block
+}
 .website-content .list-group-item .dropdown-toggle i{
     cursor: pointer;
 }
 .website-content .list-group-item .dropdown-menu {
     min-width:76px;
     text-align: right;
-    padding: 5px;
+    padding: 2px 5px;
+    position: absolute;
+    top: 0;
+    right: 15px;
 }
 .content-icon {
     margin-top: 3px;
@@ -374,11 +392,21 @@ a:hover{text-decoration: none}
     border-color: transparent;
 }
 @media screen and (max-width: 767px){
+    .main-header{
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 99;
+    }
+    .nav-header{
+        padding-top: 40px;
+    }
     .main-header .navbar{
         margin: 0;
         min-height:40px;
         background-color: #303a3d;
         right: auto;
+        top:40px;
         border-width: 0;
 
     }
@@ -400,12 +428,10 @@ a:hover{text-decoration: none}
         margin: 0 auto 10px auto;
     }
 
-
     .login-box, .register-box {
         width: 100%;
         margin-top: 20px;
         margin-bottom: 20px;
-
 
     }
     .social-auth-links{
@@ -414,8 +440,18 @@ a:hover{text-decoration: none}
         padding-top:10px;
         border-top: 1px solid #cadcdd;
     }
-
-    .website-content{
+    
+    /*网址*/
+    .website.plate-1{
+         column-count: 1;
+    }
+    .website.plate-0 .website-content{
+        height:391px;
+    }
+    .website.plate-1 .website-content{
+        max-height:391px;
+    }
+     .website.plate-2 .website-content{
         height: auto;
     }
     .website .category{
