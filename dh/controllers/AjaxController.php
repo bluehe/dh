@@ -23,11 +23,11 @@ class AjaxController extends Controller {
             $cookie = new Cookie([
                 'name' => 'plate',
                 'expire' => time() + 86400 * 7,
-                'httpOnly ' => true,
-                'value' => $plate
+                'value' => $plate,
+                'httpOnly' => true
             ]);
 
-            Yii::$app->response->getCookies()->add($cookie);
+            Yii::$app->response->cookies->add($cookie);
             return json_encode(['stat' => 'success', 'plate' => $plate]);
         } else {
             $user = User::findIdentity(Yii::$app->user->identity->id);
