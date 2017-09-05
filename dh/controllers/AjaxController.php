@@ -18,7 +18,7 @@ class AjaxController extends Controller {
      * @return string
      */
     public function actionPlate($id) {
-        $plate = ($id + 1) % 3;
+        $plate = ($id + 1) % Yii::$app->params['plate_total'];
         if (Yii::$app->user->isGuest) {
             $cookie = new Cookie([
                 'name' => 'plate',
