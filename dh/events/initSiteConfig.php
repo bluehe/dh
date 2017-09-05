@@ -51,11 +51,13 @@ class initSiteConfig extends Event {
         }
         Yii::$app->name = $system['system_name'];
 
-        //板式
+        //板式,皮肤
         if (Yii::$app->user->isGuest) {
             Yii::$app->params['plate'] = Yii::$app->request->cookies->getValue('plate', 0);
+            Yii::$app->params['skin'] = Yii::$app->request->cookies->getValue('skin', 'default');
         } else {
             Yii::$app->params['plate'] = Yii::$app->user->identity->plate;
+            Yii::$app->params['skin'] = Yii::$app->user->identity->skin;
         }
 
         //定时任务

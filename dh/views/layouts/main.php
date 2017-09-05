@@ -18,7 +18,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('dh/web');
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body>
+    <body class="skin-<?= Yii::$app->params['skin'] ?>">
         <?php $this->beginBody() ?>
 
         <?=

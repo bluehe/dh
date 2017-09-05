@@ -2,6 +2,7 @@
 
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use common\widgets\Alert;
 use dh\models\Recommend;
 
@@ -14,7 +15,7 @@ use dh\models\Recommend;
         <div class="container">
 
             <div class="pull-left">
-                <a href="javascript:void(0);" class="hidden-xs"><i class="fa fa-exchange"></i> 更换皮肤</a>
+                <a href="javascript:void(0);" class="change-skin" data-skin="<?= Yii::$app->params['skin'] ?>"><i class="fa fa-exchange"></i> 更换皮肤</a>
                 <a href="javascript:void(0);" class="change-plate" data-plate="<?= Yii::$app->params['plate'] ?>"><i class="fa fa-refresh"></i> 切换板式</a>
             </div>
             <!--右侧功能块-->
@@ -145,3 +146,38 @@ use dh\models\Recommend;
         <?php } ?>
     </div>
 </header>
+<script>
+<?php $this->beginBlock('header') ?>
+    $('.change-skin').on('click', function () {
+        var skin = $(this).data('skin');
+        $.getJSON({
+            url: '<?= Url::toRoute('ajax/change-skin') ?>',
+            data: {'id': skin},
+            success: function (data) {
+
+                if (data.stat === 'success') {
+                    $('body').removeClass('skin-' + skin).addClass('skin-' + data.skin);
+                    $('.change-skin').data('skin', data.skin);
+                }
+
+            }
+        });
+    });
+    $('.change-plate').on('click', function () {
+        var plate = $(this).data('plate');
+        $.getJSON({
+            url: '<?= Url::toRoute('ajax/change-plate') ?>',
+            data: {'id': plate},
+            success: function (data) {
+
+                if (data.stat === 'success') {
+                    $(".website").removeClass('plate-' + plate).addClass('plate-' + data.plate);
+                    $('.change-plate').data('plate', data.plate);
+                }
+
+            }
+        });
+    });
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJs($this->blocks['header'], \yii\web\View::POS_END); ?>

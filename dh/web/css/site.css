@@ -168,13 +168,7 @@ a:hover{text-decoration: none}
 .website.plate-2 .category{
     width: 100%;
 }
-.website.plate-1 .website-content,.website.plate-2 .website-content{
-    height: auto;
-}
-.website.plate-2 .website-content>div{
-    width: 25%;
-    float: left;
-}
+
 .website-header{
     background-color: #cadcdd;
     font-weight: 600;
@@ -222,6 +216,13 @@ a:hover{text-decoration: none}
     height: 391px;
     overflow: hidden;
 }
+.website.plate-1 .website-content,.website.plate-2 .website-content{
+    height: auto;
+}
+.website.plate-2 .website-content>div{
+    width: 25%;
+    float: left;
+}
 .list-group{
     margin-bottom: 0;
 }
@@ -261,7 +262,6 @@ a:hover{text-decoration: none}
     right: 15px;
 }
 .content-icon {
-    margin-top: 3px;
     color: #0099ee;
     font-weight: 500;
     cursor: pointer;
@@ -284,7 +284,12 @@ a:hover{text-decoration: none}
 .tongji b{
     font-size: 16px;
 }
-
+.header-icon{
+    color:#fff;
+}
+.content-icon{
+    color: #3c8dbc;
+}
 /*分页*/
 .pagination{
     margin: 0 0 20px 0;
@@ -440,18 +445,19 @@ a:hover{text-decoration: none}
         padding-top:10px;
         border-top: 1px solid #cadcdd;
     }
-    
+
     /*网址*/
     .website.plate-1{
          column-count: 1;
     }
     .website.plate-0 .website-content{
-        max-height:391px;     
+        max-height:391px;
+        height: auto;
     }
     .website.plate-1 .website-content{
          height:391px;
     }
-     .website.plate-2 .website-content{       
+     .website.plate-2 .website-content{
           height: auto;
     }
     .website .category{
@@ -461,5 +467,87 @@ a:hover{text-decoration: none}
     .website.plate-2 .website-content>div{
         width: auto;
         float: none;
+    }
+}
+
+/*蓝色皮肤*/
+.skin-blue .main-header {
+    background: #3c8dbc;
+}
+.skin-blue .user-menu.open {
+    background-color: #367fa9;
+}
+.skin-blue .content-wrapper{
+    background-color: #f3f3f3;
+}
+.skin-blue .mk .nav-tabs{
+    background-color: #3c8dbc;
+}
+.skin-blue .mk .nav > li > a {
+    color: #fff;
+}
+.skin-blue .mk .nav-tabs > li.active > a,.skin-blue .mk .nav-tabs > li.active > a:hover, .skin-blue .mk .nav-tabs > li.active > a:focus {
+    color: #333;
+    background-color: #fff;
+}
+.skin-blue .mk .nav > li > a:hover,.skin-blue .mk .nav > li > a:focus {
+    background-color: #3c8dbc;
+    color:#fff;
+}
+
+.skin-blue .website .category{
+    border-left: 2px #f3f3f3 solid;
+
+}
+.skin-blue .website-header {
+    background-color: #3c8dbc;
+    color:#fff;
+}
+.skin-blue .main-footer{
+    background-color: #3c8dbc;
+}
+.skin-blue .tongji>div{
+    border-bottom: 1px #f3f3f3 solid;
+}
+.skin-blue .complete .nav-tabs > li.active > a,.skin-blue .complete .nav-tabs > li.active > a:hover,.skin-blue .complete .nav-tabs > li.active > a:focus {
+    background-color: #3c8dbc;
+    border: 1px solid #3c8dbc;
+}
+.skin-blue .pagination > li > a, .skin-blue .pagination > li > span {
+    border: #f3f3f3 1px solid;
+    color: #3c8dbc;
+}
+.skin-blue .pagination > .active > a, .skin-blue .pagination > .active > span, .skin-blue .pagination > .active > a:hover, .skin-blue .pagination > .active > span:hover, .skin-blue .pagination > .active > a:focus, .skin-blue .pagination > .active > span:focus {
+    color:#367fa9;
+    border: #367fa9 1px solid;
+}
+.skin-blue .pagination > li > a:hover, .skin-blue .pagination > li > span:hover, .skin-blue .pagination > li > a:focus, .skin-blue .pagination > li > span:focus {
+    color: #367fa9;
+    border-color: #367fa9;
+}
+.skin-blue .tongji>div {
+    color: #fff;
+}
+.skin-blue .navbar-inverse .navbar-toggle:hover, .skin-blue .navbar-inverse .navbar-toggle:focus {
+    background-color: #367fa9;
+}
+.skin-blue .navbar-inverse .navbar-collapse, .skin-blue .navbar-inverse .navbar-form {
+    border-color: #fff;
+}
+.skin-blue .navbar-inverse .navbar-nav > .active > a, .skin-blue .navbar-inverse .navbar-nav > .active > a:hover, .skin-blue .navbar-inverse .navbar-nav > .active > a:focus {
+    background-color: #367fa9;
+}
+.skin-blue .navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+.skin-blue .add_page {
+    border-top: 40px solid #367fa9;
+}
+@media screen and (max-width: 767px){
+    .skin-blue .social-auth-links{
+        border-top: 1px solid #3c8dbc;
+    }
+    .skin-blue .main-header .navbar{
+        background-color: #3c8dbc;
     }
 }

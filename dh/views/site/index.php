@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 
@@ -21,10 +22,10 @@ $this->title = '首页';
                 <?php Pjax::begin(); ?>
                 <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12">
                     <?php foreach ($cates as $cate) { ?>
-                        <div class="category">
+                        <div class="category" data-id="<?= $cate['id'] ?>">
                             <div class="website-header">
                                 <b><?= $cate['title'] ?></b>
-                                <span class="header-icon pull-right"><i class="fa fa-star-o" title="收藏分类"></i></span>
+                                <span class="header-icon pull-right"><i class="fa fa-star-o category-collect" title="收藏分类"></i></span>
                             </div>
                             <div class="website-content list-group">
 
@@ -51,3 +52,24 @@ $this->title = '首页';
         </section>
     </div>
 </div>
+<script>
+<?php $this->beginBlock('index') ?>
+    $('.category-collect').on('click', function () {
+        var id = $(this).parents('.category').data('id');
+
+        $.getJSON({
+            url: '<?= Url::toRoute('ajax/category-collect') ?>',
+            data: {'id': id},
+            success: function (data) {
+
+                if (data.stat === 'success') {
+                    $(".website").removeClass('plate-' + plate).addClass('plate-' + data.plate);
+                    $('.change-plate').data('plate', data.plate);
+                }
+
+            }
+        });
+    });
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJs($this->blocks['index'], \yii\web\View::POS_END); ?>
