@@ -33,8 +33,8 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.exmail.qq.com',
-                'username' => 'admin@gxgygl.com',
-                'password' => 'He19881006',
+                'username' => 'dh@gxgygl.com',
+                'password' => 'Dh19881006',
                 'port' => '465',
                 'encryption' => 'ssl',
             ],
