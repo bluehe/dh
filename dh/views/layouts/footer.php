@@ -14,9 +14,7 @@
                 <div class="col-lg-3 col-xs-6 text-center">用户添加 <b>56427</b> 个网址</div>
             </div>
 
-
-
-            <div class="copy mt-10 text-c"> Copyright2016-2017&nbsp;&nbsp;<a href="/">网址收藏夹</a>&nbsp;&nbsp; All Right Reserved&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank"></a><span> </span></div>
+            <div class="text-center copyright"> Copyright2016-2017&nbsp;&nbsp;<a href="/">网址收藏夹</a>&nbsp;&nbsp; All Right Reserved&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank"></a></div>
 
         </div>
     </div>

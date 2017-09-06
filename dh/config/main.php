@@ -53,7 +53,7 @@ return [
 //            'hostname' => '106.14.172.65',
 //            'port' => 6379,
 //            'database' => 0,
-//        ],        
+//        ],
         'assetManager' => [
             'appendTimestamp' => true,
 //            'linkAssets' => true,

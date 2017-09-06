@@ -16,12 +16,15 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $sort_order
  * @property integer $click_num
  * @property integer $is_open
+ * @property integer $share_status
+ * @property integer $share_cid
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $stat
  * *
  * @property Category $c
  * @property User $u
+ *  @property Category $shareC
  */
 class Website extends \yii\db\ActiveRecord {
 
@@ -29,6 +32,10 @@ class Website extends \yii\db\ActiveRecord {
     const STAT_CLOSE = 2;
     const ISOPEN_OPEN = 1;
     const ISOPEN_CLOSE = 2;
+    const SHARE_DEFAULT = 0;
+    const SHARE_WAIT = 1;
+    const SHARE_ACTIVE = 2;
+    const SHARE_CLOSE = 3;
 
     /**
      * @inheritdoc
@@ -47,6 +54,8 @@ class Website extends \yii\db\ActiveRecord {
             [['title', 'url'], 'string', 'max' => 255],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
+            [['share_cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['share_cid' => 'id']],
+            [['share_status'], 'default', 'value' => self::SHARE_DEFAULT],
         ];
     }
 
@@ -71,6 +80,8 @@ class Website extends \yii\db\ActiveRecord {
             'url' => '网址',
             'sort_order' => '排序',
             'click_num' => '点击数',
+            'share_stat' => '分享状态',
+            'share_cid' => '分享分类',
             'created_at' => '创建时间',
             'updated_at' => '更新时间',
             'is_open' => '是否公开',
@@ -86,6 +97,12 @@ class Website extends \yii\db\ActiveRecord {
         'is_open' => [
             self::ISOPEN_OPEN => "开放",
             self::ISOPEN_CLOSE => "关闭"
+        ],
+        'share_status' => [
+            self::SHARE_DEFAULT => "未分享",
+            self::SHARE_WAIT => "待审核",
+            self::SHARE_ACTIVE => "分享中",
+            self::SHARE_CLOSE => "未通过"
         ]
     ];
 
@@ -101,6 +118,12 @@ class Website extends \yii\db\ActiveRecord {
         return $is_open;
     }
 
+    public function getShareStatus() {
+
+        $result = isset(self::$List['share_status'][$this->share_status]) ? self::$List['share_status'][$this->share_status] : null;
+        return $result;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -113,6 +136,10 @@ class Website extends \yii\db\ActiveRecord {
      */
     public function getU() {
         return $this->hasOne(User::className(), ['id' => 'uid']);
+    }
+
+    public function getShareC() {
+        return $this->hasOne(Category::className(), ['id' => 'share_cid']);
     }
 
     public static function get_website($limit = '', $cid = '', $stat = self::STAT_OPEN, $is_open = '') {

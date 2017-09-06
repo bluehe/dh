@@ -275,7 +275,6 @@ a:hover{text-decoration: none}
 .main-footer{
     font-size: 12px;
     background-color: #cadcdd;
-    padding-bottom: 20px;
 }
 .tongji>div{
     line-height: 40px;
@@ -284,12 +283,10 @@ a:hover{text-decoration: none}
 .tongji b{
     font-size: 16px;
 }
-.header-icon{
-    color:#fff;
+.copyright{
+    line-height: 40px;
 }
-.content-icon{
-    color: #3c8dbc;
-}
+
 /*分页*/
 .pagination{
     margin: 0 0 20px 0;
@@ -396,6 +393,7 @@ a:hover{text-decoration: none}
 .complete .nav-tabs > li > a:hover {
     border-color: transparent;
 }
+
 @media screen and (max-width: 767px){
     .main-header{
         position: fixed;
@@ -542,6 +540,12 @@ a:hover{text-decoration: none}
 }
 .skin-blue .add_page {
     border-top: 40px solid #367fa9;
+}
+.skin-blue .header-icon{
+    color:#fff;
+}
+.skin-blue .content-icon{
+    color: #3c8dbc;
 }
 @media screen and (max-width: 767px){
     .skin-blue .social-auth-links{

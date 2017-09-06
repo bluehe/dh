@@ -3,6 +3,8 @@
 namespace dh\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use common\models\User;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -38,10 +40,19 @@ class Category extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
+    public function behaviors() {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules() {
         return [
-            [['uid', 'cid', 'sort_order', 'created_at', 'updated_at', 'stat'], 'integer'],
-            [['title', 'is_open', 'created_at', 'updated_at'], 'required'],
+            [['sort_order', 'created_at', 'updated_at', 'stat'], 'integer'],
+            [['title', 'is_open'], 'required'],
             [['title'], 'string', 'max' => 8],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
@@ -114,6 +125,14 @@ class Category extends \yii\db\ActiveRecord {
 
         $is_open = isset(self::$List['is_open'][$this->is_open]) ? self::$List['is_open'][$this->is_open] : null;
         return $is_open;
+    }
+
+    public static function findTitle($id) {
+        return static::find()->where(['id' => $id])->select('title');
+    }
+
+    public static function findMaxSort($uid) {
+        return static::find()->where(['uid' => $uid])->max('sort_order');
     }
 
     public static function get_category_sql($uid = NULL, $cid = '', $stat = self::STAT_OPEN, $is_open = '') {

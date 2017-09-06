@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\Cookie;
 use common\models\User;
+use dh\models\Category;
 
 /**
  * Api controller
@@ -66,6 +67,37 @@ class AjaxController extends Controller {
             if ($result) {
                 return json_encode(['stat' => 'success', 'skin' => $skin]);
             } else {
+                return json_encode(['stat' => 'fail']);
+            }
+        }
+    }
+
+    /**
+     *
+     * @return json
+     */
+    public function actionCategoryCollect($id) {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        } else {
+            $model = new Category();
+            $model->uid = Yii::$app->user->identity->id;
+            $model->title = Category::findTitle($id);
+            $model->sort_order = Category::findMaxSort($model->uid) + 1;
+            $model->is_open = Category::ISOPEN_OPEN;
+            $model->stat = Category::STAT_OPEN;
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save();
+
+                $transaction->commit();
+                return json_encode(['stat' => 'success']);
+            } catch (\Exception $e) {
+
+                $transaction->rollBack();
+                //throw $e;
+                //Yii::$app->session->setFlash('error', '创建失败。');
                 return json_encode(['stat' => 'fail']);
             }
         }

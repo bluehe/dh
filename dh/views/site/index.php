@@ -63,8 +63,7 @@ $this->title = '首页';
             success: function (data) {
 
                 if (data.stat === 'success') {
-                    $(".website").removeClass('plate-' + plate).addClass('plate-' + data.plate);
-                    $('.change-plate').data('plate', data.plate);
+
                 }
 
             }
