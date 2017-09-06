@@ -45,7 +45,7 @@ return [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.exmail.qq.com',
                 'username' => 'gy@gxgygl.com',
-                'password' => 'Gy19881006',
+                'password' => 'YotZ3SPaEtY3De2Q',
                 'port' => '465',
                 'encryption' => 'ssl',
             ],
