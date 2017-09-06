@@ -44,14 +44,14 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.exmail.qq.com',
-                'username' => 'ny@gxgygl.com',
-                'password' => 'Ny19881006',
+                'username' => 'gy@gxgygl.com',
+                'password' => 'Gy19881006',
                 'port' => '465',
                 'encryption' => 'ssl',
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['admin@gxgygl.com' => '管理系统']
+                'from' => ['gy@gxgygl.com' => '管理系统']
             ],
         ],
         'cache' => [
