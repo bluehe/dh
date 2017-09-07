@@ -18,6 +18,7 @@ $this->title = '首页';
 
         </section>
         <section class="col-lg-9">
+
             <div class="row">
                 <?php Pjax::begin(); ?>
                 <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12">
@@ -31,7 +32,7 @@ $this->title = '首页';
 
                                 <?php foreach ($cate['website'] as $website) { ?>
                                     <div class="list-group-item">
-                                        <?= Html::img(['api/getfav', 'url' => $website['url']]) ?>
+                                        <?= $website['icon'] ? Html::img(['/data/icon/' . $website['icon']]) : Html::img(['api/getfav', 'url' => $website['url']]) ?>
                                         <a href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="content-icon index-icon pull-right" >
                                             <i class="fa fa-heart-o" title="收藏网址"></i>
@@ -49,6 +50,7 @@ $this->title = '首页';
                 </div>
                 <?php Pjax::end(); ?>
             </div>
+
         </section>
     </div>
 </div>

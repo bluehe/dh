@@ -523,9 +523,7 @@ a:hover{text-decoration: none}
     color: #367fa9;
     border-color: #367fa9;
 }
-.skin-blue .tongji>div {
-    color: #fff;
-}
+
 .skin-blue .navbar-inverse .navbar-toggle:hover, .skin-blue .navbar-inverse .navbar-toggle:focus {
     background-color: #367fa9;
 }
@@ -546,6 +544,12 @@ a:hover{text-decoration: none}
 }
 .skin-blue .content-icon{
     color: #3c8dbc;
+}
+.skin-blue .tongji>div {
+    color: #fff;
+}
+.skin-blue .copyright,.skin-blue .copyright a{
+    color:#fff;
 }
 @media screen and (max-width: 767px){
     .skin-blue .social-auth-links{

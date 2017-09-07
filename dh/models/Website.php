@@ -78,6 +78,8 @@ class Website extends \yii\db\ActiveRecord {
             'cid' => '分类',
             'title' => '名称',
             'url' => '网址',
+            'icon' => '图片',
+            'icon_time' => '图片更新时间',
             'sort_order' => '排序',
             'click_num' => '点击数',
             'share_stat' => '分享状态',
@@ -149,6 +151,13 @@ class Website extends \yii\db\ActiveRecord {
         }
         $websites = $query->indexBy('id')->asArray()->all();
         return $websites;
+    }
+
+    public static function updateIcon($url, $icon) {
+        $website = static::findOne(['url' => $url]);
+        $website->icon = $icon;
+        $website->icon_time = time();
+        return $website->save(false);
     }
 
 }

@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\web\Cookie;
 use common\models\User;
 use dh\models\Category;
+use dh\models\Website;
 
 /**
  * Api controller

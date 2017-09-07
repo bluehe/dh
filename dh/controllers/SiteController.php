@@ -188,14 +188,22 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
-
+        $cache = Yii::$app->cache;
         $query = Category::get_category_sql();
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '8']);
-        $cates = $query->offset($pages->offset)->limit($pages->limit)->asArray()->all();
-        foreach ($cates as $key => $cate) {
-            $websites = Website::get_website(null, $cate['id']);
-            $cates[$key]['website'] = $websites;
+        $page = ($pages->offset / $pages->limit) + 1;
+        $cates = $cache->get('index_page_' . $page);
+        if ($cates === false) {
+
+            $cates = $query->offset($pages->offset)->limit($pages->limit)->asArray()->all();
+            foreach ($cates as $key => $cate) {
+                $websites = Website::get_website(null, $cate['id']);
+                $cates[$key]['website'] = $websites;
+            }
+
+            $cache->set('index_page_' . $page, $cates);
         }
+
         return $this->render('index', ['cates' => $cates, 'pages' => $pages,]);
     }
 
