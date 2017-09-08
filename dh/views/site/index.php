@@ -32,8 +32,8 @@ $this->title = '首页';
 
                                 <?php foreach ($cate['website'] as $website) { ?>
                                     <div class="list-group-item">
-                                        <?= $website['icon'] ? Html::img(['/data/icon/' . $website['icon']]) : Html::img(['api/getfav', 'url' => $website['url']]) ?>
-                                        <a href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
+                                                <?= Html::img(['api/getfav', 'url' => $website['url']]) ?>
+                                                <a href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="content-icon index-icon pull-right" >
                                             <i class="fa fa-heart-o" title="收藏网址"></i>
                                         </div>

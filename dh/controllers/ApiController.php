@@ -4,7 +4,6 @@ namespace dh\controllers;
 
 use Yii;
 use yii\web\Controller;
-use dh\models\Website;
 
 /**
  * Api controller
@@ -28,7 +27,6 @@ class ApiController extends Controller {
 
 
         if (file_exists($fav)) {
-            Website::updateIcon(Yii::$app->request->get('url'), $url . ".png");
             header('Content-type: image/png');
             return $file = @file_get_contents($fav);
         }
@@ -45,7 +43,6 @@ class ApiController extends Controller {
             header('Content-type: image/png');
             return @file_get_contents('image/default_ico.png');
         } else {
-            Website::updateIcon(Yii::$app->request->get('url'), $url . ".png");
             header('Content-type: image/png');
             return $f1;
         }
