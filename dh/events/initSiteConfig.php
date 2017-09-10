@@ -6,6 +6,8 @@ use Yii;
 use yii\base\Event;
 use dh\models\System;
 use dh\models\Crontab;
+use dh\models\Category;
+use dh\models\Website;
 
 class initSiteConfig extends Event {
 
@@ -59,6 +61,17 @@ class initSiteConfig extends Event {
             Yii::$app->params['plate'] = Yii::$app->user->identity->plate;
             Yii::$app->params['skin'] = Yii::$app->user->identity->skin;
         }
+
+        //统计
+        $statistics = $cache->get('statistics');
+        if ($statistics === false) {
+            $statistics['category0'] = Category::get_category_num(NULL);
+            $statistics['category1'] = Category::get_category_num(NULL, 'not');
+            $statistics['website0'] = Website::get_website_num(NULL);
+            $statistics['website1'] = Website::get_website_num(NULL, 'not');
+            $cache->set('statistics', $statistics);
+        }
+        Yii::$app->params['statistics'] = $statistics;
 
         //定时任务
         $event_scheduler = $cache->get('event_scheduler');

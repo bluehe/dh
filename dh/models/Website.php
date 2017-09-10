@@ -49,13 +49,15 @@ class Website extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['uid', 'cid', 'title', 'url', 'sort_order', 'click_num', 'created_at', 'updated_at'], 'required'],
-            [['uid', 'cid', 'sort_order', 'click_num', 'is_open', 'created_at', 'updated_at', 'stat'], 'integer'],
+            [['cid', 'title', 'url', 'sort_order', 'click_num', 'created_at', 'updated_at'], 'required'],
+            [['cid', 'sort_order', 'click_num', 'is_open', 'created_at', 'updated_at', 'stat'], 'integer'],
             [['title', 'url'], 'string', 'max' => 255],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
-            [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['share_cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['share_cid' => 'id']],
             [['share_status'], 'default', 'value' => self::SHARE_DEFAULT],
+            [['collect_num', 'click_num'], 'default', 'value' => 0],
+            [['is_open'], 'default', 'value' => self::ISOPEN_OPEN],
+            [['stat'], 'default', 'value' => self::STAT_OPEN],
         ];
     }
 
@@ -82,6 +84,7 @@ class Website extends \yii\db\ActiveRecord {
             'click_num' => '点击数',
             'share_stat' => '分享状态',
             'share_cid' => '分享分类',
+            'collect_num' => '收藏次数',
             'created_at' => '创建时间',
             'updated_at' => '更新时间',
             'is_open' => '是否公开',
@@ -142,6 +145,10 @@ class Website extends \yii\db\ActiveRecord {
         return $this->hasOne(Category::className(), ['id' => 'share_cid']);
     }
 
+    public static function findMaxSort($cid) {
+        return static::find()->where(['cid' => $cid])->max('sort_order');
+    }
+
     public static function get_website($limit = '', $cid = '', $stat = self::STAT_OPEN, $is_open = '') {
         $query = static::find()->andFilterWhere(['cid' => $cid, 'stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_DESC]);
         if ($limit) {
@@ -149,6 +156,15 @@ class Website extends \yii\db\ActiveRecord {
         }
         $websites = $query->indexBy('id')->asArray()->all();
         return $websites;
+    }
+
+    public static function get_website_num($uid = NULL, $is = '') {
+        if ($is == 'not') {
+            $num = static::find()->joinWith('c')->where(['not', ['uid' => $uid]])->count();
+        } else {
+            $num = static::find()->joinWith('c')->where(['uid' => $uid])->count();
+        }
+        return $num;
     }
 
 }

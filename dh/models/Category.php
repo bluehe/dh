@@ -128,7 +128,7 @@ class Category extends \yii\db\ActiveRecord {
     }
 
     public static function findTitle($id) {
-        return static::find()->where(['id' => $id])->select('title');
+        return static::find()->where(['id' => $id])->select('title')->scalar();
     }
 
     public static function findMaxSort($uid) {
@@ -139,6 +139,15 @@ class Category extends \yii\db\ActiveRecord {
         $query = static::find()->where(['uid' => $uid])->andFilterWhere(['cid' => $cid, 'stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
 
         return $query;
+    }
+
+    public static function get_category_num($uid = NULL, $is = '') {
+        if ($is == 'not') {
+            $num = static::find()->where(['not', ['uid' => $uid]])->count();
+        } else {
+            $num = static::find()->where(['uid' => $uid])->count();
+        }
+        return $num;
     }
 
 }

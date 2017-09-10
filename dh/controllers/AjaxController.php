@@ -82,26 +82,55 @@ class AjaxController extends Controller {
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['site/login']);
         } else {
-            $model = new Category();
-            $model->uid = Yii::$app->user->identity->id;
-            $model->title = Category::findTitle($id);
-            $model->sort_order = Category::findMaxSort($model->uid) + 1;
-            $model->is_open = Category::ISOPEN_OPEN;
-            $model->stat = Category::STAT_OPEN;
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                $model->save();
+            $model = Category::findOne($id);
 
-                $transaction->commit();
-                return json_encode(['stat' => 'success']);
-            } catch (\Exception $e) {
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $cate = new Category();
+                $cate->title = $model->title;
+                $cate->uid = Yii::$app->user->identity->id;
+                $cate->sort_order = Category::findMaxSort(Yii::$app->user->identity->id) + 1;
+                $cate->is_open = Category::ISOPEN_OPEN;
+                $cate->stat = Category::STAT_OPEN;
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $cate->save(false);
 
-                $transaction->rollBack();
-                //throw $e;
-                //Yii::$app->session->setFlash('error', '创建失败。');
-                return json_encode(['stat' => 'fail']);
+                    $query = Website::find()->where(['cid' => $id, 'stat' => Website::STAT_OPEN, 'is_open' => Website::ISOPEN_OPEN]);
+                    foreach ($query->each() as $website) {
+                        $w = new Website();
+                        $w->loadDefaultValues();
+                        $w->cid = $cate->id;
+                        $w->title = $website->title;
+                        $w->url = $website->url;
+                        $w->sort_order = Website::findMaxSort($cate->id) + 1;
+                        $w->save(false);
+                        $website->collect_num += 1;
+                        $website->save(false);
+                    }
+
+                    $transaction->commit();
+
+                    return json_encode(['stat' => 'success']);
+                } catch (\Exception $e) {
+
+                    $transaction->rollBack();
+                    //throw $e;
+
+                    return json_encode(['stat' => 'fail']);
+                }
+            } else {
+                return $this->renderAjax('_form-category', [
+                            'model' => $model,
+                ]);
             }
         }
+    }
+
+    public function actionValidateCategory() {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $model = new Category();
+        $model->load(Yii::$app->request->post());
+        return \yii\widgets\ActiveForm::validate($model);
     }
 
 }
