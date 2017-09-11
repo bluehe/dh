@@ -51,12 +51,11 @@ use yii\widgets\ActiveForm;
             success: function (data) {
                 if (data.stat === 'success') {
                     $('#collect-modal').modal('hide');
+                    my_alert('success', '收藏成功！', 3000)
                 }
 
             }
         });
-
-
     });
 
 

@@ -34,5 +34,5 @@
     })();
 <?php $this->endBlock() ?>
 </script>
-<?php $this->registerJs($this->blocks['baidu'], \yii\web\View::POS_END); ?>
+<?php //$this->registerJs($this->blocks['baidu'], \yii\web\View::POS_END); ?>
 

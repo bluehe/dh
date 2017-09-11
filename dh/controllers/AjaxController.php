@@ -109,8 +109,6 @@ class AjaxController extends Controller {
                     }
 
                     $transaction->commit();
-
-                    Yii::$app->session->setFlash('success', '22');
                     return json_encode(['stat' => 'success']);
                 } catch (\Exception $e) {
 

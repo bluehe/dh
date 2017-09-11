@@ -75,20 +75,6 @@ Modal::end();
 ?>
 <script>
 <?php $this->beginBlock('collect') ?>
-    $('.category-collect1').on('click', function () {
-        var id = $(this).parents('.category').data('id');
-        $.getJSON({
-            url: '<?= Url::toRoute('ajax/category-collect') ?>',
-            data: {'id': id},
-            success: function (data) {
-
-                if (data.stat === 'success') {
-
-                }
-
-            }
-        });
-    });
     $('.category-collect').on('click', function () {
         $('#collect-modal .modal-title').html('');
         $('#collect-modal .modal-body').html('');
