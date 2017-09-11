@@ -5,7 +5,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
-use yii\widgets\LinkPager;
 use dh\components\GoLinkPager;
 
 $this->title = '首页';
@@ -33,11 +32,11 @@ $this->title = '首页';
                             <div class="website-content list-group">
 
                                 <?php foreach ($cate['website'] as $website) { ?>
-                                    <div class="list-group-item">
+                                    <div class="list-group-item" data-id="<?= $website['id'] ?>">
                                         <?= Html::img(['api/getfav', 'url' => $website['url']]) ?>
                                         <a href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="content-icon index-icon pull-right" >
-                                            <i class="fa fa-heart-o" title="收藏网址"></i>
+                                            <i class="fa fa-heart-o website-collect" title="收藏网址" data-toggle="modal" data-target="#collect-modal"></i>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -52,10 +51,9 @@ $this->title = '首页';
                     GoLinkPager::widget([
                         'pagination' => $pages, 'maxButtonCount' => 5,
                         'go' => true,
+                        'linkOptions' => ['data-pjax' => '#pjax_index']
                     ]);
                     ?>
-
-                    <?php //LinkPager::widget(['pagination' => $pages, 'maxButtonCount' => 4, 'prevPageLabel' => '上一页', 'nextPageLabel' => '下一页', 'linkOptions' => ['data-pjax' => '#pjax_index']]); ?>
                 </div>
                 <?php Pjax::end(); ?>
             </div>
@@ -81,6 +79,17 @@ Modal::end();
         $.get('<?= Url::toRoute('ajax/category-collect') ?>', {id: $(this).parents('.category').data('id')},
                 function (data) {
                     $('#collect-modal .modal-title').html('收藏分类');
+                    $('#collect-modal .modal-body').html(data);
+                }
+        );
+    });
+
+    $('.website-collect').on('click', function () {
+        $('#collect-modal .modal-title').html('');
+        $('#collect-modal .modal-body').html('');
+        $.get('<?= Url::toRoute('ajax/website-collect') ?>', {id: $(this).parents('.list-group-item').data('id')},
+                function (data) {
+                    $('#collect-modal .modal-title').html('收藏网址');
                     $('#collect-modal .modal-body').html(data);
                 }
         );

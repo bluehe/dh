@@ -42,7 +42,6 @@ use yii\widgets\ActiveForm;
 <script>
 <?php $this->beginBlock('submit') ?>
     $('body').off('submit').on('submit', '#category-form', function () {
-
         $.ajax({
             url: '<?= Url::toRoute(['ajax/category-collect', 'id' => $model->id]) ?>',
             type: 'POST',

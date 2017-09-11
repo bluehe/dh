@@ -118,7 +118,37 @@ class AjaxController extends Controller {
                     return json_encode(['stat' => 'fail']);
                 }
             } else {
-                return $this->renderAjax('_form-category', [
+                return $this->renderAjax('category-collect', [
+                            'model' => $model,
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     * @return json
+     */
+    public function actionWebsiteCollect($id) {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        } else {
+            $model = Website::findOne($id);
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $w = new Website();
+                $w->loadDefaultValues();
+                $w->cid = $model->cid;
+                $w->title = $model->title;
+                $w->url = $model->url;
+                $w->sort_order = Website::findMaxSort($w->cid) + 1;
+                if ($w->save()) {
+                    return json_encode(['stat' => 'success']);
+                } else {
+                    return json_encode(['stat' => 'fail']);
+                }
+            } else {
+                return $this->renderAjax('website-collect', [
                             'model' => $model,
                 ]);
             }
