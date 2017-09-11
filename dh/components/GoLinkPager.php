@@ -53,7 +53,7 @@ class GoLinkPager extends LinkPager {
                 <div class="page-form">
                     <span class="text">共 {$pageCount} 页</span>
                     <span class="text">到第</span>
-                    <input class="input" type="number" value="{$goPage}" min="1" max="{$pageCount}" aria-label="页码输入框" style="text-align: center; height: 25px; line-height: 20px; margin-top: 5px; width: 46px;">
+                    <input class="input" type="number" value="{$goPage}" min="1" max="{$pageCount}" aria-label="页码输入框" style="text-align: center;">
                     <span class="text">页</span>
                     <span class="btn go-page" role="button" tabindex="0">确定</span>
                 </div>

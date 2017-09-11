@@ -4,6 +4,13 @@ html,body{
 }
 a:hover{text-decoration: none}
 .bt-1{border-top: 1px solid #cadcdd;}
+.alert {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 999;
+}
 
 /*顶部*/
 .main-header{

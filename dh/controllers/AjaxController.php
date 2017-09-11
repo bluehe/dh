@@ -110,6 +110,7 @@ class AjaxController extends Controller {
 
                     $transaction->commit();
 
+                    Yii::$app->session->setFlash('success', '22');
                     return json_encode(['stat' => 'success']);
                 } catch (\Exception $e) {
 
@@ -124,13 +125,6 @@ class AjaxController extends Controller {
                 ]);
             }
         }
-    }
-
-    public function actionValidateCategory() {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $model = new Category();
-        $model->load(Yii::$app->request->post());
-        return \yii\widgets\ActiveForm::validate($model);
     }
 
 }
