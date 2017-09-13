@@ -52,11 +52,14 @@ class Category extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['sort_order', 'created_at', 'updated_at', 'stat'], 'integer'],
+            [['sort_order', 'collect_num', 'created_at', 'updated_at', 'stat'], 'integer'],
             [['title', 'is_open'], 'required'],
             [['title'], 'string', 'max' => 8],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
+            [['collect_num'], 'default', 'value' => 0],
+            [['is_open'], 'default', 'value' => self::ISOPEN_OPEN],
+            [['stat'], 'default', 'value' => self::STAT_OPEN],
         ];
     }
 
@@ -69,6 +72,7 @@ class Category extends \yii\db\ActiveRecord {
             'uid' => '用户',
             'cid' => '上级分类',
             'title' => '名称',
+            'collect_num' => '收藏次数',
             'sort_order' => '排序',
             'created_at' => '创建时间',
             'updated_at' => '更新时间',

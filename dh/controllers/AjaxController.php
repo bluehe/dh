@@ -8,6 +8,7 @@ use yii\web\Cookie;
 use common\models\User;
 use dh\models\Category;
 use dh\models\Website;
+use dh\models\Recommend;
 
 /**
  * Api controller
@@ -15,66 +16,67 @@ use dh\models\Website;
 class AjaxController extends Controller {
 
     /**
-     *
+     * 改变板式
      * @return json
      */
     public function actionChangePlate($id) {
         $total = isset(Yii::$app->params['plate_total']) ? Yii::$app->params['plate_total'] : 3;
         $plate = ($id + 1) % $total;
-        if (Yii::$app->user->isGuest) {
-            $cookie = new Cookie([
-                'name' => 'plate',
-                'expire' => time() + 86400 * 7,
-                'value' => $plate,
-                'httpOnly' => true
-            ]);
+        $cookie = new Cookie([
+            'name' => 'plate',
+            'expire' => time() + 86400 * 7,
+            'value' => $plate,
+            'httpOnly' => true
+        ]);
 
-            Yii::$app->response->cookies->add($cookie);
-            return json_encode(['stat' => 'success', 'plate' => $plate]);
+        Yii::$app->response->cookies->add($cookie);
+        if (Yii::$app->user->isGuest) {
+            $result = true;
         } else {
             $user = User::findIdentity(Yii::$app->user->identity->id);
             $user->plate = $plate;
             $result = $user->save();
-            if ($result) {
-                return json_encode(['stat' => 'success', 'plate' => $plate]);
-            } else {
-                return json_encode(['stat' => 'fail']);
-            }
+        }
+        if ($result) {
+            return json_encode(['stat' => 'success', 'plate' => $plate]);
+        } else {
+            return json_encode(['stat' => 'fail']);
         }
     }
 
     /**
-     *
+     * 改变皮肤
      * @return json
      */
     public function actionChangeSkin($id) {
         $total = isset(Yii::$app->params['skin_total']) ? Yii::$app->params['skin_total'] : [];
         $key = array_search($id, $total);
         $skin = $key === FALSE ? 'default' : $total[($key + 1) % count($total)];
-        if (Yii::$app->user->isGuest) {
-            $cookie = new Cookie([
-                'name' => 'skin',
-                'expire' => time() + 86400 * 7,
-                'value' => $skin,
-                'httpOnly' => true
-            ]);
+        $cookie = new Cookie([
+            'name' => 'skin',
+            'expire' => time() + 86400 * 7,
+            'value' => $skin,
+            'httpOnly' => true
+        ]);
 
-            Yii::$app->response->cookies->add($cookie);
-            return json_encode(['stat' => 'success', 'skin' => $skin]);
+        Yii::$app->response->cookies->add($cookie);
+        if (Yii::$app->user->isGuest) {
+
+            $result = true;
         } else {
             $user = User::findIdentity(Yii::$app->user->identity->id);
             $user->skin = $skin;
             $result = $user->save();
-            if ($result) {
-                return json_encode(['stat' => 'success', 'skin' => $skin]);
-            } else {
-                return json_encode(['stat' => 'fail']);
-            }
+        }
+        if ($result) {
+            return json_encode(['stat' => 'success', 'skin' => $skin]);
+        } else {
+            return json_encode(['stat' => 'fail']);
         }
     }
 
     /**
-     *
+     * 收藏分类
      * @return json
      */
     public function actionCategoryCollect($id) {
@@ -104,9 +106,9 @@ class AjaxController extends Controller {
                         $w->url = $website->url;
                         $w->sort_order = Website::findMaxSort($cate->id) + 1;
                         $w->save(false);
-                        $website->collect_num += 1;
-                        $website->save(false);
+                        $website->updateCounters(['collect_num' => 1]);
                     }
+                    $model->updateCounters(['collect_num' => 1]);
 
                     $transaction->commit();
                     return json_encode(['stat' => 'success']);
@@ -126,7 +128,7 @@ class AjaxController extends Controller {
     }
 
     /**
-     *
+     * 收藏网址
      * @return json
      */
     public function actionWebsiteCollect($id) {
@@ -142,9 +144,17 @@ class AjaxController extends Controller {
                 $w->title = $model->title;
                 $w->url = $model->url;
                 $w->sort_order = Website::findMaxSort($w->cid) + 1;
-                if ($w->save()) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $w->save(false);
+                    $model->updateCounters(['collect_num' => 1]);
+                    $transaction->commit();
                     return json_encode(['stat' => 'success']);
-                } else {
+                } catch (\Exception $e) {
+
+                    $transaction->rollBack();
+                    //throw $e;
+
                     return json_encode(['stat' => 'fail']);
                 }
             } else {
@@ -153,6 +163,24 @@ class AjaxController extends Controller {
                 ]);
             }
         }
+    }
+
+    /**
+     * 网址点击计数
+     * @return json
+     */
+    public function actionWebsiteClick($id) {
+        Website::updateAllCounters(['click_num' => 1], ['id' => $id]);
+        return true;
+    }
+
+    /**
+     * 推荐点击计数
+     * @return json
+     */
+    public function actionRecommendClick($id) {
+        Recommend::updateAllCounters(['click_num' => 1], ['id' => $id]);
+        return true;
     }
 
 }

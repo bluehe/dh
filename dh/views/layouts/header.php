@@ -29,34 +29,18 @@ use dh\models\Recommend;
                     Html::a('<i class="fa fa-pencil"></i> 注册', ['/site/signup'])
                     ?>
                 <?php } else { ?>
-                    <div class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                    <div class="user-menu">
+
+                        <a href="javascript:void(0);">
                             <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png' ?>" class="user-image" alt="用户头像" />
                             <span><?= Yii::$app->user->identity->username ?></span>
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-
-
-                                <p>
-                                    <?= Yii::$app->user->identity->username ?>
-                                    <small>注册时间 <?= date('Y-m-d', Yii::$app->user->identity->created_at) ?></small>
-                                </p>
-                            </li>
-
-                            <li class="user-footer">
-                                <!--                            <div class="pull-left">
-                                                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                                            </div>-->
-                                <div class="text-center">
-                                    <?=
-                                    Html::a('退 出', ['/site/logout'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat'])
-                                    ?>
-                                </div>
-                            </li>
-                        </ul>
+                        <div class="myhome">
+                            <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['/user/index']) ?>
+                            <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['/site/logout'], ['data-method' => 'post']) ?>
+                        </div>
                     </div>
 
                 <?php } ?>
@@ -135,7 +119,7 @@ use dh\models\Recommend;
             <div class="container recommend">
                 <?php foreach ($recommend as $r) { ?>
                     <div class="col-lg-1 col-xs-2 text-center">
-                        <?= Html::a(Html::img('/data/recommend/' . $r['img'], ['alt' => $r['name'], 'class' => 'img-rounded img-responsive center-block']) . '<span class="hidden-xs">' . $r['name'] . '</span>', $r['url'], ['data-id' => $r['id']]) ?>
+                        <?= Html::a(Html::img('/data/recommend/' . $r['img'], ['alt' => $r['name'], 'class' => 'img-rounded img-responsive center-block']) . '<span class="hidden-xs">' . $r['name'] . '</span>', $r['url'], ['data-id' => $r['id'], 'class' => 'clickurl', 'target' => '_blank']) ?>
 
                     </div>
                     <?php

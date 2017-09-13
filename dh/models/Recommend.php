@@ -35,10 +35,12 @@ class Recommend extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['name', 'url', 'img', 'creared_at', 'update_at'], 'required', 'message' => '{attribute}不能为空'],
-            [['creared_at', 'update_at', 'sort_order', 'stat'], 'integer'],
+            [['creared_at', 'update_at', 'sort_order', 'stat', 'click_num'], 'integer'],
             [['name'], 'string', 'max' => 4, 'message' => '{attribute}最多4个字符'],
             [['url'], 'string', 'max' => 255],
             [['img'], 'string', 'max' => 64],
+            [['click_num'], 'default', 'value' => 0],
+            [['stat'], 'default', 'value' => self::STAT_WAIT],
         ];
     }
 
@@ -60,6 +62,7 @@ class Recommend extends \yii\db\ActiveRecord {
             'name' => '名称',
             'url' => '链接',
             'img' => '图片',
+            'click_num' => '点击数',
             'creared_at' => '创建时间',
             'update_at' => '更新时间',
             'sort_order' => '排序',

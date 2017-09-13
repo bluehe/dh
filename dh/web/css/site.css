@@ -21,6 +21,10 @@ a:hover{text-decoration: none}
 .main-header .pull-left a{margin-right: 15px;}
 .main-header .pull-right a{margin-left: 15px; }
 
+.user-menu{
+    padding-left: 20px;
+    position: relative;
+}
 .user-menu .user-image{
     float: left;
     width: 25px;
@@ -28,17 +32,58 @@ a:hover{text-decoration: none}
     border-radius: 50%;
     margin-top: 7px;
 }
-.user-menu .dropdown-menu {
+
+
+/*用户菜单*/
+.myhome{
+    top: 40px;
+    right: 0px;
     position: absolute;
-    right: 0;
-    left: auto;
+    background-color: #FFF;
+    z-index: 1;
+    border:1px solid #eee;
+    display: none;
 }
-.user-menu{
-    padding-left: 20px;
+.user-menu:hover{
+    background: #367fa9;
 }
-.user-menu.open{
-    background-color: #000;
+.user-menu:hover .myhome{
+    display: block;
 }
+
+.main-header .myhome a {
+    color:#333;
+    display: block;
+    margin: 0;
+    width: 115px;
+    text-align: left;
+    float: left;
+    padding: 0 20px;
+    line-height:35px;
+    border-bottom: solid 1px #f4f4f4;
+    text-decoration: none;
+}
+.main-header .myhome a:last-child {
+    border-bottom: none;
+}
+.myhome a:hover {
+    background-color: #f3f3f3;
+}
+.myhome>a i{
+    float: left;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+.myhome>a span {
+    display: block;
+    width: 56px;
+    float: left;
+    text-align: justify;
+    text-align-last: justify;
+    -moz-text-align-last: justify;
+    -webkit-text-align-last: justify;
+}
+
 /*导航*/
 .nav-header {
     background-color: #fff;
