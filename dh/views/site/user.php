@@ -24,7 +24,7 @@ $this->title = '我的网址';
                 <?php Pjax::begin(); ?>
                 <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12">
                     <?php foreach ($cates as $cate) { ?>
-                        <div class="category">
+                        <div class="category" data-id="<?= $cate['id'] ?>">
 
                             <div class="website-header">
 
@@ -36,7 +36,7 @@ $this->title = '我的网址';
                             <div class="website-content list-group">
 
                                 <?php foreach ($cate['website'] as $website) { ?>
-                                    <div class="list-group-item <?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : 'list-group-item-warning' ?>">
+                                    <div class="list-group-item <?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : 'list-group-item-warning' ?>" data-id="<?= $website['id'] ?>">
                                         <?= Html::img(['api/getfav', 'url' => $website['url']]) ?>
                                         <a href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="dropdown pull-right">

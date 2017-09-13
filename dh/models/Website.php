@@ -49,7 +49,7 @@ class Website extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['cid', 'title', 'url', 'sort_order', 'click_num', 'created_at', 'updated_at'], 'required'],
+            [['cid', 'title', 'url', 'sort_order'], 'required'],
             [['cid', 'sort_order', 'click_num', 'is_open', 'created_at', 'updated_at', 'stat'], 'integer'],
             [['title', 'url'], 'string', 'max' => 255],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
@@ -149,8 +149,8 @@ class Website extends \yii\db\ActiveRecord {
         return static::find()->where(['cid' => $cid])->max('sort_order');
     }
 
-    public static function get_website($limit = '', $cid = '', $stat = self::STAT_OPEN, $is_open = '') {
-        $query = static::find()->andFilterWhere(['cid' => $cid, 'stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_DESC]);
+    public static function get_website($limit = '', $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {
+        $query = static::find()->andFilterWhere(['cid' => $cid, 'stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
         if ($limit) {
             $query->limit($limit);
         }

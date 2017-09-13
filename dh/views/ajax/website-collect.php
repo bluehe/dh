@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use dh\models\Category;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\RepairWorker */
@@ -21,6 +22,9 @@ use yii\widgets\ActiveForm;
                     ],
         ]);
         ?>
+
+        <?= $form->field($model, 'cid')->dropDownList(Category::get_user_category(Yii::$app->user->identity->id), ['prompt' => '无']) ?>
+
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
         <div class="col-md-6 col-xs-6 text-right">

@@ -106,7 +106,7 @@ use dh\models\Recommend;
                     </a>
                 </div>
 
-                <div class="col-lg-3 col-lg-push-7 col-xs-12">
+                <div class="col-lg-4 col-lg-push-6 col-xs-12">
                     <form class="search" action="https://www.baidu.com/s" method="get" target="_blank" accept-charset="utf-8" id="searchform">
                         <span><img src="<?= $directoryAsset ?>/image/baidu.png"></span>
                         <input type="text" name="wd" placeholder="请输入您要搜索的内容..." autocomplete="off">
@@ -115,7 +115,7 @@ use dh\models\Recommend;
                 </div>
                 <?php
                 echo Nav::widget([
-                    'options' => ['class' => 'navbar-nav col-lg-7 col-lg-pull-3 hidden-xs'],
+                    'options' => ['class' => 'navbar-nav col-lg-6 col-lg-pull-4 hidden-xs'],
                     'items' => $menuItems,
                 ]);
                 ?>

@@ -5,6 +5,7 @@ namespace dh\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use common\models\User;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -135,10 +136,23 @@ class Category extends \yii\db\ActiveRecord {
         return static::find()->where(['uid' => $uid])->max('sort_order');
     }
 
-    public static function get_category_sql($uid = NULL, $cid = '', $stat = self::STAT_OPEN, $is_open = '') {
-        $query = static::find()->where(['uid' => $uid])->andFilterWhere(['cid' => $cid, 'stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
-
+    public static function get_category_sql($uid = NULL, $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {
+        $query = static::find()->where(['uid' => $uid, 'cid' => $cid,])->andFilterWhere(['stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
         return $query;
+    }
+
+    public static function get_category($limit = '', $uid = NULL, $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {
+        $query = static::find()->where(['uid' => $uid, 'cid' => $cid])->andFilterWhere(['stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
+        if ($limit) {
+            $query->limit($limit);
+        }
+        $category = $query->indexBy('id')->asArray()->all();
+        return $category;
+    }
+
+    public static function get_user_category($uid = NULL) {
+        $category = static::find()->where(['uid' => $uid])->andFilterWhere(['stat' => self::STAT_OPEN])->orderBy(['sort_order' => SORT_ASC])->all();
+        return ArrayHelper::map($category, 'id', 'title');
     }
 
     public static function get_category_num($uid = NULL, $is = '') {

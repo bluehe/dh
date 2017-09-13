@@ -201,7 +201,7 @@ class SiteController extends Controller {
                 $cates[$key]['website'] = $websites;
             }
 
-            // $cache->set('index_page_' . $page, $cates);
+            $cache->set('index_page_' . $page, $cates);
         }
 
         return $this->render('index', ['cates' => $cates, 'pages' => $pages,]);
