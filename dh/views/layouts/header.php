@@ -8,6 +8,11 @@ use dh\models\Recommend;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+$menuItems = [
+    ['label' => '网址大全', 'url' => ['site/index']],
+    ['label' => '我的网址', 'url' => ['site/user']],
+];
+$recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
 ?>
 
 <header>
@@ -38,8 +43,8 @@ use dh\models\Recommend;
                             <span class="caret"></span>
                         </a>
                         <div class="myhome">
-                                <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['/']) ?>
-                                <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['/site/logout'], ['data-method' => 'post']) ?>
+                            <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['/']) ?>
+                            <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['/site/logout'], ['data-method' => 'post']) ?>
                         </div>
                     </div>
 
@@ -47,12 +52,6 @@ use dh\models\Recommend;
 
 
             </div>
-            <?php
-            $menuItems = [
-                ['label' => '网址大全', 'url' => ['site/index']],
-                ['label' => '我的网址', 'url' => ['site/user']],
-            ];
-            ?>
             <nav class="navbar navbar-inverse visible-xs navbar-fixed-top">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -112,7 +111,6 @@ use dh\models\Recommend;
         <?= Alert::widget() ?>
 
         <?php
-        $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
         if (count($recommend) > 0) {
             ?>
 

@@ -4,10 +4,12 @@ namespace dh\events;
 
 use Yii;
 use yii\base\Event;
+use yii\web\Cookie;
 use dh\models\System;
 use dh\models\Crontab;
 use dh\models\Category;
 use dh\models\Website;
+use dh\models\UserLog;
 
 class initSiteConfig extends Event {
 
@@ -72,6 +74,34 @@ class initSiteConfig extends Event {
             $cache->set('statistics', $statistics);
         }
         Yii::$app->params['statistics'] = $statistics;
+
+        //登录记录
+        if (!Yii::$app->request->cookies->getValue('login', false) && !Yii::$app->user->isGuest) {
+            $time = strtotime(date('Y-m-d', time()));
+            $exists = UserLog::find()->where(['and', ['>', 'created_at', $time], ['uid' => Yii::$app->user->identity->id]])->exists();
+            if (!$exists) {
+                //设置记录
+                $ip = Yii::$app->request->userIP;
+                $content = @file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=" . $ip);
+                $ipinfo = json_decode($content, true);
+                $log = new UserLog();
+                if ($ipinfo['code'] == 0) {
+                    $log->setAttributes($ipinfo['data']);
+                }
+                $log->created_at = time();
+                $log->uid = Yii::$app->user->identity->id;
+                if ($log->save()) {
+                    $cookie = new Cookie([
+                        'name' => 'login',
+                        'expire' => $time + 86400,
+                        'value' => true,
+                        'httpOnly' => true
+                    ]);
+
+                    Yii::$app->response->cookies->add($cookie);
+                }
+            }
+        }
 
         //定时任务
         $event_scheduler = $cache->get('event_scheduler');
