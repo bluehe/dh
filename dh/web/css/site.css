@@ -45,7 +45,7 @@ a:hover{text-decoration: none}
     display: none;
 }
 .user-menu:hover{
-    background: #367fa9;
+    background:#080808;
 }
 .user-menu:hover .myhome{
     display: block;
@@ -536,7 +536,7 @@ a:hover{text-decoration: none}
 .skin-blue .main-header {
     background: #3c8dbc;
 }
-.skin-blue .user-menu.open {
+.skin-blue .user-menu:hover {
     background-color: #367fa9;
 }
 .skin-blue .content-wrapper{

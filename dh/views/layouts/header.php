@@ -38,8 +38,8 @@ use dh\models\Recommend;
                             <span class="caret"></span>
                         </a>
                         <div class="myhome">
-                            <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['/user/index']) ?>
-                            <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['/site/logout'], ['data-method' => 'post']) ?>
+                                <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['/']) ?>
+                                <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['/site/logout'], ['data-method' => 'post']) ?>
                         </div>
                     </div>
 
