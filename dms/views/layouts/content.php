@@ -2,6 +2,8 @@
 
 use yii\widgets\Breadcrumbs;
 use dmstr\widgets\Alert;
+
+$system = Yii::$app->cache->get('system_info');
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -47,13 +49,8 @@ use dmstr\widgets\Alert;
         <b>Version</b> <?= Yii::$app->version ?>
     </div>
     <strong>Copyright &copy; 2011-<?= date('Y', time()) ?> <a href="<?= Yii::$app->homeUrl ?>">何文斌</a>.</strong> All rights reserved.
-    <?php
-    $statcode = Yii::$app->cache->get('system_statcode');
-    if ($statcode === false) {
-        $statcode = dms\models\System::getValue('system_statcode');
-    }
-    echo $statcode;
-    ?>
+    <a href = "http://www.miibeian.gov.cn/" target = "_blank"><?= $system['system_icp']; ?></a>
+    <?= $system['system_statcode']; ?>
 </footer>
 
 <!-- Control Sidebar -->
