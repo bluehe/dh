@@ -24,9 +24,9 @@ class WechatController extends Controller {
     public function actionIndex() {
         $wechat = Yii::$app->wechat;
 
-        $ticket = $wechat->createQrCode(['expire_seconds' => 600, 'action_name' => 'QR_SCENE', 'action_info' => ['scene' => ['scene_id' => 1]]]);
-        $qrcode = $wechat->getQrCode($ticket['ticket']);
-        return $this->redirect($qrcode);
+//        $ticket = $wechat->createQrCode(['expire_seconds' => 600, 'action_name' => 'QR_SCENE', 'action_info' => ['scene' => ['scene_id' => 1]]]);
+//        $qrcode = $wechat->getQrCode($ticket['ticket']);
+//        return $this->redirect($qrcode);
 
 
         if ($wechat->checkSignature()) {
@@ -43,15 +43,65 @@ class WechatController extends Controller {
         $wechat = Yii::$app->wechat;
         $res = $wechat->createMenu([
             [
-                'type' => 'click',
-                'name' => '测试账号',
-                'key' => 'TEST_ACCOUNT'
+                'name' => '关于东吴',
+                "sub_button" => [
+                    [
+                        'type' => 'click',
+                        'name' => '公司简介',
+                        'key' => 'TEST_ACCOUNT'
+                    ],
+                    [
+                        'type' => 'click',
+                        'name' => '东吴文化',
+                        'key' => 'TEST_ACCOUNT'
+                    ],
+                    [
+                        'type' => 'click',
+                        'name' => '南农新闻',
+                        'key' => 'TEST_ACCOUNT'
+                    ]
+                ]
             ],
             [
-                'type' => 'view',
-                'name' => '网上报修',
-                'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business'
+                'name' => '报修投诉',
+                "sub_button" => [
+                    [
+                        'type' => 'view',
+                        'name' => '在线报修',
+                        'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business'
+                    ],
+                    [
+                        'type' => 'view',
+                        'name' => '在线投诉',
+                        'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business'
+                    ],
+                    [
+                        'type' => 'view',
+                        'name' => '失物招领',
+                        'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/pickup-business'
+                    ]
+                ]
+            ],
+            [
+                'name' => '联系我们',
+                "sub_button" => [
+                    [
+                        'type' => 'click',
+                        'name' => '服务电话',
+                        'key' => 'TEST_ACCOUNT'
+                    ],
+                    [
+                        'type' => 'click',
+                        'name' => '帮助',
+                        'key' => 'TEST_ACCOUNT'
+                    ]
+                ]
             ]
+//            [
+//                'type' => 'view',
+//                'name' => '网上报修',
+//                'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business'
+//            ]
         ]);
         return $res ? var_dump($wechat->getMenu()) : 'false';
     }
