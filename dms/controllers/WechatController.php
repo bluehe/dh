@@ -22,7 +22,7 @@ class WechatController extends Controller {
     }
 
     public function actionIndex() {
-        echo Yii::$app->request->get('echostr');
+        echo $_GET['echostr'];
         exit;
         $wechat = Yii::$app->wechat;
 
