@@ -32,7 +32,11 @@ class WechatController extends Controller {
         if ($wechat->checkSignature()) {
             //分发处理的code
             //为了安全,建议接收信息的时候验证一下signature
-            $this->responseMsg();
+            if (Yii::$app->request->get('echostr')) {
+                echo Yii::$app->request->get('echostr');
+            } else {
+                $this->responseMsg();
+            }
         } else {
             //signature不通过的提示信息
             echo "";
