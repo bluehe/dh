@@ -44,7 +44,7 @@ class WechatController extends Controller {
         $res = $wechat->createMenu([
             [
                 'name' => '关于东吴',
-                "sub_button" => [
+                'sub_button' => [
                     [
                         'type' => 'click',
                         'name' => '公司简介',
@@ -64,7 +64,7 @@ class WechatController extends Controller {
             ],
             [
                 'name' => '报修投诉',
-                "sub_button" => [
+                'sub_button' => [
                     [
                         'type' => 'view',
                         'name' => '在线报修',
@@ -84,7 +84,7 @@ class WechatController extends Controller {
             ],
             [
                 'name' => '联系我们',
-                "sub_button" => [
+                'sub_button' => [
                     [
                         'type' => 'click',
                         'name' => '服务电话',
