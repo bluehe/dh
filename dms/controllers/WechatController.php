@@ -34,6 +34,7 @@ class WechatController extends Controller {
             //为了安全,建议接收信息的时候验证一下signature
             if (Yii::$app->request->get('echostr')) {
                 echo Yii::$app->request->get('echostr');
+                exit;
             } else {
                 $this->responseMsg();
             }
