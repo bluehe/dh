@@ -67,10 +67,10 @@ return [
 //        ],
         'wechat' => [
             'class' => 'callmez\wechat\sdk\MpWechat',
-            'appId' => 'wx5f06fff8635a37d4', //'wx0b6eaf137bc335ab',
-            'appSecret' => '911a61b191219f8b024219f3ec675f39', // '671fbde452f7e879816f217204b7f684',
+            'appId' => 'wx0b6eaf137bc335ab', //'wx5f06fff8635a37d4',
+            'appSecret' => '671fbde452f7e879816f217204b7f684', //'911a61b191219f8b024219f3ec675f39',
             'token' => 'weixin',
-        //'encodingAesKey' => '19Rqpyp6n5vrmgFzAVjv5xpPOtGALsNxI26MGtlQu6C'
+            'encodingAesKey' => '19Rqpyp6n5vrmgFzAVjv5xpPOtGALsNxI26MGtlQu6C'
         ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
@@ -160,7 +160,7 @@ return [
             'gii/*',
             'gridview/*',
             'weixin/*'
-        //'*'
+//'*'
         ]
     ],
     'on beforeAction' => ['dms\events\initSiteConfig', 'assign'],
