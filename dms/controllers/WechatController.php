@@ -22,8 +22,6 @@ class WechatController extends Controller {
     }
 
     public function actionIndex() {
-        echo $_GET['echostr'];
-        exit;
         $wechat = Yii::$app->wechat;
 
 //        $ticket = $wechat->createQrCode(['expire_seconds' => 600, 'action_name' => 'QR_SCENE', 'action_info' => ['scene' => ['scene_id' => 1]]]);
