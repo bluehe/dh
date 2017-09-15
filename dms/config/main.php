@@ -22,7 +22,7 @@ return [
         'gridview' => [
             'class' => 'kartik\grid\Module'
         ],
-        'weixin' => [// 指定微信模块
+        'wechat' => [// 指定微信模块
             'class' => 'callmez\wechat\Module',
             'adminId' => 1 // 填写管理员ID, 该设置的用户将会拥有wechat最高权限, 如多个请填写数组 [1, 2]
         ]
@@ -69,13 +69,13 @@ return [
 //            'port' => 6379,
 //            'database' => 0,
 //        ],
-        'wechat' => [
-            'class' => 'callmez\wechat\sdk\MpWechat',
-            'appId' => 'wx0b6eaf137bc335ab', //'wx5f06fff8635a37d4',
-            'appSecret' => '671fbde452f7e879816f217204b7f684', //'911a61b191219f8b024219f3ec675f39',
-            'token' => 'weixin',
-            'encodingAesKey' => '19Rqpyp6n5vrmgFzAVjv5xpPOtGALsNxI26MGtlQu6C'
-        ],
+//        'wechat' => [
+//            'class' => 'callmez\wechat\sdk\MpWechat',
+//            'appId' => 'wx0b6eaf137bc335ab', //'wx5f06fff8635a37d4',
+//            'appSecret' => '671fbde452f7e879816f217204b7f684', //'911a61b191219f8b024219f3ec675f39',
+//            'token' => 'weixin',
+//            'encodingAesKey' => '19Rqpyp6n5vrmgFzAVjv5xpPOtGALsNxI26MGtlQu6C'
+//        ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [
