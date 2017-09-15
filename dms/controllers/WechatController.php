@@ -28,18 +28,17 @@ class WechatController extends Controller {
 //        $qrcode = $wechat->getQrCode($ticket['ticket']);
 //        return $this->redirect($qrcode);
 
-
+        if (Yii::$app->request->get('echostr')) {
+            echo Yii::$app->request->get('echostr');
+            exit;
+        }
         if ($wechat->checkSignature()) {
-            //分发处理的code
-            //为了安全,建议接收信息的时候验证一下signature
-            if (Yii::$app->request->get('echostr')) {
-                echo Yii::$app->request->get('echostr');
-                exit;
-            } else {
-                $this->responseMsg();
-            }
+//分发处理的code
+//为了安全,建议接收信息的时候验证一下signature
+
+            $this->responseMsg();
         } else {
-            //signature不通过的提示信息
+//signature不通过的提示信息
             echo "";
         }
     }
@@ -111,7 +110,7 @@ class WechatController extends Controller {
         return $res ? var_dump($wechat->getMenu()) : 'false';
     }
 
-    //网页跳转
+//网页跳转
     public function actionRedirect($url) {
         if (!Yii::$app->user->isGuest) {
             return $this->redirect($url);
@@ -121,18 +120,18 @@ class WechatController extends Controller {
         }
     }
 
-    //网页授权
+//网页授权
     public function actionAuth($url, $code) {
         $wechat = Yii::$app->wechat;
         $access_token = $wechat->getOauth2AccessToken($code);
         $auth = UserAuth::find()->where(['type' => 'weixin', 'open_id' => $access_token['openid']])->one();
         if ($auth) {
-            //存在
+//存在
             if (Yii::$app->user->login($auth->user)) {
                 return $this->redirect($url);
             }
         } else {
-            //不存在，注册
+//不存在，注册
             Yii::$app->session->set('auth_type', 'weixin');
             Yii::$app->session->set('auth_openid', $access_token['openid']);
             return $this->redirect('/site/complete');
@@ -150,16 +149,16 @@ class WechatController extends Controller {
             $this->time = time();
             if (strtolower($this->postObj->MsgType) == 'event') {
                 if (strtolower($this->postObj->Event) == 'subscribe') {
-                    //关注事件处理
+//关注事件处理
                     if ($this->postObj->EventKey) {
-                        //带参数的关注,事件KEY值，qrscene_为前缀，后面为二维码的参数值
+//带参数的关注,事件KEY值，qrscene_为前缀，后面为二维码的参数值
                     }
                     $this->msg_text('您好，欢迎关注高校公寓管理，目前功能持续开发中，报修系统体验请<a href="http://ny.gxgygl.com">点击这里</a>，或者回复【报修】。如果需要系统测试账号，请回复【测试账号】。');
                 } elseif (strtolower($this->postObj->Event) == 'unsubscribe') {
-                    //取消关注事件处理
+//取消关注事件处理
                 } elseif (strtolower($this->postObj->Event) == 'scan') {
-                    //扫描事件处理
-                    //事件KEY值，是一个32位无符号整数，即创建二维码时的二维码scene_id
+//扫描事件处理
+//事件KEY值，是一个32位无符号整数，即创建二维码时的二维码scene_id
                 } elseif (strtolower($this->postObj->Event) == 'click') {
                     if ($this->postObj->EventKey == 'TEST_ACCOUNT') {
                         $this->msg_text('顶级测试账号：admin/1234 <a href="http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com">点击这里</a> 进入');
@@ -193,7 +192,7 @@ class WechatController extends Controller {
         }
     }
 
-    //文本回复
+//文本回复
     public function msg_text($text) {
         $textTpl = "<xml>
 					<ToUserName><![CDATA[%s]]></ToUserName>
@@ -210,7 +209,7 @@ class WechatController extends Controller {
         exit;
     }
 
-    //单图文回复
+//单图文回复
     public function msg_picture($title, $pic, $desc, $url) {
         $pictureTpl = "<xml>
 						<ToUserName><![CDATA[%s]]></ToUserName>
