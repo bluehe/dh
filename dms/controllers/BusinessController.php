@@ -90,26 +90,25 @@ class BusinessController extends Controller {
             $model->uid = Yii::$app->user->identity->id;
             $model->created_at = time();
             $model->stat = RepairOrder::STAT_OPEN;
+            //后期扩展
+//            if (System::getValue('business_action') === '1') {
+//                $model->stat = RepairOrder::STAT_OPEN;
+//            } else if (System::getValue('business_action') === '2') {
+//                //自动受理
+//                $model->stat = RepairOrder::STAT_ACCEPT;
+//            } else if (System::getValue('business_action') === '3') {
+//                //自动派工
+//                $model->stat = RepairOrder::STAT_DISPATCH;
+//            }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '报修成功。');
                 //微信模板消息
-                $wechat = Yii::$app->wechat;
-                $data = [
-                    'touser' => 'o1_oW1YTz5ZjVRuZbvQyft7F3ON0',
-                    'template_id' => 'px-_23ZPiLj9PSKO-Vz2Vn2heXw11djEzZACxxVNjJg',
-                    'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/work/repair-work',
-                    'data' => [
-                        'first' => ['value' => '您好，您有新的报修单',],
-                        'serial' => ['value' => $model->serial,],
-                        'stat' => ['value' => $model->Stat,],
-                        'created_at' => ['value' => date('Y-m-d H:i:s', $model->created_at),],
-                        'user' => ['value' => $model->name,],
-                        'address' => ['value' => ($model->repair_area ? \dms\models\Forum::get_forum_allname($model->repair_area) : '') . '-' . $model->address,],
-                        'type' => ['value' => $model->repair_type ? $model->type->v : $model->repair_type],
-                        'content' => ['value' => $model->content,],
-                        'remark' => ['value' => '点击查看详情！',],
-                ]];
-                $wechat->sendTemplateMessage($data);
+                if (System::existValue('repaire_wechat_send', '1')) {
+                    $model->address = ($model->repair_area ? \dms\models\Forum::get_forum_allname($model->repair_area) : '') . '-' . $model->address;
+                    $model->repair_type = $model->repair_type ? $model->type->v : $model->repair_type;
+                    $user = 1;
+                    Yii::$app->helper->sendWechatTemplate($user, 'repaire_create', $model);
+                }
                 return $this->redirect(['repair-business']);
             } else {
                 Yii::$app->session->setFlash('error', '报修失败。');

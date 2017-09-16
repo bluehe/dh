@@ -55,4 +55,8 @@ class UserAuth extends ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'uid']);
     }
 
+    public static function getTouser($uid) {
+        return static::find()->select(['open_id'])->where(['uid' => $uid, 'type' => 'weixin'])->column();
+    }
+
 }

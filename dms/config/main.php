@@ -27,6 +27,9 @@ return [
         '@mdm/admin' => '@vendor/mdmsoft/yii2-admin',
     ],
     'components' => [
+        'helper' => [
+            'class' => 'dms\components\Helper',
+        ],
         'db' => [
             'class' => 'yii\db\Connection',
             'enableSchemaCache' => true,

@@ -47,6 +47,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                             break;
                                         case 'business_bed':echo '选择“大室”允许没有小室的套间及所有小室添加床位，选择“小室”只允许套间小室添加床位。';
                                             break;
+                                        case 'business_repair':echo '创建报修单时类型区域选择。';
+                                            break;
+                                        case 'repaire_wechat_send':echo '微信消息推送。';
+                                            break;
                                         case 'business_accept':echo '选择“派工”可以在受理页面直接派工，选择“受理”只能选择是否受理。';
                                             break;
                                         case 'business_dispatch':echo '选择“全部”显示全部维修人员，选择“匹配”只会选择符合类型和地区的维修人员（批量受理如果为直接派工，将自动随机分派）。';
@@ -75,7 +79,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                             </div>
                             <div class="col-md-6"><div class="help-block">
-                                    <img id="imgVerifyCode" height="34"  alt="验证码" style="cursor: pointer;">
+                                    <?php
+                                    switch ($one['code']) {
+
+                                        case 'repaire_wechat_send':echo '微信消息推送。';
+                                            break;
+                                        default:echo '';
+                                    }
+                                    ?>
+
                                 </div></div>
                         </div>
                         <?php
