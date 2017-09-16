@@ -17,6 +17,7 @@ use dms\models\TeacherSearch;
 use dms\models\CheckOrder;
 use dms\models\Pickup;
 use dms\models\PickupSearch;
+use dms\models\RepairWorker;
 
 class WorkController extends Controller {
 
@@ -210,14 +211,17 @@ class WorkController extends Controller {
             $model->accept_at = time();
             $model->accept_uid = Yii::$app->user->identity->id;
             if ($model->stat == RepairOrder::STAT_DISPATCH) {
+                //派工
                 $model->setScenario('dispatch');
                 $model->dispatch_at = time();
                 $model->dispatch_uid = Yii::$app->user->identity->id;
                 $model->note = NULL;
             } elseif ($model->stat == RepairOrder::STAT_ACCEPT) {
+                //受理
                 $model->worker_id = NULL;
                 $model->note = NULL;
             } else {
+                //不受理
                 $model->worker_id = NULL;
             }
             if (Yii::$app->request->isAjax) {
@@ -227,6 +231,18 @@ class WorkController extends Controller {
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '操作成功。');
+//微信模板消息
+                if ($model->stat == RepairOrder::STAT_DISPATCH) {
+                    if (System::existValue('repaire_wechat_send', '3')) {
+                        Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_dispatch', $model);
+                        Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_dispatch_worker', $model);
+                    }
+                } elseif ($model->stat == RepairOrder::STAT_ACCEPT || $model->stat == RepairOrder::STAT_NO_ACCEPT) {
+                    if (System::existValue('repaire_wechat_send', '2')) {
+
+                        Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_accept', $model);
+                    }
+                }
             } else {
                 Yii::$app->session->setFlash('error', '操作失败。');
             }
@@ -289,6 +305,18 @@ class WorkController extends Controller {
                     }
                     if (!$model->save()) {
                         throw new \Exception("操作失败");
+                    } else {
+                        if ($model->stat == RepairOrder::STAT_DISPATCH) {
+                            if (System::existValue('repaire_wechat_send', '3')) {
+                                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_dispatch', $model);
+                                Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_dispatch_worker', $model);
+                            }
+                        } elseif ($model->stat == RepairOrder::STAT_ACCEPT) {
+                            if (System::existValue('repaire_wechat_send', '2')) {
+
+                                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_accept', $model);
+                            }
+                        }
                     }
                 }
             }
@@ -314,6 +342,10 @@ class WorkController extends Controller {
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '操作成功。');
+                if (System::existValue('repaire_wechat_send', '3')) {
+                    Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_dispatch', $model);
+                    Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_dispatch_worker', $model);
+                }
             } else {
                 Yii::$app->session->setFlash('error', '操作失败。');
             }
@@ -345,7 +377,11 @@ class WorkController extends Controller {
             $model->stat = RepairOrder::STAT_REPAIRED;
             $model->repair_at = time();
             $model->repair_uid = Yii::$app->user->identity->id;
-            $model->save();
+            if ($model->save()) {
+                if (System::existValue('repaire_wechat_send', '4')) {
+                    Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_repair', $model);
+                }
+            }
         }
 
         return $this->redirect(Yii::$app->request->referrer);
@@ -368,6 +404,10 @@ class WorkController extends Controller {
                     $model->repair_uid = Yii::$app->user->identity->id;
                     if (!$model->save()) {
                         throw new \Exception("操作失败");
+                    } else {
+                        if (System::existValue('repaire_wechat_send', '4')) {
+                            Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_repair', $model);
+                        }
                     }
                 }
             }
@@ -488,7 +528,7 @@ class WorkController extends Controller {
         $total = $cache->get('building_total');
         $data = $cache->get('building_data');
         if ($total === false || $data === false) {
-            //统计
+//统计
             $total = [];
             $total['broom_num'] = Room::find()->where(['rid' => NULL])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
             $total['broom_open'] = Room::find()->where(['rid' => NULL, 'stat' => Room::STAT_OPEN])->select(['count(*)'])->groupBy(['fid'])->indexBy('fid')->column();
@@ -506,30 +546,30 @@ class WorkController extends Controller {
 
             foreach ($forums as $k => $p) {
                 $data[$k]['forum_name'] = $p;
-                //本级楼苑
-                //楼层
+//本级楼苑
+//楼层
                 $floors = Room::get_room_floor($k);
                 $floor = [];
                 foreach ($floors as $k_f => $name) {
                     $floor[$k_f]['floor_name'] = $name;
 
-                    //大室
+//大室
                     $brooms = Room::get_broom($k, $k_f);
                     foreach ($brooms as $bid => $one) {
                         $brooms[$bid]['sroom'] = Room::get_sroom($bid);
 
 
                         if ($brooms[$bid]['sroom']) {
-                            //小室床位
+//小室床位
                             foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
                                 $brooms[$bid]['sroom'][$sid]['bed'] = Bed::get_room_bed($sid);
                             }
                         } else {
-                            //大室床位
+//大室床位
                             $brooms[$bid]['bed'] = Bed::get_room_bed($bid);
                         }
 
-                        //设定大室床位数
+//设定大室床位数
                         if (!isset($total['bed_num'][$bid])) {
                             $num = 0;
                             foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
@@ -542,7 +582,7 @@ class WorkController extends Controller {
                             }
                         }
 
-                        //设定大室入住数
+//设定大室入住数
                         if (!isset($total['room_check'][$bid])) {
                             $num = 0;
                             foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
@@ -561,7 +601,7 @@ class WorkController extends Controller {
                 }
                 $data[$k]['floor'] = $floor;
 
-                //下级楼苑
+//下级楼苑
                 $subforums = Forum::get_forumsub_id($k, Forum::STAT_OPEN);
 
                 $sub = [];
@@ -573,7 +613,7 @@ class WorkController extends Controller {
                 foreach ($subforums as $sub_id => $c) {
                     $sub[$sub_id]['forum_name'] = $c;
 
-                    //一级楼苑大室数量
+//一级楼苑大室数量
                     if (isset($total['forum_check'][$sub_id])) {
                         $forum_check += $total['forum_check'][$sub_id];
                     }
@@ -590,23 +630,23 @@ class WorkController extends Controller {
                         $bed_open += $total['bed_open'][$sub_id];
                     }
 
-                    //楼层
+//楼层
                     $floors = Room::get_room_floor($sub_id);
                     $floor = [];
                     foreach ($floors as $k_f => $name) {
                         $floor[$k_f]['floor_name'] = $name;
 
-                        //大室
+//大室
                         $brooms = Room::get_broom($sub_id, $k_f);
                         foreach ($brooms as $bid => $one) {
                             $brooms[$bid]['sroom'] = Room::get_sroom($bid);
                             if ($brooms[$bid]['sroom']) {
-                                //小室床位
+//小室床位
                                 foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {
                                     $brooms[$bid]['sroom'][$sid]['bed'] = Bed::get_room_bed($sid);
                                 }
                             } else {
-                                //大室床位
+//大室床位
                                 $brooms[$bid]['bed'] = Bed::get_room_bed($bid);
                             }
                             if (!isset($total['bed_num'][$bid])) {
@@ -620,7 +660,7 @@ class WorkController extends Controller {
                                     $total['bed_num'][$bid] = $bed_num;
                                 }
                             }
-                            //设定大室入住数
+//设定大室入住数
                             if (!isset($total['room_check'][$bid])) {
                                 $num = 0;
                                 foreach ($brooms[$bid]['sroom'] as $sid => $sroom) {

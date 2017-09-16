@@ -9,6 +9,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use dms\models\Pickup;
+use dms\models\RepairWorker;
 
 /**
  * BusinessController implements the CRUD actions for RepairOrder model.
@@ -104,10 +105,15 @@ class BusinessController extends Controller {
                 Yii::$app->session->setFlash('success', '报修成功。');
                 //微信模板消息
                 if (System::existValue('repaire_wechat_send', '1')) {
-                    $model->address = ($model->repair_area ? \dms\models\Forum::get_forum_allname($model->repair_area) : '') . '-' . $model->address;
-                    $model->repair_type = $model->repair_type ? $model->type->v : $model->repair_type;
-                    $user = 1;
-                    Yii::$app->helper->sendWechatTemplate($user, 'repaire_create', $model);
+                    $query = RepairWorker::find()->where(['role' => RepairWorker::ROLE_ADMIN]);
+                    if ($model->repair_area) {
+                        $query->joinWith('workerAreas')->andWhere(['area' => $model->repair_area]);
+                    }
+                    if ($model->repair_type) {
+                        $query->joinWith('workerTypes')->andWhere(['type' => $model->repair_type]);
+                    }
+                    $user = $query->select(['uid'])->distinct()->column();
+                    Yii::$app->commonHelper->sendWechatTemplate($user, 'repaire_create', $model);
                 }
                 return $this->redirect(['repair-business']);
             } else {
@@ -170,6 +176,7 @@ class BusinessController extends Controller {
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '操作成功。');
+                Yii::$app->commonHelper->sendWechatTemplate(array($model->accept_uid, RepairWorker::getUid($model->worker_id)), 'repaire_evaluate', $model);
             } else {
                 Yii::$app->session->setFlash('error', '操作失败。');
             }

@@ -196,4 +196,8 @@ class RepairWorker extends \yii\db\ActiveRecord {
         return RepairWorkerArea::find()->where(['worker' => $worker])->select(['area'])->column();
     }
 
+    public static function getUid($id) {
+        return static::find()->where(['id' => $id])->select(['uid'])->scalar();
+    }
+
 }

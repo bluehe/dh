@@ -27,8 +27,8 @@ return [
         '@mdm/admin' => '@vendor/mdmsoft/yii2-admin',
     ],
     'components' => [
-        'helper' => [
-            'class' => 'dms\components\Helper',
+        'commonHelper' => [
+            'class' => 'dms\components\CommonHelper',
         ],
         'db' => [
             'class' => 'yii\db\Connection',
