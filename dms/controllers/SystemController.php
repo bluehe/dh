@@ -121,6 +121,7 @@ class SystemController extends Controller {
 
         if (Yii::$app->request->post()) {
             $system = Yii::$app->request->post('System');
+            $system['repaire_wechat_send'] = isset($system['repaire_wechat_send']) ? implode(',', $system['repaire_wechat_send']) : '';
             $res = 0;
             foreach ($system as $key => $value) {
                 $r = System::setValue($key, $value);
