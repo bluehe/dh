@@ -3,38 +3,40 @@
 use yii\db\Migration;
 use mdm\admin\components\Configs;
 
-/**
- * Handles the creation of table `pickup`.
- */
-class m170619_030017_create_pickup_table extends Migration {
+class m170917_102541_create_suggest extends Migration {
 
     /**
      * @inheritdoc
      */
     public function up() {
-        $table = '{{%pickup}}';
+        $table = '{{%suggest}}';
         $userTable = Configs::instance()->userTable;
 
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB COMMENT="拾物登记表"';
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB COMMENT="投诉建议表"';
         }
         $this->createTable($table, [
             'id' => $this->primaryKey(),
             'type' => $this->string()->notNull(),
+            'serial' => $this->string(16)->notNull(),
             'uid' => $this->integer(),
-            'name' => $this->string(16)->notNull(),
-            'tel' => $this->string(64)->notNull(),
-            'goods' => $this->string()->notNull(),
-            'address' => $this->string(),
+            'name' => $this->string(16),
+            'tel' => $this->string(64),
+            'title' => $this->string()->notNull(),
             'content' => $this->text(),
             'created_at' => $this->integer()->notNull(),
-            'end_at' => $this->integer(),
-            'end_uid' => $this->integer(),
+            'reply_at' => $this->integer(),
+            'reply_uid' => $this->integer(),
+            'reply_content' => $this->text(),
+            'evaluate1' => $this->integer(),
+            'evaluate' => $this->smallInteger(),
+            'note' => $this->string(),
+            'end_at' => $this->integer()->notNull(),
             'stat' => $this->smallInteger()->notNull()->defaultValue(1),
             "FOREIGN KEY ([[uid]]) REFERENCES {$userTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
-            "FOREIGN KEY ([[end_uid]]) REFERENCES {$userTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
+            "FOREIGN KEY ([[reply_uid]]) REFERENCES {$userTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
                 ], $tableOptions);
     }
 
@@ -42,7 +44,7 @@ class m170619_030017_create_pickup_table extends Migration {
      * @inheritdoc
      */
     public function down() {
-        $this->dropTable('{{%pickup}}');
+        $this->dropTable('{{%suggest}}');
     }
 
 }

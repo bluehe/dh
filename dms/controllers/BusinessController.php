@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use dms\models\Pickup;
 use dms\models\RepairWorker;
+use dms\models\Suggest;
 
 /**
  * BusinessController implements the CRUD actions for RepairOrder model.
@@ -242,7 +243,7 @@ class BusinessController extends Controller {
     }
 
     public function actionPickupUpdate($id) {
-        $model = Pickup::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => RepairOrder::STAT_OPEN]);
+        $model = Pickup::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => Pickup::STAT_OPEN]);
 
         if ($model !== null) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -274,6 +275,98 @@ class BusinessController extends Controller {
         $model = Pickup::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id]);
         if ($model !== null) {
             return $this->renderAjax('pickup-view', [
+                        'model' => $model,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', '没有权限。');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+
+    /**
+     * Lists all Suggest models.
+     * @return mixed
+     */
+    public function actionSuggestBusiness() {
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Suggest::find()->andWhere(['uid' => Yii::$app->user->identity->id]),
+            'sort' => ['defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]],
+        ]);
+        return $this->render('suggest-business', [
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Creates a new Suggest model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionSuggestCreate() {
+        $model = new Suggest();
+
+        //默认姓名和电话
+        $suggest = Suggest::find()->where(['uid' => Yii::$app->user->identity->id])->orderBy(['created_at' => SORT_DESC])->one();
+        if ($suggest !== null) {
+            $model->name = $suggest->name;
+            $model->tel = $suggest->tel;
+        }
+        if ($model->load(Yii::$app->request->post())) {
+
+            $str = 'T' . date('ymd', time());
+            $serial = $model->find()->where(['like', 'serial', $str])->select(['serial'])->orderBy(['serial' => SORT_DESC])->scalar();
+            $model->serial = $serial ? ++$serial : $str . '001';
+
+            $model->uid = Yii::$app->user->identity->id;
+            $model->created_at = time();
+            $model->stat = Suggest::STAT_OPEN;
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '发布成功。');
+                return $this->redirect(['suggest-business']);
+            } else {
+                Yii::$app->session->setFlash('error', '发布失败。');
+            }
+        }
+        return $this->render('suggest-create', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionSuggestUpdate($id) {
+        $model = Suggest::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => Suggest::STAT_OPEN]);
+
+        if ($model !== null) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', '修改成功。');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+            return $this->render('suggest-update', [
+                        'model' => $model,
+            ]);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSuggestClose($id) {
+        $model = Suggest::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => Suggest::STAT_OPEN]);
+
+        if ($model !== null) {
+            $model->stat = Suggest::STAT_CLOSE;
+            $model->end_at = time();
+            $model->save();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSuggestView($id) {
+        $model = Suggest::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id]);
+        if ($model !== null) {
+            return $this->renderAjax('suggest-view', [
                         'model' => $model,
             ]);
         } else {

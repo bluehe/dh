@@ -46,7 +46,7 @@ class Pickup extends \yii\db\ActiveRecord {
         return [
             [['type', 'name', 'tel', 'goods', 'stat'], 'required', 'message' => '{attribute}不能为空'],
             [['uid', 'end_uid', 'created_at', 'end_at', 'stat'], 'integer'],
-            [['type', 'goods', 'address', 'content'], 'string', 'max' => 255],
+            [['type', 'goods', 'address'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 16, 'message' => '{attribute}最长16个字符'],
             [['tel'], 'string', 'max' => 64, 'message' => '{attribute}最长64个字符'],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],

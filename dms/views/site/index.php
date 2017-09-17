@@ -1,7 +1,6 @@
 <?php
 /* @var $this yii\web\View */
 
-use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 use dms\models\RepairOrder;
 use yii\grid\GridView;
