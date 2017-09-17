@@ -53,17 +53,17 @@ class WechatController extends Controller {
                     [
                         'type' => 'click',
                         'name' => '公司简介',
-                        'key' => 'TEST_ACCOUNT'
+                        'key' => 'ABOUT_COMPANY'
                     ],
                     [
                         'type' => 'click',
                         'name' => '东吴文化',
-                        'key' => 'TEST_ACCOUNT'
+                        'key' => 'ABOUT_US'
                     ],
                     [
                         'type' => 'click',
                         'name' => '南农新闻',
-                        'key' => 'TEST_ACCOUNT'
+                        'key' => 'ABOUT_NEWS'
                     ]
                 ]
             ],
@@ -78,7 +78,7 @@ class WechatController extends Controller {
                     [
                         'type' => 'view',
                         'name' => '在线投诉',
-                        'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business'
+                        'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/suggest-business'
                     ],
                     [
                         'type' => 'view',
@@ -93,12 +93,12 @@ class WechatController extends Controller {
                     [
                         'type' => 'click',
                         'name' => '服务电话',
-                        'key' => 'TEST_ACCOUNT'
+                        'key' => 'CONTACT_US'
                     ],
                     [
                         'type' => 'click',
                         'name' => '帮助',
-                        'key' => 'TEST_ACCOUNT'
+                        'key' => 'CONTACT_HELP'
                     ]
                 ]
             ]
@@ -161,8 +161,16 @@ class WechatController extends Controller {
                     //扫描事件处理
                     //事件KEY值，是一个32位无符号整数，即创建二维码时的二维码scene_id
                 } elseif (strtolower($this->postObj->Event) == 'click') {
-                    if ($this->postObj->EventKey == 'TEST_ACCOUNT') {
-                        $this->msg_text('顶级测试账号：admin/1234 <a href="http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com">点击这里</a> 进入');
+                    if ($this->postObj->EventKey == 'ABOUT_COMPANY') {
+                        $this->msg_text('公司简介');
+                    } elseif ($this->postObj->EventKey == 'ABOUT_US') {
+                        $this->msg_text('东吴文化');
+                    } elseif ($this->postObj->EventKey == 'ABOUT_NEWS') {
+                        $this->msg_text('南农新闻');
+                    } elseif ($this->postObj->EventKey == 'CONTACT_US') {
+                        $this->msg_text('联系我们');
+                    } elseif ($this->postObj->EventKey == 'CONTACT_HELP') {
+                        $this->msg_text('帮助');
                     } else {
                         echo "";
                     }
