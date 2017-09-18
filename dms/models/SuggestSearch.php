@@ -5,22 +5,20 @@ namespace dms\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use dms\models\RepairOrder;
+use dms\models\Suggest;
 
 /**
- * RepairOrderSearch represents the model behind the search form about `dms\models\RepairOrder`.
+ * SuggestSearch represents the model behind the search form about `dms\models\Suggest`.
  */
-class RepairOrderSearch extends RepairOrder {
-
-    public $eval;
+class SuggestSearch extends Suggest {
 
     /**
      * @inheritdoc
      */
     public function rules() {
         return [
-            [['id', 'uid', 'repair_type', 'repair_area', 'evaluate1', 'evaluate2', 'evaluate3', 'accept_at', 'accept_uid', 'repair_at', 'repair_uid', 'worker_id', 'end_at', 'evaluate', 'stat'], 'integer'],
-            [['serial', 'address', 'title', 'content', 'created_at', 'note'], 'safe'],
+            [['id', 'uid', 'created_at', 'reply_at', 'reply_uid', 'evaluate1', 'evaluate', 'stat'], 'integer'],
+            [['type', 'serial', 'name', 'tel', 'title', 'content', 'reply_content', 'note'], 'safe'],
         ];
     }
 
@@ -40,23 +38,10 @@ class RepairOrderSearch extends RepairOrder {
      * @return ActiveDataProvider
      */
     public function search($params, $pageSize = '') {
-        $query = RepairOrder::find()->where(['not', ['{{%repair_order}}.stat' => RepairOrder::STAT_CLOSE]])->joinWith('type')->joinWith('area')->joinWith('worker');
+        $query = Suggest::find();
 
         // add conditions that should always apply here
 
-        $query->andWhere(RepairOrder::get_permission());
-
-//        if (!Yii::$app->user->can('日常事务') && !Yii::$app->user->can('报修管理') && Yii::$app->user->can('维修管理')) {
-//            //维修工
-//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
-//            $query->andWhere(['worker_id' => $worker]);
-//        } elseif (!Yii::$app->user->can('日常事务') && Yii::$app->user->can('报修管理')) {
-//            //受理员
-//            $worker = RepairWorker::find()->select(['id'])->where(['uid' => Yii::$app->user->identity->id, 'stat' => RepairWorker::STAT_OPEN])->distinct()->column();
-//            $type = RepairWorker::get_worker_type($worker);
-//            $area = RepairWorker::get_worker_area($worker);
-//            $query->andWhere(['OR', ['repair_type' => NULL], ['repair_type' => $type]])->andWhere(['OR', ['repair_area' => NULL], ['repair_area' => $area]]);
-//        }
         if ($pageSize > 0) {
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
@@ -88,23 +73,21 @@ class RepairOrderSearch extends RepairOrder {
         $query->andFilterWhere([
             'id' => $this->id,
             'uid' => $this->uid,
-            'repair_type' => $this->repair_type,
-            'repair_area' => $this->repair_area,
+            'type' => $this->type,
+            'reply_uid' => $this->reply_uid,
             'evaluate1' => $this->evaluate1,
-            'evaluate2' => $this->evaluate2,
-            'evaluate3' => $this->evaluate3,
-            'accept_uid' => $this->accept_uid,
-            'repair_uid' => $this->repair_uid,
-            'worker_id' => $this->worker_id,
             'evaluate' => $this->evaluate,
-            '{{%repair_order}}.stat' => $this->stat,
+            'stat' => $this->stat,
         ]);
 
         $query->andFilterWhere(['like', 'serial', $this->serial])
-                ->andFilterWhere(['like', 'address', $this->address])
-//                ->andFilterWhere(['like', 'title', $this->title])
+                ->andFilterWhere(['like', 'name', $this->name])
+                ->andFilterWhere(['like', 'tel', $this->tel])
+                ->andFilterWhere(['like', 'title', $this->title])
                 ->andFilterWhere(['like', 'content', $this->content])
+                ->andFilterWhere(['like', 'reply_content', $this->reply_content])
                 ->andFilterWhere(['like', 'note', $this->note]);
+
         if ($this->created_at) {
             $createdAt = strtotime($this->created_at);
             $createdAtEnd = $createdAt + 24 * 3600;

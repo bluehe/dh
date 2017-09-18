@@ -218,14 +218,14 @@ Modal::end();
 ?>
 <script>
 <?php $this->beginBlock('bind') ?>
-    $('.user-bind').on('click', function () {
+    $('.student-index').on('click', '.user-bind', function () {
         $.get('<?= Url::toRoute('student-bind') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('#binduser-modal .modal-body').html(data);
                 }
         );
     });
-    $('.check-bed').on('click', function () {
+    $('.student-index').on('click', '.check-bed', function () {
         $.get('<?= Url::toRoute('student-checkbed') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('#checkbed-modal .modal-body').html(data);

@@ -56,6 +56,7 @@ class Suggest extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['type', 'serial', 'uid', 'created_at', 'content'], 'required'],
+            [['reply_content'], 'required', 'on' => 'reply'],
             [['uid', 'created_at', 'end_at', 'reply_at', 'reply_uid', 'evaluate1', 'evaluate', 'stat'], 'integer'],
             [['type', 'title', 'content', 'reply_content', 'note'], 'string', 'max' => 255],
             [['serial', 'name'], 'string', 'max' => 16],
@@ -84,7 +85,8 @@ class Suggest extends \yii\db\ActiveRecord {
             'reply_at' => '回复时间',
             'reply_uid' => '回复人',
             'reply_content' => '回复内容',
-            'evaluate' => '评价',
+            'evaluate1' => '评价',
+            'evaluate' => '评价人',
             'note' => '备注',
             'end_at' => '结束时间',
             'stat' => '状态',
@@ -96,6 +98,13 @@ class Suggest extends \yii\db\ActiveRecord {
      */
     public function getU() {
         return $this->hasOne(User::className(), ['id' => 'uid']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getR() {
+        return $this->hasOne(User::className(), ['id' => 'reply_uid']);
     }
 
     /**

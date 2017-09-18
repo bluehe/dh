@@ -37,17 +37,29 @@ class PickupSearch extends Pickup {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params, $pageSize = '') {
         $query = Pickup::find();
 
         // add conditions that should always apply here
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => ['defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]],
-        ]);
+        if ($pageSize > 0) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pageSize' => $pageSize,
+                ],
+                'sort' => ['defaultOrder' => [
+                        'id' => SORT_DESC,
+                    ]],
+            ]);
+        } else {
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'sort' => ['defaultOrder' => [
+                        'id' => SORT_DESC,
+                    ]],
+            ]);
+        }
 
         $this->load($params);
 
@@ -61,7 +73,6 @@ class PickupSearch extends Pickup {
         $query->andFilterWhere([
             'id' => $this->id,
             'uid' => $this->uid,
-            'end_at' => $this->end_at,
             'type' => $this->type,
             'stat' => $this->stat,
         ]);

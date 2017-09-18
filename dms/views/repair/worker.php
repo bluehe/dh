@@ -123,7 +123,7 @@ Modal::end();
 ?>
 <script>
 <?php $this->beginBlock('bind') ?>
-    $('.user-bind').on('click', function () {
+    $('.repair-worker-index').on('click', '.user-bind', function () {
         $.get('<?= Url::toRoute('bind') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);

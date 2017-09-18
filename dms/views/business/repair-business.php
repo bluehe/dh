@@ -118,7 +118,7 @@ Modal::end();
 ?>
 <script>
 <?php $this->beginBlock('view') ?>
-    $('.view').on('click', function () {
+    $('.repair-order-index').on('click', '.view', function () {
         $('.modal-title').html('报修详情');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-view') ?>', {id: $(this).closest('tr').data('key')},
@@ -127,7 +127,7 @@ Modal::end();
                 }
         );
     });
-    $('.evaluate').on('click', function () {
+    $('.repair-order-index').on('click', '.evaluate', function () {
         $('.modal-title').html('报修评价');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-evaluate') ?>', {id: $(this).closest('tr').data('key')},

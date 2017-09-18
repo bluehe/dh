@@ -39,8 +39,6 @@ return [
             'dms/web/assets',
             'dh/runtime',
             'dh/web/assets',
-            'weixin/runtime',
-            'weixin/web/assets',
         ],
         'setExecutable' => [
             'yii',
@@ -50,7 +48,6 @@ return [
             'backend/config/main-local.php',
             'dms/config/main-local.php',
             'dh/config/main-local.php',
-            'weixin/config/main-local.php',
         ],
     ],
     'Production' => [
@@ -62,8 +59,6 @@ return [
             'dms/web/assets',
             'dh/runtime',
             'dh/web/assets',
-            'weixin/runtime',
-            'weixin/web/assets',
         ],
         'setExecutable' => [
             'yii',
@@ -72,7 +67,6 @@ return [
             'backend/config/main-local.php',
             'dms/config/main-local.php',
             'dh/config/main-local.php',
-            'weixin/config/main-local.php',
         ],
     ],
 ];

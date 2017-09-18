@@ -18,6 +18,8 @@ use dms\models\CheckOrder;
 use dms\models\Pickup;
 use dms\models\PickupSearch;
 use dms\models\RepairWorker;
+use dms\models\Suggest;
+use dms\models\SuggestSearch;
 
 class WorkController extends Controller {
 
@@ -516,6 +518,132 @@ class WorkController extends Controller {
                 'created_at' => '发布时间',
                 'end_at' => '结束时间',
                 'end_uid' => '结束人',
+                'stat' => '状态',
+            ],
+        ]);
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSuggestWork() {
+
+        $searchModel = new SuggestSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('suggest-work', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionSuggestView($id) {
+        $model = Suggest::findOne(['id' => $id]);
+        if ($model !== null) {
+            return $this->renderAjax('/business/suggest-view', [
+                        'model' => $model,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', '没有权限。');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+
+    public function actionSuggestReply($id) {
+
+        $model = Suggest::find()->where(['id' => $id, 'stat' => Suggest::STAT_OPEN])->one();
+        $model->setScenario('reply');
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->reply_uid = Yii::$app->user->identity->id;
+            $model->stat = Suggest::STAT_REPLY;
+            $model->reply_at = time();
+
+            if ($model->save()) {
+                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'suggest_reply', $model);
+                Yii::$app->session->setFlash('success', '操作成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '操作失败。');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            if ($model !== null) {
+                return $this->renderAjax('suggest-reply', [
+                            'model' => $model,
+                ]);
+            } else {
+                Yii::$app->session->setFlash('error', '没有权限。');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+    }
+
+    public function actionSuggestExport() {
+        $searchModel = new SuggestSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 1000);
+
+        Excel::export([
+            'models' => $dataProvider->getModels(),
+            'fileName' => '投诉建议记录(' . date('Y-m-d', time()) . ')',
+            'format' => 'Excel5',
+            'style' => ['font_name' => '宋体', 'font_size' => 12, 'alignment_horizontal' => 'center', 'alignment_vertical' => 'center', 'row_height' => 20],
+            'headerTitle' => ['title' => '投诉建议记录(' . date('Y-m-d', time()) . ')', 'style' => ['font_bold' => true, 'font_size' => 16, 'row_height' => 30]],
+            'firstTitle' => ['font_bold' => true, 'row_height' => 20, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
+            'columns' => [
+                ['attribute' => 'serial', 'style' => ['column_width' => 13, 'row_height' => 20, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
+                ['attribute' => 'created_at', 'format' => ["date", "php:Y-m-d H:i:s"], 'style' => ['column_width' => 21, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
+                [
+                    'attribute' => 'type',
+                    'value' =>
+                    function($model) {
+                        return $model->Type;   //主要通过此种方式实现
+                    },
+                    'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
+                ],
+                ['attribute' => 'content', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                ['attribute' => 'name', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                ['attribute' => 'tel', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]], 'column_width' => 13],],
+                ['attribute' => 'reply_content', 'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],],
+                [
+                    'attribute' => 'evaluate1',
+                    'value' =>
+                    function($model) {
+                        return $model->evaluate1 ? $model->evaluate1 : NULL;
+                    },
+                    'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
+                ],
+                [
+                    'attribute' => 'end_at',
+                    'value' =>
+                    function($model) {
+                        return $model->end_at ? date('Y-m-d H:i:s', $model->end_at) : NULL;   //主要通过此种方式实现
+                    },
+                    'style' => ['column_width' => 21, 'from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]]],
+                [
+                    'attribute' => 'stat',
+                    'value' =>
+                    function($model) {
+                        return $model->Stat;   //主要通过此种方式实现
+                    },
+                    'style' => ['from_array' => ['borders' => ['outline' => ['style' => 'thin', 'color' => ['argb' => 'FF000000']]]]],
+                ],
+            ],
+            'headers' => [
+                'id' => 'ID',
+                'type' => '类型',
+                'serial' => '编号',
+                'uid' => '上报人',
+                'name' => '姓名',
+                'tel' => '电话',
+                'title' => '标题',
+                'content' => '内容',
+                'created_at' => '创建时间',
+                'reply_at' => '回复时间',
+                'reply_uid' => '回复人',
+                'reply_content' => '回复内容',
+                'evaluate1' => '评价',
+                'evaluate' => '评价人',
+                'note' => '备注',
+                'end_at' => '结束时间',
                 'stat' => '状态',
             ],
         ]);

@@ -100,7 +100,7 @@ Modal::end();
 ?>
 <script>
 <?php $this->beginBlock('view') ?>
-    $('.view').on('click', function () {
+    $('.suggest-index').on('click', '.view', function () {
         $('.modal-title').html('投诉建议');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('suggest-view') ?>', {id: $(this).closest('tr').data('key')},
@@ -109,7 +109,7 @@ Modal::end();
                 }
         );
     });
-    $('.evaluate').on('click', function () {
+    $('.suggest-index').on('click', '.evaluate', function () {
         $('.modal-title').html('评价');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('suggest-evaluate') ?>', {id: $(this).closest('tr').data('key')},

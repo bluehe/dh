@@ -98,7 +98,7 @@ Modal::end();
 ?>
 <script>
 <?php $this->beginBlock('view') ?>
-    $('.view').on('click', function () {
+    $('.pickup-index').on('click', '.view', function () {
         $('.modal-title').html('拾物招领');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('pickup-view') ?>', {id: $(this).closest('tr').data('key')},

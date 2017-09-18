@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-//use yii\widgets\Pjax;
+use yii\widgets\Pjax;
 use dms\models\RepairOrder;
 use yii\bootstrap\Modal;
 use dms\models\System;
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::a('全部导出', ['repair-export?' . Yii::$app->request->queryString], ['class' => 'btn btn-success']) ?>
             </p>
 
-
+            <?php Pjax::begin(); ?>
             <?=
             GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -162,6 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]);
             ?>
+            <?php Pjax::end(); ?>
         </div>
     </div>
 </div>
@@ -197,7 +198,7 @@ Modal::end();
             });
         }
     });
-    $('.view').on('click', function () {
+    $('.repair-order-index').on('click', '.view', function () {
         $('.modal-title').html('报修详情');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-view') ?>', {id: $(this).closest('tr').data('key')},
@@ -206,7 +207,7 @@ Modal::end();
                 }
         );
     });
-    $('.update').on('click', function () {
+    $('.repair-order-index').on('click', '.update', function () {
         $('.modal-title').html('报修修改');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-update') ?>', {id: $(this).closest('tr').data('key')},
@@ -215,7 +216,7 @@ Modal::end();
                 }
         );
     });
-    $('.accept').on('click', function () {
+    $('.repair-order-index').on('click', '.accept', function () {
         $('.modal-title').html('报修受理');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-accept') ?>', {id: $(this).closest('tr').data('key')},
@@ -224,7 +225,7 @@ Modal::end();
                 }
         );
     });
-    $('.dispatch').on('click', function () {
+    $('.repair-order-index').on('click', '.dispatch', function () {
         $('.modal-title').html('报修派工');
         $('.modal-body').html('');
         $.get('<?= Url::toRoute('repair-dispatch') ?>', {id: $(this).closest('tr').data('key')},

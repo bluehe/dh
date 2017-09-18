@@ -375,4 +375,33 @@ class BusinessController extends Controller {
         }
     }
 
+    public function actionSuggestEvaluate($id) {
+        $model = Suggest::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => Suggest::STAT_REPLY]);
+        $model->evaluate1 = Suggest::EVALUATE_VSAT;
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->stat = Suggest::STAT_EVALUATE;
+            $model->evaluate = Suggest::EVALUATE_USER;
+            $model->end_at = time();
+
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '操作成功。');
+                Yii::$app->commonHelper->sendWechatTemplate($model->reply_uid, 'suggest_evaluate', $model);
+            } else {
+                Yii::$app->session->setFlash('error', '操作失败。');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            if ($model !== null) {
+                return $this->renderAjax('suggest-evaluate', [
+                            'model' => $model,
+                ]);
+            } else {
+                Yii::$app->session->setFlash('error', '没有权限。');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+    }
+
 }
