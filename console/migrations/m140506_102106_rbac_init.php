@@ -183,6 +183,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['/statistics/*', '2', null, null, null, '1482820123', '1482820123'],
             ['/statistics/repair', '2', null, null, null, '1482820123', '1482820123'],
             ['/statistics/pickup', '2', null, null, null, '1482820123', '1482820123'],
+            ['/statistics/suggest', '2', null, null, null, '1482820123', '1482820123'],
             ['admin', '1', '超级管理员', null, null, '1482820123', '1482820123'],
             ['manager', '1', '系统管理员', null, null, '1482820123', '1482820123'],
             ['manager_forum', '1', '楼苑管理员', null, null, '1482820123', '1482820123'],
@@ -210,6 +211,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['数据统计', '2', '数据统计', null, null, '1482820123', '1482820123'],
             ['报修统计', '2', '报修统计', null, null, '1482820123', '1482820123'],
             ['拾物统计', '2', '拾物统计', null, null, '1482820123', '1482820123'],
+            ['投诉统计', '2', '投诉统计', null, null, '1482820123', '1482820123'],
         ]);
         $this->batchInsert($authManager->itemChildTable, ['parent', 'child'], [
             ['账号信息', '/account/*'],
@@ -254,6 +256,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration {
             ['数据统计', '/statistics/*'],
             ['报修统计', '/statistics/repair'],
             ['拾物统计', '/statistics/pickup'],
+            ['投诉统计', '/statistics/suggest'],
             ['admin', '系统设置'],
             ['admin', '学院设置'],
             ['admin', '楼苑设置'],

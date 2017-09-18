@@ -156,4 +156,22 @@ class Suggest extends \yii\db\ActiveRecord {
         return isset($evaluate) ? $evaluate : null;
     }
 
+    public static function get_type_total($a = '', $start = '', $end = '') {
+
+        $query = static::find()->andFilterWhere(['stat' => $a])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
+        return $query->groupBy(['type'])->select(['count(*)'])->indexBy('type')->column();
+    }
+
+    public static function get_evaluate_total($a = 'evaluate1', $start = '', $end = '') {
+
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(['not', [$a => NULL]])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
+        return $query->groupBy([$a])->select(['count(*)'])->indexBy($a)->column();
+    }
+
+    public static function get_evaluate_avg($a = 'evaluate1', $start = '', $end = '') {
+
+        $query = static::find()->where(['not', ['stat' => self::STAT_CLOSE]])->andWhere(['not', [$a => NULL]])->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
+        return $query->groupBy(["FROM_UNIXTIME(created_at, '%Y-%m-%d')"])->select(['avg(' . $a . ')'])->indexBy("FROM_UNIXTIME(created_at, '%Y-%m-%d')")->column();
+    }
+
 }

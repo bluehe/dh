@@ -69,6 +69,7 @@ class m140602_111327_create_menu_table extends \yii\db\Migration {
             [80, '数据统计', NULL, '/statistics/repair', 8, '{"icon":"fa  fa-bar-chart"}'],
             [81, '报修统计', 80, '/statistics/repair', 1, '{"icon":"fa fa-wrench"}'],
             [82, '拾物统计', 80, '/statistics/pickup', 2, '{"icon":"fa fa-suitcase"}'],
+            [83, '投诉统计', 80, '/statistics/suggest', 3, '{"icon":"fa fa-commenting-o"}'],
         ]);
     }
 
