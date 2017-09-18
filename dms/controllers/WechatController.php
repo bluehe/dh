@@ -108,7 +108,12 @@ class WechatController extends Controller {
 //                'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business'
 //            ]
         ]);
-        return $res ? var_dump($wechat->getMenu()) : 'false';
+        return $res ? '成功' : '失败';
+    }
+
+    public function actionGetMenu() {
+        $wechat = Yii::$app->wechat;
+        return var_dump($wechat->getMenu());
     }
 
     //网页跳转
@@ -168,7 +173,7 @@ class WechatController extends Controller {
                     } elseif ($this->postObj->EventKey == 'ABOUT_NEWS') {
                         $this->msg_text('南农新闻');
                     } elseif ($this->postObj->EventKey == 'CONTACT_US') {
-                        $this->msg_text('联系我们');
+                        $this->msg_text('服务电话');
                     } elseif ($this->postObj->EventKey == 'CONTACT_HELP') {
                         $this->msg_text('帮助');
                     } else {
