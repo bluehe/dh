@@ -177,7 +177,7 @@ class WechatController extends Controller {
                     } elseif ($this->postObj->EventKey == 'CONTACT_HELP') {
                         $this->msg_text('帮助');
                     } else {
-                        echo "";
+                        echo "无内容";
                     }
                 }
             } else {
