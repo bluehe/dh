@@ -35,8 +35,8 @@ return [
             'enableSchemaCache' => true,
             'schemaCacheDuration' => 24 * 3600,
             'charset' => 'utf8',
-            'tablePrefix' => 'dms_',
-            'dsn' => 'mysql:host=106.14.172.65;dbname=dms',
+            'tablePrefix' => 'nn_',
+            'dsn' => 'mysql:host=106.14.172.65;dbname=nn',
             'username' => 'easyscm',
             'password' => 'easyscm1123',
         ],
@@ -70,10 +70,10 @@ return [
 //        ],
         'wechat' => [
             'class' => 'callmez\wechat\sdk\MpWechat',
-            'appId' => 'wx0b6eaf137bc335ab', //wx5f06fff8635a37d4', //'wx0b6eaf137bc335ab',
-            'appSecret' => 'bcfb81791e09dbaf6df2e6b8115ca47f', //911a61b191219f8b024219f3ec675f39', //'671fbde452f7e879816f217204b7f684',
+            'appId' => 'wx0b6eaf137bc335ab',
+            'appSecret' => 'bcfb81791e09dbaf6df2e6b8115ca47f',
             'token' => 'weixin',
-            'encodingAesKey' => 'V94BFqdehHbBkVJH6yJeTekqy0rYEEF8GGgf8qvFz5i', //'19Rqpyp6n5vrmgFzAVjv5xpPOtGALsNxI26MGtlQu6C'
+            'encodingAesKey' => 'V94BFqdehHbBkVJH6yJeTekqy0rYEEF8GGgf8qvFz5i',
         ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
