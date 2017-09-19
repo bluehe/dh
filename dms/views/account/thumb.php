@@ -58,9 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'uploadAsync' => true,
                                 'uploadUrl' => Url::toRoute(['account/upload-thumb']),
                                 'uploadExtraData' => ['dir' => 'tmp'],
-                                'maxFileSize' => $maxsize
+                                'maxFileSize' => $maxsize,
                             ],
-                            'options' => ['accept' => 'image/gif,image/jpeg,image/jpg,image/png'],
+                            'options' => ['accept' => 'image/*'],
                             'pluginEvents' => [
                                 //选择后直接上传
                                 'change' => 'function() {$(this).fileinput("upload");}',

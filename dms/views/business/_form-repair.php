@@ -1,9 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use dms\models\Room;
 use dms\models\RepairWorker;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\RepairOrder */
@@ -37,21 +39,64 @@ use dms\models\RepairWorker;
 
                 <?= $form->field($model, 'tel')->textInput(['maxlength' => true]) ?>
 
+                <?=
+                $form->field($model, 'images[]')->widget(FileInput::classname(), [
+                    'name' => 'files[]',
+                    'options' => ['multiple' => true, 'accept' => 'image/*'],
+                    'pluginOptions' => [
+                        'language' => 'zh',
+                        //上传
+                        //'uploadAsync' => true,
+                        'uploadUrl' => Url::toRoute(['business/upload-image']),
+                        'uploadExtraData' => ['dir' => 'repair'],
+                        'maxFileSize' => $maxsize,
+                        'maxFileCount' => 3,
+                        //关闭按钮
+                        'showCaption' => false,
+                        'showRemove' => false,
+                        'showUpload' => false,
+                        'showCancel' => false,
+                        //浏览按钮样式
+                        'browseClass' => 'btn btn-primary',
+                        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                        'browseLabel' => '上传图片',
+                        'buttonLabelClass' => '',
+                        'fileActionSettings' => [
+                            // 设置具体图片的查看属性为false,默认为true
+                            'showZoom' => false,
+                            // 设置具体图片的上传属性为true,默认为true
+                            'showUpload' => true,
+                            // 设置具体图片的移除属性为true,默认为true
+                            'showRemove' => true,
+                        ],
+                    ],
+                    'pluginEvents' => [
+                    //选择后直接上传
+                    // 'change' => 'function() {$(this).fileinput("upload");}',
+                    //完成后隐藏进度条
+                    // 'filebatchuploadcomplete' => 'function() {$(".kv-upload-progress").addClass("hide");}',
+                    //上传成功
+                    //'fileuploaded' => 'function(event, data) {$("#avatar-crop .modal-body").html("");$.post("/account/thumb",{url:data.response.urls[0]},function(data){$("#avatar-modal").html(data);});}',
+                    ],
+                ])
+                ?>
 
             </div>
-            <div class="box-footer">
-                <div class="col-md-1 col-lg-offset-2 col-xs-6 text-right">
-
-                    <?= Html::submitButton($model->isNewRecord ? '创建' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-
-                </div>
-                <div class="col-md-1 col-xs-6 text-left">
-                    <?= Html::resetButton('重置', ['class' => 'btn btn-default']) ?>
-                </div>
-
-            </div>
-            <?php ActiveForm::end(); ?>
 
         </div>
+        <div class="box-footer">
+            <div class="col-md-1 col-lg-offset-2 col-xs-6 text-right">
+
+                <?= Html::submitButton($model->isNewRecord ? '创建' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+
+            </div>
+            <div class="col-md-1 col-xs-6 text-left">
+                <?= Html::resetButton('重置', ['class' => 'btn btn-default']) ?>
+            </div>
+
+        </div>
+        <?php ActiveForm::end(); ?>
+
     </div>
+</div>
 </div>

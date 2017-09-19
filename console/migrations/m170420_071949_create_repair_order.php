@@ -32,6 +32,7 @@ class m170420_071949_create_repair_order extends Migration {
             'address' => $this->string()->notNull(),
             'title' => $this->string()->notNull(),
             'content' => $this->string(),
+            'images' => $this->string(),
             'evaluate1' => $this->integer(),
             'evaluate2' => $this->integer(),
             'evaluate3' => $this->integer(),

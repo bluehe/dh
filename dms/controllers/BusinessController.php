@@ -4,6 +4,7 @@ namespace dms\controllers;
 
 use Yii;
 use yii\helpers\Url;
+use yii\imagine\Image;
 use dms\models\RepairOrder;
 use dms\models\System;
 use yii\data\ActiveDataProvider;
@@ -124,9 +125,116 @@ class BusinessController extends Controller {
                 Yii::$app->session->setFlash('error', '报修失败。');
             }
         }
+        $postMaxSize = ini_get('post_max_size');
+        $fileMaxSize = ini_get('upload_max_filesize');
+        $displayMaxSize = $postMaxSize < $fileMaxSize ? $postMaxSize : $fileMaxSize;
+        switch (substr($displayMaxSize, -1)) {
+            case 'G':
+                $displayMaxSize = $displayMaxSize * 1024 * 1024;
+            case 'M':
+                $displayMaxSize = $displayMaxSize * 1024;
+            case 'K':
+                $displayMaxSize = $displayMaxSize;
+        }
         return $this->render('repair-create', [
                     'model' => $model,
+                    'maxsize' => $displayMaxSize,
         ]);
+    }
+
+    /*
+     * ajax方式文件上传
+     * 输入$_FILES['files']和dir
+     * @return json_encode(['error'=>'']）
+     */
+
+    public function actionUploadImage() {
+
+        //判断是否Ajax
+        if (Yii::$app->request->isAjax) {
+
+            if (empty($_FILES['RepairOrder']['name']['images'])) {
+                $postMaxSize = ini_get('post_max_size');
+                $fileMaxSize = ini_get('upload_max_filesize');
+                $displayMaxSize = $postMaxSize < $fileMaxSize ? $postMaxSize : $fileMaxSize;
+
+                return json_encode(['error' => '没有文件上传,文件最大为' . $displayMaxSize], JSON_UNESCAPED_UNICODE);
+                // or you can throw an exception
+            }
+
+            //获得文件夹
+            $dir = Yii::$app->request->post('dir') ? Yii::$app->request->post('dir') : 'tmp';
+
+            //目标文件夹，不存在则创建
+            $targetFolder = '/data/' . $dir;
+            $targetPath = Yii::getAlias('@webroot') . $targetFolder;
+            $targetUrl = Yii::getAlias('@web') . $targetFolder;
+
+            if (!file_exists($targetPath)) {
+                @mkdir($targetPath, 0777, true);
+            }
+
+            $files = $_FILES['RepairOrder']['name']['images'];
+            // a flag to see if everything is ok
+            $success = null;
+
+            // file paths to store
+            $paths = [];
+            //访问路径
+            $urls = [];
+            //文件名
+            $file_names = [];
+
+            // get file names
+            $filenames = $files;
+
+            // loop and process files
+            for ($i = 0; $i < count($filenames); $i++) {
+                $ext = explode('.', basename($filenames[$i]));
+                $f_name = md5(uniqid()) . "." . strtolower(array_pop($ext));
+                $filename = $targetPath . DIRECTORY_SEPARATOR . $f_name;
+                $url = $targetUrl . '/' . $f_name;
+
+                //文件存在则删除
+                if (file_exists($filename)) {
+                    @unlink($filename);
+                }
+                if (@move_uploaded_file($_FILES['RepairOrder']['tmp_name']['images'][$i], $filename)) {
+                    Image::resize($filename, 200, 200, true, true)->save($filename);
+                    $success = true;
+                    $paths[] = $filename;
+                    $urls[] = $url;
+                    $file_names[] = $f_name;
+                } else {
+                    $success = false;
+                    break;
+                }
+            }
+            if ($success === true) {
+                $output = ['urls' => $urls, 'paths' => $paths, 'file_names' => $file_names];
+            } elseif ($success === false) {
+                $output = ['error' => '文件上传出错！'];
+                // delete any uploaded files
+                foreach ($paths as $file) {
+                    @unlink($file);
+                }
+            }
+            return json_encode($output, JSON_UNESCAPED_UNICODE);
+        } else {
+            return json_encode(['error' => '上传错误！'], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    public function actionDeleteImage() {
+        $dir = Yii::$app->request->post('dir') ? Yii::$app->request->post('dir') : 'tmp';
+        $targetFolder = '/data/' . $dir;
+        $targetPath = Yii::getAlias('@webroot') . $targetFolder;
+        // 前面我们已经为成功上传的banner图指定了key
+        if ($name = Yii::$app->request->post('key')) {
+
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return ['success' => true];
     }
 
     /**
