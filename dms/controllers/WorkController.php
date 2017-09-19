@@ -3,6 +3,7 @@
 namespace dms\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use bluehe\phpexcel\Excel;
@@ -236,13 +237,18 @@ class WorkController extends Controller {
 //微信模板消息
                 if ($model->stat == RepairOrder::STAT_DISPATCH) {
                     if (System::existValue('repaire_wechat_send', '3')) {
-                        Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_dispatch', $model);
-                        Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_dispatch_worker', $model);
+                        $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/repair-business'], true)], true);
+                        $param['first'] = '您好，您的报修单已经派单';
+                        Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_user', $param, $model);
+                        $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['work/repair-work', 'RepairOrderSearch[stat]' => RepairOrder::STAT_DISPATCH], true)], true);
+                        $param['first'] = '您好，您有新的维修任务';
+                        Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_user', $param, $model);
                     }
                 } elseif ($model->stat == RepairOrder::STAT_ACCEPT || $model->stat == RepairOrder::STAT_NO_ACCEPT) {
                     if (System::existValue('repaire_wechat_send', '2')) {
-
-                        Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_accept', $model);
+                        $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/repair-business'], true)], true);
+                        $param['first'] = '您好，您的报修单有新的状态';
+                        Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_user', $param, $model);
                     }
                 }
             } else {
@@ -310,13 +316,18 @@ class WorkController extends Controller {
                     } else {
                         if ($model->stat == RepairOrder::STAT_DISPATCH) {
                             if (System::existValue('repaire_wechat_send', '3')) {
-                                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_dispatch', $model);
-                                Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_dispatch_worker', $model);
+                                $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/repair-business'], true)], true);
+                                $param['first'] = '您好，您的报修单已经派单';
+                                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_user', $param, $model);
+                                $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['work/repair-work', 'RepairOrderSearch[stat]' => RepairOrder::STAT_DISPATCH], true)], true);
+                                $param['first'] = '您好，您有新的维修任务';
+                                Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_user', $param, $model);
                             }
                         } elseif ($model->stat == RepairOrder::STAT_ACCEPT) {
                             if (System::existValue('repaire_wechat_send', '2')) {
-
-                                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_accept', $model);
+                                $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/repair-business'], true)], true);
+                                $param['first'] = '您好，您的报修单有新的状态';
+                                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_user', $param, $model);
                             }
                         }
                     }
@@ -345,8 +356,12 @@ class WorkController extends Controller {
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '操作成功。');
                 if (System::existValue('repaire_wechat_send', '3')) {
-                    Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_dispatch', $model);
-                    Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_dispatch_worker', $model);
+                    $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/repair-business'], true)], true);
+                    $param['first'] = '您好，您的报修单已经派单';
+                    Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_user', $param, $model);
+                    $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['work/repair-work', 'RepairOrderSearch[stat]' => RepairOrder::STAT_DISPATCH], true)], true);
+                    $param['first'] = '您好，您有新的维修任务';
+                    Yii::$app->commonHelper->sendWechatTemplate(RepairWorker::getUid($model->worker_id), 'repaire_user', $param, $model);
                 }
             } else {
                 Yii::$app->session->setFlash('error', '操作失败。');
@@ -381,7 +396,9 @@ class WorkController extends Controller {
             $model->repair_uid = Yii::$app->user->identity->id;
             if ($model->save()) {
                 if (System::existValue('repaire_wechat_send', '4')) {
-                    Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_repair', $model);
+                    $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/repair-business'], true)], true);
+                    $param['first'] = '您好，您的报修单已经完工，请评价';
+                    Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_user', $param, $model);
                 }
             }
         }
@@ -408,7 +425,9 @@ class WorkController extends Controller {
                         throw new \Exception("操作失败");
                     } else {
                         if (System::existValue('repaire_wechat_send', '4')) {
-                            Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_repair', $model);
+                           $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/repair-business'], true)], true);
+                            $param['first'] = '您好，您的报修单已经完工，请评价';
+                            Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'repaire_user', $param, $model);
                         }
                     }
                 }
@@ -559,8 +578,10 @@ class WorkController extends Controller {
             $model->reply_at = time();
 
             if ($model->save()) {
-                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'suggest_reply', $model);
                 Yii::$app->session->setFlash('success', '操作成功。');
+                $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/suggest-business'], true)], true);
+                $param['first'] = '您好，您的报修单已经完工，请评价';
+                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'suggest_user', $param, $model);
             } else {
                 Yii::$app->session->setFlash('error', '操作失败。');
             }

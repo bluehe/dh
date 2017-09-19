@@ -3,6 +3,7 @@
 namespace dms\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use dms\models\RepairOrder;
 use dms\models\System;
 use yii\data\ActiveDataProvider;
@@ -114,7 +115,9 @@ class BusinessController extends Controller {
                         $query->joinWith('workerTypes')->andWhere(['type' => $model->repair_type]);
                     }
                     $user = $query->select(['uid'])->distinct()->column();
-                    Yii::$app->commonHelper->sendWechatTemplate($user, 'repaire_create', $model);
+                    $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['work/repair-work', 'RepairOrderSearch[stat]' => RepairOrder::STAT_OPEN], true)], true);
+                    $param['first'] = '您好，您有新的报修单';
+                    Yii::$app->commonHelper->sendWechatTemplate($user, 'repaire_user', $param, $model);
                 }
                 return $this->redirect(['repair-business']);
             } else {
@@ -177,7 +180,9 @@ class BusinessController extends Controller {
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '操作成功。');
-                Yii::$app->commonHelper->sendWechatTemplate(array($model->accept_uid, RepairWorker::getUid($model->worker_id)), 'repaire_evaluate', $model);
+                $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['work/repair-work', 'RepairOrderSearch[stat]' => RepairOrder::STAT_EVALUATE], true)], true);
+                $param['first'] = '您好，您收到新的评价';
+                Yii::$app->commonHelper->sendWechatTemplate(array($model->accept_uid, RepairWorker::getUid($model->worker_id)), 'repaire_user', $param, $model);
             } else {
                 Yii::$app->session->setFlash('error', '操作失败。');
             }
@@ -387,7 +392,9 @@ class BusinessController extends Controller {
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '操作成功。');
-                Yii::$app->commonHelper->sendWechatTemplate($model->reply_uid, 'suggest_evaluate', $model);
+                $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['work/suggest-work', 'RepairOrderSearch[stat]' => Suggest::STAT_EVALUATE], true)], true);
+                $param['first'] = '您好，您收到新的评价';
+                Yii::$app->commonHelper->sendWechatTemplate($model->reply_uid, 'suggest_user', $param, $model);
             } else {
                 Yii::$app->session->setFlash('error', '操作失败。');
             }

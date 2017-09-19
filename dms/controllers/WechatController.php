@@ -3,6 +3,7 @@
 namespace dms\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use common\models\UserAuth;
 
@@ -122,7 +123,7 @@ class WechatController extends Controller {
             return $this->redirect($url);
         } else {
             $wechat = Yii::$app->wechat;
-            $this->redirect($wechat->getOauth2AuthorizeUrl('http://ny.gxgygl.com/wechat/auth?url=' . $url));
+            $this->redirect($wechat->getOauth2AuthorizeUrl(Url::toRoute(['wechat/auth', 'url' => $url], true)));
         }
     }
 
@@ -140,7 +141,7 @@ class WechatController extends Controller {
             //不存在，注册
             Yii::$app->session->set('auth_type', 'weixin');
             Yii::$app->session->set('auth_openid', $access_token['openid']);
-            return $this->redirect('/site/complete');
+            return $this->redirect(Url::toRoute(['/site/complete']));
         }
     }
 
