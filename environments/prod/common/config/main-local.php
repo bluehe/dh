@@ -8,7 +8,7 @@ return [
             'schemaCacheDuration' => 24 * 3600,
             'charset' => 'utf8',
             'tablePrefix' => 'nn_',
-            'dsn' => 'mysql:host=localhost;dbname=nn',
+            'dsn' => 'mysql:host=106.14.172.65;dbname=nn',
             'username' => 'easyscm',
             'password' => 'easyscm1123',
         ],
