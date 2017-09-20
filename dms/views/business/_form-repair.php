@@ -46,24 +46,32 @@ use kartik\file\FileInput;
                     'pluginOptions' => [
                         'language' => 'zh',
                         //上传
-                        //'uploadAsync' => true,
+                        'uploadAsync' => true,
                         'uploadUrl' => Url::toRoute(['business/upload-image']),
                         'uploadExtraData' => ['dir' => 'repair'],
                         'maxFileSize' => $maxsize,
-                        'maxFileCount' => 3,
+                        'maxFileCount' => 5,
+                        'autoReplace' => true,
                         //关闭按钮
                         'showCaption' => false,
                         'showRemove' => false,
                         'showUpload' => false,
                         'showCancel' => false,
+                        //图像大小
+                        'resizeImage' => true,
+                        'maxImageWidth' => 200,
+                        'maxImageHeight' => 150,
+                        'resizePreference' => 'height',
                         //浏览按钮样式
                         'browseClass' => 'btn btn-primary',
                         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
                         'browseLabel' => '上传图片',
                         'buttonLabelClass' => '',
+                        'browseOnZoneClick' => true,
+                        'layoutTemplates' => 'main2',
                         'fileActionSettings' => [
                             // 设置具体图片的查看属性为false,默认为true
-                            'showZoom' => false,
+                            'showZoom' => true,
                             // 设置具体图片的上传属性为true,默认为true
                             'showUpload' => true,
                             // 设置具体图片的移除属性为true,默认为true
@@ -71,29 +79,30 @@ use kartik\file\FileInput;
                         ],
                     ],
                     'pluginEvents' => [
-                    //选择后直接上传
-                    // 'change' => 'function() {$(this).fileinput("upload");}',
-                    //完成后隐藏进度条
-                    // 'filebatchuploadcomplete' => 'function() {$(".kv-upload-progress").addClass("hide");}',
-                    //上传成功
-                    //'fileuploaded' => 'function(event, data) {$("#avatar-crop .modal-body").html("");$.post("/account/thumb",{url:data.response.urls[0]},function(data){$("#avatar-modal").html(data);});}',
+                        //选择后直接上传
+                        'filebatchselected' => 'function() {$(this).fileinput("upload");}',
+                        //完成后隐藏进度条
+                        'filebatchuploadcomplete' => 'function() {$(".kv-upload-progress").addClass("hide");}',
+                        //上传成功
+                        'fileuploaded' => 'function(event, data) {console.log(data);}',
                     ],
                 ])
                 ?>
 
             </div>
 
-        </div>
-        <div class="box-footer">
-            <div class="col-md-1 col-lg-offset-2 col-xs-6 text-right">
 
-                <?= Html::submitButton($model->isNewRecord ? '创建' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <div class="box-footer">
+                <div class="col-md-1 col-lg-offset-2 col-xs-6 text-right">
+
+                    <?= Html::submitButton($model->isNewRecord ? '创建' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+
+                </div>
+                <div class="col-md-1 col-xs-6 text-left">
+                    <?= Html::resetButton('重置', ['class' => 'btn btn-default']) ?>
+                </div>
 
             </div>
-            <div class="col-md-1 col-xs-6 text-left">
-                <?= Html::resetButton('重置', ['class' => 'btn btn-default']) ?>
-            </div>
-
         </div>
         <?php ActiveForm::end(); ?>
 

@@ -94,6 +94,7 @@ class BusinessController extends Controller {
             $model->uid = Yii::$app->user->identity->id;
             $model->created_at = time();
             $model->stat = RepairOrder::STAT_OPEN;
+            return json_encode($_REQUEST);
             //后期扩展
 //            if (System::getValue('business_action') === '1') {
 //                $model->stat = RepairOrder::STAT_OPEN;
