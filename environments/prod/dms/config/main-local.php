@@ -6,8 +6,8 @@ return [
             'enableSchemaCache' => true,
             'schemaCacheDuration' => 24 * 3600,
             'charset' => 'utf8',
-            'tablePrefix' => 'nn_',
-            'dsn' => 'mysql:host=106.14.172.65;dbname=nn',
+            'tablePrefix' => 'dms_',
+            'dsn' => 'mysql:host=106.14.172.65;dbname=dms',
             'username' => 'easyscm',
             'password' => 'easyscm1123',
         ],
@@ -18,14 +18,14 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.exmail.qq.com',
-                'username' => 'nn@gxgygl.com',
+                'username' => 'ny@gxgygl.com',
                 'password' => 'YotZ3SPaEtY3De2Q',
                 'port' => '465',
                 'encryption' => 'ssl',
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['nn@gxgygl.com' => '管理系统']
+                'from' => ['ny@gxgygl.com' => '管理系统']
             ],
         ],
         //        'redis' => [
