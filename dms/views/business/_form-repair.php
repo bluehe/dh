@@ -41,7 +41,6 @@ use kartik\file\FileInput;
 
                 <?=
                 $form->field($model, 'images[]')->widget(FileInput::classname(), [
-                    'name' => 'files[]',
                     'options' => ['multiple' => true, 'accept' => 'image/*'],
                     'pluginOptions' => [
                         'language' => 'zh',
@@ -50,28 +49,27 @@ use kartik\file\FileInput;
                         'uploadUrl' => Url::toRoute(['business/upload-image']),
                         'uploadExtraData' => ['dir' => 'repair'],
                         'maxFileSize' => $maxsize,
-                        'maxFileCount' => 5,
-                        'autoReplace' => true,
                         //关闭按钮
                         'showCaption' => false,
                         'showRemove' => false,
                         'showUpload' => false,
                         'showCancel' => false,
+                        'initialPreviewConfig' => ['width' => '200px'],
                         //图像大小
                         'resizeImage' => true,
-                        'maxImageWidth' => 200,
-                        'maxImageHeight' => 150,
-                        'resizePreference' => 'height',
+                        'maxImageWidth' => 500,
+                        //'maxImageHeight' => 150,
+                        //'resizePreference' => 'height',
                         //浏览按钮样式
+                        'previewFileType' => 'image',
                         'browseClass' => 'btn btn-primary',
                         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
                         'browseLabel' => '上传图片',
                         'buttonLabelClass' => '',
                         'browseOnZoneClick' => true,
-                        'layoutTemplates' => 'main2',
                         'fileActionSettings' => [
                             // 设置具体图片的查看属性为false,默认为true
-                            'showZoom' => true,
+                            'showZoom' => false,
                             // 设置具体图片的上传属性为true,默认为true
                             'showUpload' => true,
                             // 设置具体图片的移除属性为true,默认为true
@@ -84,7 +82,7 @@ use kartik\file\FileInput;
                         //完成后隐藏进度条
                         'filebatchuploadcomplete' => 'function() {$(".kv-upload-progress").addClass("hide");}',
                         //上传成功
-                        'fileuploaded' => 'function(event, data) {console.log(data);}',
+                        'fileuploaded' => 'function(event, data) {console.log(data.response.urls[0]);}',
                     ],
                 ])
                 ?>

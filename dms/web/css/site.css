@@ -310,3 +310,8 @@ a.desc:after {
     line-height: 24px;
 }
 .baidu span{color:#6f6f6f;font-size:12px}
+
+.file-drop-zone-title {
+    padding: 10px;
+
+}
