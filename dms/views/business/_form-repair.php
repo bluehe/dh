@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use dms\models\Room;
 use dms\models\RepairWorker;
 use kartik\file\FileInput;
+use dms\models\System;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\RepairOrder */
@@ -41,7 +42,6 @@ use kartik\file\FileInput;
 
                 <?php
                 if (System::getValue('repair_image') === '2') {
-
                     echo $form->field($model, 'images[]')->widget(FileInput::classname(), [
                         'options' => ['multiple' => true, 'accept' => 'image/*'],
                         'pluginOptions' => [
