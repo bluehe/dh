@@ -77,6 +77,7 @@ class BusinessController extends Controller {
         if (System::getValue('business_repair') === '1') {
             $model->setScenario('repair');
         }
+
         //默认姓名和电话
         $repair = RepairOrder::find()->where(['uid' => Yii::$app->user->identity->id])->orderBy(['created_at' => SORT_DESC])->one();
         if ($repair !== null) {
@@ -94,7 +95,7 @@ class BusinessController extends Controller {
             $model->uid = Yii::$app->user->identity->id;
             $model->created_at = time();
             $model->stat = RepairOrder::STAT_OPEN;
-            return json_encode($_REQUEST);
+
             //后期扩展
 //            if (System::getValue('business_action') === '1') {
 //                $model->stat = RepairOrder::STAT_OPEN;
