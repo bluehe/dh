@@ -96,7 +96,7 @@ use dms\models\System;
             <div class="box-footer">
                 <div class="col-md-1 col-lg-offset-2 col-xs-6 text-right">
 
-                    <?= Html::submitButton($model->isNewRecord ? '创建' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                    <?= Html::submitButton($model->isNewRecord ? '提交' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 
                 </div>
                 <div class="col-md-1 col-xs-6 text-left">
