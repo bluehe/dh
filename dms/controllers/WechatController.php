@@ -59,7 +59,7 @@ class WechatController extends Controller {
                     [
                         'type' => 'view',
                         'name' => '东吴文化',
-                        'key' => 'http://mp.weixin.qq.com/s/tuNCLdiaB1eMrRkrb4GUeA'
+                        'url' => 'http://mp.weixin.qq.com/s/tuNCLdiaB1eMrRkrb4GUeA'
                     ],
                     [
                         'type' => 'click',
