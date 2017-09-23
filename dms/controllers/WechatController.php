@@ -52,14 +52,14 @@ class WechatController extends Controller {
                 'name' => '关于东吴',
                 'sub_button' => [
                     [
-                        'type' => 'click',
+                        'type' => 'view',
                         'name' => '公司简介',
-                        'key' => 'ABOUT_COMPANY'
+                        'url' => 'http://u.eqxiu.com/s/JAmGUHqa?from=singlemessage&isappinstalled=0&share_level=1&from_user=2565dab7-84e0-4b65-b272-cc5797cc0fe9&from_id=857b5346-a37c-4828-8bde-1e7628b1c8b7&share_time=1506127583421'
                     ],
                     [
-                        'type' => 'click',
+                        'type' => 'view',
                         'name' => '东吴文化',
-                        'key' => 'ABOUT_US'
+                        'key' => 'http://mp.weixin.qq.com/s/tuNCLdiaB1eMrRkrb4GUeA'
                     ],
                     [
                         'type' => 'click',
@@ -167,11 +167,7 @@ class WechatController extends Controller {
                     //扫描事件处理
                     //事件KEY值，是一个32位无符号整数，即创建二维码时的二维码scene_id
                 } elseif (strtolower($this->postObj->Event) == 'click') {
-                    if ($this->postObj->EventKey == 'ABOUT_COMPANY') {
-                        $this->msg_text('公司简介');
-                    } elseif ($this->postObj->EventKey == 'ABOUT_US') {
-                        $this->msg_text('东吴文化');
-                    } elseif ($this->postObj->EventKey == 'ABOUT_NEWS') {
+                    if ($this->postObj->EventKey == 'ABOUT_NEWS') {
                         $this->msg_text('南农新闻');
                     } elseif ($this->postObj->EventKey == 'CONTACT_US') {
                         $this->msg_text('服务电话');
