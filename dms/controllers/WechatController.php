@@ -62,9 +62,9 @@ class WechatController extends Controller {
                         'url' => 'http://mp.weixin.qq.com/s/tuNCLdiaB1eMrRkrb4GUeA'
                     ],
                     [
-                        'type' => 'click',
+                        'type' => 'view',
                         'name' => '南农新闻',
-                        'key' => 'ABOUT_NEWS'
+                        'url' => 'http://news.njau.edu.cn'
                     ]
                 ]
             ],
@@ -170,7 +170,7 @@ class WechatController extends Controller {
                     if ($this->postObj->EventKey == 'ABOUT_NEWS') {
                         $this->msg_text('南农新闻');
                     } elseif ($this->postObj->EventKey == 'CONTACT_US') {
-                        $this->msg_text('服务电话');
+                        $this->msg_text("电话：025-84395271\n 微信：苏州市东吴物业南农项目部\n 地址：南京农业大学物业管理部（南苑学工处旁）\n 官网：http://szdwwy.suda.edu.cn\n QQ群：5276000372\n 邮箱：dwwynn@126.com");
                     } elseif ($this->postObj->EventKey == 'CONTACT_HELP') {
                         $this->msg_text('帮助');
                     } else {
