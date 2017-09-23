@@ -160,7 +160,7 @@ class WechatController extends Controller {
                     if ($this->postObj->EventKey) {
                         //带参数的关注,事件KEY值，qrscene_为前缀，后面为二维码的参数值
                     }
-                    $this->msg_text('您好，欢迎关注高校公寓管理，目前功能持续开发中，报修系统体验请<a href="http://ny.gxgygl.com">点击这里</a>，或者回复【报修】。如果需要系统测试账号，请回复【测试账号】。');
+                    $this->msg_text('您好，欢迎关注东吴物业。');
                 } elseif (strtolower($this->postObj->Event) == 'unsubscribe') {
                     //取消关注事件处理
                 } elseif (strtolower($this->postObj->Event) == 'scan') {
