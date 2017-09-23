@@ -180,15 +180,15 @@ class WechatController extends Controller {
             } else {
                 if (!empty($this->keyword)) {
                     switch ($this->keyword) {
-                        case '测试账号':
-                            $this->msg_text('顶级测试账号：admin/1234 <a href="http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com">点击这里</a> 进入');
-                            break;
-                        case '报修':
-                            $this->msg_picture('报修', 'https://mmbiz.qlogo.cn/mmbiz_png/2iczHvak98e22xmQGYp5ia5olQw7rodDDyGE8RAuaDS6tfCGeBz5JZPqNlhW8ssUoy67goiaC4r2VmDRloKlOmQzA/0?wx_fmt=png', '', 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business');
-                            break;
-                        case '维修':
-                            $this->msg_picture('报修', 'https://mmbiz.qlogo.cn/mmbiz_png/2iczHvak98e22xmQGYp5ia5olQw7rodDDyGE8RAuaDS6tfCGeBz5JZPqNlhW8ssUoy67goiaC4r2VmDRloKlOmQzA/0?wx_fmt=png', '', 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business');
-                            break;
+//                        case '测试账号':
+//                            $this->msg_text('顶级测试账号：admin/1234 <a href="http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com">点击这里</a> 进入');
+//                            break;
+//                        case '报修':
+//                            $this->msg_picture('报修', 'https://mmbiz.qlogo.cn/mmbiz_png/2iczHvak98e22xmQGYp5ia5olQw7rodDDyGE8RAuaDS6tfCGeBz5JZPqNlhW8ssUoy67goiaC4r2VmDRloKlOmQzA/0?wx_fmt=png', '', 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business');
+//                            break;
+//                        case '维修':
+//                            $this->msg_picture('报修', 'https://mmbiz.qlogo.cn/mmbiz_png/2iczHvak98e22xmQGYp5ia5olQw7rodDDyGE8RAuaDS6tfCGeBz5JZPqNlhW8ssUoy67goiaC4r2VmDRloKlOmQzA/0?wx_fmt=png', '', 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business');
+//                            break;
                         default:
                             echo "";
                             break;

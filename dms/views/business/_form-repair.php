@@ -84,7 +84,12 @@ use dms\models\System;
                             //完成后隐藏进度条
                             'filebatchuploadcomplete' => 'function() {$(".kv-upload-progress").addClass("hide");}',
                             //上传成功
-                            'fileuploaded' => 'function(event, data) {console.log(data.response.urls[0]);}',
+                            'fileuploaded' => 'function(event, data) {$(this).prepend(ata.response.urls[0]));}',
+                            'fileclear' => 'function(event) {console.log("fileclear");}',
+                            'filecleared' => 'function(event) {console.log("filecleared");}',
+                            'fileremoved' => 'function(event,id,index){console.log("fileremoved");}',
+                            'filedeleted' => 'function(event, key, jqXHR, data) {console.log("filedeleted");}',
+                            'filesuccessremove' => 'function(event, id) {console.log(id)}',
                         ],
                     ]);
                 }
