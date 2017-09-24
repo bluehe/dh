@@ -21,7 +21,7 @@ return [
         ],
         'gridview' => [
             'class' => 'kartik\grid\Module'
-        ]
+        ],
     ],
     'aliases' => [
         '@mdm/admin' => '@vendor/mdmsoft/yii2-admin',
@@ -35,7 +35,6 @@ return [
             //'class' => 'yii\redis\Cache',
             'keyPrefix' => 'dms',
         ],
-
         'assetManager' => [
             'appendTimestamp' => true,
 //            'linkAssets' => true,
@@ -51,9 +50,6 @@ return [
         ],
         'request' => [
             'csrfParam' => '_csrf-dms',
-//            'parsers' => [// 因为模块中有使用angular.js  所以该设置是为正常解析angular提交post数据
-//                'application/json' => 'yii\web\JsonParser'
-//            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
