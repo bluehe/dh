@@ -74,17 +74,17 @@ class WechatController extends Controller {
                     [
                         'type' => 'view',
                         'name' => '在线报修',
-                        'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/repair-business'
+                        'url' => Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/repair-business'], true)], true)
                     ],
                     [
                         'type' => 'view',
                         'name' => '在线投诉',
-                        'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/suggest-business'
+                        'url' => Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/suggest-business'], true)], true)
                     ],
                     [
                         'type' => 'view',
                         'name' => '失物招领',
-                        'url' => 'http://ny.gxgygl.com/wechat/redirect?url=http://ny.gxgygl.com/business/pickup-business'
+                        'url' => Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/pickup-business'], true)], true)
                     ]
                 ]
             ],
