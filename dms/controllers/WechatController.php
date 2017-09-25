@@ -96,11 +96,11 @@ class WechatController extends Controller {
                         'name' => '服务电话',
                         'key' => 'CONTACT_US'
                     ],
-                    [
-                        'type' => 'click',
-                        'name' => '帮助',
-                        'key' => 'CONTACT_HELP'
-                    ]
+//                    [
+//                        'type' => 'click',
+//                        'name' => '帮助',
+//                        'key' => 'CONTACT_HELP'
+//                    ]
                 ]
             ]
 //            [
