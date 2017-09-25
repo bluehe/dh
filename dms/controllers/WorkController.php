@@ -579,9 +579,9 @@ class WorkController extends Controller {
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '操作成功。');
-                $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/suggest-business'], true)], true);
-                $param['first'] = '您好，您的报修单已经完工，请评价';
-                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'suggest_user', $param, $model);
+//                $param['url'] = Url::toRoute(['wechat/redirect', 'url' => Url::toRoute(['business/suggest-business'], true)], true);
+//                $param['first'] = '您好，您的报修单已经完工，请评价';
+//                Yii::$app->commonHelper->sendWechatTemplate($model->uid, 'suggest_user', $param, $model);
             } else {
                 Yii::$app->session->setFlash('error', '操作失败。');
             }
