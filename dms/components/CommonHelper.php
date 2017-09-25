@@ -34,17 +34,12 @@ class CommonHelper {
             }
         } elseif ($template == 'suggest_user') {
             $data = [
-                'template_id' => 'px-_23ZPiLj9PSKO-Vz2Vn2heXw11djEzZACxxVNjJg',
+                'template_id' => 'foaqeedv7YpJ0Y1E7ft1GNOWxG4YQIk12TV1KXS7uxE',
                 'url' => $param['url'],
                 'data' => [
                     'first' => ['value' => $param['first'],],
-                    'serial' => ['value' => $model->serial,],
-                    'stat' => ['value' => $model->Stat,],
-                    'created_at' => ['value' => date('Y-m-d H:i:s', $model->created_at),],
-                    'user' => ['value' => $model->name,],
-                    'address' => ['value' => ($model->repair_area ? \dms\models\Forum::get_forum_allname($model->repair_area) : '') . '-' . $model->address],
-                    'type' => ['value' => $model->repair_type ? $model->type->v : $model->repair_type],
-                    'content' => ['value' => $model->content,],
+                    'keyword1' => ['value' => date('Y-m-d H:i:s', $model->created_at),],
+                    'keyword2' => ['value' => $model->content,],
                     'remark' => ['value' => '点击查看详情！',],
             ]];
 
