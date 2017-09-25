@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
                 'columns' => [
                     'serial',
-                    'created_at:datetime',
-                    [
+            //                    'created_at:datetime',
+        [
                         'attribute' => 'type',
                         'value' =>
                         function($model) {

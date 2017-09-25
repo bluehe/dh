@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Suggest::$List['type']
                     ],
                     'content',
-                    ['attribute' => 'end_at', 'format' => ["date", "php:Y-m-d H:i:s"], 'filter' => false,],
+                  
                     [
                         'attribute' => 'stat',
                         'value' =>
