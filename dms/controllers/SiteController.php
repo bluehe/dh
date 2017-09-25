@@ -20,6 +20,7 @@ use dms\models\Bed;
 use common\models\User;
 use dms\models\RepairOrder;
 use dms\models\Pickup;
+use dms\models\Suggest;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 
@@ -224,7 +225,13 @@ class SiteController extends Controller {
             'pagination' => ['pageSize' => 5],
         ]);
         $pickup->setSort(false);
-        return $this->render('index', ['total' => $total, 'repairorder' => $repairorder, 'pickup' => $pickup]);
+
+        $suggest = new ActiveDataProvider([
+            'query' => Suggest::find()->where(['not', ['stat' => Suggest::STAT_CLOSE]])->orderBy(['id' => SORT_DESC]),
+            'pagination' => ['pageSize' => 5],
+        ]);
+        $suggest->setSort(false);
+        return $this->render('index', ['total' => $total, 'repairorder' => $repairorder, 'pickup' => $pickup, 'suggest' => $suggest]);
     }
 
     /**
@@ -238,6 +245,20 @@ class SiteController extends Controller {
 
         if ($model !== null) {
             return $this->renderAjax('/site/repair-view', [
+                        'model' => $model,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', '没有权限。');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+
+    public function actionSuggestView($id) {
+        $query = Suggest::find()->where(['id' => $id]);
+        $model = $query->one();
+
+        if ($model !== null) {
+            return $this->renderAjax('/site/suggest-view', [
                         'model' => $model,
             ]);
         } else {

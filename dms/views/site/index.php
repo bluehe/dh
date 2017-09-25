@@ -327,6 +327,74 @@ mb_regex_encoding("UTF-8");
     <!-- /.Left col -->
     <!-- right col (We are only adding the ID to make the widgets sortable)-->
     <section class="col-lg-5 connectedSortable">
+        <div class="box box-primary suggestorder">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+
+
+                <h3 class="box-title"><i class="fa fa-suitcase"></i> 投诉建议</h3>
+
+
+            </div>
+            <!-- /.box-header -->
+
+            <div class="box-body">
+                <?php
+                Pjax::begin();
+                ?>
+                <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+                <?=
+                GridView::widget([
+                    'dataProvider' => $suggest,
+                    'layout' => "<div class=table-responsive>{items}</div>\n{pager}",
+                    'pager' => [
+                        'options' => ['class' => 'pagination pagination-sm inline']
+                    ],
+                    'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+                    'columns' => [
+                        ['attribute' => 'serial',
+                            'value' =>
+                            function($model) {
+                                return Html::a($model->serial, '#', [
+                                            'data-toggle' => 'modal',
+                                            'data-target' => '#view-modal',
+                                            'class' => 'view',
+                                ]);
+                            },
+                            'format' => 'raw',
+                        ],
+                        [
+                            'attribute' => 'type',
+                            'value' =>
+                            function($model) {
+                                return $model->Type;   //主要通过此种方式实现
+                            },
+                        ],
+                        [
+                            'attribute' => 'name',
+                            'value' =>
+                            function($model) {
+
+                                return mb_substr($model->name, 0, 1, 'utf-8') . mb_substr(mb_ereg_replace('\w', '*', $model->name), 1);
+                            },
+                        ],
+                        'content',
+                        [
+                            'attribute' => 'stat',
+                            'value' =>
+                            function($model) {
+                                return $model->Stat;   //主要通过此种方式实现
+                            },
+                        ],
+                    ],
+                ]);
+                ?>
+                <?php Pjax::end(); ?>
+
+            </div>
+            <!-- /.box-body -->
+
+
+        </div>
         <?php Pjax::begin(); ?>
         <div class="nav-tabs-custom" style="cursor: move;">
             <!-- Tabs within a box -->
@@ -389,6 +457,16 @@ Modal::end();
         $('.modal-body').html('');
 
         $.get('<?= Url::toRoute('repair-view') ?>', {id: $(this).closest('tr').data('key')},
+                function (data) {
+                    $('.modal-body').html(data);
+                }
+        );
+    });
+    $('.suggestorder').on('click', '.view', function () {
+        $('.modal-title').html('投诉建议');
+        $('.modal-body').html('');
+
+        $.get('<?= Url::toRoute('suggest-view') ?>', {id: $(this).closest('tr').data('key')},
                 function (data) {
                     $('.modal-body').html(data);
                 }
