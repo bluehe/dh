@@ -331,7 +331,7 @@ mb_regex_encoding("UTF-8");
             <div class="box-header ui-sortable-handle" style="cursor: move;">
 
 
-                <h3 class="box-title"><i class="fa fa-suitcase"></i> 投诉建议</h3>
+                <h3 class="box-title"><i class="fa fa-commenting-o"></i> 投诉建议</h3>
 
 
             </div>
