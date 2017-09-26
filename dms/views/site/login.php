@@ -20,7 +20,7 @@ $fieldOptions2 = [
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
 ];
 ?>
-
+<div id="particles" style="width: 100%;height: 100%;position: absolute;left: 0;top: 0;z-index:-1"></div>
 <div class="login-box">
     <div class="login-logo">
         <?=
@@ -91,3 +91,13 @@ $fieldOptions2 = [
     </div>
     <!-- /.login-box-body -->
 </div><!-- /.login-box -->
+<script>
+<?php $this->beginBlock('login') ?>
+ $('#particles').particleground({
+    dotColor: 'rgba(20,140,230,0.15)',
+    lineColor: 'rgba(85,175,230,0.15)'
+  });
+<?php $this->endBlock() ?>
+</script>
+<?php dms\assets\AppAsset::addScript($this, '/js/jquery.particleground.min.js'); ?>
+<?php $this->registerJs($this->blocks['login'], \yii\web\View::POS_END); ?>
