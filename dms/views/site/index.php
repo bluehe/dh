@@ -396,29 +396,29 @@ mb_regex_encoding("UTF-8");
 
         </div>
         <?php Pjax::begin(); ?>
-        <div class="nav-tabs-custom" style="cursor: move;">
-            <!-- Tabs within a box -->
-            <ul class="nav nav-tabs pull-right ui-sortable-handle">
-                <li><a href="#enternews" data-toggle="tab">娱乐</a></li>
-                <li><a href="#mil" data-toggle="tab">军事</a></li>
+        <!--        <div class="nav-tabs-custom" style="cursor: move;">
+                     Tabs within a box
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li><a href="#enternews" data-toggle="tab">娱乐</a></li>
+                        <li><a href="#mil" data-toggle="tab">军事</a></li>
 
-                <li class="active"><a href="#internet" data-toggle="tab">互联网</a></li>
-                <li class="pull-left header"><i class="fa fa-newspaper-o"></i> 新闻</li>
-            </ul>
-            <div class="tab-content">
-                <div class="baidunews tab-pane" id="enternews" >
-                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=enternews&pn=1&tn=newsbrofcu"></script>
-                </div>
-                <div class="baidunews tab-pane" id="mil" >
-                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=mil&pn=1&tn=newsbrofcu"></script>
-                </div>
+                        <li class="active"><a href="#internet" data-toggle="tab">互联网</a></li>
+                        <li class="pull-left header"><i class="fa fa-newspaper-o"></i> 新闻</li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="baidunews tab-pane" id="enternews" >
+                            <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=enternews&pn=1&tn=newsbrofcu"></script>
+                        </div>
+                        <div class="baidunews tab-pane" id="mil" >
+                            <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=mil&pn=1&tn=newsbrofcu"></script>
+                        </div>
 
-                <div class="baidunews tab-pane active" id="internet" >
-                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=internet&pn=1&tn=newsbrofcu"></script>
-                </div>
+                        <div class="baidunews tab-pane active" id="internet" >
+                            <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=internet&pn=1&tn=newsbrofcu"></script>
+                        </div>
 
-            </div>
-        </div>
+                    </div>
+                </div>-->
         <?php Pjax::end(); ?>
     </section>
     <!-- right col -->
