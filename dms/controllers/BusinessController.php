@@ -78,6 +78,7 @@ class BusinessController extends Controller {
             $model->setScenario('repair');
         }
 
+
         //默认姓名和电话
         $repair = RepairOrder::find()->where(['uid' => Yii::$app->user->identity->id])->orderBy(['created_at' => SORT_DESC])->one();
         if ($repair !== null) {
@@ -127,20 +128,29 @@ class BusinessController extends Controller {
                 Yii::$app->session->setFlash('error', '报修失败。');
             }
         }
-        $postMaxSize = ini_get('post_max_size');
-        $fileMaxSize = ini_get('upload_max_filesize');
-        $displayMaxSize = $postMaxSize < $fileMaxSize ? $postMaxSize : $fileMaxSize;
-        switch (substr($displayMaxSize, -1)) {
-            case 'G':
-                $displayMaxSize = $displayMaxSize * 1024 * 1024;
-            case 'M':
-                $displayMaxSize = $displayMaxSize * 1024;
-            case 'K':
-                $displayMaxSize = $displayMaxSize;
+
+        $image = array();
+        if (System::getValue('repair_image') === '2') {
+            Yii::$app->session->set('repair_image', array());
+            $postMaxSize = ini_get('post_max_size');
+            $fileMaxSize = ini_get('upload_max_filesize');
+            $displayMaxSize = $postMaxSize < $fileMaxSize ? $postMaxSize : $fileMaxSize;
+            switch (substr($displayMaxSize, -1)) {
+                case 'G':
+                    $displayMaxSize = $displayMaxSize * 1024 * 1024;
+                case 'M':
+                    $displayMaxSize = $displayMaxSize * 1024;
+                case 'K':
+                    $displayMaxSize = $displayMaxSize;
+            }
+            $image['maxsize'] = $displayMaxSize;
+            $image['initialPreview'] = [];
+            $image['initialPreviewConfig'] = [];
         }
+
         return $this->render('repair-create', [
                     'model' => $model,
-                    'maxsize' => $displayMaxSize,
+                    'image' => $image,
         ]);
     }
 
@@ -164,11 +174,8 @@ class BusinessController extends Controller {
                 // or you can throw an exception
             }
 
-            //获得文件夹
-            $dir = Yii::$app->request->post('dir') ? Yii::$app->request->post('dir') : 'tmp';
-
             //目标文件夹，不存在则创建
-            $targetFolder = '/data/' . $dir;
+            $targetFolder = '/data/repair';
             $targetPath = Yii::getAlias('@webroot') . $targetFolder;
             $targetUrl = Yii::getAlias('@web') . $targetFolder;
 
@@ -182,14 +189,11 @@ class BusinessController extends Controller {
 
             // file paths to store
             $paths = [];
-            //访问路径
-            $urls = [];
-            //文件名
-            $file_names = [];
 
             // get file names
             $filenames = $files;
 
+            $p1 = $p2 = [];
             // loop and process files
             for ($i = 0; $i < count($filenames); $i++) {
                 $ext = explode('.', basename($filenames[$i]));
@@ -204,16 +208,19 @@ class BusinessController extends Controller {
                 if (@move_uploaded_file($_FILES['RepairOrder']['tmp_name']['images'][$i], $filename)) {
                     Image::resize($filename, 200, 200, true, true)->save($filename);
                     $success = true;
+                    $p1[$i] = $url;
+                    $p2[$i] = ['url' => Url::toRoute('delete-image'), 'key' => $url];
                     $paths[] = $filename;
-                    $urls[] = $url;
-                    $file_names[] = $f_name;
+                    $image = Yii::$app->session->get('repair_image');
+                    $image[] = $url;
+                    Yii::$app->session->set('repair_image', $image);
                 } else {
                     $success = false;
                     break;
                 }
             }
             if ($success === true) {
-                $output = ['urls' => $urls, 'paths' => $paths, 'file_names' => $file_names];
+                $output = ['initialPreview' => $p1, 'initialPreviewConfig' => $p2, 'append' => true];
             } elseif ($success === false) {
                 $output = ['error' => '文件上传出错！'];
                 // delete any uploaded files
@@ -228,12 +235,16 @@ class BusinessController extends Controller {
     }
 
     public function actionDeleteImage() {
-        $dir = Yii::$app->request->post('dir') ? Yii::$app->request->post('dir') : 'tmp';
-        $targetFolder = '/data/' . $dir;
-        $targetPath = Yii::getAlias('@webroot') . $targetFolder;
+
         // 前面我们已经为成功上传的banner图指定了key
         if ($name = Yii::$app->request->post('key')) {
-
+            @unlink(Yii::getAlias('@webroot') . $name);
+            $image = Yii::$app->session->get('repair_image');
+            $key = array_search($name, $image);
+            if (isset($key)) {
+                unset($image[$key]);
+            }
+            Yii::$app->session->set('repair_image', $image);
         }
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return ['success' => true];

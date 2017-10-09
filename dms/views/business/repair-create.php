@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => '网上报修', 'url' => ['business
     <?=
     $this->render('_form-repair', [
         'model' => $model,
-        'maxsize' => $maxsize,
+        'image' => $image,
     ])
     ?>
 

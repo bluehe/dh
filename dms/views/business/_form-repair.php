@@ -49,21 +49,26 @@ use dms\models\System;
                             //上传
                             'uploadAsync' => true,
                             'uploadUrl' => Url::toRoute(['business/upload-image']),
-                            'uploadExtraData' => ['dir' => 'repair'],
-                            'maxFileSize' => $maxsize,
+                            'maxFileSize' => $image['maxsize'],
+                            // 最多上传的文件个数限制
+                            'maxFileCount' => 3,
                             //关闭按钮
                             'showCaption' => false,
                             'showRemove' => false,
                             'showUpload' => false,
                             'showCancel' => false,
-                            'initialPreviewConfig' => ['width' => '200px'],
+                            // 预览的文件
+                            'initialPreview' => $image['initialPreview'],
+                            // 需要展示的图片设置，比如图片的宽度等
+                            'initialPreviewConfig' => $image['initialPreviewConfig'],
+                            // 是否展示预览图
+                            'initialPreviewAsData' => true,
                             //图像大小
                             'resizeImage' => true,
                             'maxImageWidth' => 500,
                             //'maxImageHeight' => 150,
                             //'resizePreference' => 'height',
                             //浏览按钮样式
-                            'previewFileType' => 'image',
                             'browseClass' => 'btn btn-primary',
                             'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
                             'browseLabel' => '上传图片',
@@ -80,11 +85,12 @@ use dms\models\System;
                         ],
                         'pluginEvents' => [
                             //选择后直接上传
+                            // 'fileselect' => 'function() {$(this).fileinput("upload");}',
                             'filebatchselected' => 'function() {$(this).fileinput("upload");}',
                             //完成后隐藏进度条
                             'filebatchuploadcomplete' => 'function() {$(".kv-upload-progress").addClass("hide");}',
                             //上传成功
-                            'fileuploaded' => 'function(event, data) {$(this).prepend(ata.response.urls[0]));}',
+                            'fileuploaded' => 'function(event, data) {console.log(data.response);}',
                             'fileclear' => 'function(event) {console.log("fileclear");}',
                             'filecleared' => 'function(event) {console.log("filecleared");}',
                             'fileremoved' => 'function(event,id,index){console.log("fileremoved");}',
