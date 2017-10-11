@@ -76,13 +76,13 @@ class initSiteConfig extends Event {
         Yii::$app->params['statistics'] = $statistics;
 
         //登录记录
-        if (!Yii::$app->request->cookies->getValue('login', false) && !Yii::$app->user->isGuest) {
+        $user_ip = Yii::$app->request->userIP;
+        if (Yii::$app->request->cookies->getValue('login', false) != $user_ip && !Yii::$app->user->isGuest) {
             $time = strtotime(date('Y-m-d', time()));
             $exists = UserLog::find()->where(['and', ['>', 'created_at', $time], ['uid' => Yii::$app->user->identity->id]])->exists();
             if (!$exists) {
                 //设置记录
-                $ip = Yii::$app->request->userIP;
-                $content = @file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=" . $ip);
+                $content = @file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=" . $user_ip);
                 $ipinfo = json_decode($content, true);
                 $log = new UserLog();
                 if ($ipinfo['code'] == 0) {
@@ -94,7 +94,7 @@ class initSiteConfig extends Event {
                     $cookie = new Cookie([
                         'name' => 'login',
                         'expire' => $time + 86400,
-                        'value' => true,
+                        'value' => $user_ip,
                         'httpOnly' => true
                     ]);
 
