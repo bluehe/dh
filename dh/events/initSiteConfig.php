@@ -79,7 +79,7 @@ class initSiteConfig extends Event {
         $user_ip = Yii::$app->request->userIP;
         if (Yii::$app->request->cookies->getValue('login', false) != $user_ip && !Yii::$app->user->isGuest) {
             $time = strtotime(date('Y-m-d', time()));
-            $exists = UserLog::find()->where(['and', ['>', 'created_at', $time], ['uid' => Yii::$app->user->identity->id]])->exists();
+            $exists = UserLog::find()->where(['and', ['>', 'created_at', $time], ['uid' => Yii::$app->user->identity->id, 'ip' => $user_ip]])->exists();
             if (!$exists) {
                 //设置记录
                 $content = @file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=" . $user_ip);
