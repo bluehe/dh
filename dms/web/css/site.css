@@ -315,3 +315,9 @@ a.desc:after {
     padding: 10px;
 
 }
+.krajee-default.file-preview-frame .file-thumbnail-footer {
+    height: auto;
+}
+.krajee-default.file-preview-frame .kv-file-content {
+    height: auto;
+}

@@ -1,6 +1,6 @@
 <?php
 
-//use yii\helpers\Html;
+use yii\helpers\Html;
 //use yii\widgets\DetailView;
 use dms\models\RepairOrder;
 use kartik\rating\StarRating;
@@ -33,9 +33,17 @@ use kartik\rating\StarRating;
                             <dt><?= $model->getAttributeLabel('content') ?></dt><dd><?= $model->content ?></dd>
                             <dt><?= $model->getAttributeLabel('name') ?></dt><dd><?= $model->name ?></dd>
                             <dt><?= $model->getAttributeLabel('tel') ?></dt><dd><?= $model->tel ?></dd>
+                            <?php if ($model->images) { ?>
+                                <dt><?= $model->getAttributeLabel('images') ?></dt><dd>
+                                    <?php
+                                    $images = explode(',', $model->images);
+                                    foreach ($images as $img) {
+                                        echo Html::img($img, ['class' => 'img-responsive']);
+                                    }
+                                    ?>
+                                </dd>
 
-
-
+                            <?php } ?>
                         </dl>
                     </div>
 

@@ -51,7 +51,7 @@ use dms\models\System;
                             'uploadUrl' => Url::toRoute(['business/upload-image']),
                             'maxFileSize' => $image['maxsize'],
                             // 最多上传的文件个数限制
-                            'maxFileCount' => 3,
+                            //'maxFileCount' => 3,
                             //关闭按钮
                             'showCaption' => false,
                             'showRemove' => false,
@@ -62,7 +62,9 @@ use dms\models\System;
                             // 需要展示的图片设置，比如图片的宽度等
                             'initialPreviewConfig' => $image['initialPreviewConfig'],
                             // 是否展示预览图
-                            'initialPreviewAsData' => true,
+                            //'initialPreviewAsData' => true,
+                            'overwriteInitial' => false,
+                            'layoutTemplates' => ['footer' => '<div class="file-thumbnail-footer"><input type="hidden" name="images[]" value="{caption}" >{actions}</div>'],
                             //图像大小
                             'resizeImage' => true,
                             'maxImageWidth' => 500,
@@ -78,7 +80,7 @@ use dms\models\System;
                                 // 设置具体图片的查看属性为false,默认为true
                                 'showZoom' => false,
                                 // 设置具体图片的上传属性为true,默认为true
-                                'showUpload' => true,
+                                'showUpload' => false,
                                 // 设置具体图片的移除属性为true,默认为true
                                 'showRemove' => true,
                             ],
@@ -89,13 +91,6 @@ use dms\models\System;
                             'filebatchselected' => 'function() {$(this).fileinput("upload");}',
                             //完成后隐藏进度条
                             'filebatchuploadcomplete' => 'function() {$(".kv-upload-progress").addClass("hide");}',
-                            //上传成功
-                            'fileuploaded' => 'function(event, data) {console.log(data.response);}',
-                            'fileclear' => 'function(event) {console.log("fileclear");}',
-                            'filecleared' => 'function(event) {console.log("filecleared");}',
-                            'fileremoved' => 'function(event,id,index){console.log("fileremoved");}',
-                            'filedeleted' => 'function(event, key, jqXHR, data) {console.log("filedeleted");}',
-                            'filesuccessremove' => 'function(event, id) {console.log(id)}',
                         ],
                     ]);
                 }

@@ -61,7 +61,7 @@ class RepairOrder extends ActiveRecord {
             [['worker_id'], 'required', 'message' => '{attribute}不能为空', 'on' => 'dispatch'],
             [['repair_type', 'repair_area'], 'required', 'message' => '{attribute}不能为空', 'on' => 'repair'],
             [['serial'], 'string', 'max' => 16, 'message' => '{attribute}最长16个字符'],
-            [['address', 'title', 'content', 'images', 'note'], 'string', 'max' => 250, 'message' => '{attribute}最长250个字符'],
+            [['address', 'title', 'content', 'note'], 'string', 'max' => 250, 'message' => '{attribute}最长250个字符'],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['worker_id'], 'exist', 'skipOnError' => true, 'targetClass' => RepairWorker::className(), 'targetAttribute' => ['worker_id' => 'id']],
             [['repair_type'], 'exist', 'skipOnError' => true, 'targetClass' => Parameter::className(), 'targetAttribute' => ['repair_type' => 'id']],

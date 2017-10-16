@@ -97,6 +97,9 @@ class BusinessController extends Controller {
             $model->created_at = time();
             $model->stat = RepairOrder::STAT_OPEN;
 
+            //$img = Yii::$app->session->get('repair_image', array());
+            $model->images = implode(',', Yii::$app->request->post('images'));
+
             //后期扩展
 //            if (System::getValue('business_action') === '1') {
 //                $model->stat = RepairOrder::STAT_OPEN;
@@ -131,7 +134,10 @@ class BusinessController extends Controller {
 
         $image = array();
         if (System::getValue('repair_image') === '2') {
-            Yii::$app->session->set('repair_image', array());
+            // Yii::$app->session->set('repair_image', array());
+            $image['initialPreview'] = [];
+            $image['initialPreviewConfig'] = [];
+
             $postMaxSize = ini_get('post_max_size');
             $fileMaxSize = ini_get('upload_max_filesize');
             $displayMaxSize = $postMaxSize < $fileMaxSize ? $postMaxSize : $fileMaxSize;
@@ -144,14 +150,69 @@ class BusinessController extends Controller {
                     $displayMaxSize = $displayMaxSize;
             }
             $image['maxsize'] = $displayMaxSize;
-            $image['initialPreview'] = [];
-            $image['initialPreviewConfig'] = [];
         }
 
         return $this->render('repair-create', [
                     'model' => $model,
                     'image' => $image,
         ]);
+    }
+
+    /**
+     * Updates an existing RepairOrder model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionRepairUpdate($id) {
+        $model = RepairOrder::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => RepairOrder::STAT_OPEN]);
+        if (System::getValue('business_repair') === '1') {
+            $model->setScenario('repair');
+        }
+        if ($model !== null) {
+            if ($model->load(Yii::$app->request->post())) {
+                //$img = Yii::$app->session->get('repair_image', array());
+                $model->images = implode(',', Yii::$app->request->post('images'));
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', '修改成功。');
+                } else {
+                    Yii::$app->session->setFlash('error', '报修失败。');
+                }
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+            $image = array();
+            if (System::getValue('repair_image') === '2') {
+                $images = explode(',', $model->images);
+                //Yii::$app->session->set('repair_image', $images);
+                $p1 = $p2 = $p3 = [];
+                foreach ($images as $i => $v) {
+                    $p1[$i] = '<img src="' . $v . '" class="file-preview-image img-responsive">';
+                    $p2[$i] = ['url' => Url::toRoute('delete-image'), 'caption' => $v, 'key' => $v,];
+                }
+                $image['initialPreview'] = $p1;
+                $image['initialPreviewConfig'] = $p2;
+
+
+                $postMaxSize = ini_get('post_max_size');
+                $fileMaxSize = ini_get('upload_max_filesize');
+                $displayMaxSize = $postMaxSize < $fileMaxSize ? $postMaxSize : $fileMaxSize;
+                switch (substr($displayMaxSize, -1)) {
+                    case 'G':
+                        $displayMaxSize = $displayMaxSize * 1024 * 1024;
+                    case 'M':
+                        $displayMaxSize = $displayMaxSize * 1024;
+                    case 'K':
+                        $displayMaxSize = $displayMaxSize;
+                }
+                $image['maxsize'] = $displayMaxSize;
+            }
+            return $this->render('repair-update', [
+                        'model' => $model,
+                        'image' => $image,
+            ]);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /*
@@ -206,10 +267,10 @@ class BusinessController extends Controller {
                     @unlink($filename);
                 }
                 if (@move_uploaded_file($_FILES['RepairOrder']['tmp_name']['images'][$i], $filename)) {
-                    Image::resize($filename, 200, 200, true, true)->save($filename);
+                    Image::resize($filename, 350, null, true, true)->save($filename);
                     $success = true;
-                    $p1[$i] = $url;
-                    $p2[$i] = ['url' => Url::toRoute('delete-image'), 'key' => $url];
+                    $p1[$i] = '<img src="' . $url . '" class="file-preview-image img-responsive">';
+                    $p2[$i] = ['url' => Url::toRoute('delete-image'), 'caption' => $url, 'key' => $url];
                     $paths[] = $filename;
                     $image = Yii::$app->session->get('repair_image');
                     $image[] = $url;
@@ -248,30 +309,6 @@ class BusinessController extends Controller {
         }
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return ['success' => true];
-    }
-
-    /**
-     * Updates an existing RepairOrder model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionRepairUpdate($id) {
-        $model = RepairOrder::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => RepairOrder::STAT_OPEN]);
-        if (System::getValue('business_repair') === '1') {
-            $model->setScenario('repair');
-        }
-        if ($model !== null) {
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                Yii::$app->session->setFlash('success', '修改成功。');
-                return $this->redirect(Yii::$app->request->referrer);
-            }
-
-            return $this->render('repair-update', [
-                        'model' => $model,
-            ]);
-        }
-        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionRepairClose($id) {

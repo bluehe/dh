@@ -16,7 +16,6 @@ return [
     'controllerNamespace' => 'dh\controllers',
     'modules' => [],
     'components' => [
-  
         'cache' => [
             'class' => 'yii\caching\FileCache',
             //'class' => 'yii\redis\Cache',
@@ -51,7 +50,6 @@ return [
                 ],
             ],
         ],
-       
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
