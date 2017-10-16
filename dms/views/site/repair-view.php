@@ -33,6 +33,17 @@ mb_regex_encoding("UTF-8");
                             <dt><?= $model->getAttributeLabel('content') ?></dt><dd><?= $model->content ?></dd>
                             <dt><?= $model->getAttributeLabel('name') ?></dt><dd><?= mb_substr($model->name, 0, 1, 'utf-8') . mb_substr(mb_ereg_replace('\w', '*', $model->name), 1) ?></dd>
                             <dt><?= $model->getAttributeLabel('tel') ?></dt><dd><?= substr_replace($model->tel, '****', 3, 4) ?></dd>
+                            <?php if ($model->images) { ?>
+                                <dt><?= $model->getAttributeLabel('images') ?></dt><dd>
+                                    <?php
+                                    $images = explode(',', $model->images);
+                                    foreach ($images as $img) {
+                                        echo Html::img($img, ['class' => 'img-responsive', 'style' => 'margin-bottom:5px;']);
+                                    }
+                                    ?>
+                                </dd>
+
+                            <?php } ?>
 
 
 

@@ -38,7 +38,7 @@ use kartik\rating\StarRating;
                                     <?php
                                     $images = explode(',', $model->images);
                                     foreach ($images as $img) {
-                                        echo Html::img($img, ['class' => 'img-responsive']);
+                                        echo Html::img($img, ['class' => 'img-responsive', 'style' => 'margin-bottom:5px;']);
                                     }
                                     ?>
                                 </dd>

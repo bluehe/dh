@@ -98,7 +98,7 @@ class BusinessController extends Controller {
             $model->stat = RepairOrder::STAT_OPEN;
 
             //$img = Yii::$app->session->get('repair_image', array());
-            $model->images = implode(',', Yii::$app->request->post('images'));
+            $model->images = implode(',', Yii::$app->request->post('images', array()));
 
             //后期扩展
 //            if (System::getValue('business_action') === '1') {
@@ -172,7 +172,7 @@ class BusinessController extends Controller {
         if ($model !== null) {
             if ($model->load(Yii::$app->request->post())) {
                 //$img = Yii::$app->session->get('repair_image', array());
-                $model->images = implode(',', Yii::$app->request->post('images'));
+                $model->images = implode(',', Yii::$app->request->post('images', array()));
                 if ($model->save()) {
                     Yii::$app->session->setFlash('success', '修改成功。');
                 } else {
