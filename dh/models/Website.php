@@ -134,13 +134,6 @@ class Website extends \yii\db\ActiveRecord {
         return $this->hasOne(Category::className(), ['id' => 'cid']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getU() {
-        return $this->hasOne(User::className(), ['id' => 'uid']);
-    }
-
     public function getShareC() {
         return $this->hasOne(Category::className(), ['id' => 'share_cid']);
     }
