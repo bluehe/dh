@@ -46,18 +46,26 @@ use yii\widgets\ActiveForm;
 <?php $this->beginBlock('submit') ?>
     $('body').off('submit').on('submit', '#website-form', function () {
         $.ajax({
-            url: '<?= Url::toRoute(['ajax/website-edit', 'id' => $model->id]) ?>',
+            url: '<?= Url::toRoute(['ajax/website-add', 'id' => $model->cid]) ?>',
             type: 'POST',
             data: $(this).serialize(),
             dataType: "json",
             success: function (data) {
                 if (data.stat === 'success') {
+                    var str = '<div class="list-group-item" data-id="' + data.id + '">'
+                            + '<img src="/api/getfav?url=' + data.url + '">'
+                            + ' <a class="clickurl" target="_blank" href="' + data.url + '" title="' + data.title + '">' + data.title + '</a>'
+                            + '<div class="dropdown pull-right">'
+                            + '<span class="dropdown-toggle" id="dropdownMenu' + data.id + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-caret-square-o-down" title="操作"></i></span>'
+                            + '<div class="dropdown-menu content-icon" aria-labelledby="dropdownMenu' + data.id + '">'
+                            + ' <i class="fa fa-share-alt" title="推荐分享" data-toggle="modal" data-target="#user-modal"></i>'
+                            + ' <i class="fa fa-edit website-edit" title="编辑" data-toggle="modal" data-target="#user-modal"></i>'
+                            + ' <i class="fa fa-trash-o website-delete" title="删除"></i>'
+                            + ' <i class="fa fa-eye-slash website-open" title="私有>"></i>'
+                            + '</div></div></div>';
                     $('#user-modal').modal('hide');
-                    $('.list-group-item[data-id=<?= $model->id ?>]').find('a').html(data.title);
-                    $('.list-group-item[data-id=<?= $model->id ?>]').find('a').attr('href', data.url);
-                    $('.list-group-item[data-id=<?= $model->id ?>]').find('a').attr('title', data.title);
-                    $('.list-group-item[data-id=<?= $model->id ?>]').find('img').attr('src', '/api/getfav?url=' + data.url);
-                    my_alert('success', '编辑成功！', 3000);
+                    $('.category[data-id=<?= $model->cid ?>]').find('.list-group').append(str);
+                    my_alert('success', '添加成功！', 3000);
                 }
 
             }

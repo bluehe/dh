@@ -28,8 +28,8 @@ $this->title = '我的网址';
                             <div class="website-header">
 
                                 <b><?= $cate['title'] ?></b>
-                                <span class="header-icon"><i class="fa fa-edit category-edit" title="编辑分类" data-toggle="modal" data-target="#user-modal"></i><i class="fa fa-trash-o category-delete"  title="删除分类"></i></span>
-                                <div class="pull-right add_page category-add" title="添加分类"> <i class="fa fa-plus"></i></div>
+                                <span class="header-icon"><i class="fa fa-edit category-edit" title="编辑分类" data-toggle="modal" data-target="#user-modal"></i><i class="fa fa-trash-o category-delete"  title="删除分类"></i> <i class="fa fa-plus category-add"  title="添加分类" data-toggle="modal" data-target="#user-modal"></i></span>
+                                <div class="pull-right add_page website-add" title="添加网址" data-toggle="modal" data-target="#user-modal"> <i class="fa fa-plus"></i></div>
 
                             </div>
                             <div class="website-content list-group">
@@ -93,10 +93,12 @@ Modal::end();
         var _this = $(this).parents('.category');
         var id = _this.data('id');
         if (id) {
-            $.get("<?= Url::toRoute('ajax/category-delete') ?>", {id: id}, function (result) {
-                if (result) {
+            $.getJSON("<?= Url::toRoute('ajax/category-delete') ?>", {id: id}, function (data) {
+                if (data.stat === 'success') {
                     _this.remove();
                     my_alert('success', '删除成功！', 3000);
+                } else if (data.stat === 'fail') {
+                    my_alert('danger', data.msg, 3000);
                 }
             });
         }
@@ -107,6 +109,16 @@ Modal::end();
 
 
     //网址添加
+    $('.website').on('click', '.website-add', function () {
+        $('#user-modal .modal-title').html('');
+        $('#user-modal .modal-body').html('');
+        $.get('<?= Url::toRoute('ajax/website-add') ?>', {id: $(this).parents('.category').data('id')},
+                function (data) {
+                    $('#user-modal .modal-title').html('添加网址');
+                    $('#user-modal .modal-body').html(data);
+                }
+        );
+    });
 
     //网址分享
 

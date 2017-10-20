@@ -159,12 +159,17 @@ class Category extends \yii\db\ActiveRecord {
         return ArrayHelper::map($category, 'id', 'title');
     }
 
-    public static function get_category_num($uid = NULL, $is = '') {
+    public static function get_category_num($uid = NULL, $is = '', $stat = '') {
+        $query = static::find();
         if ($is == 'not') {
-            $num = static::find()->where(['not', ['uid' => $uid]])->count();
+            $query->where(['not', ['uid' => $uid]]);
         } else {
-            $num = static::find()->where(['uid' => $uid])->count();
+            $query->where(['uid' => $uid]);
         }
+        if ($stat) {
+            $query->andWhere(['stat' => $stat]);
+        }
+        $num = $query->count();
         return $num;
     }
 

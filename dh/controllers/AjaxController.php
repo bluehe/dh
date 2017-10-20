@@ -211,18 +211,48 @@ class AjaxController extends Controller {
 
         $model = Category::findOne($id);
         if (!Yii::$app->user->isGuest && $model->uid == Yii::$app->user->identity->id) {
-            $model->stat = Category::STAT_CLOSE;
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                $model->save(false);
-                Website::updateAll(['stat' => Website::STAT_CLOSE], ['cid' => $id, 'stat' => Website::STAT_OPEN]);
-                $transaction->commit();
-                return true;
-            } catch (\Exception $e) {
-                $transaction->rollBack();
+
+            if (Category::get_category_num($model->uid, '', Category::STAT_OPEN) > 1) {
+                $model->stat = Category::STAT_CLOSE;
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $model->save(false);
+                    Website::updateAll(['stat' => Website::STAT_CLOSE], ['cid' => $id, 'stat' => Website::STAT_OPEN]);
+                    $transaction->commit();
+                    return json_encode(['stat' => 'success']);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
+                }
+            } else {
+                return json_encode(['stat' => 'fail', 'msg' => '至少保留一个分类']);
             }
         }
-        return false;
+        return json_encode(['stat' => 'error']);
+    }
+
+    /**
+     * 添加网址
+     * @return json
+     */
+    public function actionWebsiteAdd($id) {
+
+        $cate = Category::findOne($id);
+        if (!Yii::$app->user->isGuest && $cate->uid == Yii::$app->user->identity->id) {
+            $model = new Website();
+            $model->loadDefaultValues();
+            $model->cid = $id;
+            $model->sort_order = Website::findMaxSort($model->cid) + 1;
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url]);
+            } else {
+                return $this->renderAjax('website-add', [
+                            'model' => $model,
+                ]);
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
