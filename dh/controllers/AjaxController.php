@@ -76,6 +76,24 @@ class AjaxController extends Controller {
     }
 
     /**
+     * 网址点击计数
+     * @return json
+     */
+    public function actionWebsiteClick($id) {
+        Website::updateAllCounters(['click_num' => 1], ['id' => $id]);
+        return true;
+    }
+
+    /**
+     * 推荐点击计数
+     * @return json
+     */
+    public function actionRecommendClick($id) {
+        Recommend::updateAllCounters(['click_num' => 1], ['id' => $id]);
+        return true;
+    }
+
+    /**
      * 收藏分类
      * @return json
      */
@@ -128,28 +146,6 @@ class AjaxController extends Controller {
     }
 
     /**
-     * 删除分类
-     * @return bool
-     */
-    public function actionCategoryDelete($id) {
-
-        $model = Category::findOne($id);
-        if (!Yii::$app->user->isGuest && $model->uid == Yii::$app->user->identity->id) {
-            $model->stat = Category::STAT_CLOSE;
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                $model->save(false);
-                Website::updateAll(['stat' => Website::STAT_CLOSE], ['cid' => $id, 'stat' => Website::STAT_OPEN]);
-                $transaction->commit();
-                return true;
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-            }
-        }
-        return false;
-    }
-
-    /**
      * 收藏网址
      * @return json
      */
@@ -188,6 +184,68 @@ class AjaxController extends Controller {
     }
 
     /**
+     * 编辑分类
+     * @return bool
+     */
+    public function actionCategoryEdit($id) {
+
+        $model = Category::findOne($id);
+        if (!Yii::$app->user->isGuest && $model->uid == Yii::$app->user->identity->id) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return json_encode(['stat' => 'success', 'title' => $model->title]);
+            } else {
+                return $this->renderAjax('category-edit', [
+                            'model' => $model,
+                ]);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 删除分类
+     * @return boolean
+     */
+    public function actionCategoryDelete($id) {
+
+        $model = Category::findOne($id);
+        if (!Yii::$app->user->isGuest && $model->uid == Yii::$app->user->identity->id) {
+            $model->stat = Category::STAT_CLOSE;
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save(false);
+                Website::updateAll(['stat' => Website::STAT_CLOSE], ['cid' => $id, 'stat' => Website::STAT_OPEN]);
+                $transaction->commit();
+                return true;
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 编辑网址
+     * @return json
+     */
+    public function actionWebsiteEdit($id) {
+
+        $model = Website::findOne($id);
+        if (!Yii::$app->user->isGuest && $model->c->uid == Yii::$app->user->identity->id) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return json_encode(['stat' => 'success', 'title' => $model->title, 'url' => $model->url]);
+            } else {
+                return $this->renderAjax('website-edit', [
+                            'model' => $model,
+                ]);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 网址删除
      * @return bool
      */
@@ -203,21 +261,19 @@ class AjaxController extends Controller {
     }
 
     /**
-     * 网址点击计数
-     * @return json
+     * 公开/私有网址
+     * @return string
      */
-    public function actionWebsiteClick($id) {
-        Website::updateAllCounters(['click_num' => 1], ['id' => $id]);
-        return true;
-    }
+    public function actionWebsiteOpen($id) {
 
-    /**
-     * 推荐点击计数
-     * @return json
-     */
-    public function actionRecommendClick($id) {
-        Recommend::updateAllCounters(['click_num' => 1], ['id' => $id]);
-        return true;
+        $model = Website::findOne($id);
+        if (!Yii::$app->user->isGuest && $model->c->uid == Yii::$app->user->identity->id) {
+            $model->is_open = $model->is_open == Website::ISOPEN_OPEN ? Website::ISOPEN_CLOSE : Website::ISOPEN_OPEN;
+            if ($model->save()) {
+                return $model->is_open == Website::ISOPEN_OPEN ? 'open' : 'close';
+            }
+        }
+        return false;
     }
 
 }

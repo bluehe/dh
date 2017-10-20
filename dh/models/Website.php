@@ -52,6 +52,7 @@ class Website extends \yii\db\ActiveRecord {
             [['cid', 'title', 'url', 'sort_order'], 'required'],
             [['cid', 'sort_order', 'click_num', 'collect_num', 'is_open', 'created_at', 'updated_at', 'stat'], 'integer'],
             [['title', 'url'], 'string', 'max' => 255],
+            ['url', 'url', 'defaultScheme' => 'http'],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
             [['share_cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['share_cid' => 'id']],
             [['share_status'], 'default', 'value' => self::SHARE_DEFAULT],
