@@ -27,7 +27,7 @@ $this->title = '首页';
                         <div class="category" data-id="<?= $cate['id'] ?>">
                             <div class="website-header">
                                 <b><?= $cate['title'] ?></b>
-                                <span class="header-icon pull-right"><i class="fa fa-star-o category-collect" title="收藏分类" data-toggle="modal" data-target="#collect-modal"></i></span>
+                                <span class="header-icon pull-right"><i class="fa fa-star-o category-collect" title="收藏分类"></i></span>
                             </div>
                             <div class="website-content list-group">
 
@@ -36,7 +36,7 @@ $this->title = '首页';
                                         <?= Html::img(['api/getfav', 'url' => $website['url']]) ?>
                                         <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="content-icon index-icon pull-right" >
-                                            <i class="fa fa-heart-o website-collect" title="收藏网址" data-toggle="modal" data-target="#collect-modal"></i>
+                                            <i class="fa fa-heart-o website-collect" title="收藏网址"></i>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -74,23 +74,22 @@ Modal::end();
 <script>
 <?php $this->beginBlock('collect') ?>
     $('.category-collect').on('click', function () {
-        $('#collect-modal .modal-title').html('');
-        $('#collect-modal .modal-body').html('');
         $.get('<?= Url::toRoute('ajax/category-collect') ?>', {id: $(this).parents('.category').data('id')},
                 function (data) {
                     $('#collect-modal .modal-title').html('收藏分类');
                     $('#collect-modal .modal-body').html(data);
+                    $('#collect-modal').modal('show');
                 }
         );
     });
 
     $('.website-collect').on('click', function () {
-        $('#collect-modal .modal-title').html('');
-        $('#collect-modal .modal-body').html('');
         $.get('<?= Url::toRoute('ajax/website-collect') ?>', {id: $(this).parents('.list-group-item').data('id')},
                 function (data) {
+
                     $('#collect-modal .modal-title').html('收藏网址');
                     $('#collect-modal .modal-body').html(data);
+                    $('#collect-modal').modal('show');
                 }
         );
     });

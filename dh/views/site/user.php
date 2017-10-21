@@ -28,8 +28,8 @@ $this->title = '我的网址';
                             <div class="website-header">
 
                                 <b><?= $cate['title'] ?></b>
-                                <span class="header-icon"><i class="fa fa-edit category-edit" title="编辑分类" data-toggle="modal" data-target="#user-modal"></i><i class="fa fa-trash-o category-delete"  title="删除分类"></i> <i class="fa fa-plus category-add"  title="添加分类" data-toggle="modal" data-target="#user-modal"></i></span>
-                                <div class="pull-right add_page website-add" title="添加网址" data-toggle="modal" data-target="#user-modal"> <i class="fa fa-plus"></i></div>
+                                <span class="header-icon"><i class="fa fa-edit category-edit" title="编辑分类"></i><i class="fa fa-trash-o category-delete"  title="删除分类"></i> <i class="fa fa-plus category-add"  title="添加分类"></i></span>
+                                <div class="pull-right add_page website-add" title="添加网址"> <i class="fa fa-plus"></i></div>
 
                             </div>
                             <div class="website-content list-group">
@@ -43,8 +43,8 @@ $this->title = '我的网址';
                                                 <i class="fa fa-caret-square-o-down" title="操作"></i>
                                             </span>
                                             <div class="dropdown-menu content-icon" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
-                                                <i class="fa fa-share-alt" title="推荐分享" data-toggle="modal" data-target="#user-modal"></i>
-                                                <i class="fa fa-edit website-edit" title="编辑" data-toggle="modal" data-target="#user-modal"></i>
+                                                <i class="fa fa-share-alt" title="推荐分享"></i>
+                                                <i class="fa fa-edit website-edit" title="编辑" ></i>
                                                 <i class="fa fa-trash-o website-delete" title="删除"></i>
                                                 <i class="fa <?= $website['is_open'] == Website::ISOPEN_OPEN ? 'fa-eye-slash' : 'fa-eye' ?> website-open" title="<?= $website['is_open'] == Website::ISOPEN_OPEN ? '私有' : '公开' ?>"></i>
                                             </div>
@@ -78,12 +78,12 @@ Modal::end();
 <?php $this->beginBlock('js') ?>
     //分类编辑
     $('.website').on('click', '.category-edit', function () {
-        $('#user-modal .modal-title').html('');
-        $('#user-modal .modal-body').html('');
+
         $.get('<?= Url::toRoute('ajax/category-edit') ?>', {id: $(this).parents('.category').data('id')},
                 function (data) {
                     $('#user-modal .modal-title').html('编辑分类');
                     $('#user-modal .modal-body').html(data);
+                    $('#user-modal').modal('show');
                 }
         );
     });
@@ -110,12 +110,11 @@ Modal::end();
 
     //网址添加
     $('.website').on('click', '.website-add', function () {
-        $('#user-modal .modal-title').html('');
-        $('#user-modal .modal-body').html('');
         $.get('<?= Url::toRoute('ajax/website-add') ?>', {id: $(this).parents('.category').data('id')},
                 function (data) {
                     $('#user-modal .modal-title').html('添加网址');
                     $('#user-modal .modal-body').html(data);
+                    $('#user-modal').modal('show');
                 }
         );
     });
@@ -124,13 +123,11 @@ Modal::end();
 
     //网址编辑
     $('.website').on('click', '.website-edit', function () {
-        $('#user-modal .modal-title').html('');
-        $('#user-modal .modal-body').html('');
-
         $.get('<?= Url::toRoute('ajax/website-edit') ?>', {id: $(this).parents('.list-group-item').data('id')},
                 function (data) {
                     $('#user-modal .modal-title').html('编辑网址');
                     $('#user-modal .modal-body').html(data);
+                    $('#user-modal').modal('show');
                 }
         );
     });

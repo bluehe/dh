@@ -58,8 +58,8 @@ use yii\widgets\ActiveForm;
                             + '<div class="dropdown pull-right">'
                             + '<span class="dropdown-toggle" id="dropdownMenu' + data.id + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-caret-square-o-down" title="操作"></i></span>'
                             + '<div class="dropdown-menu content-icon" aria-labelledby="dropdownMenu' + data.id + '">'
-                            + ' <i class="fa fa-share-alt" title="推荐分享" data-toggle="modal" data-target="#user-modal"></i>'
-                            + ' <i class="fa fa-edit website-edit" title="编辑" data-toggle="modal" data-target="#user-modal"></i>'
+                            + ' <i class="fa fa-share-alt" title="推荐分享"></i>'
+                            + ' <i class="fa fa-edit website-edit" title="编辑"></i>'
                             + ' <i class="fa fa-trash-o website-delete" title="删除"></i>'
                             + ' <i class="fa fa-eye-slash website-open" title="私有>"></i>'
                             + '</div></div></div>';
