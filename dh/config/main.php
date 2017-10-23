@@ -5,7 +5,7 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-dh',
+    'id' => 'dh',
     'name' => '网址收藏夹',
     'version' => '3.0 Beta',
     'basePath' => dirname(__DIR__),
@@ -14,7 +14,18 @@ return [
     'language' => 'zh-CN',
     'timeZone' => 'Asia/Shanghai',
     'controllerNamespace' => 'dh\controllers',
-    'modules' => [],
+    'modules' => [
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+            "layout" => "left-menu",
+        ],
+        'gridview' => [
+            'class' => 'kartik\grid\Module'
+        ],
+    ],
+    'aliases' => [
+        '@mdm/admin' => '@vendor/mdmsoft/yii2-admin',
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -24,6 +35,11 @@ return [
         'assetManager' => [
             'appendTimestamp' => true,
 //            'linkAssets' => true,
+            'bundles' => [
+                'dmstr\web\AdminLteAsset' => [
+                    'skin' => 'skin-blue',
+                ],
+            ],
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', //这里记得用单引号而不是双引号
@@ -66,6 +82,14 @@ return [
             'thousandSeparator' => ',',
             'currencyCode' => 'CNY',
         ],
+    ],
+    'as access' => [
+//ACF肯定是要加的，因为粗心导致该配置漏掉了，很是抱歉
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+//这里是允许访问的action
+            '*',
+        ]
     ],
     'on beforeAction' => ['dh\events\initSiteConfig', 'assign'],
     'params' => $params,
