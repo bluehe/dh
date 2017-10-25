@@ -71,7 +71,9 @@ class initSiteConfig extends Event {
             $statistics['category1'] = Category::get_category_num(NULL, 'not');
             $statistics['website0'] = Website::get_website_num(NULL);
             $statistics['website1'] = Website::get_website_num(NULL, 'not');
-            $cache->set('statistics', $statistics);
+            $query = Website::find()->select(['count(*)'])->createCommand()->getRawSql();
+            $dependency = new \yii\caching\DbDependency(['sql' => $query]);
+            $cache->set('statistics', $statistics, null, $dependency);
         }
         Yii::$app->params['statistics'] = $statistics;
 
@@ -85,7 +87,7 @@ class initSiteConfig extends Event {
                 $content = @file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=" . $user_ip);
                 $ipinfo = json_decode($content, true);
                 $log = new UserLog();
-                if ($ipinfo['code'] == 0) {
+                if ($ipinfo['code'] === 0) {
                     $log->setAttributes($ipinfo['data']);
                 }
                 $log->created_at = time();

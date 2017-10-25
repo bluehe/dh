@@ -306,12 +306,15 @@ a:hover{text-decoration: none}
     cursor: pointer;
 }
 .website-content .list-group-item .dropdown-menu {
-    min-width:76px;
+    min-width:116px;
     text-align: right;
     padding: 2px 5px;
     position: absolute;
     top: 0;
     right: 15px;
+}
+.website-content .list-group-item .dropdown-menu i{
+    margin: 0 5px;
 }
 .content-icon {
     color: #0099ee;

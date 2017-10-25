@@ -152,12 +152,17 @@ class Website extends \yii\db\ActiveRecord {
         return $websites;
     }
 
-    public static function get_website_num($uid = NULL, $is = '') {
+    public static function get_website_num($uid = NULL, $is = '', $stat = '') {
+        $query = static::find()->joinWith('c');
         if ($is == 'not') {
-            $num = static::find()->joinWith('c')->where(['not', ['uid' => $uid]])->count();
+            $query->where(['not', ['uid' => $uid]]);
         } else {
-            $num = static::find()->joinWith('c')->where(['uid' => $uid])->count();
+            $query->where(['uid' => $uid]);
         }
+        if ($stat) {
+            $query->andWhere(['stat' => $stat]);
+        }
+        $num = $query->count();
         return $num;
     }
 

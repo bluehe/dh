@@ -9,6 +9,7 @@ use common\models\User;
 use dh\models\Category;
 use dh\models\Website;
 use dh\models\Recommend;
+use dh\models\WebsiteClick;
 
 /**
  * Api controller
@@ -80,8 +81,24 @@ class AjaxController extends Controller {
      * @return json
      */
     public function actionWebsiteClick($id) {
-        Website::updateAllCounters(['click_num' => 1], ['id' => $id]);
-        return true;
+        $model = Website::findOne($id);
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $c = new WebsiteClick();
+            $c->uid = Yii::$app->user->isGuest ? null : Yii::$app->user->identity->id;
+            $c->website = $id;
+            $c->ip = Yii::$app->request->userIP;
+            $c->created_at = time();
+            $c->save(false);
+            $model->updateCounters(['click_num' => 1]);
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+
+            $transaction->rollBack();
+            //throw $e;
+            return false;
+        }
     }
 
     /**
@@ -218,6 +235,7 @@ class AjaxController extends Controller {
                 try {
                     $model->save(false);
                     Website::updateAll(['stat' => Website::STAT_CLOSE], ['cid' => $id, 'stat' => Website::STAT_OPEN]);
+                    Category::updateAllCounters(['sort_order' => -1], ['and', ['and', 'uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
                     $transaction->commit();
                     return json_encode(['stat' => 'success']);
                 } catch (\Exception $e) {
@@ -283,8 +301,14 @@ class AjaxController extends Controller {
         $model = Website::findOne($id);
         if (!Yii::$app->user->isGuest && $model->c->uid == Yii::$app->user->identity->id) {
             $model->stat = Website::STAT_CLOSE;
-            if ($model->save()) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save(false);
+                Website::updateAllCounters(['sort_order' => -1], ['and', ['and', 'cid' => $model->cid, 'stat' => Website::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
+                $transaction->commit();
                 return true;
+            } catch (\Exception $e) {
+                $transaction->rollBack();
             }
         }
         return false;
