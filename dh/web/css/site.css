@@ -306,7 +306,7 @@ a:hover{text-decoration: none}
     cursor: pointer;
 }
 .website-content .list-group-item .dropdown-menu {
-    min-width:116px;
+    min-width:92px;
     text-align: right;
     padding: 2px 5px;
     position: absolute;
@@ -314,7 +314,7 @@ a:hover{text-decoration: none}
     right: 15px;
 }
 .website-content .list-group-item .dropdown-menu i{
-    margin: 0 5px;
+    margin: 0 2px;
 }
 .content-icon {
     color: #0099ee;
@@ -520,8 +520,8 @@ a:hover{text-decoration: none}
     .website.plate-1 .website-content{
          height:391px;
     }
-     .website.plate-2 .website-content{
-          height: auto;
+    .website.plate-2 .website-content{
+        height: auto;
     }
     .website .category{
         width: auto;
@@ -533,6 +533,12 @@ a:hover{text-decoration: none}
     }
     .pagination .page-form{
         float: none;
+    }
+    .website-content .list-group-item .dropdown-menu {
+        min-width:156px;
+    }
+    .website-content .list-group-item .dropdown-menu i{
+        margin: 0 10px;
     }
 }
 
