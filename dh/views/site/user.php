@@ -105,7 +105,17 @@ Modal::end();
     });
 
     //分类添加
-
+    $('.website').on('click', '.category-add', function () {
+        var _this = $(this).parents('.category');
+        var id = _this.data('id');
+        if (id) {
+            $.get("<?= Url::toRoute('ajax/category-add') ?>", {id: id}, function (data) {
+                $('#user-modal .modal-title').html('添加分类');
+                $('#user-modal .modal-body').html(data);
+                $('#user-modal').modal('show');
+            });
+        }
+    });
 
 
     //网址添加
@@ -137,10 +147,12 @@ Modal::end();
         var _this = $(this).parents('.list-group-item');
         var id = _this.data('id');
         if (id) {
-            $.get("<?= Url::toRoute('ajax/website-delete') ?>", {id: id}, function (result) {
-                if (result) {
+            $.getJSON("<?= Url::toRoute('ajax/website-delete') ?>", {id: id}, function (data) {
+                if (data.stat === 'success') {
                     _this.remove();
                     my_alert('success', '删除成功！', 3000);
+                } else if (data.stat === 'fail') {
+                    my_alert('danger', data.msg, 3000);
                 }
             });
         }

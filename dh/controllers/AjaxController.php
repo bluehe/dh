@@ -123,11 +123,10 @@ class AjaxController extends Controller {
 
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $cate = new Category();
+                $cate->loadDefaultValues();
                 $cate->title = $model->title;
                 $cate->uid = Yii::$app->user->identity->id;
                 $cate->sort_order = Category::findMaxSort(Yii::$app->user->identity->id, Category::STAT_OPEN) + 1;
-                $cate->is_open = Category::ISOPEN_OPEN;
-                $cate->stat = Category::STAT_OPEN;
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     $cate->save(false);
@@ -250,6 +249,39 @@ class AjaxController extends Controller {
     }
 
     /**
+     * 添加分类
+     * @return json
+     */
+    public function actionCategoryAdd($id) {
+
+        $cate = Category::findOne($id);
+        if (!Yii::$app->user->isGuest && $cate->uid == Yii::$app->user->identity->id) {
+            $model = new Category();
+            $model->loadDefaultValues();
+            $model->uid = Yii::$app->user->identity->id;
+            $model->sort_order = $cate->sort_order + 1;
+            if ($model->load(Yii::$app->request->post())) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    Category::updateAllCounters(['sort_order' => 1], ['and', ['and', 'uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>=', 'sort_order', $model->sort_order]]);
+                    $model->save(false);
+                    $transaction->commit();
+                    return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title]);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
+                }
+            } else {
+                return $this->renderAjax('category-add', [
+                            'model' => $model, 'id' => $id,
+                ]);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 添加网址
      * @return json
      */
@@ -306,12 +338,13 @@ class AjaxController extends Controller {
                 $model->save(false);
                 Website::updateAllCounters(['sort_order' => -1], ['and', ['and', 'cid' => $model->cid, 'stat' => Website::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
                 $transaction->commit();
-                return true;
+                return json_encode(['stat' => 'success']);
             } catch (\Exception $e) {
                 $transaction->rollBack();
+                return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
             }
         }
-        return false;
+        return json_encode(['stat' => 'error']);
     }
 
     /**
