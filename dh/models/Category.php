@@ -136,8 +136,12 @@ class Category extends \yii\db\ActiveRecord {
         return static::find()->where(['id' => $id])->select('title')->scalar();
     }
 
-    public static function findMaxSort($uid) {
-        return static::find()->where(['uid' => $uid])->max('sort_order');
+    public static function findMaxSort($uid, $stat = '') {
+        $query = static::find()->where(['uid' => $uid]);
+        if ($stat) {
+            $query->andWhere(['stat' => $stat]);
+        }
+        return $query->max('sort_order');
     }
 
     public static function get_category_sql($uid = NULL, $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {

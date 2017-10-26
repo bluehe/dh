@@ -139,8 +139,12 @@ class Website extends \yii\db\ActiveRecord {
         return $this->hasOne(Category::className(), ['id' => 'share_cid']);
     }
 
-    public static function findMaxSort($cid) {
-        return static::find()->where(['cid' => $cid])->max('sort_order');
+    public static function findMaxSort($cid, $stat = '') {
+        $query = static::find()->where(['cid' => $cid]);
+        if ($stat) {
+            $query->andWhere(['stat' => $stat]);
+        }
+        return $query->max('sort_order');
     }
 
     public static function get_website($limit = '', $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {

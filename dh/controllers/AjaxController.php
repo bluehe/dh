@@ -125,7 +125,7 @@ class AjaxController extends Controller {
                 $cate = new Category();
                 $cate->title = $model->title;
                 $cate->uid = Yii::$app->user->identity->id;
-                $cate->sort_order = Category::findMaxSort(Yii::$app->user->identity->id) + 1;
+                $cate->sort_order = Category::findMaxSort(Yii::$app->user->identity->id, Category::STAT_OPEN) + 1;
                 $cate->is_open = Category::ISOPEN_OPEN;
                 $cate->stat = Category::STAT_OPEN;
                 $transaction = Yii::$app->db->beginTransaction();
@@ -139,7 +139,7 @@ class AjaxController extends Controller {
                         $w->cid = $cate->id;
                         $w->title = $website->title;
                         $w->url = $website->url;
-                        $w->sort_order = Website::findMaxSort($cate->id) + 1;
+                        $w->sort_order = Website::findMaxSort($cate->id, Website::STAT_OPEN) + 1;
                         $w->save(false);
                         $website->updateCounters(['collect_num' => 1]);
                     }
@@ -178,7 +178,7 @@ class AjaxController extends Controller {
                 $w->cid = $model->cid;
                 $w->title = $model->title;
                 $w->url = $model->url;
-                $w->sort_order = Website::findMaxSort($w->cid) + 1;
+                $w->sort_order = Website::findMaxSort($w->cid, Website::STAT_OPEN) + 1;
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     $w->save(false);
@@ -260,7 +260,7 @@ class AjaxController extends Controller {
             $model = new Website();
             $model->loadDefaultValues();
             $model->cid = $id;
-            $model->sort_order = Website::findMaxSort($model->cid) + 1;
+            $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url]);
             } else {
