@@ -36,6 +36,7 @@ class Website extends \yii\db\ActiveRecord {
     const SHARE_WAIT = 1;
     const SHARE_ACTIVE = 2;
     const SHARE_CLOSE = 3;
+    const SHARE_COLLECT = -1;
 
     /**
      * @inheritdoc
@@ -106,7 +107,8 @@ class Website extends \yii\db\ActiveRecord {
             self::SHARE_DEFAULT => "未分享",
             self::SHARE_WAIT => "待审核",
             self::SHARE_ACTIVE => "分享中",
-            self::SHARE_CLOSE => "未通过"
+            self::SHARE_CLOSE => "未通过",
+            self::SHARE_COLLECT => "收藏获得"
         ]
     ];
 

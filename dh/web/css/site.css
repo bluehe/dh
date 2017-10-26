@@ -297,7 +297,7 @@ a:hover{text-decoration: none}
     color:#333;
 }
 .website-content .list-group-item .dropdown{
-    display: none;
+/*    display: none;*/
 }
 .website-content .list-group-item:hover .dropdown{
     display: inline-block
@@ -309,9 +309,11 @@ a:hover{text-decoration: none}
     min-width:92px;
     text-align: right;
     padding: 2px 5px;
-    position: absolute;
     top: 0;
     right: 15px;
+}
+.website-content .list-group-item .dropdown-menu.no-share {
+    min-width:72px;
 }
 .website-content .list-group-item .dropdown-menu i{
     margin: 0 2px;
@@ -536,6 +538,9 @@ a:hover{text-decoration: none}
     }
     .website-content .list-group-item .dropdown-menu {
         min-width:156px;
+    }
+    .website-content .list-group-item .dropdown-menu.no-share {
+        min-width:120px;
     }
     .website-content .list-group-item .dropdown-menu i{
         margin: 0 10px;

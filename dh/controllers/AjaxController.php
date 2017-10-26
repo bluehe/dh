@@ -120,7 +120,6 @@ class AjaxController extends Controller {
             return $this->redirect(['site/login']);
         } else {
             $model = Category::findOne($id);
-
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $cate = new Category();
                 $cate->loadDefaultValues();
@@ -139,6 +138,8 @@ class AjaxController extends Controller {
                         $w->title = $website->title;
                         $w->url = $website->url;
                         $w->sort_order = Website::findMaxSort($cate->id, Website::STAT_OPEN) + 1;
+                        $w->share_status = Website::SHARE_COLLECT;
+                        $w->share_cid = $id;
                         $w->save(false);
                         $website->updateCounters(['collect_num' => 1]);
                     }
@@ -171,6 +172,7 @@ class AjaxController extends Controller {
             return $this->redirect(['site/login']);
         } else {
             $model = Website::findOne($id);
+            $share_cid = $model->cid;
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $w = new Website();
                 $w->loadDefaultValues();
@@ -178,6 +180,8 @@ class AjaxController extends Controller {
                 $w->title = $model->title;
                 $w->url = $model->url;
                 $w->sort_order = Website::findMaxSort($w->cid, Website::STAT_OPEN) + 1;
+                $w->share_status = Website::SHARE_COLLECT;
+                $w->share_cid = $share_cid;
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     $w->save(false);
