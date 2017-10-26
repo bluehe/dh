@@ -28,8 +28,8 @@ use yii\helpers\Html;
                     </a>
 
                     <div class="myhome dropdown-menu">
-                        <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['/user/index']) ?>
-                        <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['/site/logout'], ['data-method' => 'post']) ?>
+                        <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['user/index']) ?>
+                        <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['site/logout'], ['data-method' => 'post']) ?>
                     </div>
                 </li>
 

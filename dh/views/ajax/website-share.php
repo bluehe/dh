@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use dh\models\Category;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\RepairWorker */
@@ -21,6 +22,10 @@ use yii\widgets\ActiveForm;
                     ],
         ]);
         ?>
+
+        <?= $form->field($model, 'cid')->dropDownList([], ['prompt' => '无']) ?>
+
+        <?= $form->field($model, 'cid_note')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -44,28 +49,39 @@ use yii\widgets\ActiveForm;
 
 <script>
 <?php $this->beginBlock('submit') ?>
+    $(document).ready(function () {
+        changeshow();
+        $('#websiteshare-cid').on('change', function () {
+            changeshow();
+        });
+
+    });
+    function changeshow() {
+        var forum = $('.radio-business_forum:checked').val();
+        var roomtype = $('.radio-business_roomtype:checked').val();
+        if (forum === '1') {
+            $('.field-business_room').show();
+        } else {
+            $('.field-business_room').hide();
+        }
+        if (roomtype === '1') {
+            $('.field-business_bed').show();
+        } else {
+            $('.field-business_bed').hide();
+        }
+    }
     $('body').off('submit').on('submit', '#website-form', function () {
         $.ajax({
-            url: '<?= Url::toRoute(['ajax/website-add', 'id' => $model->cid]) ?>',
+            url: '<?= Url::toRoute(['ajax/website-share', 'id' => $model->wid]) ?>',
             type: 'POST',
             data: $(this).serialize(),
             dataType: "json",
             success: function (data) {
                 if (data.stat === 'success') {
-                    var str = '<div class="list-group-item" data-id="' + data.id + '">'
-                            + '<img src="/api/getfav?url=' + data.url + '">'
-                            + ' <a class="clickurl" target="_blank" href="' + data.url + '" title="' + data.title + '">' + data.title + '</a>'
-                            + '<div class="dropdown pull-right">'
-                            + '<span class="dropdown-toggle" id="dropdownMenu' + data.id + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-caret-square-o-down" title="操作"></i></span>'
-                            + '<div class="dropdown-menu content-icon" aria-labelledby="dropdownMenu' + data.id + '">'
-                            + ' <i class="fa fa-share-alt website-share" title="推荐分享"></i>'
-                            + ' <i class="fa fa-edit website-edit" title="编辑"></i>'
-                            + ' <i class="fa fa-trash-o website-delete" title="删除"></i>'
-                            + ' <i class="fa fa-eye-slash website-open" title="私有>"></i>'
-                            + '</div></div></div>';
                     $('#user-modal').modal('hide');
-                    $('.category[data-id=<?= $model->cid ?>]').find('.list-group').append(str);
-                    my_alert('success', '添加成功！', 3000);
+                    $('.list-group-item[data-id=<?= $model->wid ?>]').find('.dropdown-menu').addClass('no-share');
+                    $('.list-group-item[data-id=<?= $model->id ?>]').find('.dropdown-menu .fa-share-alt').remove();
+                    my_alert('success', '分享成功！', 3000);
                 }
 
             }

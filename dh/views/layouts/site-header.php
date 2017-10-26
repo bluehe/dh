@@ -9,7 +9,7 @@ use dh\models\Recommend;
 /* @var $this \yii\web\View */
 /* @var $content string */
 $menuItems = [
-    ['label' => '网址大全', 'url' => ['site/index']],
+    ['label' => '网址大全', 'url' => ['site/all']],
     ['label' => '我的网址', 'url' => ['site/user']],
 ];
 $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
@@ -43,8 +43,8 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
                             <span class="caret"></span>
                         </a>
                         <div class="myhome">
-                            <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['/user/index']) ?>
-                            <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['/site/logout'], ['data-method' => 'post']) ?>
+                            <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['user/index']) ?>
+                            <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['site/logout'], ['data-method' => 'post']) ?>
                         </div>
                     </div>
 

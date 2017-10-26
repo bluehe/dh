@@ -10,6 +10,7 @@ use dh\models\Category;
 use dh\models\Website;
 use dh\models\Recommend;
 use dh\models\WebsiteClick;
+use dh\models\WebsiteShare;
 
 /**
  * Api controller
@@ -264,7 +265,7 @@ class AjaxController extends Controller {
             $model->loadDefaultValues();
             $model->uid = Yii::$app->user->identity->id;
             $model->sort_order = $cate->sort_order + 1;
-            if ($model->load(Yii::$app->request->post())) {
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     Category::updateAllCounters(['sort_order' => 1], ['and', ['and', 'uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>=', 'sort_order', $model->sort_order]]);
@@ -301,6 +302,42 @@ class AjaxController extends Controller {
                 return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url]);
             } else {
                 return $this->renderAjax('website-add', [
+                            'model' => $model,
+                ]);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 网址分享
+     * @return json
+     */
+    public function actionWebsiteShare($id) {
+
+        $website = Website::findOne($id);
+        if (!Yii::$app->user->isGuest && $website->c->uid == Yii::$app->user->identity->id) {
+            $model = new WebsiteShare();
+            $model->loadDefaultValues();
+            $model->uid = Yii::$app->user->identity->id;
+            $model->wid = $website->id;
+            $model->title = $website->title;
+            $model->url = $website->url;
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $model->save(false);
+                    $website->share_status = Website::SHARE_WAIT;
+                    $website->save(false);
+                    $transaction->commit();
+                    return json_encode(['stat' => 'success']);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
+                }
+            } else {
+                return $this->renderAjax('website-share', [
                             'model' => $model,
                 ]);
             }

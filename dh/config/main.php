@@ -88,7 +88,12 @@ return [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
 //这里是允许访问的action
-            '*',
+            'site/*',
+            'ajax/*',
+            'api/*',
+            'admin/*',
+            'gii/*',
+            'debug/*'
         ]
     ],
     'on beforeAction' => ['dh\events\initSiteConfig', 'assign'],

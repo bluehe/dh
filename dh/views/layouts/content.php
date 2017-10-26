@@ -2,6 +2,7 @@
 
 use yii\widgets\Breadcrumbs;
 use dmstr\widgets\Alert;
+use yii\helpers\Url;
 
 $system = Yii::$app->cache->get('system_info');
 ?>
@@ -28,8 +29,8 @@ $system = Yii::$app->cache->get('system_info');
         Breadcrumbs::widget(
                 [
                     'homeLink' => [
-                        'label' => '主页',
-                        'url' => Yii::$app->homeUrl,
+                        'label' => '个人中心',
+                        'url' => Url::toRoute(['user/index']),
                         'template' => '<li><i class="fa fa-home"></i> {link}</li>'
                     ],
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

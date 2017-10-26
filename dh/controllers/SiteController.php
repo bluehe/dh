@@ -188,6 +188,14 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('site/all');
+        } else {
+            return $this->redirect('site/user');
+        }
+    }
+
+    public function actionAll() {
         $cache = Yii::$app->cache;
         $query = Category::get_category_sql();
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '8']);
