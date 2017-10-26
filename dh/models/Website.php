@@ -35,7 +35,6 @@ class Website extends \yii\db\ActiveRecord {
     const SHARE_DEFAULT = 0;
     const SHARE_WAIT = 1;
     const SHARE_ACTIVE = 2;
-    const SHARE_CLOSE = 3;
     const SHARE_COLLECT = -1;
 
     /**
@@ -55,7 +54,7 @@ class Website extends \yii\db\ActiveRecord {
             [['title', 'url'], 'string', 'max' => 255],
             ['url', 'url', 'defaultScheme' => 'http'],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
-            [['share_cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['share_cid' => 'id']],
+            [['share_id'], 'exist', 'skipOnError' => true, 'targetClass' => Website::className(), 'targetAttribute' => ['share_id' => 'id']],
             [['share_status'], 'default', 'value' => self::SHARE_DEFAULT],
             [['collect_num', 'click_num'], 'default', 'value' => 0],
             [['is_open'], 'default', 'value' => self::ISOPEN_OPEN],
@@ -84,8 +83,8 @@ class Website extends \yii\db\ActiveRecord {
             'url' => '网址',
             'sort_order' => '排序',
             'click_num' => '点击数',
-            'share_stat' => '分享状态',
-            'share_cid' => '分享分类',
+            'share_stat' => '关联状态',
+            'share_id' => '关联ID',
             'collect_num' => '收藏次数',
             'created_at' => '创建时间',
             'updated_at' => '更新时间',
@@ -107,8 +106,7 @@ class Website extends \yii\db\ActiveRecord {
             self::SHARE_DEFAULT => "未分享",
             self::SHARE_WAIT => "待审核",
             self::SHARE_ACTIVE => "分享中",
-            self::SHARE_CLOSE => "未通过",
-            self::SHARE_COLLECT => "收藏获得"
+            self::SHARE_COLLECT => "收藏"
         ]
     ];
 
@@ -138,7 +136,7 @@ class Website extends \yii\db\ActiveRecord {
     }
 
     public function getShareC() {
-        return $this->hasOne(Category::className(), ['id' => 'share_cid']);
+        return $this->hasOne(Website::className(), ['id' => 'share_id']);
     }
 
     public static function findMaxSort($cid, $stat = '') {

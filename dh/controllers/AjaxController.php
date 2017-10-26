@@ -139,7 +139,7 @@ class AjaxController extends Controller {
                         $w->url = $website->url;
                         $w->sort_order = Website::findMaxSort($cate->id, Website::STAT_OPEN) + 1;
                         $w->share_status = Website::SHARE_COLLECT;
-                        $w->share_cid = $id;
+                        $w->share_id = $website->id;
                         $w->save(false);
                         $website->updateCounters(['collect_num' => 1]);
                     }
@@ -152,7 +152,7 @@ class AjaxController extends Controller {
                     $transaction->rollBack();
                     //throw $e;
 
-                    return json_encode(['stat' => 'fail']);
+                    return json_encode(['stat' => 'fail', 'msg' => '操作失败！']);
                 }
             } else {
                 return $this->renderAjax('category-collect', [
@@ -172,7 +172,7 @@ class AjaxController extends Controller {
             return $this->redirect(['site/login']);
         } else {
             $model = Website::findOne($id);
-            $share_cid = $model->cid;
+
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $w = new Website();
                 $w->loadDefaultValues();
@@ -181,7 +181,7 @@ class AjaxController extends Controller {
                 $w->url = $model->url;
                 $w->sort_order = Website::findMaxSort($w->cid, Website::STAT_OPEN) + 1;
                 $w->share_status = Website::SHARE_COLLECT;
-                $w->share_cid = $share_cid;
+                $w->share_id = $model->id;
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     $w->save(false);
@@ -193,7 +193,7 @@ class AjaxController extends Controller {
                     $transaction->rollBack();
                     //throw $e;
 
-                    return json_encode(['stat' => 'fail']);
+                    return json_encode(['stat' => 'fail', 'msg' => '操作失败！']);
                 }
             } else {
                 return $this->renderAjax('website-collect', [

@@ -42,9 +42,9 @@ $this->title = '我的网址';
                                             <span class="dropdown-toggle" id="dropdownMenu<?= $website['id'] ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                 <i class="fa fa-caret-square-o-down" title="操作"></i>
                                             </span>
-                                                    <div class="dropdown-menu content-icon <?= $website['share_status'] == Website::SHARE_DEFAULT || $website['share_status'] == Website::STAT_CLOSE ? '' : 'no-share' ?>" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
-                                                        <?= $website['share_status'] == Website::SHARE_DEFAULT || $website['share_status'] == Website::STAT_CLOSE ? '<i class="fa fa-share-alt" title="推荐分享"></i>' : '' ?>
-                                                                <i class="fa fa-edit website-edit" title="编辑" ></i>
+                                            <div class="dropdown-menu content-icon <?= $website['share_status'] == Website::SHARE_DEFAULT ? '' : 'no-share' ?>" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
+                                                <?= $website['share_status'] == Website::SHARE_DEFAULT ? '<i class="fa fa-share-alt" title="推荐分享"></i>' : '' ?>
+                                                <i class="fa fa-edit website-edit" title="编辑" ></i>
                                                 <i class="fa fa-trash-o website-delete" title="删除"></i>
                                                 <i class="fa <?= $website['is_open'] == Website::ISOPEN_OPEN ? 'fa-eye-slash' : 'fa-eye' ?> website-open" title="<?= $website['is_open'] == Website::ISOPEN_OPEN ? '私有' : '公开' ?>"></i>
                                             </div>

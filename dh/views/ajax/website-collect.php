@@ -52,9 +52,11 @@ use dh\models\Category;
             data: $(this).serialize(),
             dataType: "json",
             success: function (data) {
+                $('#collect-modal').modal('hide');
                 if (data.stat === 'success') {
-                    $('#collect-modal').modal('hide');
                     my_alert('success', '收藏成功！', 3000);
+                } else if (data.stat === 'fail') {
+                    my_alert('success', data.msg, 3000);
                 }
 
             }

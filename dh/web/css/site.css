@@ -297,7 +297,7 @@ a:hover{text-decoration: none}
     color:#333;
 }
 .website-content .list-group-item .dropdown{
-/*    display: none;*/
+    display: none;
 }
 .website-content .list-group-item:hover .dropdown{
     display: inline-block
