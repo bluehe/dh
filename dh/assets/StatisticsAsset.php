@@ -5,7 +5,7 @@ namespace dh\assets;
 use yii\web\AssetBundle;
 
 /**
- * Main dms application asset bundle.
+ * Main dh application asset bundle.
  */
 class StatisticsAsset extends AssetBundle {
 

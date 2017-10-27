@@ -41,3 +41,4 @@ phpunit.phar
 /weixin/runtime/
 /dh/runtime/
 /dh/web/data/icon/
+/dh/web/assets/

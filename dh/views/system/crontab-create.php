@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $model dms\models\Crontab */
+/* @var $model dh\models\Crontab */
 
 $this->title = '添加任务';
 $this->params['breadcrumbs'][] = ['label' => '系统设置', 'url' => ['index']];

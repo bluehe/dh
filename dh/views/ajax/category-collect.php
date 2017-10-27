@@ -5,7 +5,6 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model dms\models\RepairWorker */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

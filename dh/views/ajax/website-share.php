@@ -6,7 +6,6 @@ use yii\widgets\ActiveForm;
 use dh\models\Category;
 
 /* @var $this yii\web\View */
-/* @var $model dms\models\RepairWorker */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -14,7 +13,7 @@ use dh\models\Category;
     <div class="col-md-12">
 
         <?php
-        $form = ActiveForm::begin(['id' => 'website-form',
+        $form = ActiveForm::begin(['id' => 'website-share',
                     'options' => ['class' => 'form-horizontal', 'onsubmit' => 'return false;'],
                     'fieldConfig' => [
                         'template' => "{label}\n<div class=\"col-md-6\">{input}</div>\n<div class=\"col-md-3\">{error}</div>",
@@ -23,9 +22,9 @@ use dh\models\Category;
         ]);
         ?>
 
-        <?= $form->field($model, 'cid')->dropDownList([], ['prompt' => '无']) ?>
+        <?= $form->field($model, 'cid')->dropDownList(Category::get_user_category(), ['prompt' => '新增', 'class' => 'form-control select2']) ?>
 
-        <?= $form->field($model, 'cid_note')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'cname')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -49,7 +48,9 @@ use dh\models\Category;
 
 <script>
 <?php $this->beginBlock('submit') ?>
-    $(document).ready(function () {
+    $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
         changeshow();
         $('#websiteshare-cid').on('change', function () {
             changeshow();
@@ -57,31 +58,28 @@ use dh\models\Category;
 
     });
     function changeshow() {
-        var forum = $('.radio-business_forum:checked').val();
-        var roomtype = $('.radio-business_roomtype:checked').val();
-        if (forum === '1') {
-            $('.field-business_room').show();
+        var forum = $('#websiteshare-cid').val();
+        if (forum === '') {
+            $('.field-websiteshare-cname').show();
         } else {
-            $('.field-business_room').hide();
+            $('.field-websiteshare-cname').hide();
         }
-        if (roomtype === '1') {
-            $('.field-business_bed').show();
-        } else {
-            $('.field-business_bed').hide();
-        }
+
     }
-    $('body').off('submit').on('submit', '#website-form', function () {
+    $('body').off('submit').on('submit', '#website-share', function () {
         $.ajax({
             url: '<?= Url::toRoute(['ajax/website-share', 'id' => $model->wid]) ?>',
             type: 'POST',
             data: $(this).serialize(),
             dataType: "json",
             success: function (data) {
+                $('#user-modal').modal('hide');
                 if (data.stat === 'success') {
-                    $('#user-modal').modal('hide');
                     $('.list-group-item[data-id=<?= $model->wid ?>]').find('.dropdown-menu').addClass('no-share');
-                    $('.list-group-item[data-id=<?= $model->id ?>]').find('.dropdown-menu .fa-share-alt').remove();
+                    $('.list-group-item[data-id=<?= $model->wid ?>]').find('.dropdown-menu .fa-share-alt').remove();
                     my_alert('success', '分享成功！', 3000);
+                } else {
+                    my_alert('danger', data.msg, 3000);
                 }
 
             }

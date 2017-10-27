@@ -74,7 +74,9 @@ class Website extends \yii\db\ActiveRecord {
     public function beforeSave($insert) {
         // 注意，重载之后要调用父类同名函数
         if (parent::beforeSave($insert)) {
-            $this->host = parse_url($this->url, PHP_URL_HOST);
+            $this->url = strtolower($this->url);
+            $host = parse_url($this->url, PHP_URL_HOST);
+            $this->host = preg_replace("/^(www\.)?/is", "", $host);
             return true;
         } else {
             return false;
@@ -179,6 +181,24 @@ class Website extends \yii\db\ActiveRecord {
         }
         $num = $query->count();
         return $num;
+    }
+
+    public static function get_tab_addlist() {
+        $websites = static::find()->joinWith('c')->where(['not', ['uid' => NULL]])->andWhere([self::tableName() . '.stat' => self::STAT_OPEN, self::tableName() . '.is_open' => self::ISOPEN_OPEN])->andWhere(['not', ['share_status' => self::SHARE_COLLECT]])->orderBy([self::tableName() . '.created_at' => SORT_DESC])->limit(20)->asArray()->all();
+        $data = [];
+        foreach ($websites as $website) {
+            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'title' => $website['title']];
+        }
+        return $data;
+    }
+
+    public static function get_tab_addorder() {
+        $websites = static::find()->joinWith('c')->where(['not', ['uid' => NULL]])->andWhere([self::tableName() . '.stat' => self::STAT_OPEN, self::tableName() . '.is_open' => self::ISOPEN_OPEN])->andWhere(['not', ['share_status' => self::SHARE_COLLECT]])->orderBy([self::tableName() . '.created_at' => SORT_DESC])->limit(20)->asArray()->all();
+        $data = [];
+        foreach ($websites as $website) {
+            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'title' => $website['title']];
+        }
+        return $data;
     }
 
 }

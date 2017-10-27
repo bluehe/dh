@@ -5,7 +5,6 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model dms\models\RepairWorker */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -58,9 +57,9 @@ use yii\widgets\ActiveForm;
                             + '<div class="website-content list-group"></div>'
                             + '</div>';
                     $('#user-modal').modal('hide');
-                                $('.category[data-id=<?= $id ?>]').after(str);
-                                my_alert('success', '添加成功！', 3000);
-                }    
+                    $('.category[data-id=<?= $id ?>]').after(str);
+                    my_alert('success', '添加成功！', 3000);
+                }
 
             }
         });

@@ -320,6 +320,13 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
+        $query = Website::find()->where(['host' => '']);
+        foreach ($query->each() as $website) {
+            $website->url = strtolower($website->url);
+            $host = parse_url($website->url, PHP_URL_HOST);
+            $website->host = preg_replace("/^(www\.)?/is", "", $host);
+            $website->save();
+        }
         if (Yii::$app->user->isGuest) {
             return $this->redirect('site/all');
         } else {

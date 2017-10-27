@@ -145,12 +145,12 @@ class Category extends \yii\db\ActiveRecord {
     }
 
     public static function get_category_sql($uid = NULL, $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {
-        $query = static::find()->where(['uid' => $uid, 'cid' => $cid,])->andFilterWhere(['stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
+        $query = static::find()->where(['uid' => $uid, 'cid' => $cid,])->andFilterWhere(['stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC]);
         return $query;
     }
 
     public static function get_category($limit = '', $uid = NULL, $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {
-        $query = static::find()->where(['uid' => $uid, 'cid' => $cid])->andFilterWhere(['stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
+        $query = static::find()->where(['uid' => $uid, 'cid' => $cid])->andFilterWhere(['stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC]);
         if ($limit) {
             $query->limit($limit);
         }
@@ -159,7 +159,7 @@ class Category extends \yii\db\ActiveRecord {
     }
 
     public static function get_user_category($uid = NULL) {
-        $category = static::find()->where(['uid' => $uid])->andFilterWhere(['stat' => self::STAT_OPEN])->orderBy(['sort_order' => SORT_ASC])->all();
+        $category = static::find()->where(['uid' => $uid])->andWhere(['stat' => self::STAT_OPEN])->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
         return ArrayHelper::map($category, 'id', 'title');
     }
 

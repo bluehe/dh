@@ -13,7 +13,7 @@ use common\models\User;
  * @property integer $uid
  * @property integer $wid
  * @property integer $cid
- * @property string $cid_note
+ * @property string $cname
  * @property string $title
  * @property string $url
  * @property integer $created_at
@@ -46,13 +46,13 @@ class WebsiteShare extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['uid', 'wid', 'cid', 'created_at', 'updated_at', 'check_uid', 'stat'], 'integer'],
-            [['title', 'url', 'stat'], 'required'],
-            [['cid_note'], 'required', 'when' => function ($model) {
+            [['title', 'url'], 'required'],
+            [['cname'], 'required', 'when' => function ($model) {
                     return empty($model->cid);
                 },
                 'whenClient' => "function(){return $('#websiteshare-cid').val()=='';}"
             ],
-            [['cid_note'], 'string', 'max' => 8],
+            [['cname'], 'string', 'max' => 8],
             [['title', 'url', 'note'], 'string', 'max' => 255],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['wid'], 'exist', 'skipOnError' => true, 'targetClass' => Website::className(), 'targetAttribute' => ['wid' => 'id']],
@@ -80,7 +80,7 @@ class WebsiteShare extends \yii\db\ActiveRecord {
             'uid' => '用户',
             'wid' => '网址',
             'cid' => '分类',
-            'cid_note' => '新增分类',
+            'cname' => '分类名称',
             'title' => '名称',
             'url' => '网址',
             'created_at' => '提交时间',

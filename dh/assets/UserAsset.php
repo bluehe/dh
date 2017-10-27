@@ -5,7 +5,7 @@ namespace dh\assets;
 use yii\web\AssetBundle;
 
 /**
- * Main dms application asset bundle.
+ * Main dh application asset bundle.
  */
 class UserAsset extends AssetBundle {
 
@@ -23,12 +23,12 @@ class UserAsset extends AssetBundle {
 
     //定义按需加载JS方法，注意加载顺序在最后
     public static function addScript($view, $jsfile) {
-        $view->registerJsFile($jsfile, [AppAsset::className(), 'depends' => 'dms\assets\AppAsset']);
+        $view->registerJsFile($jsfile, [AppAsset::className(), 'depends' => 'dh\assets\UserAsset']);
     }
 
     //定义按需加载css方法，注意加载顺序在最后
     public static function addCss($view, $cssfile) {
-        $view->registerCssFile($cssfile, [AppAsset::className(), 'depends' => 'dms\assets\AppAsset']);
+        $view->registerCssFile($cssfile, [AppAsset::className(), 'depends' => 'dh\assets\UserAsset']);
     }
 
     /**
