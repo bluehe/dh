@@ -589,6 +589,7 @@ a:hover{text-decoration: none}
 .skin-blue .complete .nav-tabs > li.active > a,.skin-blue .complete .nav-tabs > li.active > a:hover,.skin-blue .complete .nav-tabs > li.active > a:focus {
     background-color: #3c8dbc;
     border: 1px solid #3c8dbc;
+    color: #fff;
 }
 .skin-blue .pagination > li > a, .skin-blue .pagination > li > span {
     border: #f3f3f3 1px solid;

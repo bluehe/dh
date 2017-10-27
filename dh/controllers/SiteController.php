@@ -183,51 +183,6 @@ class SiteController extends Controller {
     }
 
     /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex() {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect('site/all');
-        } else {
-            return $this->redirect('site/user');
-        }
-    }
-
-    public function actionAll() {
-        $cache = Yii::$app->cache;
-        $query = Category::get_category_sql();
-        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '8']);
-        $page = ($pages->offset / $pages->limit) + 1;
-        $cates = $cache->get('index_page_' . $page);
-        if ($cates === false) {
-
-            $cates = $query->offset($pages->offset)->limit($pages->limit)->asArray()->all();
-            foreach ($cates as $key => $cate) {
-                $websites = Website::get_website(null, $cate['id']);
-                $cates[$key]['website'] = $websites;
-            }
-
-            //$cache->set('index_page_' . $page, $cates);
-        }
-
-        return $this->render('index', ['cates' => $cates, 'pages' => $pages,]);
-    }
-
-    public function actionUser() {
-
-
-        $cates = Category::get_category_sql(Yii::$app->user->identity->id)->asArray()->all();
-
-        foreach ($cates as $key => $cate) {
-            $websites = Website::get_website(NULL, $cate['id']);
-            $cates[$key]['website'] = $websites;
-        }
-        return $this->render('user', ['cates' => $cates]);
-    }
-
-    /**
      * Login action.
      *
      * @return string
@@ -357,6 +312,60 @@ class SiteController extends Controller {
         return $this->render('resetPassword', [
                     'model' => $model,
         ]);
+    }
+
+    /**
+     * Displays homepage.
+     *
+     * @return string
+     */
+    public function actionIndex() {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('site/all');
+        } else {
+            return $this->redirect('site/user');
+        }
+    }
+
+    public function actionAll() {
+        $cache = Yii::$app->cache;
+        $query = Category::get_category_sql();
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '8']);
+        $page = ($pages->offset / $pages->limit) + 1;
+        $cates = $cache->get('index_page_' . $page);
+        if ($cates === false) {
+
+            $cates = $query->offset($pages->offset)->limit($pages->limit)->asArray()->all();
+            foreach ($cates as $key => $cate) {
+                $websites = Website::get_website(null, $cate['id']);
+                $cates[$key]['website'] = $websites;
+            }
+
+            //$cache->set('index_page_' . $page, $cates);
+        }
+
+        return $this->render('index', ['cates' => $cates, 'pages' => $pages,]);
+    }
+
+    public function actionUser() {
+        $cates = Category::get_category_sql(Yii::$app->user->identity->id)->asArray()->all();
+        if (count($cates) > 0) {
+            foreach ($cates as $key => $cate) {
+                $websites = Website::get_website(NULL, $cate['id']);
+                $cates[$key]['website'] = $websites;
+            }
+        } else {
+            $c = new Category();
+            $c->loadDefaultValues();
+            $c->uid = Yii::$app->user->identity->id;
+            $c->title = '新分类';
+            if ($c->save()) {
+                return $this->goHome();
+            } else {
+                return $this->redirect('site/all');
+            }
+        }
+        return $this->render('user', ['cates' => $cates]);
     }
 
 }
