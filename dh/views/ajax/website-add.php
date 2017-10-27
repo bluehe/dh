@@ -52,7 +52,7 @@ use yii\widgets\ActiveForm;
             success: function (data) {
                 if (data.stat === 'success') {
                     var str = '<div class="list-group-item" data-id="' + data.id + '">'
-                            + '<img src="/api/getfav?url=' + data.url + '">'
+                            + '<img src="/api/getfav?url=' + data.host + '">'
                             + ' <a class="clickurl" target="_blank" href="' + data.url + '" title="' + data.title + '">' + data.title + '</a>'
                             + '<div class="dropdown pull-right">'
                             + '<span class="dropdown-toggle" id="dropdownMenu' + data.id + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-caret-square-o-down" title="操作"></i></span>'

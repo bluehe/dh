@@ -19,7 +19,7 @@ class Tab extends Widget {
      */
     public $items = [];
     public $showImg = false;
-    public $template = '<div class="list-group-item" data-id="{id}">{img} <a class="clickurl" target="_blank" href="{url}" title="{title}">{title}</a></div>';
+    public $template = '<div class="list-group-item" data-id="{id}">{img} <a class="clickurl" target="_blank" href="{url}" title="{title}">{title}</a> {label}</div>';
 
     /**
      * Executes the widget.
@@ -36,7 +36,7 @@ class Tab extends Widget {
         $template = ArrayHelper::getValue($item, 'template', $this->template);
         $replace = [
             '{id}' => $item['id'],
-            '{img}' => $this->showImg ? Html::img(['api/getfav', 'url' => $item['url']]) : null,
+            '{img}' => $this->showImg && isset($item['host']) ? Html::img(['api/getfav', 'url' => $item['host']]) : null,
             '{url}' => Url::to($item['url']),
             '{title}' => $item['title'],
             '{label}' => isset($item['label']) ? '<span class="badge">' . $item['label'] . '</span>' : null,
@@ -52,7 +52,7 @@ class Tab extends Widget {
     protected function renderItems($items) {
         $n = count($items);
         $lines = [];
-        foreach ($items as $i => $item) {
+        foreach ($items as $item) {
             $lines[] = $this->renderItem($item);
         }
         return implode("\n", $lines);

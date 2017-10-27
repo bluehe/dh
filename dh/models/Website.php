@@ -187,16 +187,25 @@ class Website extends \yii\db\ActiveRecord {
         $websites = static::find()->joinWith('c')->where(['not', ['uid' => NULL]])->andWhere([self::tableName() . '.stat' => self::STAT_OPEN, self::tableName() . '.is_open' => self::ISOPEN_OPEN])->andWhere(['not', ['share_status' => self::SHARE_COLLECT]])->orderBy([self::tableName() . '.created_at' => SORT_DESC])->limit(20)->asArray()->all();
         $data = [];
         foreach ($websites as $website) {
-            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'title' => $website['title']];
+            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'host' => $website['host'], 'title' => $website['title']];
         }
         return $data;
     }
 
     public static function get_tab_addorder() {
-        $websites = static::find()->joinWith('c')->where(['not', ['uid' => NULL]])->andWhere([self::tableName() . '.stat' => self::STAT_OPEN, self::tableName() . '.is_open' => self::ISOPEN_OPEN])->andWhere(['not', ['share_status' => self::SHARE_COLLECT]])->orderBy([self::tableName() . '.created_at' => SORT_DESC])->limit(20)->asArray()->all();
+        $websites = static::find()->select(['id', 'url', 'host', 'title', 'num' => 'SUM(collect_num)'])->andWhere(['is_open' => self::ISOPEN_OPEN])->groupBy(['host'])->orderBy(['num' => SORT_DESC])->limit(10)->asArray()->all();
         $data = [];
         foreach ($websites as $website) {
-            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'title' => $website['title']];
+            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'host' => $website['host'], 'title' => $website['title'], 'label' => $website['num']];
+        }
+        return $data;
+    }
+
+    public static function get_tab_clickorder() {
+        $websites = static::find()->select(['id', 'url', 'host', 'title', 'num' => 'SUM(click_num)'])->andWhere(['is_open' => self::ISOPEN_OPEN])->groupBy(['host'])->orderBy(['num' => SORT_DESC])->limit(10)->asArray()->all();
+        $data = [];
+        foreach ($websites as $website) {
+            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'host' => $website['host'], 'title' => $website['title'], 'label' => $website['num']];
         }
         return $data;
     }

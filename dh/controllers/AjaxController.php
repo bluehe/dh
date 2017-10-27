@@ -299,7 +299,7 @@ class AjaxController extends Controller {
             $model->cid = $id;
             $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url]);
+                return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url, 'host' => $model->host]);
             } else {
                 return $this->renderAjax('website-add', [
                             'model' => $model,
@@ -355,7 +355,7 @@ class AjaxController extends Controller {
         $model = Website::findOne($id);
         if (!Yii::$app->user->isGuest && $model->c->uid == Yii::$app->user->identity->id) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return json_encode(['stat' => 'success', 'title' => $model->title, 'url' => $model->url]);
+                return json_encode(['stat' => 'success', 'title' => $model->title, 'url' => $model->url, 'host' => $model->host]);
             } else {
                 return $this->renderAjax('website-edit', [
                             'model' => $model,

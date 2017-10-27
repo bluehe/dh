@@ -55,7 +55,7 @@ use yii\widgets\ActiveForm;
                     $('.list-group-item[data-id=<?= $model->id ?>]').find('a').html(data.title);
                     $('.list-group-item[data-id=<?= $model->id ?>]').find('a').attr('href', data.url);
                     $('.list-group-item[data-id=<?= $model->id ?>]').find('a').attr('title', data.title);
-                    $('.list-group-item[data-id=<?= $model->id ?>]').find('img').attr('src', '/api/getfav?url=' + data.url);
+                    $('.list-group-item[data-id=<?= $model->id ?>]').find('img').attr('src', '/api/getfav?url=' + data.host);
                     my_alert('success', '编辑成功！', 3000);
                 }
 

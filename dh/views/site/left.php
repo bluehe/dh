@@ -23,28 +23,21 @@ use dh\models\Website;
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="addorder">
-            <ul class="list-group">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
+            <div class="list-group">
+                <?=
+                Tab::widget(['items' => Website::get_tab_addorder(), 'showImg' => true]
+                )
+                ?>
 
-            </ul>
+            </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="clickorder">
             <div class="list-group">
-                <a href="#" class="list-group-item">Cras justo odio</a>
-                <a href="#" class="list-group-item"><span class="badge">14222</span>Dapibus ac facilisis in</a>
-                <a href="#" class="list-group-item"><span class="badge">14</span>Morbi leo risus</a>
-                <a href="#" class="list-group-item"><span class="badge">14</span>Porta ac consectetur ac</a>
-                <a href="#" class="list-group-item"><span class="badge">14</span>Vestibulum at eros</a>
-                <a href="#" class="list-group-item">Vestibulum at eros</a>
-                <a href="#" class="list-group-item">Vestibulum at eros</a>
+                <?=
+                Tab::widget(['items' => Website::get_tab_clickorder(), 'showImg' => true]
+                )
+                ?>
+
             </div>
         </div>
 
