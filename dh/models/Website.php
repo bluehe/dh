@@ -51,7 +51,7 @@ class Website extends \yii\db\ActiveRecord {
         return [
             [['cid', 'title', 'url', 'sort_order'], 'required'],
             [['cid', 'sort_order', 'click_num', 'collect_num', 'is_open', 'created_at', 'updated_at', 'stat'], 'integer'],
-            [['title', 'url'], 'string', 'max' => 255],
+            [['title', 'url', 'host'], 'string', 'max' => 255],
             ['url', 'url', 'defaultScheme' => 'http'],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
             [['share_id'], 'exist', 'skipOnError' => true, 'targetClass' => Website::className(), 'targetAttribute' => ['share_id' => 'id']],
@@ -71,6 +71,16 @@ class Website extends \yii\db\ActiveRecord {
         ];
     }
 
+    public function beforeSave($insert) {
+        // 注意，重载之后要调用父类同名函数
+        if (parent::beforeSave($insert)) {
+            $this->host = parse_url($this->url, PHP_URL_HOST);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @inheritdoc
      */
@@ -81,6 +91,7 @@ class Website extends \yii\db\ActiveRecord {
             'cid' => '分类',
             'title' => '名称',
             'url' => '网址',
+            'host' => '域名',
             'sort_order' => '排序',
             'click_num' => '点击数',
             'share_stat' => '关联状态',
