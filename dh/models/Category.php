@@ -4,7 +4,7 @@ namespace dh\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use common\models\User;
+//use common\models\User;
 use yii\helpers\ArrayHelper;
 
 /**

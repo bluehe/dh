@@ -9,7 +9,7 @@ function my_alert(type, content, out = 0) {
     }
 }
 
-$('.website').on('click', '.clickurl', function () {
+$('body').on('click', '.list-group-item .clickurl', function () {
     var id = $(this).parents('.list-group-item').data('id');
     if (id) {
         $.get("/ajax/website-click", {id: id}, function (result) {});

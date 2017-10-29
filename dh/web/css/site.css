@@ -164,7 +164,7 @@ a:hover{text-decoration: none}
 
 /*左侧*/
 .mk {
-    height: 433px;
+    height: 442px;
     margin-bottom: 20px;
     border-radius: 4px;
     background-color: #fff;
@@ -205,7 +205,7 @@ a:hover{text-decoration: none}
     margin-top: 2px;
     vertical-align: top;
 }
-.mk .list-group-item a {
+.mk .list-group-item a.url {
     width: 130px;
     height: 20px;
     display: inline-block;
@@ -221,11 +221,197 @@ a:hover{text-decoration: none}
     height: 400px;
     overflow: hidden;
 }
+
 .mk .list-group-item:nth-child(10) {
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
 }
+.mk.user{
+    height: 282px;
+}
+.mk.user .tab-content .tab-pane{
+    height: 240px;
+}
+.mk.user .list-group-item:nth-child(6) {
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.user-head{
+    height:150px;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 4px;
 
+}
+.person_info .cover {
+    background-color: #cadcdd;
+    position: relative;
+    height: 42px;
+    border-radius: 4px 4px 0 0;
+    z-index: 1;
+}
+.person_info .cover .headpic {
+    width: 60px;
+    height: 60px;
+    padding: 3px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    margin-left: -30px;
+}
+.person_info .innerwrap {
+    padding: 33px 0 10px 0;
+}
+.person_info .nameBox {
+    height: 21px;
+    line-height: 16px;
+    padding-top: 5px;
+    text-align: center;
+}
+.person_info .nameBox .name {
+    max-width: 114px;
+    display: inline-block;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+.W_icon {
+    display: inline-block;
+    background-image: url(/image/icon.png);
+    background-repeat: no-repeat;
+}
+.icon_member, .icon_member_dis, .icon_wedding {
+    width: 14px;
+    height: 14px;
+    vertical-align: -2px;
+    vertical-align: text-bottom\9;
+    margin-left: 3px;
+}
+.icon_member {
+    background-position: 0 -175px;
+}
+.icon_member_dis {
+    background-position: 0 -200px;
+}
+
+.icon_wedding {
+    width: 15px;
+    background-position: -25px -300px;
+}
+
+.icon_member1,.icon_member2,.icon_member3,.icon_member4,.icon_member5,.icon_member6,.icon_member7,.icon_member1_dis,.icon_member2_dis,.icon_member3_dis,.icon_member4_dis,.icon_member5_dis,.icon_member6_dis,.icon_member7_dis,.icon_suishoupai2014,.icon_run2015 {
+    width: 16px;
+    height: 14px;
+    vertical-align: -2px;
+    vertical-align: text-bottom\9;
+    margin-left: 3px;
+}
+
+.icon_member1 {
+    background-position: -25px 0;
+}
+
+.icon_member2 {
+    background-position: -25px -25px;
+}
+
+.icon_member3 {
+    background-position: -25px -50px;
+}
+
+.icon_member4 {
+    background-position: -25px -75px;
+}
+
+.icon_member5 {
+    background-position: -25px -100px;
+}
+
+.icon_member6 {
+    background-position: -25px -125px;
+}
+
+.icon_member7 {
+    background-position: -125px -125px;
+}
+.icon_member1_dis {
+    background-position: -25px -200px;
+}
+
+.icon_member2_dis {
+    background-position: 0 -225px;
+}
+
+.icon_member3_dis {
+    background-position: -25px -225px;
+}
+
+.icon_member4_dis {
+    background-position: 0 -250px;
+}
+
+.icon_member5_dis {
+    background-position: -25px -250px;
+}
+
+.icon_member6_dis {
+    background-position: 0 -275px;
+}
+
+.icon_member7_dis {
+    background-position: -125px -150px;
+}
+.person_info .nameBox .name, .person_info .nameBox .W_icon, .person_info .nameBox .icon_yy, .person_info .nameBox .icon_vipstyle, .person_info .nameBox .icon_co1{
+    vertical-align: middle;
+}
+
+
+.user_atten {
+    height: 34px;
+    overflow: hidden;
+    margin: 10px 0 0 0;
+    padding: 0;
+    font-size: 18px;
+    display: block;
+    list-style-type:none;
+}
+.user_atten li {
+    text-align: center;
+    border-right-width: 1px;
+    border-right-style: solid;
+    list-style-type:none;
+}
+.user_atten li:last-child {
+    border: 0;
+}
+.line1{
+    border-color: #d9d9d9;
+}
+.user_atten li a {
+    display: block;
+}
+.user_atten li .txt2 {
+    display: block;
+    font-size: 12px;
+}
+.user_atten li strong {
+    display: block;
+    font-weight: bold;
+    line-height: 18px;
+    overflow: hidden;
+}
+.txt1 {
+    color: #333;
+    text-decoration: none;
+}
+.txt2{
+    color: #808080;
+    text-decoration: none;
+}
 /*网址*/
 .website .category{
     padding: 0;
@@ -621,7 +807,12 @@ a:hover{text-decoration: none}
     background-color: #3c8dbc;
     color:#fff;
 }
-
+.skin-blue .mk.user .user-head{
+    border-bottom: 1px solid #3c8dbc;
+}
+.person_info .cover {
+    background-color: #3c8dbc;
+}
 .skin-blue .website .category{
     border-left: 2px #f3f3f3 solid;
 

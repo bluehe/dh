@@ -49,7 +49,7 @@ return [
             'csrfParam' => '_csrf-dh',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'dh\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-dh', 'httpOnly' => true],
         ],

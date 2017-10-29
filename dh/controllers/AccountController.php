@@ -5,7 +5,7 @@ namespace dh\controllers;
 use Yii;
 use yii\web\Controller;
 use dh\models\ChangePassword;
-use common\models\User;
+use dhmodels\User;
 use yii\imagine\Image;
 
 class AccountController extends Controller {

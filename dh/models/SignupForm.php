@@ -4,7 +4,8 @@ namespace dh\models;
 
 use Yii;
 use yii\base\Model;
-use common\models\User;
+
+//use common\models\User;
 
 /**
  * Signup form
@@ -25,7 +26,7 @@ class SignupForm extends Model {
         return [
             [['username', 'email', 'tel'], 'trim'],
             ['username', 'required', 'message' => '{attribute}不能为空'],
-            [['username', 'email', 'tel'], 'unique', 'targetClass' => '\common\models\User', 'message' => '{attribute}已经存在'],
+            [['username', 'email', 'tel'], 'unique', 'targetClass' => '\dh\models\User', 'message' => '{attribute}已经存在'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'email', 'message' => '{attribute}格式不正确'],
             ['email', 'string', 'max' => 255],

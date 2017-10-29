@@ -3,7 +3,8 @@
 namespace dh\models;
 
 use Yii;
-use common\models\User;
+
+//use common\models\User;
 
 /**
  * This is the model class for table "{{%website_click}}".

@@ -18,8 +18,8 @@ class Tab extends Widget {
      * @inheritdoc
      */
     public $items = [];
-    public $showImg = false;
-    public $template = '<div class="list-group-item" data-id="{id}">{img} <a class="clickurl" target="_blank" href="{url}" title="{title}">{title}</a> {label}</div>';
+    public $urlTemplate = '<div class="list-group-item" data-id="{id}">{img} <a class="clickurl url" target="_blank" href="{url}" title="{title}">{title}</a> {label}</div>';
+    public $userTemplate = '<div class="list-group-item">{img} <a class="url" href="{url}" title="{title}">{title}</a> {label}</div>';
 
     /**
      * Executes the widget.
@@ -33,10 +33,15 @@ class Tab extends Widget {
      * @inheritdoc
      */
     protected function renderItem($item) {
-        $template = ArrayHelper::getValue($item, 'template', $this->template);
+        if (isset($item['template_id']) && $item['template_id'] == 'user') {
+            $template = ArrayHelper::getValue($item, 'template', $this->userTemplate);
+        } else {
+            $template = ArrayHelper::getValue($item, 'template', $this->urlTemplate);
+        }
+
         $replace = [
-            '{id}' => $item['id'],
-            '{img}' => $this->showImg && isset($item['host']) ? Html::img(['api/getfav', 'url' => $item['host']]) : null,
+            '{id}' => isset($item['id']) ? $item['id'] : null,
+            '{img}' => isset($item['img']) ? $item['img'] : null,
             '{url}' => Url::to($item['url']),
             '{title}' => $item['title'],
             '{label}' => isset($item['label']) ? '<span class="badge">' . $item['label'] . '</span>' : null,

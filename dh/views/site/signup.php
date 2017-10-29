@@ -6,7 +6,7 @@ use yii\captcha\Captcha;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
+/* @var $model \dh\models\LoginForm */
 
 $this->title = '注册';
 

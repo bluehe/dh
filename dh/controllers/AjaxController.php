@@ -5,7 +5,7 @@ namespace dh\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\Cookie;
-use common\models\User;
+use dh\models\User;
 use dh\models\Category;
 use dh\models\Website;
 use dh\models\Recommend;

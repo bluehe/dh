@@ -4,7 +4,8 @@ namespace dh\models;
 
 use Yii;
 use yii\base\Model;
-use common\models\User;
+
+//use common\models\User;
 
 /**
  * Password reset request form
@@ -23,7 +24,7 @@ class PasswordResetRequestForm extends Model {
             ['email', 'required', 'message' => 'E-mail不能为空'],
             ['email', 'email', 'message' => 'E-mail格式不正确'],
             ['email', 'exist',
-                'targetClass' => '\common\models\User',
+                'targetClass' => '\dh\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => 'E-mail不存在.'
             ],

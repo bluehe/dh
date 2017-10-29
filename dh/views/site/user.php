@@ -11,7 +11,7 @@ $this->title = '我的网址';
 ?>
 <div class="container">
     <div class="row content">
-        <section class="col-lg-3 hidden-xs">
+        <section class="col-lg-3">
             <?=
             $this->render('left.php')
             ?>

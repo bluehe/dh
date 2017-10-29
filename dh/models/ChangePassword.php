@@ -3,7 +3,7 @@
 namespace dh\models;
 
 use Yii;
-use common\models\User;
+//use common\models\User;
 use yii\base\Model;
 
 /**
