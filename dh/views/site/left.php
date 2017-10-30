@@ -28,7 +28,7 @@ use yii\helpers\Html;
                 <ul class="user_atten">
                         <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num(Yii::$app->user->identity->id) ?></strong><span class="txt2">关注</span></a></li>
                             <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num(Yii::$app->user->identity->id, 'fans') ?></strong><span class="txt2">粉丝</span></a></li>
-                            <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong><?= Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) ?></strong><span class="txt2">网址</span></a></li>
+                                <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/user'], ['class' => 'txt1']) ?></li>
                     </ul>
             </div>
         </div>
@@ -37,7 +37,7 @@ use yii\helpers\Html;
 <div class="mk user hidden-xs">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#useradd" aria-controls="useradd" role="tab" data-toggle="tab">新用户</a></li>
-        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userorder" aria-controls="userorder" role="tab" data-toggle="tab">粉丝排行</a></li>
+        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userfans" aria-controls="userfans" role="tab" data-toggle="tab">粉丝排行</a></li>
         <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userclick" aria-controls="userclick" role="tab" data-toggle="tab">点击排行</a></li>
 
     </ul>
@@ -52,10 +52,10 @@ use yii\helpers\Html;
                 ?>
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="userorder">
+        <div role="tabpanel" class="tab-pane" id="userfans">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => UserAtten::get_tab_userorder(6)]
+                Tab::widget(['items' => UserAtten::get_tab_userfans(6)]
                 )
                 ?>
 
