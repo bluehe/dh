@@ -80,8 +80,6 @@ class SiteController extends Controller {
     public function successCallback($client) {
         $type = $client->getId(); // qq | weibo | github |weixin
         $attributes = $client->getUserAttributes(); // basic info
-        var_dump($attributes);
-        exit;
 
         $auth = UserAuth::find()->where(['type' => $type, 'open_id' => $attributes['id']])->one();
         switch ($type) {

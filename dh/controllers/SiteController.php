@@ -78,19 +78,23 @@ class SiteController extends Controller {
         switch ($type) {
             case 'github':
                 $avatar = $attributes['avatar_url'];
-                $nickname = '';
+                $nickname = $attributes['name'];
+                $gender = '';
                 break;
             case 'weibo':
                 $avatar = $attributes['profile_image_url'];
-                $nickname = '';
+                $nickname = $attributes['name'];
+                $gender = $attributes['gender']; //m
                 break;
             case 'qq':
                 $avatar = $attributes['figureurl_qq_2'];
-                $nickname = '';
+                $nickname = $attributes['nickname'];
+                $gender = $attributes['gender']; //男
                 break;
             default:
                 $avatar = '';
                 $nickname = '';
+                $gender = '';
                 break;
         }
         if ($auth) {
