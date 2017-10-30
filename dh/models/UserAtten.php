@@ -100,6 +100,7 @@ class UserAtten extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user']);
     }
 
+    //关注用户数
     public static function get_num($uid = NULL, $type = 'follow', $stat = self::STAT_OPEN) {
         $query = static::find()->andFilterWhere(['stat' => $stat]);
         if ($type == 'follow') {
@@ -111,6 +112,7 @@ class UserAtten extends \yii\db\ActiveRecord
         return $num;
     }
 
+    //用户关注排行
     public static function get_tab_userorder($num = '') {
         $query = static::find()->select(['id', 'user', 'num' => 'COUNT(uid)'])->andWhere(['stat' => self::STAT_OPEN])->groupBy(['user'])->orderBy(['num' => SORT_DESC]);
         if ($num) {
