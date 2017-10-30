@@ -162,11 +162,7 @@ Modal::end();
                     my_alert('success', '删除成功！', 3000);
                 } else if (data.stat === 'fail') {
                     my_alert('danger', data.msg, 3000);
-                }
-                if (result) {
-                    _this.remove();
-                    my_alert('success', '删除成功！', 3000);
-                }
+                }           
             });
         }
     });
