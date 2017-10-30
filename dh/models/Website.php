@@ -210,7 +210,7 @@ class Website extends \yii\db\ActiveRecord {
         return $data;
     }
 
-    public static function get_tab_adduser() {
+    public static function get_tab_useradd() {
         $query = User::find()->andWhere(['status' => User::STATUS_ACTIVE])->orderBy(['created_at' => SORT_DESC, 'id' => SORT_DESC])->limit(20);
         $data = [];
         foreach ($query->each() as $user) {

@@ -45,7 +45,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane box active" id="useradd">
             <div class="list-group list">
                 <?=
-                Tab::widget(['items' => Website::get_tab_adduser()]
+                Tab::widget(['items' => Website::get_tab_useradd()]
                 )
                 ?>
             </div>
