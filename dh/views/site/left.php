@@ -2,6 +2,7 @@
 
 use dh\components\Tab;
 use dh\models\Website;
+use dh\models\UserAtten;
 use yii\helpers\Html;
 ?>
 <div class="user-head">
@@ -24,9 +25,9 @@ use yii\helpers\Html;
                     <a title="等级" href="#"><span class="badge">Lv.0</span></a>
                 </div>
                 <ul class="user_atten">
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow">1</strong><span class="txt2">关注</span></a></li>
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans">30</strong><span class="txt2">粉丝</span></a></li>
-                        <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong><?= Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) ?></strong><span class="txt2">网址</span></a></li>
+                        <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num(Yii::$app->user->identity->id) ?></strong><span class="txt2">关注</span></a></li>
+                            <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num(Yii::$app->user->identity->id, 'fans') ?></strong><span class="txt2">粉丝</span></a></li>
+                            <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong><?= Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) ?></strong><span class="txt2">网址</span></a></li>
                     </ul>
             </div>
         </div>

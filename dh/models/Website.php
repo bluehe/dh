@@ -32,6 +32,7 @@ class Website extends \yii\db\ActiveRecord {
 
     const STAT_OPEN = 1;
     const STAT_CLOSE = 2;
+    const STAT_BLACK = -1;
     const ISOPEN_OPEN = 1;
     const ISOPEN_CLOSE = 2;
     const SHARE_DEFAULT = 0;
@@ -111,7 +112,8 @@ class Website extends \yii\db\ActiveRecord {
     public static $List = [
         'stat' => [
             self::STAT_OPEN => "启用",
-            self::STAT_CLOSE => "关闭"
+            self::STAT_CLOSE => "关闭",
+            self::STAT_BLACK => "拉黑"
         ],
         'is_open' => [
             self::ISOPEN_OPEN => "公开",
