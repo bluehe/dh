@@ -75,8 +75,8 @@ use dh\models\Category;
             success: function (data) {
                 $('#user-modal').modal('hide');
                 if (data.stat === 'success') {
-                    $('.list-group-item[data-id=<?= $model->wid ?>]').find('.dropdown-menu').addClass('no-share');
-                    $('.list-group-item[data-id=<?= $model->wid ?>]').find('.dropdown-menu .fa-share-alt').remove();
+                    $('.list-group-item[id=<?= $model->wid ?>]').find('.dropdown-menu').addClass('no-share');
+                    $('.list-group-item[id=<?= $model->wid ?>]').find('.dropdown-menu .fa-share-alt').remove();
                     my_alert('success', '分享成功！', 3000);
                 } else {
                     my_alert('danger', data.msg, 3000);

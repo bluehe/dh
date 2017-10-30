@@ -413,14 +413,20 @@ a:hover{text-decoration: none}
     text-decoration: none;
 }
 /*网址*/
+
 .website .category{
     padding: 0;
-    border-left: 2px #e1eff4 solid;
+    /*    border-left: 2px #e1eff4 solid;*/
     background-color: #fff;
+    margin-left: 0.5%;
     border-radius: 4px;
     margin-bottom: 20px;
-    width:25%;
+    width:24.5%;
     float: left;
+}
+.category.sort-highlight {
+    opacity: .65;
+    filter: alpha(opacity=65);
 }
 .website.plate-0 .list-group-item:nth-child(10) {
     border-bottom-right-radius: 4px;
@@ -447,6 +453,7 @@ a:hover{text-decoration: none}
     line-height: 42px;
     padding: 0 15px;
     position: relative;
+    cursor: move;
 }
 .header-icon {
     margin-left: 5px;

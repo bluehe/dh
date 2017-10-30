@@ -239,7 +239,7 @@ class AjaxController extends Controller {
                 try {
                     $model->save(false);
                     Website::updateAll(['stat' => Website::STAT_CLOSE], ['cid' => $id, 'stat' => Website::STAT_OPEN]);
-                    Category::updateAllCounters(['sort_order' => -1], ['and', ['and', 'uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
+                    Category::updateAllCounters(['sort_order' => -1], ['and', ['uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
                     $transaction->commit();
                     return json_encode(['stat' => 'success']);
                 } catch (\Exception $e) {
@@ -268,7 +268,7 @@ class AjaxController extends Controller {
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
-                    Category::updateAllCounters(['sort_order' => 1], ['and', ['and', 'uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>=', 'sort_order', $model->sort_order]]);
+                    Category::updateAllCounters(['sort_order' => 1], ['and', ['uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>=', 'sort_order', $model->sort_order]]);
                     $model->save(false);
                     $transaction->commit();
                     return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title]);
@@ -280,6 +280,37 @@ class AjaxController extends Controller {
                 return $this->renderAjax('category-add', [
                             'model' => $model, 'id' => $id,
                 ]);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 分类排序
+     * @return json
+     */
+    public function actionCategorySort($id, $sort) {
+
+        $model = Category::findOne($id);
+        if (!Yii::$app->user->isGuest && $model->uid == Yii::$app->user->identity->id) {
+
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                if ($model->sort_order < $sort) {
+                    //往后移
+                    Category::updateAllCounters(['sort_order' => -1], ['and', ['uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['and', ['>', 'sort_order', $model->sort_order], ['<=', 'sort_order', $sort]]]);
+                } elseif ($model->sort_order > $sort) {
+                    //往前移
+                    Category::updateAllCounters(['sort_order' => 1], ['and', ['uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['and', ['<', 'sort_order', $model->sort_order], ['>=', 'sort_order', $sort]]]);
+                }
+                $model->sort_order = $sort;
+                $model->save(false);
+                $transaction->commit();
+                return json_encode(['stat' => 'success']);
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
             }
         } else {
             return false;
@@ -377,7 +408,7 @@ class AjaxController extends Controller {
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 $model->save(false);
-                Website::updateAllCounters(['sort_order' => -1], ['and', ['and', 'cid' => $model->cid, 'stat' => Website::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
+                Website::updateAllCounters(['sort_order' => -1], ['and', ['cid' => $model->cid, 'stat' => Website::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
                 $transaction->commit();
                 return json_encode(['stat' => 'success']);
             } catch (\Exception $e) {

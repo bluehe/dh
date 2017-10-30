@@ -48,7 +48,7 @@ use yii\widgets\ActiveForm;
             dataType: "json",
             success: function (data) {
                 if (data.stat === 'success') {
-                    var str = '<div class="category" data-id="' + data.id + '">'
+                    var str = '<div class="category" id="' + data.id + '">'
                             + '<div class="website-header">'
                             + '<b>' + data.title + '</b>'
                             + '<span class="header-icon"><i class="fa fa-edit category-edit" title="编辑分类"></i><i class="fa fa-trash-o category-delete" title="删除分类"></i> <i class="fa fa-plus category-add" title="添加分类"></i></span>'
@@ -57,7 +57,7 @@ use yii\widgets\ActiveForm;
                             + '<div class="website-content list-group"></div>'
                             + '</div>';
                     $('#user-modal').modal('hide');
-                    $('.category[data-id=<?= $id ?>]').after(str);
+                    $('.category[id=<?= $id ?>]').after(str);
                     my_alert('success', '添加成功！', 3000);
                 }
 

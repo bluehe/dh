@@ -15,6 +15,7 @@ class Select2Asset extends AssetBundle {
     ];
     public $js = [
         'plugins/select2/select2.full.min.js',
+        'plugins/jQueryUI/jquery-ui.min.js',
     ];
     public $depends = [
     ];

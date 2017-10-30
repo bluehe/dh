@@ -21,9 +21,9 @@ $this->title = '我的网址';
         <section class="col-lg-9">
             <div class="row">
                 <?php Pjax::begin(); ?>
-                <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12">
+                <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12 categorySortable">
                     <?php foreach ($cates as $cate) { ?>
-                        <div class="category" data-id="<?= $cate['id'] ?>">
+                        <div class="category" id="<?= $cate['id'] ?>">
 
                             <div class="website-header">
 
@@ -35,7 +35,7 @@ $this->title = '我的网址';
                             <div class="website-content list-group">
 
                                 <?php foreach ($cate['website'] as $website) { ?>
-                                    <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" data-id="<?= $website['id'] ?>">
+                                    <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" id="<?= $website['id'] ?>">
                                         <?= Html::img(['api/getfav', 'url' => $website['host']]) ?>
                                         <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="dropdown pull-right">
@@ -76,10 +76,35 @@ Modal::end();
 ?>
 <script>
 <?php $this->beginBlock('js') ?>
+    $(".categorySortable").sortable({
+        placeholder: "category sort-highlight",
+        containment: ".website",
+        handle: ".website-header",
+        forcePlaceholderSize: true,
+        forceHelperSize: true,
+        revert: true,
+        tolerance: "pointer",
+        update: function (event, ui) {
+            var categoryids = $(this).sortable("toArray");
+            var id = ui.item[0].id;
+            var sort = $.inArray(id, categoryids) + 1;
+            if (sort > 0) {
+                $.getJSON("<?= Url::toRoute('ajax/category-sort') ?>", {id: id, sort: sort}, function (data) {
+                    if (data.stat === 'fail') {
+                        my_alert('danger', data.msg, 3000);
+                    }
+                });
+            } else {
+                my_alert('danger', '排序出错', 3000);
+            }
+
+        }
+    });
+
     //分类编辑
     $('.website').on('click', '.category-edit', function () {
 
-        $.get('<?= Url::toRoute('ajax/category-edit') ?>', {id: $(this).parents('.category').data('id')},
+        $.get('<?= Url::toRoute('ajax/category-edit') ?>', {id: $(this).parents('.category').attr('id')},
                 function (data) {
                     $('#user-modal .modal-title').html('编辑分类');
                     $('#user-modal .modal-body').html(data);
@@ -91,7 +116,7 @@ Modal::end();
     //分类删除
     $('.website').on('click', '.category-delete', function () {
         var _this = $(this).parents('.category');
-        var id = _this.data('id');
+        var id = _this.attr('id');
         if (id) {
             $.getJSON("<?= Url::toRoute('ajax/category-delete') ?>", {id: id}, function (data) {
                 if (data.stat === 'success') {
@@ -107,7 +132,7 @@ Modal::end();
     //分类添加
     $('.website').on('click', '.category-add', function () {
         var _this = $(this).parents('.category');
-        var id = _this.data('id');
+        var id = _this.attr('id');
         if (id) {
             $.get("<?= Url::toRoute('ajax/category-add') ?>", {id: id}, function (data) {
                 $('#user-modal .modal-title').html('添加分类');
@@ -120,7 +145,7 @@ Modal::end();
 
     //网址添加
     $('.website').on('click', '.website-add', function () {
-        $.get('<?= Url::toRoute('ajax/website-add') ?>', {id: $(this).parents('.category').data('id')},
+        $.get('<?= Url::toRoute('ajax/website-add') ?>', {id: $(this).parents('.category').attr('id')},
                 function (data) {
                     $('#user-modal .modal-title').html('添加网址');
                     $('#user-modal .modal-body').html(data);
@@ -131,7 +156,7 @@ Modal::end();
 
     //网址分享
     $('.website').on('click', '.website-share', function () {
-        $.get('<?= Url::toRoute('ajax/website-share') ?>', {id: $(this).parents('.list-group-item').data('id')},
+        $.get('<?= Url::toRoute('ajax/website-share') ?>', {id: $(this).parents('.list-group-item').attr('id')},
                 function (data) {
                     $('#user-modal .modal-title').html('网址分享');
                     $('#user-modal .modal-body').html(data);
@@ -142,7 +167,7 @@ Modal::end();
 
     //网址编辑
     $('.website').on('click', '.website-edit', function () {
-        $.get('<?= Url::toRoute('ajax/website-edit') ?>', {id: $(this).parents('.list-group-item').data('id')},
+        $.get('<?= Url::toRoute('ajax/website-edit') ?>', {id: $(this).parents('.list-group-item').attr('id')},
                 function (data) {
                     $('#user-modal .modal-title').html('编辑网址');
                     $('#user-modal .modal-body').html(data);
@@ -154,7 +179,7 @@ Modal::end();
     //网址删除
     $('.website').on('click', '.website-delete', function () {
         var _this = $(this).parents('.list-group-item');
-        var id = _this.data('id');
+        var id = _this.attr('id');
         if (id) {
             $.getJSON("<?= Url::toRoute('ajax/website-delete') ?>", {id: id}, function (data) {
                 if (data.stat === 'success') {
@@ -162,7 +187,7 @@ Modal::end();
                     my_alert('success', '删除成功！', 3000);
                 } else if (data.stat === 'fail') {
                     my_alert('danger', data.msg, 3000);
-                }           
+                }
             });
         }
     });
@@ -170,7 +195,7 @@ Modal::end();
     //网址公开/私有
     $('.website').on('click', '.website-open', function () {
         var _this = $(this);
-        var id = _this.parents('.list-group-item').data('id');
+        var id = _this.parents('.list-group-item').attr('id');
         if (id) {
             $.get("<?= Url::toRoute('ajax/website-open') ?>", {id: id}, function (data) {
                 if (data) {

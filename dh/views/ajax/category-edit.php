@@ -49,7 +49,7 @@ use yii\widgets\ActiveForm;
             success: function (data) {
                 if (data.stat === 'success') {
                     $('#user-modal').modal('hide');
-                    $('.category[data-id=<?= $model->id ?>]').find('.website-header b').html(data.title);
+                    $('.category[id=<?= $model->id ?>]').find('.website-header b').html(data.title);
                     my_alert('success', '编辑成功！', 3000);
                 }
 
