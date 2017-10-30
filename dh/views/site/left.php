@@ -37,7 +37,7 @@ use yii\helpers\Html;
 <div class="mk user hidden-xs">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#useradd" aria-controls="useradd" role="tab" data-toggle="tab">新用户</a></li>
-        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userorder" aria-controls="userorder" role="tab" data-toggle="tab">关注排行</a></li>
+        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userorder" aria-controls="userorder" role="tab" data-toggle="tab">粉丝排行</a></li>
         <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userclick" aria-controls="userclick" role="tab" data-toggle="tab">点击排行</a></li>
 
     </ul>
@@ -55,7 +55,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane" id="userorder">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => Website::get_tab_addorder(6)]
+                Tab::widget(['items' => UserAtten::get_tab_userorder(6)]
                 )
                 ?>
 

@@ -4,6 +4,8 @@ namespace dh\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "{{%user_atten}}".
@@ -107,6 +109,20 @@ class UserAtten extends \yii\db\ActiveRecord
         }
         $num = $query->count();
         return $num;
+    }
+
+    public static function get_tab_userorder($num = '') {
+        $query = static::find()->select(['id', 'user', 'num' => 'COUNT(uid)'])->andWhere(['stat' => self::STAT_OPEN])->groupBy(['user'])->orderBy(['num' => SORT_DESC]);
+        if ($num) {
+            $query->limit($num);
+        }
+        $attens = $query->asArray()->all();
+        $data = [];
+        foreach ($attens as $atten) {
+            $user = User::findOne($atten['user']);
+            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->username, 'label' => $atten['num'], 'img' => Html::img($user->avatar ? $user->avatar : '/image/user.png', ['class' => 'img-circle'])];
+        }
+        return $data;
     }
 
 }
