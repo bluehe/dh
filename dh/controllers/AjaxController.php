@@ -299,7 +299,7 @@ class AjaxController extends Controller {
             $model->cid = $id;
             $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url, 'host' => $model->host]);
+                return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url, 'host' => $model->host, 'is_open' => $model->is_open == Website::ISOPEN_OPEN ? true : false]);
             } else {
                 return $this->renderAjax('website-add', [
                             'model' => $model,

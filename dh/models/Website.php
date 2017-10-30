@@ -114,8 +114,8 @@ class Website extends \yii\db\ActiveRecord {
             self::STAT_CLOSE => "关闭"
         ],
         'is_open' => [
-            self::ISOPEN_OPEN => "开放",
-            self::ISOPEN_CLOSE => "关闭"
+            self::ISOPEN_OPEN => "公开",
+            self::ISOPEN_CLOSE => "私有"
         ],
         'share_status' => [
             self::SHARE_DEFAULT => "未分享",

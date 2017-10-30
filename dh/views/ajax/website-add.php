@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use dh\models\Website;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
@@ -24,6 +25,8 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'is_open')->radioList(Website::$List['is_open'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
         <div class="col-md-6 col-xs-6 text-right">
 
@@ -51,7 +54,7 @@ use yii\widgets\ActiveForm;
             dataType: "json",
             success: function (data) {
                 if (data.stat === 'success') {
-                    var str = '<div class="list-group-item" data-id="' + data.id + '">'
+                    var str = '<div class="list-group-item'+(data.is_open?'':' list-group-item-warning')+'" data-id="' + data.id + '">'
                             + '<img src="/api/getfav?url=' + data.host + '">'
                             + ' <a class="clickurl" target="_blank" href="' + data.url + '" title="' + data.title + '">' + data.title + '</a>'
                             + '<div class="dropdown pull-right">'
@@ -60,8 +63,8 @@ use yii\widgets\ActiveForm;
                             + ' <i class="fa fa-share-alt website-share" title="推荐分享"></i>'
                             + ' <i class="fa fa-edit website-edit" title="编辑"></i>'
                             + ' <i class="fa fa-trash-o website-delete" title="删除"></i>'
-                            + ' <i class="fa fa-eye-slash website-open" title="私有>"></i>'
-                            + '</div></div></div>';
+                            + (data.is_open?' <i class="fa fa-eye-slash website-open" title="私有"></i>':' <i class="fa fa-eye website-open" title="公开"></i>')
+                            + '</div></div></div>';                                   
                     $('#user-modal').modal('hide');
                     $('.category[data-id=<?= $model->cid ?>]').find('.list-group').append(str);
                     my_alert('success', '添加成功！', 3000);
