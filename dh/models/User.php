@@ -7,6 +7,8 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 /**
  * User model
@@ -170,6 +172,18 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function removePasswordResetToken() {
         $this->password_reset_token = null;
+    }
+
+     public static function get_tab_useradd($num = '') {
+        $query = static::find()->andWhere(['status' => self::STATUS_ACTIVE])->orderBy(['created_at' => SORT_DESC, 'id' => SORT_DESC]);
+        if ($num) {
+            $query->limit($num);
+        }
+        $data = [];
+        foreach ($query->each() as $user) {
+            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->username, 'label' => Yii::$app->formatter->asRelativeTime($user->created_at), 'img' => Html::img($user->avatar ? $user->avatar : '/image/user.png', ['class' => 'img-circle'])];
+        }
+        return $data;
     }
 
 }

@@ -5,7 +5,6 @@ namespace dh\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%website}}".
@@ -185,8 +184,11 @@ class Website extends \yii\db\ActiveRecord {
         return $num;
     }
 
-    public static function get_tab_addlist() {
-        $query = static::find()->joinWith('c')->where(['not', ['uid' => NULL]])->andWhere([self::tableName() . '.stat' => self::STAT_OPEN, self::tableName() . '.is_open' => self::ISOPEN_OPEN])->andWhere(['not', ['share_status' => self::SHARE_COLLECT]])->orderBy([self::tableName() . '.created_at' => SORT_DESC])->limit(20);
+    public static function get_tab_addlist($num = '') {
+        $query = static::find()->joinWith('c')->where(['not', ['uid' => NULL]])->andWhere([self::tableName() . '.stat' => self::STAT_OPEN, self::tableName() . '.is_open' => self::ISOPEN_OPEN])->andWhere(['not', ['share_status' => self::SHARE_COLLECT]])->orderBy([self::tableName() . '.created_at' => SORT_DESC]);
+        if ($num) {
+            $query->limit($num);
+        }
         $data = [];
         foreach ($query->each() as $website) {
             $data[] = ['id' => $website->id, 'url' => $website->url, 'img' => Html::img(['api/getfav', 'url' => $website->host]), 'title' => $website->title, 'label' => Yii::$app->formatter->asRelativeTime($website->created_at)];
@@ -194,8 +196,12 @@ class Website extends \yii\db\ActiveRecord {
         return $data;
     }
 
-    public static function get_tab_addorder() {
-        $websites = static::find()->select(['id', 'url', 'host', 'title', 'num' => 'SUM(collect_num)'])->andWhere(['is_open' => self::ISOPEN_OPEN])->groupBy(['host'])->orderBy(['num' => SORT_DESC])->limit(10)->asArray()->all();
+    public static function get_tab_addorder($num = '') {
+        $query = static::find()->select(['id', 'url', 'host', 'title', 'num' => 'SUM(collect_num)'])->andWhere(['is_open' => self::ISOPEN_OPEN])->groupBy(['host'])->orderBy(['num' => SORT_DESC]);
+        if ($num) {
+            $query->limit($num);
+        }
+        $websites = $query->asArray()->all();
         $data = [];
         foreach ($websites as $website) {
             $data[] = ['id' => $website['id'], 'url' => $website['url'], 'img' => Html::img(['api/getfav', 'url' => $website['host']]), 'title' => $website['title'], 'label' => $website['num']];
@@ -203,20 +209,15 @@ class Website extends \yii\db\ActiveRecord {
         return $data;
     }
 
-    public static function get_tab_clickorder() {
-        $websites = static::find()->select(['id', 'url', 'host', 'title', 'num' => 'SUM(click_num)'])->andWhere(['is_open' => self::ISOPEN_OPEN])->groupBy(['host'])->orderBy(['num' => SORT_DESC])->limit(10)->asArray()->all();
+    public static function get_tab_clickorder($num = '') {
+        $query = static::find()->select(['id', 'url', 'host', 'title', 'num' => 'SUM(click_num)'])->andWhere(['is_open' => self::ISOPEN_OPEN])->groupBy(['host'])->orderBy(['num' => SORT_DESC]);
+        if ($num) {
+            $query->limit($num);
+        }
+        $websites = $query->asArray()->all();
         $data = [];
         foreach ($websites as $website) {
             $data[] = ['id' => $website['id'], 'url' => $website['url'], 'img' => Html::img(['api/getfav', 'url' => $website['host']]), 'title' => $website['title'], 'label' => $website['num']];
-        }
-        return $data;
-    }
-
-    public static function get_tab_useradd() {
-        $query = User::find()->andWhere(['status' => User::STATUS_ACTIVE])->orderBy(['created_at' => SORT_DESC, 'id' => SORT_DESC])->limit(20);
-        $data = [];
-        foreach ($query->each() as $user) {
-            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->username, 'label' => Yii::$app->formatter->asRelativeTime($user->created_at), 'img' => Html::img($user->avatar ? $user->avatar : '/image/user.png', ['class' => 'img-circle'])];
         }
         return $data;
     }

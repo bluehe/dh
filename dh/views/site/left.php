@@ -2,6 +2,7 @@
 
 use dh\components\Tab;
 use dh\models\Website;
+use dh\models\User;
 use dh\models\UserAtten;
 use yii\helpers\Html;
 ?>
@@ -35,9 +36,9 @@ use yii\helpers\Html;
 </div>
 <div class="mk user hidden-xs">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#useradd" aria-controls="addlist" role="tab" data-toggle="tab">新用户</a></li>
-        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userorder" aria-controls="addorder" role="tab" data-toggle="tab">添加排行</a></li>
-        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userclick" aria-controls="clickorder" role="tab" data-toggle="tab">点击排行</a></li>
+        <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#useradd" aria-controls="useradd" role="tab" data-toggle="tab">新用户</a></li>
+        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userorder" aria-controls="userorder" role="tab" data-toggle="tab">关注排行</a></li>
+        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userclick" aria-controls="userclick" role="tab" data-toggle="tab">点击排行</a></li>
 
     </ul>
 
@@ -46,7 +47,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane box active" id="useradd">
             <div class="list-group list">
                 <?=
-                Tab::widget(['items' => Website::get_tab_useradd()]
+                Tab::widget(['items' => User::get_tab_useradd(20)]
                 )
                 ?>
             </div>
@@ -54,7 +55,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane" id="userorder">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => Website::get_tab_addorder()]
+                Tab::widget(['items' => Website::get_tab_addorder(6)]
                 )
                 ?>
 
@@ -63,7 +64,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane" id="userclick">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => Website::get_tab_clickorder()]
+                Tab::widget(['items' => Website::get_tab_clickorder(6)]
                 )
                 ?>
 
@@ -88,7 +89,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane box active" id="addlist">
             <div class="list-group list">
                 <?=
-                Tab::widget(['items' => Website::get_tab_addlist()]
+                Tab::widget(['items' => Website::get_tab_addlist(20)]
                 )
                 ?>
             </div>
@@ -96,7 +97,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane" id="addorder">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => Website::get_tab_addorder()]
+                Tab::widget(['items' => Website::get_tab_addorder(10)]
                 )
                 ?>
 
@@ -105,7 +106,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane" id="clickorder">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => Website::get_tab_clickorder()]
+                Tab::widget(['items' => Website::get_tab_clickorder(10)]
                 )
                 ?>
 
