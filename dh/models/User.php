@@ -181,7 +181,7 @@ class User extends ActiveRecord implements IdentityInterface {
         }
         $data = [];
         foreach ($query->each() as $user) {
-            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->username, 'label' => Yii::$app->formatter->asRelativeTime($user->created_at), 'img' => Html::img($user->avatar ? $user->avatar : '/image/user.png', ['class' => 'img-circle'])];
+            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => Yii::$app->formatter->asRelativeTime($user->created_at), 'img' => Html::img($user->avatar ? $user->avatar : '/image/user.png', ['class' => 'img-circle'])];
         }
         return $data;
     }

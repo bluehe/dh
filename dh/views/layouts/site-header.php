@@ -39,8 +39,8 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
 
                         <a href="javascript:void(0);">
                             <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png' ?>" class="user-image" alt="用户头像" />
-                            <span><?= Yii::$app->user->identity->username ?></span>
-                            <span class="caret"></span>
+                                <span><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
+                                <span class="caret"></span>
                         </a>
                         <div class="myhome">
                             <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['user/index']) ?>

@@ -13,6 +13,7 @@ use yii\base\Model;
 class SignupForm extends Model {
 
     public $username;
+    public $nickname;
     public $email;
     public $tel;
     public $password;
@@ -24,7 +25,7 @@ class SignupForm extends Model {
      */
     public function rules() {
         return [
-            [['username', 'email', 'tel'], 'trim'],
+            [['username', 'email', 'tel', 'nickname'], 'trim'],
             ['username', 'required', 'message' => '{attribute}不能为空'],
             [['username', 'email', 'tel'], 'unique', 'targetClass' => '\dh\models\User', 'message' => '{attribute}已经存在'],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -46,6 +47,7 @@ class SignupForm extends Model {
             'username' => '用户名',
             'email' => '电子邮件',
             'tel' => '联系电话',
+            'nickname' => '昵称',
             'password' => '密码',
             'password1' => '确认密码',
             'verifyCode' => '验证码'
@@ -64,6 +66,7 @@ class SignupForm extends Model {
 
         $user = new User();
         $user->username = $this->username;
+        $user->nickname = $this->nickname;
         $user->email = $this->email;
         $user->tel = $this->tel;
         $user->setPassword($this->password);

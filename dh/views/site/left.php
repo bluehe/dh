@@ -21,8 +21,8 @@ use yii\helpers\Html;
             </div>
             <div class="innerwrap">
                 <div class="nameBox">
-    <?= Html::a(Yii::$app->user->identity->username, ['user/index'], ['title' => Yii::$app->user->identity->username, 'class' => 'name txt1']) ?>
-                    <a title="会员" href="#"><i class="W_icon icon_member_dis"></i></a>
+                        <?= Html::a(Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username, ['user/index'], ['title' => Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username, 'class' => 'name txt1']) ?>
+                        <a title="会员" href="#"><i class="W_icon icon_member_dis"></i></a>
                     <a title="等级" href="#"><span class="badge">Lv.0</span></a>
                 </div>
                 <ul class="user_atten">
@@ -78,7 +78,7 @@ use yii\helpers\Html;
 <div class="mk hidden-xs">
 
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#addlist" aria-controls="addlist" role="tab" data-toggle="tab">添加动态</a></li>
+        <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#addlist" aria-controls="addlist" role="tab" data-toggle="tab">网址动态</a></li>
         <li role="presentation"  class="col-lg-4 col-md-4"><a href="#addorder" aria-controls="addorder" role="tab" data-toggle="tab">添加排行</a></li>
         <li role="presentation"  class="col-lg-4 col-md-4"><a href="#clickorder" aria-controls="clickorder" role="tab" data-toggle="tab">点击排行</a></li>
 

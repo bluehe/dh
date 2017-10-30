@@ -76,14 +76,21 @@ class SiteController extends Controller {
 
         $auth = UserAuth::find()->where(['type' => $type, 'open_id' => $attributes['id']])->one();
         switch ($type) {
-            case 'github': $avatar = $attributes['avatar_url'];
+            case 'github':
+                $avatar = $attributes['avatar_url'];
+                $nickname = '';
                 break;
-            case 'weibo': $avatar = $attributes['profile_image_url'];
+            case 'weibo':
+                $avatar = $attributes['profile_image_url'];
+                $nickname = '';
                 break;
-            case 'qq': $avatar = $attributes['figureurl_qq_2'];
+            case 'qq':
+                $avatar = $attributes['figureurl_qq_2'];
+                $nickname = '';
                 break;
             default:
                 $avatar = '';
+                $nickname = '';
                 break;
         }
         if ($auth) {
@@ -93,6 +100,10 @@ class SiteController extends Controller {
                     $auth->user->avatar = $avatar;
                     $auth->user->save();
                 }
+                if (!$auth->user->nickname) {
+                    $auth->user->avatar = $nickname;
+                    $auth->user->save();
+                }
                 return $this->goHome();
             }
         } else {
@@ -100,6 +111,7 @@ class SiteController extends Controller {
             Yii::$app->session->set('auth_type', $type);
             Yii::$app->session->set('auth_openid', $attributes['id']);
             Yii::$app->session->set('auth_avatar', $avatar);
+            Yii::$app->session->set('auth_nickname', $nickname);
             return $this->redirect('complete');
         }
 
@@ -130,9 +142,14 @@ class SiteController extends Controller {
                             $auth->user->avatar = Yii::$app->session->get('auth_avatar');
                             $auth->user->save();
                         }
+                        if (!$auth->user->nickname) {
+                            $auth->user->nickname = Yii::$app->session->get('auth_nickname');
+                            $auth->user->save();
+                        }
                         Yii::$app->session->remove('auth_type');
                         Yii::$app->session->remove('auth_openid');
                         Yii::$app->session->remove('auth_avatar');
+                        Yii::$app->session->remove('auth_nickname');
                         return $this->goHome();
                     }
                 } else {
@@ -160,9 +177,14 @@ class SiteController extends Controller {
                                     $auth->user->avatar = Yii::$app->session->get('auth_avatar');
                                     $auth->user->save();
                                 }
+                                if (!$auth->user->nickname) {
+                                    $auth->user->nickname = Yii::$app->session->get('auth_nickname');
+                                    $auth->user->save();
+                                }
                                 Yii::$app->session->remove('auth_type');
                                 Yii::$app->session->remove('auth_openid');
                                 Yii::$app->session->remove('auth_avatar');
+                                Yii::$app->session->remove('auth_nickname');
                                 return $this->goHome();
                             }
                         }
