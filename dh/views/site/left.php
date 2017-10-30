@@ -5,11 +5,13 @@ use dh\models\Website;
 use yii\helpers\Html;
 ?>
 <div class="user-head">
-    <?php if (Yii::$app->controller->action->id == 'people') {
-
+    <?php
+    if (Yii::$app->controller->action->id == 'people') {
+        //查看他人
     } elseif (Yii::$app->user->isGuest) {
-
+        //未登录
     } else {
+        //自己登陆
         ?>
         <div class="person_info">
             <div class="cover">
@@ -24,8 +26,8 @@ use yii\helpers\Html;
                 <ul class="user_atten">
                     <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow">1</strong><span class="txt2">关注</span></a></li>
                     <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans">30</strong><span class="txt2">粉丝</span></a></li>
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="weibo">0</strong><span class="txt2">网址</span></a></li>
-                </ul>
+                        <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong><?= Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) ?></strong><span class="txt2">网址</span></a></li>
+                    </ul>
             </div>
         </div>
 <?php } ?>

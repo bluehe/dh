@@ -171,16 +171,14 @@ class Website extends \yii\db\ActiveRecord {
         return $websites;
     }
 
-    public static function get_website_num($uid = NULL, $is = '', $stat = '') {
-        $query = static::find()->joinWith('c');
+    public static function get_website_num($uid = NULL, $is = '', $stat = '', $is_open = '') {
+        $query = static::find()->joinWith('c')->andFilterWhere([self::tableName() . '.stat' => $stat, self::tableName() . '.is_open' => $is_open]);
         if ($is == 'not') {
-            $query->where(['not', ['uid' => $uid]]);
+            $query->andWhere(['not', ['uid' => $uid]]);
         } else {
-            $query->where(['uid' => $uid]);
+            $query->andWhere(['uid' => $uid]);
         }
-        if ($stat) {
-            $query->andWhere(['stat' => $stat]);
-        }
+                     
         $num = $query->count();
         return $num;
     }
