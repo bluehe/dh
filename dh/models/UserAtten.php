@@ -116,7 +116,7 @@ class UserAtten extends \yii\db\ActiveRecord {
         $data = [];
         foreach ($attens as $atten) {
             $user = User::findOne($atten['user']);
-            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => $atten['num'], 'img' => Html::img('/image/user.png', ['class' => 'lazyload img-circle', 'data-src' => $user->avatar])];
+            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => $atten['num'], 'img' => Html::img('/image/user.png', ['class' => 'lazyload img-circle', 'data-original' => $user->avatar])];
         }
         return $data;
     }

@@ -15,6 +15,7 @@ class AppAsset extends AssetBundle {
         'css/site.css',
     ];
     public $js = [
+        'js/jquery.lazyload.min.js',
         'js/site.js',
     ];
     public $depends = [
