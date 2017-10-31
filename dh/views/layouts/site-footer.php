@@ -27,6 +27,13 @@ $system = Yii::$app->cache->get('system_info');
     </div>
 </footer>
 <script>
+<?php $this->beginBlock('lazy') ?>
+    lazyload();
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJsFile('@web/js/lazyload.min.js'); ?>
+<?php $this->registerJs($this->blocks['lazy'], \yii\web\View::POS_END); ?>
+<script>
 <?php $this->beginBlock('baidu')
 ?>
 //    (function () {

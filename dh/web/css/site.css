@@ -246,7 +246,7 @@ a:hover{text-decoration: none}
 .person_info .cover {
     background-color: #cadcdd;
     position: relative;
-    height: 50px;
+    height: 42px;
     border-radius: 4px 4px 0 0;
     z-index: 1;
     overflow: hidden;
@@ -260,13 +260,13 @@ a:hover{text-decoration: none}
 }
 .person_info .innerwrap .profile{
     position: relative;
-    margin: 0 10px 10px;
+    margin: 0 15px 10px;
 }
 .person_info .headpic {
     width: 70px;
     height: 70px;
     position: absolute;
-    top: -30px;
+    top: -27px;
     left: 0;
     z-index: 1;
 }
@@ -279,9 +279,10 @@ a:hover{text-decoration: none}
     z-index: 1;
     -webkit-transition: opacity .2s ease-in;
     transition: opacity .2s ease-in;
+    cursor: pointer;
     display: none;
 }
-.mask:hover{
+.headpic:hover .mask{
     display: block;
 }
 .Mask-mask {
@@ -316,15 +317,34 @@ a:hover{text-decoration: none}
     line-height: 12px;
     white-space: nowrap;
 }
+.profile-contentFooter {
+    position: relative;
+    padding-top: 8px;
+}
+.profileHeader-buttons {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.profileHeader-buttons .btn-edit{
+    color: #0f88eb;
+    border: 1px solid #0f88eb;
+}
+.profileHeader-buttons .btn{
+    display: block;
+    margin-top: 5px;
+}
+.profileHeader-buttons .btn-edit:hover{
+    background-color: rgba(13,121,209,.06);
+}
 
 .person_info .nameBox {
-    padding-left: 5px;
-    padding-top: 5px;
+    padding: 5px 0 0 5px;
     border-left: 70px solid transparent;
 }
 .person_info .nameBox .name {
     margin-left: 3px;
-    max-width: 114px;
+    max-width: 60px;
     display: inline-block;
     overflow: hidden;
     font-size: 14px;

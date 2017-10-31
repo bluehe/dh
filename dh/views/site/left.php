@@ -8,41 +8,50 @@ use yii\helpers\Html;
 ?>
 <div class="user-head">
     <?php
-    if (Yii::$app->controller->action->id == 'people') {
-        //查看他人
-    } elseif (Yii::$app->user->isGuest) {
-        //未登录
-    } else {
-        //自己登陆
+    if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) {
         ?>
         <div class="person_info">
-                <div class="cover"></div>
-                <div class="innerwrap">
-                    <div class="profile">
-                        <div class="headpic">
-                            <?= Html::a(Html::img(Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png', ['class' => 'img-thumbnail']), ['account/thumb']) ?>
-                            <div class="mask">
-                                    <div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div>
-                                        <div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div>
-                                </div>
+            <div class="cover"></div>
+            <div class="innerwrap">
+                <div class="profile">
+                    <div class="headpic">
+                        <?= Html::img(Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png', ['class' => 'img-thumbnail']) ?>
+                        <?= Html::a('<div class="mask"><div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div><div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div></div>', ['account/thumb']) ?>
 
+
+                    </div>
+                    <div class="nameBox">
+                        <div class="title">
+                            <span class="name txt1"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?> </span>
+                            <a title="等级" href="#"><span class="badge">Lv.0</span></a>
                         </div>
-                        <div class="nameBox">
-                            <div class="title">
-                                <span class="name txt1"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?> </span>
-                                <a title="等级" href="#"><span class="badge">Lv.0</span></a>
+                        <span><a title="会员" href="#"><i class="W_icon icon_member"></i></a></span>
+                        <div class="profile-contentFooter">
+                            <div class="profileHeader-buttons">
+                                <?php
+                                if (Yii::$app->controller->action->id == 'people') {
+                                    echo Html::a('关注', ['#'], ['class' => 'btn btn-xs btn-default']);
+                                    echo Html::a('私信', ['#'], ['class' => 'btn btn-xs btn-default']);
+                                } else {
+                                    echo Html::a('编辑资料', ['account/index'], ['class' => 'btn btn-xs btn-default btn-edit']);
+                                }
+                                ?>
                             </div>
-                            <span><a title="会员" href="#"><i class="W_icon icon_member"></i></a></span>
                         </div>
                     </div>
-                    <ul class="user_atten">
-                        <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num(Yii::$app->user->identity->id) ?></strong><span class="txt2">关注了</span></a></li>
-                        <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num(Yii::$app->user->identity->id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
-                        <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/user'], ['class' => 'txt1']) ?></li>
-                    </ul>
+                </div>
+                <ul class="user_atten">
+                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num(Yii::$app->user->identity->id) ?></strong><span class="txt2">关注了</span></a></li>
+                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num(Yii::$app->user->identity->id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
+                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/user'], ['class' => 'txt1']) ?></li>
+                </ul>
             </div>
         </div>
-    <?php } ?>
+        <?php
+    } else {
+        //未登录
+    }
+    ?>
 </div>
 <div class="mk user hidden-xs">
     <ul class="nav nav-tabs" role="tablist">

@@ -36,7 +36,7 @@ $this->title = '我的网址';
 
                                 <?php foreach ($cate['website'] as $website) { ?>
                                     <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" id="<?= $website['id'] ?>">
-                                        <?= Html::img(['api/getfav', 'url' => $website['host']]) ?>
+                                        <?= Html::img('/image/default_ico.png', ['class' => 'lazyload', 'data-src' => Url::toRoute(['api/getfav', 'url' => $website['host']])]) ?>
                                         <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="dropdown pull-right">
                                             <span class="dropdown-toggle" id="dropdownMenu<?= $website['id'] ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -100,7 +100,6 @@ Modal::end();
 
         }
     });
-
     //分类编辑
     $('.website').on('click', '.category-edit', function () {
 
@@ -112,7 +111,6 @@ Modal::end();
                 }
         );
     });
-
     //分类删除
     $('.website').on('click', '.category-delete', function () {
         var _this = $(this).parents('.category');
@@ -128,7 +126,6 @@ Modal::end();
             });
         }
     });
-
     //分类添加
     $('.website').on('click', '.category-add', function () {
         var _this = $(this).parents('.category');
@@ -141,8 +138,6 @@ Modal::end();
             });
         }
     });
-
-
     //网址添加
     $('.website').on('click', '.website-add', function () {
         $.get('<?= Url::toRoute('ajax/website-add') ?>', {id: $(this).parents('.category').attr('id')},
@@ -153,7 +148,6 @@ Modal::end();
                 }
         );
     });
-
     //网址分享
     $('.website').on('click', '.website-share', function () {
         $.get('<?= Url::toRoute('ajax/website-share') ?>', {id: $(this).parents('.list-group-item').attr('id')},
@@ -164,7 +158,6 @@ Modal::end();
                 }
         );
     });
-
     //网址编辑
     $('.website').on('click', '.website-edit', function () {
         $.get('<?= Url::toRoute('ajax/website-edit') ?>', {id: $(this).parents('.list-group-item').attr('id')},
@@ -175,7 +168,6 @@ Modal::end();
                 }
         );
     });
-
     //网址删除
     $('.website').on('click', '.website-delete', function () {
         var _this = $(this).parents('.list-group-item');
@@ -191,7 +183,6 @@ Modal::end();
             });
         }
     });
-
     //网址公开/私有
     $('.website').on('click', '.website-open', function () {
         var _this = $(this);
@@ -203,7 +194,6 @@ Modal::end();
                         _this.parents('.list-group-item').removeClass('list-group-item-warning');
                         _this.removeClass('fa-eye').addClass('fa-eye-slash');
                         _this.attr('title', '私有');
-
                     } else {
                         _this.parents('.list-group-item').addClass('list-group-item-warning');
                         _this.removeClass('fa-eye-slash').addClass('fa-eye');
@@ -214,8 +204,7 @@ Modal::end();
             });
         }
     });
-
-
 <?php $this->endBlock() ?>
 </script>
 <?php $this->registerJs($this->blocks['js'], \yii\web\View::POS_END); ?>
+
