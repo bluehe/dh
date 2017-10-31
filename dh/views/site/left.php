@@ -17,12 +17,12 @@ use yii\helpers\Html;
         ?>
         <div class="person_info">
             <div class="cover">
-                <div class="headpic"><?= Html::a(Html::img(Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png', ['class' => 'img-circle', 'width' => 60, 'height' => 60]), ['user/index']) ?></div>
-            </div>
+                    <div class="headpic"><?= Html::a(Html::img(Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png', ['class' => 'img-circle', 'width' => 60, 'height' => 60]), ['account/thumb']) ?></div>
+                </div>
             <div class="innerwrap">
                 <div class="nameBox">
-                    <?= Html::a(Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username, ['user/index'], ['title' => Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username, 'class' => 'name txt1']) ?>
-                    <a title="会员" href="#"><i class="W_icon icon_member_dis"></i></a>
+                        <?= Html::a(Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username, ['account/index'], ['title' => Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username, 'class' => 'name txt1']) ?>
+                        <a title="会员" href="#"><i class="W_icon icon_member_dis"></i></a>
                     <a title="等级" href="#"><span class="badge">Lv.0</span></a>
                 </div>
                 <ul class="user_atten">

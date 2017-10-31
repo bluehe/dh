@@ -416,7 +416,6 @@ a:hover{text-decoration: none}
 
 .website .category{
     padding: 0;
-    /*    border-left: 2px #e1eff4 solid;*/
     background-color: #fff;
     margin-left: 0.5%;
     border-radius: 4px;
@@ -453,6 +452,8 @@ a:hover{text-decoration: none}
     line-height: 42px;
     padding: 0 15px;
     position: relative;
+}
+.categorySortable .website-header{
     cursor: move;
 }
 .header-icon {
