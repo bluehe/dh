@@ -20,8 +20,7 @@ use yii\helpers\Html;
  * @property User $u
  * @property User $user0
  */
-class UserAtten extends \yii\db\ActiveRecord
- {
+class UserAtten extends \yii\db\ActiveRecord {
 
     const STAT_OPEN = 1;
     const STAT_CLOSE = 2;
@@ -29,16 +28,14 @@ class UserAtten extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return '{{%user_atten}}';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['uid', 'user', 'stat'], 'integer'],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
@@ -60,8 +57,7 @@ class UserAtten extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'uid' => '关注人',
@@ -87,16 +83,14 @@ class UserAtten extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getU()
-    {
+    public function getU() {
         return $this->hasOne(User::className(), ['id' => 'uid']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser0()
-    {
+    public function getUser0() {
         return $this->hasOne(User::className(), ['id' => 'user']);
     }
 
@@ -122,7 +116,7 @@ class UserAtten extends \yii\db\ActiveRecord
         $data = [];
         foreach ($attens as $atten) {
             $user = User::findOne($atten['user']);
-            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => $atten['num'], 'img' => Html::img($user->avatar ? $user->avatar : '/image/user.png', ['class' => 'img-circle'])];
+            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => $atten['num'], 'img' => Html::img('/image/user.png', ['class' => 'lazyload img-circle', 'data-src' => $user->avatar])];
         }
         return $data;
     }

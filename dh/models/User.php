@@ -174,7 +174,7 @@ class User extends ActiveRecord implements IdentityInterface {
         $this->password_reset_token = null;
     }
 
-     public static function get_tab_useradd($num = '') {
+    public static function get_tab_useradd($num = '') {
         $query = static::find()->andWhere(['status' => self::STATUS_ACTIVE])->orderBy(['created_at' => SORT_DESC, 'id' => SORT_DESC]);
         if ($num) {
             $query->limit($num);
