@@ -9,20 +9,24 @@ use yii\helpers\Html;
 <div class="user-head">
     <?php
     if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) {
+        if (Yii::$app->controller->action->id == 'people') {
+            $user_id = Yii::$app->request->get('id');
+        } else {
+            $user_id = Yii::$app->user->identity->id;
+        }
         ?>
         <div class="person_info">
             <div class="cover"></div>
             <div class="innerwrap">
                 <div class="profile">
                     <div class="headpic">
-                        <?= Html::img(Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png', ['class' => 'img-thumbnail']) ?>
-                        <?= Html::a('<div class="mask"><div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div><div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div></div>', ['account/thumb']) ?>
-
+                        <?= Html::img(User::get_avatar($user_id), ['class' => 'img-thumbnail']) ?>
+                        <?= Yii::$app->controller->action->id == 'people' ? '' : Html::a('<div class="mask"><div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div><div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div></div>', ['account/thumb']) ?>
 
                     </div>
                     <div class="nameBox">
                         <div class="title">
-                            <span class="name txt1"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?> </span>
+                            <span class="name txt1"><?= User::get_nickname($user_id) ?> </span>
                             <a title="等级" href="#"><span class="badge">Lv.0</span></a>
                         </div>
                         <span><a title="会员" href="#"><i class="W_icon icon_member"></i></a></span>
@@ -30,8 +34,8 @@ use yii\helpers\Html;
                             <div class="profileHeader-buttons">
                                 <?php
                                 if (Yii::$app->controller->action->id == 'people') {
-                                    echo Html::a('关注', ['#'], ['class' => 'btn btn-xs btn-default']);
-                                    echo Html::a('私信', ['#'], ['class' => 'btn btn-xs btn-default']);
+                                    echo Yii::$app->user->isGuest || !UserAtten::is_atten(Yii::$app->user->identity->id, $user_id) ? Html::a('<i class="fa fa-plus"></i> 关注', ['#'], ['class' => 'btn btn-xs btn-default']) : Html::a('已关注', ['#'], ['class' => 'btn btn-xs btn-default']);
+                                    // echo Html::a('<i class="fa fa-commenting-o"></i> 私信', ['#'], ['class' => 'btn btn-xs btn-default']);
                                 } else {
                                     echo Html::a('编辑资料', ['account/index'], ['class' => 'btn btn-xs btn-default btn-edit']);
                                 }
@@ -41,9 +45,9 @@ use yii\helpers\Html;
                     </div>
                 </div>
                 <ul class="user_atten">
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num(Yii::$app->user->identity->id) ?></strong><span class="txt2">关注了</span></a></li>
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num(Yii::$app->user->identity->id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
-                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/user'], ['class' => 'txt1']) ?></li>
+                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num($user_id) ?></strong><span class="txt2">关注了</span></a></li>
+                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num($user_id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
+                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num($user_id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/people', 'id' => $user_id], ['class' => 'txt1']) ?></li>
                 </ul>
             </div>
         </div>

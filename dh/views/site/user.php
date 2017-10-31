@@ -43,7 +43,7 @@ $this->title = '我的网址';
                                                 <i class="fa fa-caret-square-o-down" title="操作"></i>
                                             </span>
                                             <div class="dropdown-menu content-icon <?= $website['share_status'] == Website::SHARE_DEFAULT ? '' : 'no-share' ?>" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
-                                                <?= $website['share_status'] == Website::SHARE_DEFAULT ? '<i class="fa fa-share-alt website-share" title="推荐分享"></i>' : '' ?>
+                                                <?= $website['share_status'] == Website::SHARE_DEFAULT ? '<i class="fa fa-share-alt website-share" title="分享"></i>' : '' ?>
                                                 <i class="fa fa-edit website-edit" title="编辑" ></i>
                                                 <i class="fa fa-trash-o website-delete" title="删除"></i>
                                                 <i class="fa <?= $website['is_open'] == Website::ISOPEN_OPEN ? 'fa-eye-slash' : 'fa-eye' ?> website-open" title="<?= $website['is_open'] == Website::ISOPEN_OPEN ? '私有' : '公开' ?>"></i>

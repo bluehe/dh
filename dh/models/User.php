@@ -186,4 +186,14 @@ class User extends ActiveRecord implements IdentityInterface {
         return $data;
     }
 
+    public static function get_avatar($id) {
+        $user = static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return $user && $user->avatar ? $user->avatar : '/image/user.png';
+    }
+
+    public static function get_nickname($id) {
+        $user = static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return $user ? ($user->nickname ? $user->nickname : $user->username) : '';
+    }
+
 }

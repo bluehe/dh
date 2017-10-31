@@ -112,7 +112,7 @@ class AccountController extends Controller {
             }
 
             //获得文件夹
-            $dir = Yii::$app->request->post('dir') ? Yii::$app->request->post('dir') : 'tmp';
+            $dir = Yii::$app->request->post('dir', 'tmp');
 
             //目标文件夹，不存在则创建
             $targetFolder = '/data/' . $dir;

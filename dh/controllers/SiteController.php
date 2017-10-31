@@ -216,7 +216,7 @@ class SiteController extends Controller {
     public function actionLogin() {
 
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(Yii::$app->request->referrer);
         }
         $model = new LoginForm();
 
@@ -248,7 +248,7 @@ class SiteController extends Controller {
     public function actionLogout() {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**
@@ -355,22 +355,30 @@ class SiteController extends Controller {
 
     public function actionAll() {
         $cache = Yii::$app->cache;
-        $query = Category::get_category_sql();
-        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '8']);
-        $page = ($pages->offset / $pages->limit) + 1;
-        $cates = $cache->get('index_page_' . $page);
+//        $query = Category::get_category_sql();
+//        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '8']);
+//        $page = ($pages->offset / $pages->limit) + 1;
+//        $cates = $cache->get('index_page_' . $page);
+//        if ($cates === false) {
+//
+//            $cates = $query->offset($pages->offset)->limit($pages->limit)->asArray()->all();
+//            foreach ($cates as $key => $cate) {
+//                $websites = Website::get_website(null, $cate['id']);
+//                $cates[$key]['website'] = $websites;
+//            }
+        //$cache->set('index_page_' . $page, $cates);
+        //}
+        $cates = $cache->get('index_page');
         if ($cates === false) {
-
-            $cates = $query->offset($pages->offset)->limit($pages->limit)->asArray()->all();
+            $cates = Category::get_category_sql()->limit(200)->asArray()->all();
             foreach ($cates as $key => $cate) {
                 $websites = Website::get_website(null, $cate['id']);
                 $cates[$key]['website'] = $websites;
             }
-
-            //$cache->set('index_page_' . $page, $cates);
+            $cache->set('index_page', $cates);
         }
 
-        return $this->render('index', ['cates' => $cates, 'pages' => $pages,]);
+        return $this->render('index', ['cates' => $cates]);
     }
 
     public function actionUser() {
@@ -392,6 +400,19 @@ class SiteController extends Controller {
             }
         }
         return $this->render('user', ['cates' => $cates]);
+    }
+
+    public function actionPeople($id) {
+        if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $id) {
+            return $this->goHome();
+        }
+        $cates = Category::get_category_sql($id, NULL, Category::STAT_OPEN, Category::ISOPEN_OPEN)->asArray()->all();
+        foreach ($cates as $key => $cate) {
+            $websites = Website::get_website(NULL, $cate['id'], Website::STAT_OPEN, Website::ISOPEN_OPEN);
+            $cates[$key]['website'] = $websites;
+        }
+
+        return $this->render('people', ['cates' => $cates]);
     }
 
 }

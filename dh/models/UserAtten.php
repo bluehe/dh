@@ -94,6 +94,11 @@ class UserAtten extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'user']);
     }
 
+    //是否关注
+    public static function is_atten($from, $to) {
+        return static::find()->where(['uid' => $from, 'user' => $to, 'stat' => self::STAT_OPEN])->exists();
+    }
+
     //关注用户数
     public static function get_num($uid = NULL, $type = 'follow', $stat = self::STAT_OPEN) {
         $query = static::find()->andFilterWhere(['stat' => $stat]);
