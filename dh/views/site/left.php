@@ -16,20 +16,30 @@ use yii\helpers\Html;
         //自己登陆
         ?>
         <div class="person_info">
-            <div class="cover">
-                    <div class="headpic"><?= Html::a(Html::img(Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png', ['class' => 'img-circle', 'width' => 60, 'height' => 60]), ['account/thumb']) ?></div>
-                </div>
-            <div class="innerwrap">
-                <div class="nameBox">
-                        <?= Html::a(Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username, ['account/index'], ['title' => Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username, 'class' => 'name txt1']) ?>
-                        <a title="会员" href="#"><i class="W_icon icon_member_dis"></i></a>
-                    <a title="等级" href="#"><span class="badge">Lv.0</span></a>
-                </div>
-                <ul class="user_atten">
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num(Yii::$app->user->identity->id) ?></strong><span class="txt2">关注</span></a></li>
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num(Yii::$app->user->identity->id, 'fans') ?></strong><span class="txt2">粉丝</span></a></li>
-                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/user'], ['class' => 'txt1']) ?></li>
-                </ul>
+                <div class="cover"></div>
+                <div class="innerwrap">
+                    <div class="profile">
+                        <div class="headpic">
+                            <?= Html::a(Html::img(Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png', ['class' => 'img-thumbnail']), ['account/thumb']) ?>
+                            <div class="mask">
+                                    <div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div>
+                                        <div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div>
+                                </div>
+
+                        </div>
+                        <div class="nameBox">
+                            <div class="title">
+                                <span class="name txt1"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?> </span>
+                                <a title="等级" href="#"><span class="badge">Lv.0</span></a>
+                            </div>
+                            <span><a title="会员" href="#"><i class="W_icon icon_member"></i></a></span>
+                        </div>
+                    </div>
+                    <ul class="user_atten">
+                        <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num(Yii::$app->user->identity->id) ?></strong><span class="txt2">关注了</span></a></li>
+                        <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num(Yii::$app->user->identity->id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
+                        <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num(Yii::$app->user->identity->id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/user'], ['class' => 'txt1']) ?></li>
+                    </ul>
             </div>
         </div>
     <?php } ?>
