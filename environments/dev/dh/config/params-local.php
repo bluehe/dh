@@ -1,4 +1,4 @@
 <?php
 return [
-    'img_url' => '//dh.img.gxgygl.com',
+    'img_url' => '//img.dh.gxgygl.com',
 ];
