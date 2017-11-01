@@ -42,7 +42,7 @@ class ApiController extends Controller {
                 $size = filesize($fav);
                 if ($size == 492 || $size == 0 || $size == 726) {
                     @unlink($fav);
-                    $file = @file_get_contents('image/default_ico.png');
+                    $file = @file_get_contents('image/default_e.png');
                     $flag = 0;
                 }
             }

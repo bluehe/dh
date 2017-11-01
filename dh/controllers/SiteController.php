@@ -370,7 +370,7 @@ class SiteController extends Controller {
         //}
         $cates = $cache->get('index_page');
         if ($cates === false) {
-            $cates = Category::get_category_sql()->limit(200)->asArray()->all();
+            $cates = Category::get_category_sql()->limit(20)->asArray()->all();
             foreach ($cates as $key => $cate) {
                 $websites = Website::get_website(null, $cate['id']);
                 $cates[$key]['website'] = $websites;
