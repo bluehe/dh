@@ -45,9 +45,9 @@ use yii\helpers\Html;
                     </div>
                 </div>
                 <ul class="user_atten">
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="follow"><?= UserAtten::get_num($user_id) ?></strong><span class="txt2">关注了</span></a></li>
-                    <li class="line1 col-lg-4 col-xs-4"><a href="" class="txt1"><strong node-type="fans"><?= UserAtten::get_num($user_id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
-                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num($user_id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/people', 'id' => $user_id], ['class' => 'txt1']) ?></li>
+                    <li class="line1 col-lg-4 col-xs-4"><a href="#" class="txt1"><strong node-type="follow"><?= UserAtten::get_num($user_id) ?></strong><span class="txt2">关注了</span></a></li>
+                        <li class="line1 col-lg-4 col-xs-4"><a href="#" class="txt1"><strong node-type="fans"><?= UserAtten::get_num($user_id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
+                        <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num($user_id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/people', 'id' => $user_id], ['class' => 'txt1']) ?></li>
                 </ul>
             </div>
         </div>

@@ -3,10 +3,11 @@
 namespace dh\controllers;
 
 use Yii;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\data\Pagination;
 use dh\models\LoginForm;
 use dh\models\UserAuth;
 use dh\models\Category;
@@ -247,7 +248,7 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
         Yii::$app->user->logout();
-
+   
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -355,19 +356,6 @@ class SiteController extends Controller {
 
     public function actionAll() {
         $cache = Yii::$app->cache;
-//        $query = Category::get_category_sql();
-//        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => '8']);
-//        $page = ($pages->offset / $pages->limit) + 1;
-//        $cates = $cache->get('index_page_' . $page);
-//        if ($cates === false) {
-//
-//            $cates = $query->offset($pages->offset)->limit($pages->limit)->asArray()->all();
-//            foreach ($cates as $key => $cate) {
-//                $websites = Website::get_website(null, $cate['id']);
-//                $cates[$key]['website'] = $websites;
-//            }
-        //$cache->set('index_page_' . $page, $cates);
-        //}
         $cates = $cache->get('index_page');
         if ($cates === false) {
             $cates = Category::get_category_sql()->limit(20)->asArray()->all();

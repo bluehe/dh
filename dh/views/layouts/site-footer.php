@@ -32,7 +32,7 @@ $system = Yii::$app->cache->get('system_info');
     $("img.lazyload").lazyload({
         threshold: 500
     });
-<?php $this->endBlock() ?>
+    <?php $this->endBlock() ?>
 </script>
 <?php $this->registerJs($this->blocks['lazy'], \yii\web\View::POS_END); ?>
 <script>

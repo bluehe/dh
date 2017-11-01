@@ -511,7 +511,7 @@ a:hover{text-decoration: none}
 }
 .website.plate-1 .category{
     break-inside: avoid;
-    width: 100%;
+    width: 98%;
 }
 .website.plate-2 .category{
     width: 100%;
@@ -590,7 +590,7 @@ a:hover{text-decoration: none}
     vertical-align:top;
 }
 .website-content .list-group-item a{
-    width: 130px;
+    width: 120px;
     height: 20px;
     display: inline-block;
     overflow: hidden;

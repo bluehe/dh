@@ -3,9 +3,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
-use dh\components\GoLinkPager;
 
 $this->title = '首页';
 ?>
@@ -21,7 +19,6 @@ $this->title = '首页';
         <section class="col-lg-9">
 
             <div class="row">
-                <?php Pjax::begin(['id' => 'pjax_index']); ?>
                 <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12">
                     <?php foreach ($cates as $cate) { ?>
                         <div class="category" data-id="<?= $cate['id'] ?>">
@@ -33,8 +30,8 @@ $this->title = '首页';
 
                                 <?php foreach ($cate['website'] as $website) { ?>
                                     <div class="list-group-item" data-id="<?= $website['id'] ?>">
-                                        <?= Html::img('/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::toRoute(['api/getfav', 'url' => $website['host']])]) ?>
-                                        <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
+                                                <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]) ?>
+                                                <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="content-icon index-icon pull-right" >
                                             <i class="fa fa-heart-o website-collect" title="收藏网址"></i>
                                         </div>
@@ -46,16 +43,7 @@ $this->title = '首页';
                     <?php } ?>
 
                 </div>
-                <!--                <div class="col-lg-12 col-xs-12 text-center">
-                <?php
-//                 echo GoLinkPager::widget([
-//                'pagination' => $pages, 'maxButtonCount' => 5,
-//                'go' => true,
-//                'linkOptions' => ['data-pjax' => '#pjax_index']
-//                ]);
-                ?>
-                                </div>-->
-<?php Pjax::end(); ?>
+
             </div>
 
         </section>
