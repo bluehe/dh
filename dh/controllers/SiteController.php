@@ -106,7 +106,7 @@ class SiteController extends Controller {
                     $auth->user->save();
                 }
                 if (!$auth->user->nickname) {
-                    $auth->user->avatar = $nickname;
+                    $auth->user->nickname = $nickname;
                     $auth->user->save();
                 }
                 return $this->goHome();
@@ -248,7 +248,7 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
         Yii::$app->user->logout();
-   
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 

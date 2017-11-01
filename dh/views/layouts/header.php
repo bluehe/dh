@@ -23,7 +23,7 @@ use yii\helpers\Html;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?= $directoryAsset ?><?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png' ?>" class="user-image"/>
+                        <img src="<?= $directoryAsset ?><?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '@web/image/user.png' ?>" class="user-image"/>
                         <span class="hidden-xs"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
                     </a>
 
@@ -43,7 +43,7 @@ use yii\helpers\Html;
 </header>
 <script>
 <?php $this->beginBlock('baidu') ?>
-    (function () {
+    (function() {
         var bp = document.createElement('script');
         var curProtocol = window.location.protocol.split(':')[0];
         if (curProtocol === 'https') {

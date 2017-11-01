@@ -38,9 +38,9 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
                     <div class="user-menu">
 
                         <a href="javascript:void(0);">
-                            <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '/image/user.png' ?>" class="user-image" alt="用户头像" />
-                                <span><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
-                                <span class="caret"></span>
+                            <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '@web/image/user.png' ?>" class="user-image" />
+                            <span><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
+                            <span class="caret"></span>
                         </a>
                         <div class="myhome">
                             <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['user/index']) ?>
@@ -130,12 +130,12 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
 </header>
 <script>
 <?php $this->beginBlock('header') ?>
-    $('.change-skin').on('click', function () {
+    $('.change-skin').on('click', function() {
         var skin = $(this).data('skin');
         $.getJSON({
             url: '<?= Url::toRoute('ajax/change-skin') ?>',
             data: {'id': skin},
-            success: function (data) {
+            success: function(data) {
 
                 if (data.stat === 'success') {
                     $('body').removeClass('skin-' + skin).addClass('skin-' + data.skin);
@@ -145,12 +145,12 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
             }
         });
     });
-    $('.change-plate').on('click', function () {
+    $('.change-plate').on('click', function() {
         var plate = $(this).data('plate');
         $.getJSON({
             url: '<?= Url::toRoute('ajax/change-plate') ?>',
             data: {'id': plate},
-            success: function (data) {
+            success: function(data) {
 
                 if (data.stat === 'success') {
                     $(".website").removeClass('plate-' + plate).addClass('plate-' + data.plate);
