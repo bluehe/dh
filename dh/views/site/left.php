@@ -6,15 +6,16 @@ use dh\models\User;
 use dh\models\UserAtten;
 use yii\helpers\Html;
 ?>
-<div class="user-head">
-    <?php
-    if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) {
-        if (Yii::$app->controller->action->id == 'people') {
-            $user_id = Yii::$app->request->get('id');
-        } else {
-            $user_id = Yii::$app->user->identity->id;
-        }
-        ?>
+
+<?php
+if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) {
+    if (Yii::$app->controller->action->id == 'people') {
+        $user_id = Yii::$app->request->get('id');
+    } else {
+        $user_id = Yii::$app->user->identity->id;
+    }
+    ?>
+    <div class="user-head">
         <div class="person_info">
             <div class="cover"></div>
             <div class="innerwrap">
@@ -46,18 +47,17 @@ use yii\helpers\Html;
                 </div>
                 <ul class="user_atten">
                     <li class="line1 col-lg-4 col-xs-4"><a href="#" class="txt1"><strong node-type="follow"><?= UserAtten::get_num($user_id) ?></strong><span class="txt2">关注了</span></a></li>
-                        <li class="line1 col-lg-4 col-xs-4"><a href="#" class="txt1"><strong node-type="fans"><?= UserAtten::get_num($user_id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
-                        <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num($user_id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/people', 'id' => $user_id], ['class' => 'txt1']) ?></li>
+                    <li class="line1 col-lg-4 col-xs-4"><a href="#" class="txt1"><strong node-type="fans"><?= UserAtten::get_num($user_id, 'fans') ?></strong><span class="txt2">关注者</span></a></li>
+                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num($user_id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/people', 'id' => $user_id], ['class' => 'txt1']) ?></li>
                 </ul>
             </div>
         </div>
-        <?php
-    } else {
-        //未登录
-    }
-    ?>
-</div>
-<div class="mk user hidden-xs">
+    </div>
+    <?php
+}
+?>
+
+<div class="mk hidden-xs<?= Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest ? ' user' : '' ?>">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#useradd" aria-controls="useradd" role="tab" data-toggle="tab">新用户</a></li>
         <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userfans" aria-controls="userfans" role="tab" data-toggle="tab">关注排行</a></li>
@@ -78,7 +78,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane" id="userfans">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => UserAtten::get_tab_userfans(6)]
+                Tab::widget(['items' => UserAtten::get_tab_userfans(10)]
                 )
                 ?>
 
@@ -87,7 +87,7 @@ use yii\helpers\Html;
         <div role="tabpanel" class="tab-pane" id="userclick">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => Website::get_tab_clickorder(6)]
+                Tab::widget(['items' => Website::get_tab_clickorder(10)]
                 )
                 ?>
 
@@ -142,7 +142,7 @@ use yii\helpers\Html;
 <?php dh\assets\AppAsset::addScript($this, Yii::$app->assetManager->getPublishedUrl('dh/web') . '/js/jquery.cxscroll.min.js') ?>
 <script>
 <?php $this->beginBlock('left') ?>
-    $(function () {
+    $(function() {
         $("#userscroll").cxScroll({direction: "bottom", speed: 1000, time: 2000});
         $("#cxscroll").cxScroll({direction: "bottom", speed: 1000, time: 2000});
     });
