@@ -22,8 +22,18 @@ a:hover{text-decoration: none}
 .main-header .pull-right a{margin-left: 15px; }
 
 .user-menu{
-    padding-left: 20px;
+    padding-left: 5px;
     position: relative;
+}
+.main-header .user-menu a{margin-left: 5px; }
+.user-menu .name{      
+    max-width: 82px;
+    height: 16px;
+    line-height: 20px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .user-menu .user-image{
     float: left;
@@ -36,6 +46,7 @@ a:hover{text-decoration: none}
 
 /*用户菜单*/
 .myhome{
+    width:117px;
     top: 40px;
     right: 0px;
     position: absolute;
@@ -263,8 +274,7 @@ a:hover{text-decoration: none}
     margin: 0 15px 10px;
 }
 .person_info .headpic {
-    width: 70px;
-    height: 70px;
+  
     position: absolute;
     top: -27px;
     left: 0;

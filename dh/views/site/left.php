@@ -21,8 +21,8 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
             <div class="innerwrap">
                 <div class="profile">
                     <div class="headpic">
-                        <?= Html::img(User::get_avatar($user_id), ['class' => 'img-thumbnail']) ?>
-                        <?= Yii::$app->controller->action->id == 'people' ? '' : Html::a('<div class="mask"><div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div><div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div></div>', ['account/thumb']) ?>
+                            <?= Html::img(User::get_avatar($user_id), ['class' => 'img-thumbnail', 'width' => 70, 'height' => 70]) ?>
+                            <?= Yii::$app->controller->action->id == 'people' ? '' : Html::a('<div class="mask"><div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div><div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div></div>', ['account/thumb']) ?>
 
                     </div>
                     <div class="nameBox">

@@ -35,13 +35,12 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
                     ?>
                 <?php } else { ?>
 
-                    <div class="user-menu">
-
+                <div class="user-menu">
                         <a href="javascript:void(0);">
                             <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '@web/image/user.png' ?>" class="user-image" />
-                            <span><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
-                            <span class="caret"></span>
-                        </a>
+                                <span class="name"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
+
+                            </a>
                         <div class="myhome">
                             <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['user/index']) ?>
                             <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['site/logout'], ['data-method' => 'post']) ?>
