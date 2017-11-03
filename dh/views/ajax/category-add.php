@@ -57,7 +57,7 @@ use yii\widgets\ActiveForm;
                             + '<div class="website-content list-group websiteSortable"></div>'
                             + '</div>';
                     $('#user-modal').modal('hide');
-                    $('.category[id=<?= $id ?>]').after(str);              
+                    $('.category[id=<?= $id ?>]').after(str);
                     my_alert('success', '添加成功！', 3000);
                 }
 
