@@ -108,8 +108,19 @@ Modal::end();
         forceHelperSize: true,
         revert: true,
         tolerance: "pointer",
+        receive: function (event, ui) {
+        console.log('receive'+ui.item[0].id);
+            console.log($(this).sortable("toArray"));
+
+        },
+         remove: function (event, ui) {
+        console.log('remove'+ui.item[0].id);
+            console.log($(this).sortable("toArray"));
+
+        },
         update: function (event, ui) {
-           
+        console.log('update'+ui.item[0].id);
+            console.log($(this).sortable("toArray"));
 
         }
     });
