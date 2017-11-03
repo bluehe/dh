@@ -32,7 +32,7 @@ $this->title = '我的网址';
                                 <div class="pull-right add_page website-add" title="添加网址"> <i class="fa fa-plus"></i></div>
 
                             </div>
-                            <div class="website-content list-group">
+                                <div class="website-content list-group websiteSortable">
 
                                 <?php foreach ($cate['website'] as $website) { ?>
                                     <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" id="<?= $website['id'] ?>">
@@ -42,8 +42,8 @@ $this->title = '我的网址';
                                             <span class="dropdown-toggle" id="dropdownMenu<?= $website['id'] ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                 <i class="fa fa-caret-square-o-down" title="操作"></i>
                                             </span>
-                                            <div class="dropdown-menu content-icon <?= $website['share_status'] == Website::SHARE_DEFAULT ? '' : 'no-share' ?>" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
-                                                <?= $website['share_status'] == Website::SHARE_DEFAULT ? '<i class="fa fa-share-alt website-share" title="分享"></i>' : '' ?>
+                                                    <div class="dropdown-menu content-icon <?= $website['share_status'] == Website::SHARE_DEFAULT ? '' : 'list3' ?>" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
+                                                        <?= $website['share_status'] == Website::SHARE_DEFAULT ? '<i class="fa fa-share-alt website-share" title="分享"></i>' : '' ?>
                                                 <i class="fa fa-edit website-edit" title="编辑" ></i>
                                                 <i class="fa fa-trash-o website-delete" title="删除"></i>
                                                 <i class="fa <?= $website['is_open'] == Website::ISOPEN_OPEN ? 'fa-eye-slash' : 'fa-eye' ?> website-open" title="<?= $website['is_open'] == Website::ISOPEN_OPEN ? '私有' : '公开' ?>"></i>
@@ -97,6 +97,19 @@ Modal::end();
             } else {
                 my_alert('danger', '排序出错', 3000);
             }
+
+        }
+    });
+        $(".websiteSortable").sortable({
+        placeholder: "list-group-item sort-highlight",
+        containment: ".website",
+        connectWith: ".websiteSortable",
+        forcePlaceholderSize: true,
+        forceHelperSize: true,
+        revert: true,
+        tolerance: "pointer",
+        update: function (event, ui) {
+           
 
         }
     });

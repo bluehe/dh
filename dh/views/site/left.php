@@ -35,11 +35,11 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
                             <div class="profileHeader-buttons">
                                 <?php
                                 if (Yii::$app->controller->action->id == 'people') {
-                                    echo Yii::$app->user->isGuest || !UserAtten::is_atten(Yii::$app->user->identity->id, $user_id) ? Html::a('<i class="fa fa-plus"></i> 关注', ['#'], ['class' => 'btn btn-xs btn-default']) : Html::a('已关注', ['#'], ['class' => 'btn btn-xs btn-default']);
-                                    // echo Html::a('<i class="fa fa-commenting-o"></i> 私信', ['#'], ['class' => 'btn btn-xs btn-default']);
+                                    echo Yii::$app->user->isGuest || !UserAtten::is_atten(Yii::$app->user->identity->id, $user_id) ? Html::a('<i class="fa fa-plus"></i> 关注', ['#'], ['class' => 'btn btn-xs btn-primary']) : Html::a('已关注', ['#'], ['class' => 'btn btn-xs btn-default']);
+        // echo Html::a('<i class="fa fa-commenting-o"></i> 私信', ['#'], ['class' => 'btn btn-xs btn-default']);
                                 } else {
-                                    echo Html::a('编辑资料', ['account/index'], ['class' => 'btn btn-xs btn-default btn-edit']);
-                                }
+                                    echo Html::a('编辑', ['account/index'], ['class' => 'btn btn-xs btn-default btn-edit']);
+    }
                                 ?>
                             </div>
                         </div>
