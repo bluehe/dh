@@ -54,10 +54,10 @@ use yii\widgets\ActiveForm;
                             + '<span class="header-icon"><i class="fa fa-edit category-edit" title="编辑分类"></i><i class="fa fa-trash-o category-delete" title="删除分类"></i> <i class="fa fa-plus category-add" title="添加分类"></i></span>'
                             + '<div class="pull-right add_page website-add" title="添加网址"> <i class="fa fa-plus"></i></div>'
                             + '</div>'
-                            + '<div class="website-content list-group"></div>'
+                            + '<div class="website-content list-group websiteSortable"></div>'
                             + '</div>';
                     $('#user-modal').modal('hide');
-                    $('.category[id=<?= $id ?>]').after(str);
+                    $('.category[id=<?= $id ?>]').after(str);              
                     my_alert('success', '添加成功！', 3000);
                 }
 
