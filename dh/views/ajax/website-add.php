@@ -67,7 +67,13 @@ use dh\models\Website;
                             + '</div></div></div>';
                     $('#user-modal').modal('hide');
                     $('.category[id=<?= $model->cid ?>]').find('.list-group').append(str);
+                    if($('.category[id=<?= $model->cid ?>]').find('.website-content .list-group-item').length>=10){
+                         $('.category[id=<?= $model->cid ?>]').find('.add_page').hide();
+                    }
                     my_alert('success', '添加成功！', 3000);
+                }else if(data.stat==='fail'){
+                $('#user-modal').modal('hide');
+                my_alert('danger', data.msg, 3000);
                 }
 
             }

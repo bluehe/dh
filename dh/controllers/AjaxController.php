@@ -293,7 +293,7 @@ class AjaxController extends Controller {
     public function actionCategorySort($id, $sort) {
 
         $model = Category::findOne($id);
-        if (!Yii::$app->user->isGuest && $model->uid == Yii::$app->user->identity->id) {
+        if (!Yii::$app->user->isGuest && $model->uid == Yii::$app->user->identity->id && $model->sort_order != $sort) {
 
             $transaction = Yii::$app->db->beginTransaction();
             try {
@@ -318,14 +318,55 @@ class AjaxController extends Controller {
     }
 
     /**
+     * 网址排序
+     * @return json
+     */
+    public function actionWebsiteSort($id, $sort, $cid) {
+
+        $model = Website::findOne($id);
+        if (!Yii::$app->user->isGuest && $model->c->uid == Yii::$app->user->identity->id && ($model->sort_order != $sort || $model->cid != $cid)) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                if ($model->cid != $cid) {
+                    //跨分类
+                    Website::updateAllCounters(['sort_order' => -1], ['and', ['cid' => $model->cid, 'stat' => Website::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
+                    Website::updateAllCounters(['sort_order' => 1], ['and', ['cid' => $cid, 'stat' => Website::STAT_OPEN], ['>=', 'sort_order', $sort]]);
+                    $model->cid = $cid;
+                } else {
+                    if ($model->sort_order < $sort) {
+                        //往后移
+                        Website::updateAllCounters(['sort_order' => -1], ['and', ['cid' => $model->cid, 'stat' => Website::STAT_OPEN], ['and', ['>', 'sort_order', $model->sort_order], ['<=', 'sort_order', $sort]]]);
+                    } elseif ($model->sort_order > $sort) {
+                        //往前移
+                        Website::updateAllCounters(['sort_order' => 1], ['and', ['cid' => $model->cid, 'stat' => Website::STAT_OPEN], ['and', ['<', 'sort_order', $model->sort_order], ['>=', 'sort_order', $sort]]]);
+                    }
+                }
+                $model->sort_order = $sort;
+                $model->save(false);
+                $transaction->commit();
+                return json_encode(['stat' => 'success']);
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
+            }
+           
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 添加网址
      * @return json
      */
     public function actionWebsiteAdd($id) {
 
         $cate = Category::findOne($id);
+       
         if (!Yii::$app->user->isGuest && $cate->uid == Yii::$app->user->identity->id) {
-            $model = new Website();
+            $num = Website::find()->where(['cid' => $id, 'stat' => Website::STAT_OPEN])->count();
+            if ($num < 10) {
+                $model = new Website();
             $model->loadDefaultValues();
             $model->cid = $id;
             $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
@@ -335,6 +376,9 @@ class AjaxController extends Controller {
                 return $this->renderAjax('website-add', [
                             'model' => $model,
                 ]);
+             }
+            } else {
+                return json_encode(['stat' => 'fail', 'msg' => '同一分类最多10个网址']);
             }
         } else {
             return false;

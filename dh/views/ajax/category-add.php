@@ -58,6 +58,32 @@ use yii\widgets\ActiveForm;
                             + '</div>';
                     $('#user-modal').modal('hide');
                     $('.category[id=<?= $id ?>]').after(str);
+
+    $(".websiteSortable").sortable({
+        placeholder: "list-group-item sort-highlight",
+        containment: ".website",
+        connectWith: ".websiteSortable",
+        opacity: 0.8,
+        forcePlaceholderSize: true,
+        forceHelperSize: true,
+        revert: true,
+        tolerance: "pointer",
+        update: function (event, ui) {
+            var cid=$(this).parents('.category').attr('id');
+            var websiteids = $(this).sortable("toArray");
+            var id = ui.item[0].id;
+            var sort = $.inArray(id, websiteids) + 1;
+            if (sort > 0) {
+                $.getJSON("<?= Url::toRoute('ajax/website-sort') ?>", {id: id, sort: sort,cid:cid}, function (data) {
+                    if (data.stat === 'fail') {
+                        my_alert('danger', data.msg, 3000);
+                    }
+                });
+            }
+
+        }
+
+    });
                     my_alert('success', '添加成功！', 3000);
                 }
 

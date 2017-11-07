@@ -75,7 +75,14 @@ Modal::begin([
 Modal::end();
 ?>
 <script>
-<?php $this->beginBlock('js') ?>
+    <?php $this->beginBlock('js') ?>
+    $('.category').each(function(){
+        var l=$(this).find('.website-content .list-group-item').length;
+        if(l>=10){
+            $(this).find('.add_page').hide();
+        }
+
+    });
     $(".categorySortable").sortable({
         placeholder: "category sort-highlight",
         containment: ".website",
@@ -110,21 +117,21 @@ Modal::end();
         forceHelperSize: true,
         revert: true,
         tolerance: "pointer",
-        receive: function (event, ui) {
-        console.log('receive'+ui.item[0].id);
-            console.log($(this).sortable("toArray"));
-
-        },
-         remove: function (event, ui) {
-        console.log('remove'+ui.item[0].id);
-            console.log($(this).sortable("toArray"));
-
-        },
         update: function (event, ui) {
-        console.log('update'+ui.item[0].id);
-            console.log($(this).sortable("toArray"));
+            var cid=$(this).parents('.category').attr('id');
+            var websiteids = $(this).sortable("toArray");
+            var id = ui.item[0].id;
+            var sort = $.inArray(id, websiteids) + 1;
+            if (sort > 0) {
+                $.getJSON("<?= Url::toRoute('ajax/website-sort') ?>", {id: id, sort: sort,cid:cid}, function (data) {
+                    if (data.stat === 'fail') {
+                        my_alert('danger', data.msg, 3000);
+                    }
+                });
+            }
 
         }
+
     });
     //分类编辑
     $('.website').on('click', '.category-edit', function () {
@@ -200,8 +207,11 @@ Modal::end();
         var id = _this.attr('id');
         if (id) {
             $.getJSON("<?= Url::toRoute('ajax/website-delete') ?>", {id: id}, function (data) {
-                if (data.stat === 'success') {
-                    _this.remove();
+                if (data.stat === 'success') {                   
+                    if(_this.parents('.category').find('.website-content .list-group-item').length==10){
+                         _this.parents('.category').find('.add_page').show();
+                    }
+                     _this.remove();
                     my_alert('success', '删除成功！', 3000);
                 } else if (data.stat === 'fail') {
                     my_alert('danger', data.msg, 3000);

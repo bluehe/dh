@@ -562,10 +562,10 @@ a:hover{text-decoration: none}
     top: 0;
     right: 0;
     cursor: pointer;
-    display: none;
+    opacity: 0;
 }
 .category:hover .add_page {
-    display: inline-block;
+    opacity: 1;
 }
 .add_page i {
     position: absolute;
