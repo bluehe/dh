@@ -124,7 +124,16 @@ Modal::end();
             var sort = $.inArray(id, websiteids) + 1;
             if (sort > 0) {
                 $.getJSON("<?= Url::toRoute('ajax/website-sort') ?>", {id: id, sort: sort,cid:cid}, function (data) {
-                    if (data.stat === 'fail') {
+                    if(data.stat==='success'){
+                        $('.category').each(function(){
+                            var l=$(this).find('.website-content .list-group-item').length;
+                            if(l>=10){
+                                $(this).find('.add_page').hide();
+                            }else{
+                                $(this).find('.add_page').show();
+                            }
+                        });
+                    }else if (data.stat === 'fail') {
                         my_alert('danger', data.msg, 3000);
                     }
                 });
