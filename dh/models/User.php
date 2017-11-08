@@ -181,14 +181,26 @@ class User extends ActiveRecord implements IdentityInterface {
         }
         $data = [];
         foreach ($query->each() as $user) {
-            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => Yii::$app->formatter->asRelativeTime($user->created_at), 'img' => Html::img($user->avatar ? $user->avatar : '/image/user.png', ['class' => 'img-circle'])];
+            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => Yii::$app->formatter->asRelativeTime($user->created_at), 'img' => Html::img($user->avatar ? $user->avatar : '@web/image/user.png', ['class' => 'img-circle'])];
+        }
+        return $data;
+    }
+
+    public static function get_tab_userlevel($num = '') {
+        $query = static::find()->andWhere(['status' => self::STATUS_ACTIVE])->orderBy(['created_at' => SORT_DESC, 'id' => SORT_DESC]);
+        if ($num) {
+            $query->limit($num);
+        }
+        $data = [];
+        foreach ($query->each() as $user) {
+            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => Yii::$app->formatter->asRelativeTime($user->created_at), 'img' => Html::img($user->avatar ? $user->avatar : '@web/image/user.png', ['class' => 'img-circle'])];
         }
         return $data;
     }
 
     public static function get_avatar($id) {
         $user = static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
-        return $user && $user->avatar ? $user->avatar : '/image/user.png';
+        return $user && $user->avatar ? $user->avatar : '@web/image/user.png';
     }
 
     public static function get_nickname($id) {

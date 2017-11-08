@@ -61,7 +61,7 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#useradd" aria-controls="useradd" role="tab" data-toggle="tab">新用户</a></li>
         <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userfans" aria-controls="userfans" role="tab" data-toggle="tab">关注排行</a></li>
-        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userclick" aria-controls="userclick" role="tab" data-toggle="tab">点击排行</a></li>
+        <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userlevel" aria-controls="userclick" role="tab" data-toggle="tab">等级排行</a></li>
 
     </ul>
 
@@ -84,10 +84,10 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
 
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="userclick">
+        <div role="tabpanel" class="tab-pane" id="userlevel">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => Website::get_tab_clickorder(10)]
+                Tab::widget(['items' => User::get_tab_userlevel(10)]
                 )
                 ?>
 

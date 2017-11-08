@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="avatar">头像</label>
                     <div class="col-md-4 text-center">
-                        <?= Html::img($user->avatar ? $user->avatar : '/image/user.png', ['alt' => '头像', 'height' => 200, 'width' => 200, 'class' => 'img-rounded']) ?>
+                        <?= Html::img($user->avatar ? $user->avatar : '@web/image/user.png', ['alt' => '头像', 'height' => 200, 'width' => 200, 'class' => 'img-rounded']) ?>
                     </div>
                     <div class="col-md-6"><p class="help-block help-block-error"></p></div>
                 </div>
