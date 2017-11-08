@@ -221,7 +221,7 @@ Modal::end();
         if (id) {
             $.getJSON("<?= Url::toRoute('ajax/website-delete') ?>", {id: id}, function (data) {
                 if (data.stat === 'success') {                   
-                    if(_this.parents('.category').find('.website-content .list-group-item').length==10){
+                    if(_this.parents('.category').find('.website-content .list-group-item').length<=10){
                          _this.parents('.category').find('.add_page').show();
                          _this.parents('.category').find('.websiteSortable').addClass('sort');
                     }
