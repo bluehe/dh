@@ -37,7 +37,8 @@
         "yiisoft/yii2-redis": "^2.0",
         "callmez/yii2-wechat": "^0.2.0",
         "kartik-v/yii2-sortable": "*",
-        "2amigos/yii2-qrcode-helper": "*"
+        "2amigos/yii2-qrcode-helper": "*",
+        "nerburish/yii2-masonry-view": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

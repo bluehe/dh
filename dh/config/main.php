@@ -6,7 +6,7 @@ $params = array_merge(
 
 return [
     'id' => 'dh',
-    'name' => '网址收藏夹',
+    'name' => '网址分享平台',
     'version' => '1.0 Beta',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
