@@ -69,6 +69,7 @@ use dh\models\Website;
                     $('.category[id=<?= $model->cid ?>]').find('.list-group').append(str);
                     if($('.category[id=<?= $model->cid ?>]').find('.website-content .list-group-item').length>=10){
                          $('.category[id=<?= $model->cid ?>]').find('.add_page').hide();
+                         $('.category[id=<?= $model->cid ?>]').find('.websiteSortable').removeClass('sort');
                     }
                     my_alert('success', '添加成功！', 3000);
                 }else if(data.stat==='fail'){

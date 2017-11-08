@@ -80,6 +80,8 @@ Modal::end();
         var l=$(this).find('.website-content .list-group-item').length;
         if(l>=10){
             $(this).find('.add_page').hide();
+        }else{
+            $(this).find('.websiteSortable').addClass('sort');
         }
 
     });
@@ -111,7 +113,7 @@ Modal::end();
         $(".websiteSortable").sortable({
         placeholder: "list-group-item sort-highlight",
         containment: ".website",
-        connectWith: ".websiteSortable",
+        connectWith: ".sort",
         opacity: 0.8,
         forcePlaceholderSize: true,
         forceHelperSize: true,
@@ -129,8 +131,10 @@ Modal::end();
                             var l=$(this).find('.website-content .list-group-item').length;
                             if(l>=10){
                                 $(this).find('.add_page').hide();
+                                $(this).find('.websiteSortable').removeClass('sort');
                             }else{
                                 $(this).find('.add_page').show();
+                                $(this).find('.websiteSortable').addClass('sort');
                             }
                         });
                     }else if (data.stat === 'fail') {
@@ -219,6 +223,7 @@ Modal::end();
                 if (data.stat === 'success') {                   
                     if(_this.parents('.category').find('.website-content .list-group-item').length==10){
                          _this.parents('.category').find('.add_page').show();
+                         _this.parents('.category').find('.websiteSortable').addClass('sort');
                     }
                      _this.remove();
                     my_alert('success', '删除成功！', 3000);
