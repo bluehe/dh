@@ -9,7 +9,7 @@ use dh\models\Recommend;
 /* @var $this \yii\web\View */
 /* @var $content string */
 $menuItems = [
-    ['label' => '网址大全', 'url' => ['site/all']],
+    ['label' => '分享网址', 'url' => ['site/all']],
     ['label' => '我的网址', 'url' => ['site/user']],
 ];
 $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
