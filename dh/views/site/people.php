@@ -32,22 +32,14 @@ $this->title = '用户网址';
 
                                 <?php foreach ($cate['website'] as $website) { ?>
                                     <div class="list-group-item" data-id="<?= $website['id'] ?>">
-                                                <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::toRoute(['api/getfav', 'url' => $website['host']])]) ?>
+                                        <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::toRoute(['api/getfav', 'url' => $website['host']])]) ?>
                                         <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
-                                        <!--                                                <div class="dropdown pull-right">
-                                                                                                    <span class="dropdown-toggle" id="dropdownMenu<?= $website['id'] ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        <i class="fa fa-caret-square-o-down" title="操作"></i>
-                                                    </span>
-                                                            <div class="dropdown-menu content-icon list2" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
-                                                                <i class="fa fa-gavel website-report" title="举报"></i>
-                                                                <i class="fa fa-heart-o website-collect" title="收藏网址"></i>
-                                                            </div>
-                                                                                        </div>-->
-        <div class="content-icon index-icon pull-right" >
-            <i class="fa fa-gavel website-report" title="举报"></i>
-                                                            <i class="fa fa-heart-o website-collect" title="收藏网址"></i>
-                                                                                        </div>
-                                            </div>
+
+                                        <div class="content-icon index-icon pull-right" >
+                                            <i class="fa fa-gavel website-report" title="举报"></i>
+                                            <i class="fa fa-heart-o website-collect" title="收藏网址"></i>
+                                        </div>
+                                    </div>
                                 <?php } ?>
 
                             </div>
@@ -88,6 +80,17 @@ Modal::end();
                 function (data) {
 
                     $('#collect-modal .modal-title').html('收藏网址');
+                    $('#collect-modal .modal-body').html(data);
+                    $('#collect-modal').modal('show');
+                }
+        );
+    });
+
+    $('.website-report').on('click', function () {
+        $.get('<?= Url::toRoute('ajax/website-report') ?>', {id: $(this).parents('.list-group-item').data('id')},
+                function (data) {
+
+                    $('#collect-modal .modal-title').html('举报');
                     $('#collect-modal .modal-body').html(data);
                     $('#collect-modal').modal('show');
                 }

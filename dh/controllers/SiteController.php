@@ -16,6 +16,7 @@ use dh\models\SignupForm;
 use dh\models\PasswordResetRequestForm;
 use dh\models\ResetPasswordForm;
 use dh\models\System;
+use dh\models\User;
 
 /**
  * Site controller
@@ -105,7 +106,7 @@ class SiteController extends Controller {
                     $auth->user->avatar = $avatar;
                     $auth->user->save();
                 }
-                if (!$auth->user->nickname) {
+                if (!$auth->user->nickname && (mb_strlen($nickname, "UTF8") >= 5) && !User::exist_nickname($nickname)) {
                     $auth->user->nickname = $nickname;
                     $auth->user->save();
                 }
@@ -147,8 +148,9 @@ class SiteController extends Controller {
                             $auth->user->avatar = Yii::$app->session->get('auth_avatar');
                             $auth->user->save();
                         }
-                        if (!$auth->user->nickname) {
-                            $auth->user->nickname = Yii::$app->session->get('auth_nickname');
+                        $nickname = Yii::$app->session->get('auth_nickname');
+                        if (!$auth->user->nickname && (mb_strlen($nickname, "UTF8") >= 5) && !User::exist_nickname($nickname)) {
+                            $auth->user->nickname = $nickname;
                             $auth->user->save();
                         }
                         Yii::$app->session->remove('auth_type');
@@ -182,8 +184,9 @@ class SiteController extends Controller {
                                     $auth->user->avatar = Yii::$app->session->get('auth_avatar');
                                     $auth->user->save();
                                 }
-                                if (!$auth->user->nickname) {
-                                    $auth->user->nickname = Yii::$app->session->get('auth_nickname');
+                                $nickname = Yii::$app->session->get('auth_nickname');
+                                if (!$auth->user->nickname && (mb_strlen($nickname, "UTF8") >= 5) && !User::exist_nickname($nickname)) {
+                                    $auth->user->nickname = $nickname;
                                     $auth->user->save();
                                 }
                                 Yii::$app->session->remove('auth_type');

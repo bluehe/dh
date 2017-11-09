@@ -21,27 +21,26 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
             <div class="innerwrap">
                 <div class="profile">
                     <div class="headpic">
-                            <?= Html::img(User::get_avatar($user_id), ['class' => 'img-thumbnail', 'width' => 70, 'height' => 70]) ?>
-                            <?= Yii::$app->controller->action->id == 'people' ? '' : Html::a('<div class="mask"><div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div><div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div></div>', ['account/thumb']) ?>
+                        <?= Html::img(User::get_avatar($user_id), ['class' => 'img-thumbnail', 'width' => 70, 'height' => 70]) ?>
+                        <?= Yii::$app->controller->action->id == 'people' ? '' : Html::a('<div class="mask"><div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div><div class="Mask-content"><i class="glyphicon glyphicon-camera"></i><div class="UserAvatarEditor-maskInnerText">修改头像</div></div></div>', ['account/thumb']) ?>
 
                     </div>
                     <div class="nameBox">
                         <div class="title">
-                            <span class="name txt1"><?= User::get_nickname($user_id) ?> </span>
-                            <a title="等级" href="#"><span class="badge">Lv.0</span></a>
+                            <span class="name txt1"><?= User::get_nickname($user_id) ?></span>
                         </div>
-                        <span><a title="会员" href="#"><i class="W_icon icon_member"></i></a></span>
+                        <span><a title="等级" href="#"><span class="badge">Lv.32</span></a> <a title="会员" href="#"><i class="W_icon icon_member"></i></a></span>
                         <div class="profile-contentFooter">
                             <div class="profileHeader-buttons">
                                 <?php
                                 if (Yii::$app->controller->action->id == 'people') {
                                     echo Yii::$app->user->isGuest || !UserAtten::is_atten(Yii::$app->user->identity->id, $user_id) ? Html::tag('button', '<i class="fa fa-plus"></i> 关注', ['class' => 'btn btn-xs btn-primary']) : Html::tag('button', '已关注', ['class' => 'btn btn-xs btn-default']);
-        // echo Html::a('<i class="fa fa-commenting-o"></i> 私信', ['#'], ['class' => 'btn btn-xs btn-default']);
+                                    // echo Html::a('<i class="fa fa-commenting-o"></i> 私信', ['#'], ['class' => 'btn btn-xs btn-default']);
                                 } else {
-        echo!Yii::$app->user->identity->id ? Html::tag('button', '已签到', ['class' => 'btn btn-xs btn-default', 'disabled' => 'disabled']) : Html::tag('button', '<i class="fa fa-edit"></i>签到', ['class' => 'btn btn-xs btn-primary']);
-        echo Html::a('编辑', ['account/index'], ['class' => 'btn btn-xs btn-default btn-edit']);
-    }
-    ?>
+                                    echo!Yii::$app->user->identity->id ? Html::tag('button', '已签到', ['class' => 'btn btn-xs btn-default', 'disabled' => 'disabled']) : Html::tag('button', '<i class="fa fa-edit"></i>签到', ['class' => 'btn btn-xs btn-primary']);
+                                    //echo Html::a('编辑', ['account/index'], ['class' => 'btn btn-xs btn-default btn-edit']);
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -143,7 +142,7 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
 <?php dh\assets\AppAsset::addScript($this, Yii::$app->assetManager->getPublishedUrl('dh/web') . '/js/jquery.cxscroll.min.js') ?>
 <script>
 <?php $this->beginBlock('left') ?>
-    $(function() {
+    $(function () {
         $("#userscroll").cxScroll({direction: "bottom", speed: 1000, time: 2000});
         $("#cxscroll").cxScroll({direction: "bottom", speed: 1000, time: 2000});
     });

@@ -55,7 +55,7 @@ use dh\models\Category;
                 if (data.stat === 'success') {
                     my_alert('success', '收藏成功！', 3000);
                 } else if (data.stat === 'fail') {
-                    my_alert('success', data.msg, 3000);
+                    my_alert('danger', data.msg, 3000);
                 }
 
             }

@@ -26,7 +26,7 @@ a:hover{text-decoration: none}
     position: relative;
 }
 .main-header .user-menu a{margin-left: 5px; }
-.user-menu .name{      
+.user-menu .name{
     max-width: 82px;
     height: 16px;
     line-height: 20px;
@@ -274,9 +274,8 @@ a:hover{text-decoration: none}
     margin: 0 15px 10px;
 }
 .person_info .headpic {
-  
     position: absolute;
-    top: -27px;
+    top: -20px;
     left: 0;
     z-index: 1;
 }
@@ -354,7 +353,7 @@ a:hover{text-decoration: none}
 }
 .person_info .nameBox .name {
     margin-left: 3px;
-    max-width: 60px;
+    max-width: 90px;
     display: inline-block;
     overflow: hidden;
     font-size: 14px;

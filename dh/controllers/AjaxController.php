@@ -11,6 +11,7 @@ use dh\models\Website;
 use dh\models\Recommend;
 use dh\models\WebsiteClick;
 use dh\models\WebsiteShare;
+use dh\models\WebsiteReport;
 
 /**
  * Api controller
@@ -205,6 +206,36 @@ class AjaxController extends Controller {
     }
 
     /**
+     * 举报网址
+     * @return json
+     */
+    public function actionWebsiteReport($id) {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        } else {
+            $model = Website::findOne($id);
+
+            if (Yii::$app->request->isPost) {
+                $w = new WebsiteReport();
+                $w->loadDefaultValues();
+                $w->uid = Yii::$app->user->identity->id;
+                $w->wid = $id;
+                $w->content = Yii::$app->request->post('content');
+                if ($w->save()) {
+                    return json_encode(['stat' => 'success']);
+                } else {
+                    return json_encode(['stat' => 'fail', 'msg' => '操作失败！']);
+                }
+            } else {
+                return $this->renderAjax('website-report', [
+                            'model' => $model,
+                ]);
+            }
+        }
+    }
+
+    /**
      * 编辑分类
      * @return bool
      */
@@ -349,7 +380,6 @@ class AjaxController extends Controller {
                 $transaction->rollBack();
                 return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
             }
-           
         } else {
             return false;
         }
@@ -362,21 +392,21 @@ class AjaxController extends Controller {
     public function actionWebsiteAdd($id) {
 
         $cate = Category::findOne($id);
-       
+
         if (!Yii::$app->user->isGuest && $cate->uid == Yii::$app->user->identity->id) {
             $num = Website::find()->where(['cid' => $id, 'stat' => Website::STAT_OPEN])->count();
             if ($num < 10) {
                 $model = new Website();
-            $model->loadDefaultValues();
-            $model->cid = $id;
-            $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url, 'host' => $model->host, 'is_open' => $model->is_open == Website::ISOPEN_OPEN ? true : false]);
-            } else {
-                return $this->renderAjax('website-add', [
-                            'model' => $model,
-                ]);
-             }
+                $model->loadDefaultValues();
+                $model->cid = $id;
+                $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    return json_encode(['stat' => 'success', 'id' => $model->id, 'title' => $model->title, 'url' => $model->url, 'host' => $model->host, 'is_open' => $model->is_open == Website::ISOPEN_OPEN ? true : false]);
+                } else {
+                    return $this->renderAjax('website-add', [
+                                'model' => $model,
+                    ]);
+                }
             } else {
                 return json_encode(['stat' => 'fail', 'msg' => '同一分类最多10个网址']);
             }

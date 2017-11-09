@@ -208,4 +208,9 @@ class User extends ActiveRecord implements IdentityInterface {
         return $user ? ($user->nickname ? $user->nickname : $user->username) : '';
     }
 
+    public static function exist_nickname($nickname) {
+        $user = static::findOne(['nickname' => $nickname, 'status' => self::STATUS_ACTIVE]);
+        return $user ? $user->id : false;
+    }
+
 }

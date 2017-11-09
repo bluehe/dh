@@ -27,8 +27,9 @@ class SignupForm extends Model {
         return [
             [['username', 'email', 'tel', 'nickname'], 'trim'],
             ['username', 'required', 'message' => '{attribute}不能为空'],
-            [['username', 'email', 'tel'], 'unique', 'targetClass' => '\dh\models\User', 'message' => '{attribute}已经存在'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            [['username', 'email', 'tel', 'nickname'], 'unique', 'targetClass' => '\dh\models\User', 'message' => '{attribute}已经存在'],
+            ['username', 'string', 'min' => 5, 'max' => 255],
+            ['nickname', 'string', 'min' => 5, 'max' => 255],
             ['email', 'email', 'message' => '{attribute}格式不正确'],
             ['email', 'string', 'max' => 255],
             [['password', 'password1'], 'required', 'message' => '密码不能为空'],
