@@ -49,7 +49,7 @@ $system = Yii::$app->cache->get('system_info');
     <div class="pull-right hidden-xs">
         <b>Version</b> <?= Yii::$app->version ?>
     </div>
-    <strong>Copyright &copy; 2011-<?= date('Y', time()) ?> <a href="<?= Yii::$app->homeUrl ?>">何文斌</a>.</strong> All rights reserved.
+    <strong>&copy; <?= date('Y', time()) ?> <a href="<?= Yii::$app->homeUrl ?>"><?= Yii::$app->name ?>.</a>.</strong> All rights reserved.
     <a href = "http://www.miibeian.gov.cn/" target = "_blank"><?= $system['system_icp']; ?></a>
     <?= $system['system_statcode']; ?>
 </footer>
