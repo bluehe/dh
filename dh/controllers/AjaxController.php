@@ -12,6 +12,9 @@ use dh\models\Recommend;
 use dh\models\WebsiteClick;
 use dh\models\WebsiteShare;
 use dh\models\WebsiteReport;
+use dh\models\UserSign;
+use dh\models\UserPoint;
+use dh\components\CommonHelper;
 
 /**
  * Api controller
@@ -110,6 +113,46 @@ class AjaxController extends Controller {
     public function actionRecommendClick($id) {
         Recommend::updateAllCounters(['click_num' => 1], ['id' => $id]);
         return true;
+    }
+
+    /**
+     * 用户签到
+     * @return json
+     */
+    public function actionUserSign() {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        } else {
+            if (!UserSign::exist_sign(Yii::$app->user->identity->id)) {
+                $sign = new UserSign();
+                $sign->uid = Yii::$app->user->identity->id;
+                $sign->y = date('Y', time());
+                $sign->m = date('m', time());
+                $sign->d = date('d', time());
+                $sign->created_at = time();
+                $yes_t = strtotime(" -1 day");
+                $yest = UserSign::find()->where(['uid' => Yii::$app->user->identity->id, 'y' => date('Y', $yes_t), 'm' => date('m', $yes_t), 'd' => date('d', $yes_t)])->one();
+                $sign->series = ($yest === null) ? 1 : $yest->series + 1;
+
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $sign->save();
+                    $num = $sign->series > 5 ? 5 : $sign->series;
+                    $result = CommonHelper::set_point(Yii::$app->user->identity->id, $num, UserPoint::DIRECT_PLUS, '签到任务', '连续签到' . $sign->series . '天');
+                    if (!$result) {
+                        throw new \Exception(); //抛出异常
+                    }
+                    $transaction->commit();
+                    return json_encode(['stat' => 'success', 'msg' => '连续签到' . $sign->series . '天，获得' . $num . '积分']);
+                } catch (\Exception $e) {
+
+                    $transaction->rollBack();
+                    return json_encode(['stat' => 'fail', 'msg' => '签到失败！']);
+                }
+            } else {
+                return json_encode(['stat' => 'fail', 'msg' => '已签到！']);
+            }
+        }
     }
 
     /**

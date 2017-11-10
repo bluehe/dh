@@ -4,7 +4,9 @@ use dh\components\Tab;
 use dh\models\Website;
 use dh\models\User;
 use dh\models\UserAtten;
+use dh\models\UserSign;
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
 
 <?php
@@ -37,7 +39,7 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
                                     echo Yii::$app->user->isGuest || !UserAtten::is_atten(Yii::$app->user->identity->id, $user_id) ? Html::tag('button', '<i class="fa fa-plus"></i> 关注', ['class' => 'btn btn-xs btn-primary']) : Html::tag('button', '已关注', ['class' => 'btn btn-xs btn-default']);
                                     // echo Html::a('<i class="fa fa-commenting-o"></i> 私信', ['#'], ['class' => 'btn btn-xs btn-default']);
                                 } else {
-                                    echo!Yii::$app->user->identity->id ? Html::tag('button', '已签到', ['class' => 'btn btn-xs btn-default', 'disabled' => 'disabled']) : Html::tag('button', '<i class="fa fa-edit"></i>签到', ['class' => 'btn btn-xs btn-primary']);
+                                    echo UserSign::exist_sign(Yii::$app->user->identity->id) ? Html::tag('button', '已签到', ['class' => 'btn btn-xs btn-default', 'disabled' => 'disabled']) : Html::tag('button', '<i class="fa fa-edit"></i>签到', ['class' => 'btn btn-xs btn-primary user-sign']);
                                     //echo Html::a('编辑', ['account/index'], ['class' => 'btn btn-xs btn-default btn-edit']);
                                 }
                                 ?>
@@ -145,6 +147,18 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
     $(function () {
         $("#userscroll").cxScroll({direction: "bottom", speed: 1000, time: 2000});
         $("#cxscroll").cxScroll({direction: "bottom", speed: 1000, time: 2000});
+    });
+    //用户签到
+    $('.user-sign').on('click', function () {
+        $.getJSON("<?= Url::toRoute('ajax/user-sign') ?>", function (data) {
+            if (data.stat === 'success') {
+                $('.user-sign').addClass('btn-default').attr('disabled', 'disabled').html('已签到').removeClass('btn-primary user-sign');
+                my_alert('success', data.msg, 3000);
+            } else if (data.stat === 'fail') {
+                my_alert('danger', data.msg, 3000);
+            }
+        });
+
     });
 <?php $this->endBlock() ?>
 </script>
