@@ -5,6 +5,7 @@ use dh\models\Website;
 use dh\models\User;
 use dh\models\UserAtten;
 use dh\models\UserSign;
+USE dh\models\UserLevel;
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
@@ -16,6 +17,7 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
     } else {
         $user_id = Yii::$app->user->identity->id;
     }
+    $level = UserLevel::get_user_level($user_id);
     ?>
     <div class="user-head">
         <div class="person_info">
@@ -31,7 +33,10 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
                         <div class="title">
                             <span class="name txt1"><?= User::get_nickname($user_id) ?></span>
                         </div>
-                        <span><a title="等级" href="#"><span class="badge">Lv.32</span></a> <a title="会员" href="#"><i class="W_icon icon_member"></i></a></span>
+                        <span>
+                            <a title="等级" href="#"><span class="badge icon_level_c<?= ceil($level / 5) ?>">Lv.<?= $level ?></span></a>
+    <!--                            <a title="会员" href="#"><i class="W_icon icon_member"></i></a>-->
+                        </span>
                         <div class="profile-contentFooter">
                             <div class="profileHeader-buttons">
                                 <?php
@@ -89,7 +94,7 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
         <div role="tabpanel" class="tab-pane" id="userlevel">
             <div class="list-group">
                 <?=
-                Tab::widget(['items' => User::get_tab_userlevel(10)]
+                Tab::widget(['items' => UserLevel::get_tab_userlevel(10)]
                 )
                 ?>
 

@@ -1,10 +1,6 @@
 <?php
 /* @var $this yii\web\View */
 
-use yii\widgets\Pjax;
-use yii\grid\GridView;
-use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\bootstrap\Modal;
 
 $this->title = '首页';

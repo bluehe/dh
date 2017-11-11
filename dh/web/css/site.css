@@ -451,6 +451,24 @@ a:hover{text-decoration: none}
 .person_info .nameBox .name, .person_info .nameBox .W_icon, .person_info .nameBox .icon_yy, .person_info .nameBox .icon_vipstyle, .person_info .nameBox .icon_co1{
     vertical-align: middle;
 }
+.icon_level_c1 {
+    background-color: #ffdd00;
+}
+.icon_level_c2 {
+    background-color: #ffb400;
+}
+
+.icon_level_c3 {
+    background-color: #fe7e00;
+}
+
+.icon_level_c4 {
+    background-color: #fd4d17;
+}
+
+.icon_level_c5 {
+    background-color: #d60000;
+}
 
 
 .user_atten {

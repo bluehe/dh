@@ -186,18 +186,6 @@ class User extends ActiveRecord implements IdentityInterface {
         return $data;
     }
 
-    public static function get_tab_userlevel($num = '') {
-        $query = static::find()->andWhere(['status' => self::STATUS_ACTIVE])->orderBy(['point' => SORT_DESC, 'id' => SORT_ASC]);
-        if ($num) {
-            $query->limit($num);
-        }
-        $data = [];
-        foreach ($query->each() as $user) {
-            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => 'Lv.' . $user->point, 'img' => Html::img($user->avatar ? $user->avatar : '@web/image/user.png', ['class' => 'img-circle'])];
-        }
-        return $data;
-    }
-
     public static function get_avatar($id) {
         $user = static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
         return $user && $user->avatar ? $user->avatar : '@web/image/user.png';

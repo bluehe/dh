@@ -42,7 +42,7 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
 
                         </a>
                         <div class="myhome">
-                            <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['user/index']) ?>
+                            <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['person/index']) ?>
                             <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['site/logout'], ['data-method' => 'post']) ?>
                         </div>
                     </div>

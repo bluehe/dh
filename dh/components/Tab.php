@@ -44,7 +44,7 @@ class Tab extends Widget {
             '{img}' => isset($item['img']) ? $item['img'] : null,
             '{url}' => Url::to($item['url']),
             '{title}' => $item['title'],
-            '{label}' => isset($item['label']) ? '<span class="badge">' . $item['label'] . '</span>' : null,
+            '{label}' => isset($item['label']) ? '<span class="badge' . (isset($item['label_class']) ? ' ' . $item['label_class'] : '') . '">' . $item['label'] . '</span>' : null,
         ];
         return strtr($template, $replace);
     }
