@@ -2,7 +2,7 @@ html,body{
     font-family: "Microsoft YaHei", SimSun, sans-serif;
     font-size: 14px;
 }
-a:hover{text-decoration: none}
+a:hover,a:focus{text-decoration: none}
 .bt-1{border-top: 1px solid #cadcdd;}
 .alert {
     position: fixed;
@@ -342,6 +342,8 @@ a:hover{text-decoration: none}
 .profileHeader-buttons .btn{
     display: block;
     margin-top: 5px;
+    width: 60px;
+    text-align: center;
 }
 .profileHeader-buttons .btn-edit:hover{
     background-color: rgba(13,121,209,.06);
@@ -468,6 +470,9 @@ a:hover{text-decoration: none}
 
 .icon_level_c5 {
     background-color: #d60000;
+}
+.icon_level_c6 {
+    background-color: #ad0606;
 }
 
 
@@ -684,39 +689,97 @@ a:hover{text-decoration: none}
     padding: 10px 0;
 }
 
-/*分页*/
-.pagination{
-    margin: 0 0 20px 0;
+/*关注*/
+.follow .nav-tabs {
+    background-color: #cadcdd;
+    font-weight: 600;
+    border-color: transparent;
+    border-radius: 4px 4px 0 0;
 }
-.pagination > li > a, .pagination > li > span {
-    padding: 6px 15px;
-    margin: 0px 2px;
+.follow .nav-tabs>li{
+    padding: 0;
+}
+.follow .nav > li > a {
+    text-align: center;
+    margin-right: 0;
+    color:#333;
+}
+.follow .nav-tabs > li.active > a,.follow .nav-tabs > li.active > a:hover,.follow .nav-tabs > li.active > a:focus {
+    background-color: #fff;
+    border-color: transparent;
+}
+.follow .nav-tabs > li > a:hover {
+    border-color: transparent;
+}
+.follow .nav > li > a:hover,.follow .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #cadcdd;
+}
+.follow-user{
+    background-color: #fff;
+    border-radius: 0 0 4px 4px;
+}
+.follow-user .list-group-item{
+    border: 0;
+    border-bottom:1px solid #ddd;
+    margin-bottom: 0;
+    float: left;
+    width: 100%;
+}
+.ContentItem-image{
+    float: left;
+    margin-right: 16px;
+}
+.ContentItem-head {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    overflow: hidden;
+    margin-right: 6px;
+}
+.ContentItem-title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: #1e1e1e;
+    margin-top: -4px;
+    margin-bottom: -4px;
+}
+/*分页*/
+
+/*.pagination > li > a, .pagination > li > span {
+        color: #cadcdd;
+        padding: 6px 15px;
+        margin: 0px 2px;
     border: #839696 1px solid;
     border-radius: 15px;
     color: #839696;
-    background: #fff;
+        background: #fff;
 
-}
-.pagination > li:first-child > a, .pagination > li:first-child > span {
+}*/
+/*.pagination > li:first-child > a, .pagination > li:first-child > span {
     border-radius: 15px;
 }
 .pagination > li:last-child > a, .pagination > li:last-child > span {
     border-radius: 15px;
-}
+}*/
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-    z-index: 3;
-    cursor: default;
+    color: #fff;
+    background-color: #cadcdd;
+    border-color: #cadcdd;
+    /*    z-index: 3;
+        cursor: default;
     color:#303a3d;
     background-color: #fff;
-    border: #303a3d 1px solid;
+        border: #303a3d 1px solid;*/
 }
-.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus ,.pagination .go-page:hover{
-    z-index: 2;
-    color: #303a3d;
+/*.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus ,.pagination .go-page:hover{
+        z-index: 2;
+        color: #303a3d;
     background-color: #fff;
-    border-color: #303a3d;
-}
-.pagination .page-form{
+        border-color: #303a3d;
+}*/
+/*.pagination .page-form{
     float: left; color: #999; margin-left: 10px; font-size: 12px;
 }
 .pagination .go-page{
@@ -724,7 +787,7 @@ a:hover{text-decoration: none}
     background: #fff;
     color: #839696;
     padding: 6px 15px;
-}
+}*/
 
 /*登录*/
 .login-box, .register-box {
@@ -931,6 +994,21 @@ a:hover{text-decoration: none}
     background-color: #3c8dbc;
     color:#fff;
 }
+
+.skin-blue .follow .nav-tabs{
+    background-color: #3c8dbc;
+}
+.skin-blue .follow .nav > li > a {
+    color: #fff;
+}
+.skin-blue .follow .nav-tabs > li.active > a,.skin-blue .follow .nav-tabs > li.active > a:hover, .skin-blue .follow .nav-tabs > li.active > a:focus {
+    color: #333;
+    background-color: #fff;
+}
+.skin-blue .follow .nav > li > a:hover,.skin-blue .follow .nav > li > a:focus {
+    background-color: #3c8dbc;
+    color:#fff;
+}
 .skin-blue .mk.user .user-head{
     border-bottom: 1px solid #3c8dbc;
 }
@@ -952,23 +1030,29 @@ a:hover{text-decoration: none}
     border: 1px solid #3c8dbc;
     color: #fff;
 }
-.skin-blue .pagination > li > a, .skin-blue .pagination > li > span {
-    border: #f3f3f3 1px solid;
+/*分页*/
+.skin-blue .pagination > li > a,.skin-blue .pagination > li > span {
     color: #3c8dbc;
 }
+/*.skin-blue .pagination > li > a, .skin-blue .pagination > li > span {
+        border: #f3f3f3 1px solid;
+        color: #3c8dbc;
+}*/
 .skin-blue .pagination > .active > a, .skin-blue .pagination > .active > span, .skin-blue .pagination > .active > a:hover, .skin-blue .pagination > .active > span:hover, .skin-blue .pagination > .active > a:focus, .skin-blue .pagination > .active > span:focus {
-    color:#367fa9;
-    border: #367fa9 1px solid;
+    background-color: #3c8dbc;
+    border-color: #3c8dbc;
+    color:#fff;
+    /*    color:#367fa9;
+        border: #367fa9 1px solid;*/
 }
-.skin-blue .pagination > li > a:hover, .skin-blue .pagination > li > span:hover, .skin-blue .pagination > li > a:focus, .skin-blue .pagination > li > span:focus ,.skin-blue .pagination .go-page:hover{
-    color: #367fa9;
-    border-color: #367fa9;
-}
-.skin-blue .pagination .go-page{
+/*.skin-blue .pagination > li > a:hover, .skin-blue .pagination > li > span:hover, .skin-blue .pagination > li > a:focus, .skin-blue .pagination > li > span:focus ,.skin-blue .pagination .go-page:hover{
+        color: #367fa9;
+        border-color: #367fa9;
+}*/
+/*.skin-blue .pagination .go-page{
     border: #f3f3f3 1px solid;
     color: #3c8dbc;
-
-}
+}*/
 
 .skin-blue .navbar-inverse .navbar-toggle:hover, .skin-blue .navbar-inverse .navbar-toggle:focus {
     background-color: #367fa9;

@@ -8,6 +8,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\Pagination;
 use dh\models\LoginForm;
 use dh\models\UserAuth;
 use dh\models\Category;
@@ -17,6 +18,7 @@ use dh\models\PasswordResetRequestForm;
 use dh\models\ResetPasswordForm;
 use dh\models\System;
 use dh\models\User;
+use dh\models\UserAtten;
 
 /**
  * Site controller
@@ -393,17 +395,41 @@ class SiteController extends Controller {
         return $this->render('user', ['cates' => $cates]);
     }
 
-    public function actionPeople($id) {
-        if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $id) {
+    public function actionPeople($user_id) {
+        if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $user_id) {
             return $this->goHome();
         }
-        $cates = Category::get_category_sql($id, NULL, Category::STAT_OPEN, Category::ISOPEN_OPEN)->asArray()->all();
+        $cates = Category::get_category_sql($user_id, NULL, Category::STAT_OPEN, Category::ISOPEN_OPEN)->asArray()->all();
         foreach ($cates as $key => $cate) {
             $websites = Website::get_website(NULL, $cate['id'], Website::STAT_OPEN, Website::ISOPEN_OPEN);
             $cates[$key]['website'] = $websites;
         }
 
         return $this->render('people', ['cates' => $cates]);
+    }
+
+    public function actionFollow($user_id) {
+        $data = UserAtten::find()->select(['user_id' => 'user'])->where(['stat' => UserAtten::STAT_OPEN, 'uid' => $user_id]);
+
+        $pages = new Pagination(['totalCount' => $data->count(), 'pageSize' => '2']);
+        $model = $data->offset($pages->offset)->limit($pages->limit)->column();
+
+        return $this->render('follow', [
+                    'model' => $model,
+                    'pages' => $pages,
+        ]);
+    }
+
+    public function actionFans($user_id) {
+        $data = UserAtten::find()->select(['user_id' => 'uid'])->where(['stat' => UserAtten::STAT_OPEN, 'user' => $user_id]);
+
+        $pages = new Pagination(['totalCount' => $data->count(), 'pageSize' => '2']);
+        $model = $data->offset($pages->offset)->limit($pages->limit)->column();
+
+        return $this->render('follow', [
+                    'model' => $model,
+                    'pages' => $pages,
+        ]);
     }
 
 }

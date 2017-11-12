@@ -4,14 +4,13 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
-use dh\components\GoLinkPager;
 
 $this->title = '用户网址';
 ?>
 <div class="container">
 
     <div class="row content">
-        <section class="col-lg-3 hidden-xs">
+        <section class="col-lg-3">
             <?=
             $this->render('left.php')
             ?>

@@ -64,7 +64,7 @@ class UserLevel extends \yii\db\ActiveRecord {
         $data = [];
         foreach ($query->each() as $user) {
             $level = self::get_level($user->point);
-            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => 'Lv.' . $level, 'label_class' => 'icon_level_c' . ceil($level / 5), 'img' => Html::img($user->avatar ? $user->avatar : '@web/image/user.png', ['class' => 'img-circle'])];
+            $data[] = ['template_id' => 'user', 'url' => Url::toRoute(['site/people', 'id' => $user->id]), 'title' => $user->nickname ? $user->nickname : $user->username, 'label' => 'Lv.' . $level, 'label_class' => 'icon_level_c' . ceil($level / Yii::$app->params['level_c']), 'img' => Html::img($user->avatar ? $user->avatar : '@web/image/user.png', ['class' => 'img-circle'])];
         }
         return $data;
     }

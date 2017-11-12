@@ -14,6 +14,7 @@ use dh\models\WebsiteShare;
 use dh\models\WebsiteReport;
 use dh\models\UserSign;
 use dh\models\UserPoint;
+use dh\models\UserAtten;
 use dh\components\CommonHelper;
 
 /**
@@ -151,6 +152,62 @@ class AjaxController extends Controller {
                 }
             } else {
                 return json_encode(['stat' => 'fail', 'msg' => '已签到！']);
+            }
+        }
+    }
+
+    /**
+     * 取消关注
+     * @return json
+     */
+    public function actionUserUnfollow($user_id) {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        } else {
+            if (UserAtten::is_atten(Yii::$app->user->identity->id, $user_id)) {
+                $atten = UserAtten::findOne(['uid' => Yii::$app->user->identity->id, 'user' => $user_id, 'stat' => UserAtten::STAT_OPEN]);
+                $atten->stat = UserAtten::STAT_CLOSE;
+
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $atten->save();
+                    $transaction->commit();
+                    return json_encode(['stat' => 'success', 'msg' => '取消关注成功']);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    return json_encode(['stat' => 'fail', 'msg' => '取消失败！']);
+                }
+            } else {
+                return json_encode(['stat' => 'fail', 'msg' => '还未关注！']);
+            }
+        }
+    }
+
+    /**
+     * 关注
+     * @return json
+     */
+    public function actionUserFollow($user_id) {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        } else {
+            if (!UserAtten::is_atten(Yii::$app->user->identity->id, $user_id)) {
+                $atten = new UserAtten();
+                $atten->uid = Yii::$app->user->identity->id;
+                $atten->user = $user_id;
+                $atten->stat = UserAtten::STAT_OPEN;
+
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    $atten->save();
+                    $transaction->commit();
+                    return json_encode(['stat' => 'success', 'msg' => '关注成功']);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    return json_encode(['stat' => 'fail', 'msg' => '关注失败！']);
+                }
+            } else {
+                return json_encode(['stat' => 'fail', 'msg' => '已经关注！']);
             }
         }
     }
