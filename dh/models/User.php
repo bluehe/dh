@@ -56,6 +56,122 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
 
+    public function attributeLabels() {
+        return [
+            'id' => 'ID',
+            'username' => '用户名',
+            'auth_key' => '密码',
+            'password_hash' => '密码Hash',
+            'password_reset_token' => '重置密码token',
+            'nickname' => '昵称',
+            'email' => 'Email',
+            'tel' => '电话',
+            'avatar' => '头像',
+            'plate' => '版式',
+            'skin' => '皮肤',
+            'point' => '积分',
+            'status' => '状态',
+            'created_at' => '创建时间',
+            'updated_at' => '更新时间',
+        ];
+    }
+
+    public static $List = [
+        'status' => [
+            self::STATUS_ACTIVE => "正常",
+            self::STATUS_DELETED => "删除"
+        ]
+    ];
+
+    public function getStatus() {
+        $status = isset(self::$List['status'][$this->status]) ? self::$List['status'][$this->status] : null;
+        return $status;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategories() {
+        return $this->hasMany(Category::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserAttens() {
+        return $this->hasMany(UserAtten::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserAttens0() {
+        return $this->hasMany(UserAtten::className(), ['user' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserAuths() {
+        return $this->hasMany(UserAuth::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserLogs() {
+        return $this->hasMany(UserLog::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserPoints() {
+        return $this->hasMany(UserPoint::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserSigns() {
+        return $this->hasMany(UserSign::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWebsiteClicks() {
+        return $this->hasMany(WebsiteClick::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWebsiteReports() {
+        return $this->hasMany(WebsiteReport::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWebsiteReports0() {
+        return $this->hasMany(WebsiteReport::className(), ['check_uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWebsiteShares() {
+        return $this->hasMany(WebsiteShare::className(), ['uid' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWebsiteShares0() {
+        return $this->hasMany(WebsiteShare::className(), ['check_uid' => 'id']);
+    }
+
     /**
      * @inheritdoc
      */

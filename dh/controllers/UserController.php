@@ -3,6 +3,8 @@
 namespace dh\controllers;
 
 use Yii;
+use dh\models\User;
+use dh\models\UserSearch;
 use dh\models\UserLevel;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -78,6 +80,20 @@ class UserController extends Controller {
         }
 
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Lists all User models.
+     * @return mixed
+     */
+    public function actionUser() {
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('user', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
     }
 
 }

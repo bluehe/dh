@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '用户等级';
-$this->params['breadcrumbs'][] = ['label' => '用户管理', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '用户管理', 'url' => ['user']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-level-index">
