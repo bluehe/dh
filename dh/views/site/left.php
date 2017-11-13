@@ -40,7 +40,7 @@ if (Yii::$app->controller->action->id == 'people' || Yii::$app->controller->acti
                         <div class="profile-contentFooter">
                             <div class="profileHeader-buttons">
                                 <?php
-                                if (Yii::$app->controller->action->id == 'people' || Yii::$app->controller->action->id == 'follow') {
+                                if ((Yii::$app->controller->action->id == 'people' || Yii::$app->controller->action->id == 'follow') && (Yii::$app->user->isGuest || Yii::$app->user->identity->id != $user_id)) {
                                         echo Yii::$app->user->isGuest || !UserAtten::is_atten(Yii::$app->user->identity->id, $user_id) ? Html::tag('button', '<i class="fa fa-plus"></i> 关注', ['class' => 'btn btn-xs btn-primary user-follow', 'data-id' => $user_id]) : Html::tag('button', '已关注', ['class' => 'btn btn-xs btn-default user-unfollow', 'data-id' => $user_id]);
                                     // echo Html::a('<i class="fa fa-commenting-o"></i> 私信', ['#'], ['class' => 'btn btn-xs btn-default']);
                                 } else {
@@ -167,14 +167,15 @@ if (Yii::$app->controller->action->id == 'people' || Yii::$app->controller->acti
     });
     //用户取消关注
     $('.profileHeader-buttons').on("mouseover", '.user-unfollow', function () {
-        $('.user-unfollow').html('取消关注');
+        $(this).html('取消关注');
     }).on("mouseout", '.user-unfollow', function () {
-        $('.user-unfollow').html('已关注');
+        $(this).html('已关注');
     });
     $('.profileHeader-buttons').on('click', '.user-unfollow', function () {
-        $.getJSON("<?= Url::toRoute('ajax/user-unfollow') ?>", {user_id: $(this).data('id')}, function (data) {
+        var _this=$(this);
+        $.getJSON("<?= Url::toRoute('ajax/user-unfollow') ?>", {user_id: _this.data('id')}, function (data) {
             if (data.stat === 'success') {
-                $('.user-unfollow').addClass('btn-primary user-follow').html('<i class="fa fa-plus"></i> 关注').removeClass('btn-default user-unfollow');
+                _this.addClass('btn-primary user-follow').html('<i class="fa fa-plus"></i> 关注').removeClass('btn-default user-unfollow');
                 $('.user_atten li strong[data-type=fans]').html(parseInt($('.user_atten li strong[data-type=fans]').html()) - 1);
                 my_alert('success', data.msg, 3000);
             } else if (data.stat === 'fail') {
@@ -184,9 +185,10 @@ if (Yii::$app->controller->action->id == 'people' || Yii::$app->controller->acti
 
     });
     $('.profileHeader-buttons').on('click', '.user-follow', function () {
-        $.getJSON("<?= Url::toRoute('ajax/user-follow') ?>", {user_id: $(this).data('id')}, function (data) {
+    var _this=$(this);
+        $.getJSON("<?= Url::toRoute('ajax/user-follow') ?>", {user_id: _this.data('id')}, function (data) {
             if (data.stat === 'success') {
-                $('.user-follow').addClass('btn-default user-unfollow').html('已关注').removeClass('btn-primary user-follow');
+                _this.addClass('btn-default user-unfollow').html('已关注').removeClass('btn-primary user-follow');
                 $('.user_atten li strong[data-type=fans]').html(parseInt($('.user_atten li strong[data-type=fans]').html()) + 1);
                 my_alert('success', data.msg, 3000);
             } else if (data.stat === 'fail') {
