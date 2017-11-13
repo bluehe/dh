@@ -415,7 +415,7 @@ class SiteController extends Controller {
             $data = UserAtten::find()->select(['user_id' => 'uid'])->where(['stat' => UserAtten::STAT_OPEN, 'user' => $id]);
         }
 
-        $pages = new Pagination(['totalCount' => $data->count(), 'pageSize' => '2']);
+        $pages = new Pagination(['totalCount' => $data->count(), 'pageSize' => '20']);
         $model = $data->offset($pages->offset)->limit($pages->limit)->column();
 
         return $this->render('follow', [
