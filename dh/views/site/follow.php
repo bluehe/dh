@@ -35,34 +35,36 @@ $this->title = '关注列表';
                     <?php Pjax::begin(); ?>
                     <div class="follow-user list-group">
                         <?php if (count($model) > 0) { ?>
-                            <?php
-                            foreach ($model as $id) {
-                                $level = UserLevel::get_user_level($id);
-                                ?>
-                                <div class="list-group-item">
-                                    <div class="ContentItem-main">
-                                        <div class="ContentItem-image">
-                                            <?= Html::a(Html::img(User::get_avatar($id), ['class' => 'img-rounded', 'width' => 70, 'height' => 70]), ['site/people', 'id' => $id]) ?>
+                            <div>
+                                <?php
+                                foreach ($model as $id) {
+                                    $level = UserLevel::get_user_level($id);
+                                    ?>
+                                    <div class="list-group-item">
+                                        <div class="ContentItem-main">
+                                            <div class="ContentItem-image">
+                                                <?= Html::a(Html::img(User::get_avatar($id), ['class' => 'img-rounded', 'width' => 70, 'height' => 70]), ['site/people', 'id' => $id]) ?>
 
-                                        </div>
-                                        <div class="ContentItem-head">
-                                            <div class="ContentItem-title"><?= Html::a(User::get_nickname($id), ['site/people', 'id' => $id], ['class' => 'txt1']) ?></div>
-                                            <div class="ContentItem-meta">
-                                                <div class="RichText"> <span class="badge icon_level_c<?= ceil($level / Yii::$app->params['level_c']) ?>">Lv.<?= $level ?></span></div>
-                                                <div class="ContentItem-status">
-                                                    <?= Html::a('<strong data-type="follow">' . UserAtten::get_num($id) . '</strong> 关注了', ['site/follow', 'id' => $id]) ?><?= Html::a('<strong data-type="fans">' . UserAtten::get_num($id, 'fans') . '</strong> 关注者', ['site/follow', 'id' => $id, 'type' => 'fans']) ?><?= Html::a('<strong>' . Website::get_website_num($id, '', Website::STAT_OPEN) . '</strong> 网址', ['site/people', 'id' => $id]) ?></div>
+                                            </div>
+                                            <div class="ContentItem-head">
+                                                <div class="ContentItem-title"><?= Html::a(User::get_nickname($id), ['site/people', 'id' => $id], ['class' => 'txt1']) ?></div>
+                                                <div class="ContentItem-meta">
+                                                    <div class="RichText"> <span class="badge icon_level_c<?= ceil($level / Yii::$app->params['level_c']) ?>">Lv.<?= $level ?></span></div>
+                                                    <div class="ContentItem-status">
+                                                        <?= Html::a('<strong data-type="follow">' . UserAtten::get_num($id) . '</strong> 关注了', ['site/follow', 'id' => $id]) ?><?= Html::a('<strong data-type="fans">' . UserAtten::get_num($id, 'fans') . '</strong> 关注者', ['site/follow', 'id' => $id, 'type' => 'fans']) ?><?= Html::a('<strong>' . Website::get_website_num($id, '', Website::STAT_OPEN) . '</strong> 网址', ['site/people', 'id' => $id]) ?></div>
+                                                </div>
+                                            </div>
+                                            <div class="ContentItem-extra">
+
+                                                <?php
+                                                echo Yii::$app->user->isGuest ? Html::tag('button', '<i class="fa fa-plus"></i> 关注', ['class' => 'btn btn-primary user-follow', 'data-id' => $id]) : (Yii::$app->user->identity->id != $id && UserAtten::is_atten(Yii::$app->user->identity->id, $id) ? Html::tag('button', '已关注', ['class' => 'btn btn-default user-unfollow', 'data-id' => $id]) : '');
+                                                ?>
+
                                             </div>
                                         </div>
-                                        <div class="ContentItem-extra">
-
-                                            <?php
-                                            echo Yii::$app->user->isGuest ? Html::tag('button', '<i class="fa fa-plus"></i> 关注', ['class' => 'btn btn-primary user-follow', 'data-id' => $id]) : (Yii::$app->user->identity->id != $id && UserAtten::is_atten(Yii::$app->user->identity->id, $id) ? Html::tag('button', '已关注', ['class' => 'btn btn-default user-unfollow', 'data-id' => $id]) : '');
-                                            ?>
-
-                                        </div>
                                     </div>
-                                </div>
-                            <?php } ?>
+                                <?php } ?>
+                            </div>
                             <div class="text-center"><?= LinkPager::widget(['pagination' => $pages]); ?></div>
                         <?php } else { ?>
                             <div class="text-center no-data">没有内容</div>
