@@ -11,8 +11,8 @@ use yii\helpers\Url;
 ?>
 
 <?php
-if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) {
-    if (Yii::$app->controller->action->id == 'people') {
+if (Yii::$app->controller->action->id == 'people' || Yii::$app->controller->action->id == 'follow' || !Yii::$app->user->isGuest) {
+    if (Yii::$app->controller->action->id == 'people' || Yii::$app->controller->action->id == 'follow') {
         $user_id = Yii::$app->request->get('id');
     } else {
         $user_id = Yii::$app->user->identity->id;
@@ -40,8 +40,8 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
                         <div class="profile-contentFooter">
                             <div class="profileHeader-buttons">
                                 <?php
-                                if (Yii::$app->controller->action->id == 'people') {
-                                    echo Yii::$app->user->isGuest || !UserAtten::is_atten(Yii::$app->user->identity->id, $user_id) ? Html::tag('button', '<i class="fa fa-plus"></i> 关注', ['class' => 'btn btn-xs btn-primary user-follow', 'data-id' => $user_id]) : Html::tag('button', '已关注', ['class' => 'btn btn-xs btn-default user-unfollow', 'data-id' => $user_id]);
+                                if (Yii::$app->controller->action->id == 'people' || Yii::$app->controller->action->id == 'follow') {
+                                        echo Yii::$app->user->isGuest || !UserAtten::is_atten(Yii::$app->user->identity->id, $user_id) ? Html::tag('button', '<i class="fa fa-plus"></i> 关注', ['class' => 'btn btn-xs btn-primary user-follow', 'data-id' => $user_id]) : Html::tag('button', '已关注', ['class' => 'btn btn-xs btn-default user-unfollow', 'data-id' => $user_id]);
                                     // echo Html::a('<i class="fa fa-commenting-o"></i> 私信', ['#'], ['class' => 'btn btn-xs btn-default']);
                                 } else {
                                     echo UserSign::exist_sign(Yii::$app->user->identity->id) ? Html::tag('button', '已签到', ['class' => 'btn btn-xs btn-default', 'disabled' => 'disabled']) : Html::tag('button', '<i class="fa fa-edit"></i>签到', ['class' => 'btn btn-xs btn-primary user-sign']);
@@ -53,10 +53,10 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
                     </div>
                 </div>
                 <ul class="user_atten">
-                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong data-type="follow">' . UserAtten::get_num($user_id) . '</strong><span class="txt2">关注了</span>', ['site/follow', 'user_id' => $user_id], ['class' => 'txt1']) ?></li>
-                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong data-type="fans">' . UserAtten::get_num($user_id, 'fans') . '</strong><span class="txt2">关注者</span>', ['site/fans', 'user_id' => $user_id], ['class' => 'txt1']) ?></li>
-                    <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num($user_id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/people', 'user_id' => $user_id], ['class' => 'txt1']) ?></li>
-                </ul>
+                        <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong data-type="follow">' . UserAtten::get_num($user_id) . '</strong><span class="txt2">关注了</span>', ['site/follow', 'id' => $user_id], ['class' => 'txt1']) ?></li>
+                            <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong data-type="fans">' . UserAtten::get_num($user_id, 'fans') . '</strong><span class="txt2">关注者</span>', ['site/follow', 'id' => $user_id, 'type' => 'fans'], ['class' => 'txt1']) ?></li>
+                            <li class="line1 col-lg-4 col-xs-4"><?= Html::a('<strong>' . Website::get_website_num($user_id, '', Website::STAT_OPEN) . '</strong><span class="txt2">网址</span>', ['site/people', 'id' => $user_id], ['class' => 'txt1']) ?></li>
+                    </ul>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@ if (Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest) 
 }
 ?>
 
-<div class="mk hidden-xs<?= Yii::$app->controller->action->id == 'people' || !Yii::$app->user->isGuest ? ' user' : '' ?>">
+<div class="mk hidden-xs<?= Yii::$app->controller->action->id == 'people' || Yii::$app->controller->action->id == 'follow' || !Yii::$app->user->isGuest ? ' user' : '' ?>">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="col-lg-4 col-md-4 active"><a href="#useradd" aria-controls="useradd" role="tab" data-toggle="tab">新用户</a></li>
         <li role="presentation"  class="col-lg-4 col-md-4"><a href="#userfans" aria-controls="userfans" role="tab" data-toggle="tab">关注排行</a></li>

@@ -719,6 +719,12 @@ a:hover,a:focus{text-decoration: none}
     background-color: #fff;
     border-radius: 0 0 4px 4px;
 }
+.follow-user .no-data{
+    height: 108px;
+    font-size: 24px;
+    padding-top: 35px;
+    color:#999;
+}
 .follow-user .list-group-item{
     border: 0;
     border-bottom:1px solid #ddd;
