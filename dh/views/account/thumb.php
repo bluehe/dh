@@ -28,12 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="avatar">头像</label>
-                    <div class="col-md-4 text-center">
-                        <?= Html::img($user->avatar ? $user->avatar : '@web/image/user.png', ['alt' => '头像', 'height' => 200, 'width' => 200, 'class' => 'img-rounded']) ?>
+                    <div class="col-md-2 text-center">
+                        <?= Html::img($user->avatar ? $user->avatar : '@web/image/user.png', ['alt' => '头像', 'height' => 100, 'width' => 100, 'class' => 'img-rounded']) ?>
                     </div>
-                    <div class="col-md-6"><p class="help-block help-block-error"></p></div>
+                    <div class="col-md-8"><p class="help-block help-block-error"></p></div>
                 </div>
-                <div class="form-group"><div class="col-md-4 col-md-offset-2 text-center">
+                <div class="form-group"><div class="col-md-2 col-md-offset-2 text-center">
                         <?=
                         FileInput::widget([
                             'name' => 'files[]',
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'fileuploaded' => 'function(event, data) {$("#avatar-crop .modal-body").html("");$.post("/account/thumb",{url:data.response.urls[0]},function(data){$("#avatar-modal").html(data);});}',
                             ],
                         ]);
-                        ?></div><div class="col-md-6"><p id="kv-fileinput-error" class="help-block help-block-error"></p></div></div>
+                        ?></div><div class="col-md-8"><p id="kv-fileinput-error" class="help-block help-block-error"></p></div></div>
             </div>
             <?php ActiveForm::end(); ?>
         </div>
