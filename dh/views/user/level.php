@@ -26,8 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
-                    'level',
-                    'point',
+        [
+            'label' => '等级',
+            'attribute' => 'level',
+            'format' => 'raw',
+            'value' =>
+            function($model) {
+                return Html::tag('span', 'Lv.' . $model->level, ['class' => 'badge icon_level_c' . ceil($model->level / Yii::$app->params['level_c'])]);
+            },
+          
+        ],
+//        'level',
+        'point',
                     ['class' => 'yii\grid\ActionColumn',
                         'header' => '操作',
                         'template' => '{update} {delete}', //只需要展示删除和更新
