@@ -9,8 +9,8 @@ $system = Yii::$app->cache->get('system_info');
         <div class="container">
 
             <div class="tongji row">
-                <div class="col-lg-3 col-xs-6 text-center">本站分享 <b><?= Yii::$app->params['statistics']['category0'] ?></b> 个分类</div>
-                <div class="col-lg-3 col-xs-6 text-center">本站分享 <b><?= Yii::$app->params['statistics']['website0'] ?></b> 个网址</div>
+                <div class="col-lg-3 col-xs-6 text-center">本站共享 <b><?= Yii::$app->params['statistics']['category0'] ?></b> 个分类</div>
+                <div class="col-lg-3 col-xs-6 text-center">本站共享 <b><?= Yii::$app->params['statistics']['website0'] ?></b> 个网址</div>
                 <div class="col-lg-3 col-xs-6 text-center">用户收藏 <b><?= Yii::$app->params['statistics']['category1'] ?></b> 个分类</div>
                 <div class="col-lg-3 col-xs-6 text-center">用户收藏 <b><?= Yii::$app->params['statistics']['website1'] ?></b> 个网址</div>
             </div>
