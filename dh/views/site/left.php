@@ -21,8 +21,8 @@ if (Yii::$app->controller->action->id == 'people' || Yii::$app->controller->acti
     ?>
     <div class="user-head">
         <div class="person_info">
-            <div class="cover"></div>
-            <div class="innerwrap">
+                <div class="cover" style="background-image:url(<?= Url::to('@web/image/user_cover_m.jpg') ?>)"></div>
+                <div class="innerwrap">
                 <div class="profile">
                     <div class="headpic">
                         <?= Html::img(User::get_avatar($user_id), ['class' => 'img-thumbnail', 'width' => 70, 'height' => 70]) ?>
