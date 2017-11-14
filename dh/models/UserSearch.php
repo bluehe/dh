@@ -75,7 +75,7 @@ class UserSearch extends User {
             $range = explode('至', $this->created_at);
             $start = strtotime($range[0]);
             $end = strtotime($range[1]) + 86399;
-            $query->andWhere(['>=', 'created_at', $start])->andWhere(['<=', 'created_at', $end]);
+            $query->andFilterWhere(['>=', 'created_at', $start])->andFilterWhere(['<=', 'created_at', $end]);
         }
 
         return $dataProvider;

@@ -44,3 +44,24 @@
     -moz-text-align-last: justify;
     -webkit-text-align-last: justify;
 }
+.icon_level_c1 {
+    background-color: #ffdd00;
+}
+.icon_level_c2 {
+    background-color: #ffb400;
+}
+
+.icon_level_c3 {
+    background-color: #fe7e00;
+}
+
+.icon_level_c4 {
+    background-color: #fd4d17;
+}
+
+.icon_level_c5 {
+    background-color: #d60000;
+}
+.icon_level_c6 {
+    background-color: #ad0606;
+}

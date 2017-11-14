@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use dh\models\User;
+use dh\models\UserLevel;
 use kartik\daterange\DateRangePicker;
 
 /* @var $this yii\web\View */
@@ -53,22 +54,26 @@ $this->params['breadcrumbs'][] = $this->title;
                     'tel',
                     // 'plate',
                     // 'skin',
-                    [
+        [
+            'label' => '等级',
+            'format' => 'raw',
+            'value' =>
+            function($model) {
+                $level = UserLevel::get_user_level($model->id);
+                return Html::tag('span', 'Lv.' . $level, ['class' => 'badge icon_level_c' . ceil($level / Yii::$app->params['level_c'])]);
+            },
+            'headerOptions' => ['width' => '60'],
+        ],
+        [
                         'attribute' => 'point',
-                        'value' =>
+            'value' =>
                         function($model) {
-                            return $model->point;
-                        },
+              
+                return $model->point;
+            },
                         'headerOptions' => ['width' => '80'],
-                    ],
-                    [
-                        'attribute' => 'status',
-                        'value' =>
-                        function($model) {
-                            return $model->Status;   //主要通过此种方式实现
-                        },
-                        'filter' => User::$List['status'],
-                    ],
+        ],
+                   
                     [
                         'attribute' => 'created_at',
                         'value' =>
@@ -80,12 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'useWithAddon' => true,
                             'presetDropdown' => true,
                             'convertFormat' => true,
-                            'value' => '',
-//                        'startAttribute' => 'from_date',
-//                        'endAttribute' => 'to_date',
-//                        'startInputOptions' => ['value' => '2017-06-11'],
-//                        'endInputOptions' => ['value' => '2017-07-20'],
-                            'pluginOptions' => [
+                            'value' => Yii::$app->request->get('UserSearch')['created_at'],
+                'pluginOptions' => [
                                 'timePicker' => false,
                                 'locale' => [
                                     'format' => 'Y-m-d',
@@ -94,8 +95,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'linkedCalendars' => false,
                             ],
                         ]),
-                    ],
-                    // 'updated_at',
+            'headerOptions' => ['width' => '220'],
+        ],
+        [
+            'attribute' => 'status',
+            'value' =>
+            function($model) {
+                return Html::tag('button', $model->Status, ['class' => 'btn btn-xs ' . ($model->status == User::STATUS_ACTIVE ? 'btn-success' : 'btn-danger')]);   //主要通过此种方式实现
+            },
+            'format' => 'raw',
+            'filter' => User::$List['status'],
+            'headerOptions' => ['width' => '80'],
+        ],
+        // 'updated_at',
                     ['class' => 'yii\grid\ActionColumn',
                         'header' => '操作',
                         'template' => '{update} {delete}', //只需要展示删除和更新
