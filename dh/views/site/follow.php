@@ -4,7 +4,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
-use dh\components\Tab;
 use dh\models\User;
 use dh\models\UserAtten;
 use dh\models\UserLevel;
@@ -27,12 +26,13 @@ $this->title = '关注列表';
             <div class="row">
 
                 <div class="col-lg-12 follow">
+                    <?php Pjax::begin(); ?>
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" <?= Yii::$app->request->get('type', 'follow') == 'follow' ? 'class=" active"' : '' ?>><?= Html::a('关注了', ['site/follow', 'id' => Yii::$app->request->get('id')]) ?></li>
                         <li role="presentation" <?= Yii::$app->request->get('type', 'follow') == 'follow' ? '' : 'class=" active"' ?>><?= Html::a('关注者', ['site/follow', 'id' => Yii::$app->request->get('id'), 'type' => 'fans']) ?></li>
 
                     </ul>
-                    <?php Pjax::begin(); ?>
+
                     <div class="follow-user list-group">
                         <?php if (count($model) > 0) { ?>
                             <div>
@@ -50,9 +50,10 @@ $this->title = '关注列表';
                                                 <div class="ContentItem-title"><?= Html::a(User::get_nickname($id), ['site/people', 'id' => $id], ['class' => 'txt1']) ?></div>
                                                 <div class="ContentItem-meta">
                                                     <div class="RichText"> <span class="badge icon_level_c<?= ceil($level / Yii::$app->params['level_c']) ?>">Lv.<?= $level ?></span></div>
-                                                    <div class="ContentItem-status">
-                                                        <?= Html::a('<strong data-type="follow">' . UserAtten::get_num($id) . '</strong> 关注了', ['site/follow', 'id' => $id]) ?><?= Html::a('<strong data-type="fans">' . UserAtten::get_num($id, 'fans') . '</strong> 关注者', ['site/follow', 'id' => $id, 'type' => 'fans']) ?><?= Html::a('<strong>' . Website::get_website_num($id, '', Website::STAT_OPEN) . '</strong> 网址', ['site/people', 'id' => $id]) ?></div>
-                                                </div>
+                                                            <div class="ContentItem-status">
+                                                                        <div class="ContentItem-status"><span class="ContentItem-statusItem"><strong data-type="follow"><?= UserAtten::get_num($id) ?></strong> 关注了</span><span class="ContentItem-statusItem"><strong data-type="fans"><?= UserAtten::get_num($id, 'fans') ?></strong> 关注者</span><span class="ContentItem-statusItem"><strong><?= Website::get_website_num($id, '', Website::STAT_OPEN) ?></strong> 网址</span></div>
+                                                                    </div>
+                                                        </div>
                                             </div>
                                             <div class="ContentItem-extra">
 
