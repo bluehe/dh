@@ -363,7 +363,7 @@ class SiteController extends Controller {
         $cache = Yii::$app->cache;
         $cates = $cache->get('index_page');
         if ($cates === false) {
-            $cates = Category::get_category_sql()->limit(20)->asArray()->all();
+            $cates = Category::get_category_sql()->asArray()->all();
             foreach ($cates as $key => $cate) {
                 $websites = Website::get_website(null, $cate['id']);
                 $cates[$key]['website'] = $websites;

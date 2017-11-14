@@ -103,9 +103,9 @@ class UserAtten extends \yii\db\ActiveRecord {
     public static function get_num($uid = NULL, $type = 'follow', $stat = self::STAT_OPEN) {
         $query = static::find()->andFilterWhere(['stat' => $stat]);
         if ($type == 'follow') {
-            $query->andWhere(['uid' => $uid]);
+            $query->joinWith(['user0'])->andWhere([User::tableName() . '.status' => User::STATUS_ACTIVE])->andWhere(['uid' => $uid]);
         } else {
-            $query->andWhere(['user' => $uid]);
+            $query->joinWith('u')->andWhere([User::tableName() . '.status' => User::STATUS_ACTIVE])->andWhere(['user' => $uid]);
         }
         $num = $query->count();
         return $num;
@@ -113,7 +113,7 @@ class UserAtten extends \yii\db\ActiveRecord {
 
     //用户关注排行
     public static function get_tab_userfans($num = '') {
-        $query = static::find()->select(['id', 'user', 'num' => 'COUNT(uid)'])->andWhere(['stat' => self::STAT_OPEN])->groupBy(['user'])->orderBy(['num' => SORT_DESC]);
+        $query = static::find()->select(['user', 'uid', 'num' => 'COUNT(*)'])->andWhere(['stat' => self::STAT_OPEN])->joinWith(['user0'])->andWhere([User::tableName() . '.status' => User::STATUS_ACTIVE])->groupBy(['user'])->orderBy(['num' => SORT_DESC]);
         if ($num) {
             $query->limit($num);
         }

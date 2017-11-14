@@ -96,4 +96,22 @@ class UserController extends Controller {
         ]);
     }
 
+    public function actionUserChange($id) {
+        $auth = Yii::$app->authManager;
+        $Role_admin = $auth->getRole('admin');
+        if (!$auth->getAssignment($Role_admin->name, $id)) {
+            $model = User::findOne($id);
+            $model->status = User::STATUS_ACTIVE == $model->status ? User::STATUS_DELETED : User::STATUS_ACTIVE;
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '修改成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '修改失败。');
+            }
+        } else {
+            Yii::$app->session->setFlash('error', '不能改变管理员状态。');
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 }

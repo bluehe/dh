@@ -71,7 +71,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'skin' => '皮肤',
             'point' => '积分',
             'status' => '状态',
-            'created_at' => '创建时间',
+            'created_at' => '注册时间',
             'updated_at' => '更新时间',
         ];
     }
