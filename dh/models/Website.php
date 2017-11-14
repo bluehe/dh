@@ -192,7 +192,7 @@ class Website extends \yii\db\ActiveRecord {
         }
         $data = [];
         foreach ($query->each() as $website) {
-            $data[] = ['id' => $website->id, 'url' => $website->url, 'img' => Html::img(['api/getfav', 'url' => $website->host]), 'title' => $website->title, 'label' => Yii::$app->formatter->asRelativeTime($website->created_at)];
+            $data[] = ['id' => $website->id, 'url' => $website->url, 'img' => Html::img([Yii::$app->params['img_url'] . '/api/getfav', 'url' => $website->host]), 'title' => $website->title, 'label' => Yii::$app->formatter->asRelativeTime($website->created_at)];
         }
         return $data;
     }
