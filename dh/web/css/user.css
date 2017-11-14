@@ -2,4 +2,45 @@
     height: 35px;
     line-height: 35px;
 }
-
+.user-menu{padding-right: 15px;}
+.navbar-custom-menu>.navbar-nav>li>.dropdown-menu.myhome{
+    width:117px;
+    min-width: 117px;
+    right: 15px;
+    position: absolute;
+    background-color: #FFF;
+    z-index: 1;
+    border:1px solid #eee;
+}
+.navbar-custom-menu>.navbar-nav>li>.dropdown-menu.myhome a {
+    color:#333;
+    display: block;
+    margin: 0;
+    width: 115px;
+    text-align: left;
+    float: left;
+    padding: 0 20px;
+    line-height:35px;
+    border-bottom: solid 1px #f4f4f4;
+    text-decoration: none;
+}
+.navbar-custom-menu>.navbar-nav>li>.dropdown-menu.myhome a:last-child {
+    border-bottom: none;
+}
+.navbar-custom-menu>.navbar-nav>li>.dropdown-menu.myhome a:hover {
+    background-color: #f3f3f3;
+}
+.navbar-custom-menu>.navbar-nav>li>.dropdown-menu.myhome>a i{
+    float: left;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+.navbar-custom-menu>.navbar-nav>li>.dropdown-menu.myhome>a span {
+    display: block;
+    width: 56px;
+    float: left;
+    text-align: justify;
+    text-align-last: justify;
+    -moz-text-align-last: justify;
+    -webkit-text-align-last: justify;
+}

@@ -26,17 +26,11 @@ use yii\helpers\Html;
                         <img src="<?= $directoryAsset ?><?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '@web/image/user.png' ?>" class="user-image"/>
                         <span class="hidden-xs"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
                     </a>
-
                     <div class="myhome dropdown-menu">
                         <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['user/index']) ?>
                         <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['site/logout'], ['data-method' => 'post']) ?>
                     </div>
                 </li>
-
-                <!-- User Account: style can be found in dropdown.less -->
-                <!--                <li>
-                                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                                </li>-->
             </ul>
         </div>
     </nav>
