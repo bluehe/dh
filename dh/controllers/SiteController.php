@@ -410,9 +410,9 @@ class SiteController extends Controller {
 
     public function actionFollow($id, $type = 'follow') {
         if ($type == 'follow') {
-            $data = UserAtten::find()->select(['user_id' => 'user'])->where(['stat' => UserAtten::STAT_OPEN, 'uid' => $id]);
+            $data = UserAtten::find()->select(['user_id' => 'user'])->where(['stat' => UserAtten::STAT_OPEN, 'uid' => $id])->joinWith(['user0'])->andWhere(['status' => User::STATUS_ACTIVE]);
         } else {
-            $data = UserAtten::find()->select(['user_id' => 'uid'])->where(['stat' => UserAtten::STAT_OPEN, 'user' => $id]);
+            $data = UserAtten::find()->select(['user_id' => 'uid'])->where(['stat' => UserAtten::STAT_OPEN, 'user' => $id])->joinWith(['u'])->andWhere(['status' => User::STATUS_ACTIVE]);
         }
 
         $pages = new Pagination(['totalCount' => $data->count(), 'pageSize' => '20']);
