@@ -40,13 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['width' => '80'],
                     ],
                     [
-                        'attribute' => 'avatar',
-                        'value' =>
+                        'label' => '头像',
+            'value' =>
                         function($model) {
                             return Html::img($model->avatar ? $model->avatar : '@web/image/user.png', ['class' => 'img-rounded', 'width' => 30, 'height' => 30]);
                         },
                         'format' => 'raw',
-                        'filter' => false,
+                       
                     ],
                     'username',
                     'nickname',
