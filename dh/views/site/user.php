@@ -32,18 +32,18 @@ $this->title = '我的网址';
                                 <div class="pull-right add_page website-add" title="添加网址"> <i class="fa fa-plus"></i></div>
 
                             </div>
-                                <div class="website-content list-group websiteSortable">
+                            <div class="website-content list-group websiteSortable">
 
                                 <?php foreach ($cate['website'] as $website) { ?>
                                     <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" id="<?= $website['id'] ?>">
-                                                <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]) ?>
-                                                <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
+                                        <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]) ?>
+                                        <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="dropdown pull-right">
                                             <span class="dropdown-toggle" id="dropdownMenu<?= $website['id'] ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                 <i class="fa fa-caret-square-o-down" title="操作"></i>
                                             </span>
-                                                    <div class="dropdown-menu content-icon <?= $website['share_status'] == Website::SHARE_DEFAULT ? '' : 'list3' ?>" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
-                                                        <?= $website['share_status'] == Website::SHARE_DEFAULT ? '<i class="fa fa-share-alt website-share" title="分享"></i>' : '' ?>
+                                            <div class="dropdown-menu content-icon <?= $website['share_status'] == Website::SHARE_DEFAULT ? '' : 'list3' ?>" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
+                                                <?= $website['share_status'] == Website::SHARE_DEFAULT ? '<i class="fa fa-share-alt website-share" title="分享"></i>' : '' ?>
                                                 <i class="fa fa-edit website-edit" title="编辑" ></i>
                                                 <i class="fa fa-trash-o website-delete" title="删除"></i>
                                                 <i class="fa <?= $website['is_open'] == Website::ISOPEN_OPEN ? 'fa-eye-slash' : 'fa-eye' ?> website-open" title="<?= $website['is_open'] == Website::ISOPEN_OPEN ? '私有' : '公开' ?>"></i>
@@ -75,12 +75,12 @@ Modal::begin([
 Modal::end();
 ?>
 <script>
-    <?php $this->beginBlock('js') ?>
-    $('.category').each(function(){
-        var l=$(this).find('.website-content .list-group-item').length;
-        if(l>=10){
+<?php $this->beginBlock('js') ?>
+    $('.category').each(function () {
+        var l = $(this).find('.website-content .list-group-item').length;
+        if (l >= 10) {
             $(this).find('.add_page').hide();
-        }else{
+        } else {
             $(this).find('.websiteSortable').addClass('sort');
         }
 
@@ -110,7 +110,7 @@ Modal::end();
 
         }
     });
-        $(".websiteSortable").sortable({
+    $(".websiteSortable").sortable({
         placeholder: "list-group-item sort-highlight",
         containment: ".website",
         connectWith: ".sort",
@@ -120,24 +120,24 @@ Modal::end();
         revert: true,
         tolerance: "pointer",
         update: function (event, ui) {
-            var cid=$(this).parents('.category').attr('id');
+            var cid = $(this).parents('.category').attr('id');
             var websiteids = $(this).sortable("toArray");
             var id = ui.item[0].id;
             var sort = $.inArray(id, websiteids) + 1;
             if (sort > 0) {
-                $.getJSON("<?= Url::toRoute('ajax/website-sort') ?>", {id: id, sort: sort,cid:cid}, function (data) {
-                    if(data.stat==='success'){
-                        $('.category').each(function(){
-                            var l=$(this).find('.website-content .list-group-item').length;
-                            if(l>=10){
+                $.getJSON("<?= Url::toRoute('ajax/website-sort') ?>", {id: id, sort: sort, cid: cid}, function (data) {
+                    if (data.stat === 'success') {
+                        $('.category').each(function () {
+                            var l = $(this).find('.website-content .list-group-item').length;
+                            if (l >= 10) {
                                 $(this).find('.add_page').hide();
                                 $(this).find('.websiteSortable').removeClass('sort');
-                            }else{
+                            } else {
                                 $(this).find('.add_page').show();
                                 $(this).find('.websiteSortable').addClass('sort');
                             }
                         });
-                    }else if (data.stat === 'fail') {
+                    } else if (data.stat === 'fail') {
                         my_alert('danger', data.msg, 3000);
                     }
                 });
@@ -159,6 +159,9 @@ Modal::end();
     });
     //分类删除
     $('.website').on('click', '.category-delete', function () {
+        if (!confirm("是否确认删除")) {
+            return false;
+        }
         var _this = $(this).parents('.category');
         var id = _this.attr('id');
         if (id) {
@@ -216,16 +219,19 @@ Modal::end();
     });
     //网址删除
     $('.website').on('click', '.website-delete', function () {
+        if (!confirm("是否确认删除")) {
+            return false;
+        }
         var _this = $(this).parents('.list-group-item');
         var id = _this.attr('id');
         if (id) {
             $.getJSON("<?= Url::toRoute('ajax/website-delete') ?>", {id: id}, function (data) {
-                if (data.stat === 'success') {                   
-                    if(_this.parents('.category').find('.website-content .list-group-item').length<=10){
-                         _this.parents('.category').find('.add_page').show();
-                         _this.parents('.category').find('.websiteSortable').addClass('sort');
+                if (data.stat === 'success') {
+                    if (_this.parents('.category').find('.website-content .list-group-item').length <= 10) {
+                        _this.parents('.category').find('.add_page').show();
+                        _this.parents('.category').find('.websiteSortable').addClass('sort');
                     }
-                     _this.remove();
+                    _this.remove();
                     my_alert('success', '删除成功！', 3000);
                 } else if (data.stat === 'fail') {
                     my_alert('danger', data.msg, 3000);
@@ -249,7 +255,6 @@ Modal::end();
                         _this.removeClass('fa-eye-slash').addClass('fa-eye');
                         _this.attr('title', '公开');
                     }
-                    my_alert('success', '操作成功！', 3000);
                 }
             });
         }
