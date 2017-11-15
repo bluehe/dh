@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'linkedCalendars' => false,
                             ],
                         ]),
-                        'headerOptions' => ['width' => '220'],
+                        'headerOptions' => ['width' => '230'],
                     ],
                     [
                         'attribute' => 'status',
