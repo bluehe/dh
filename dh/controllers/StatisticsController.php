@@ -21,7 +21,7 @@ class StatisticsController extends Controller {
             $end = isset($range[1]) && (strtotime($range[1]) < $end) ? strtotime($range[1]) + 86399 : $end;
         }
         $series = [];
-           
+
         //用户趋势
         $day_signup = User::get_day_total('created_at', $start, $end);
         $day_log = UserLog::get_day_total('created_at', $start, $end);
@@ -45,7 +45,7 @@ class StatisticsController extends Controller {
         return $this->render('user', ['series' => $series, 'start' => $start, 'end' => $end]);
     }
 
-     public function actionWebsite() {
+    public function actionWebsite() {
 
         $start = strtotime('-1 month +1 days');
         $end = strtotime('today') + 86399;
