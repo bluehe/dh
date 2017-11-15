@@ -70,7 +70,7 @@ class UserSign extends \yii\db\ActiveRecord {
 
     public static function get_day_total($a = 'sign_at', $start = '', $end = '') {
         $query = static::find()->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
-        return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME($a, '%Y-%m-%d')")->column();
+        return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)', "FROM_UNIXTIME($a, '%Y-%m-%d')"])->indexBy("FROM_UNIXTIME($a, '%Y-%m-%d')")->column();
     }
 
 }
