@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' =>
                         function($model, $key) {
                             return Html::a($model->Status, ['user/users-change', 'id' => $key], ['class' => 'btn btn-xs ' . ($model->status == User::STATUS_ACTIVE ? 'btn-success' : 'btn-danger')]);
-            },
+                        },
                         'format' => 'raw',
                         'filter' => User::$List['status'],
                         'headerOptions' => ['width' => '80'],
@@ -112,10 +112,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '{update} {delete}', //只需要展示删除和更新
                         'buttons' => [
                             'update' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['users-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
                             },
                             'delete' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '你确定要删除吗？',]]);
+                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['users-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '你确定要删除吗？',]]);
                             },
                         ],
                     ],
@@ -126,9 +126,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <script>
-    <?php $this->beginBlock('users') ?>
+<?php $this->beginBlock('users') ?>
 
-   
+
 
 <?php $this->endBlock() ?>
 </script>

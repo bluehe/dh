@@ -3,7 +3,7 @@
 /* @var $model dh\models\UserLevel */
 
 $this->title = '添加等级';
-$this->params['breadcrumbs'][] = ['label' => '用户管理', 'url' => ['level']];
+$this->params['breadcrumbs'][] = ['label' => '用户管理', 'url' => ['users']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-level-create">

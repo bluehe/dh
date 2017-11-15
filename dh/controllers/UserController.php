@@ -114,4 +114,29 @@ class UserController extends Controller {
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * Updates an existing User model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUsersUpdate($id) {
+        $model = User::findOne($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return \yii\bootstrap\ActiveForm::validate($model);
+            }
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '修改成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '修改失败。');
+            }
+        }
+        return $this->render('users-update', [
+                    'model' => $model,
+        ]);
+    }
+
 }
