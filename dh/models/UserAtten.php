@@ -113,7 +113,8 @@ class UserAtten extends \yii\db\ActiveRecord {
 
     //用户关注排行
     public static function get_tab_userfans($num = '') {
-        $query = static::find()->select(['user', 'uid', 'num' => 'COUNT(*)'])->andWhere(['stat' => self::STAT_OPEN])->joinWith(['user0'])->andWhere([User::tableName() . '.status' => User::STATUS_ACTIVE])->groupBy(['user'])->orderBy(['num' => SORT_DESC]);
+        $user = User::find()->select(['id'])->where(['status' => User::STATUS_ACTIVE])->column();
+        $query = static::find()->select(['user', 'uid', 'num' => 'COUNT(*)'])->andWhere(['stat' => self::STAT_OPEN, 'user' => $user])->joinWith(['u'])->andWhere([User::tableName() . '.status' => User::STATUS_ACTIVE])->groupBy(['user'])->orderBy(['num' => SORT_DESC]);
         if ($num) {
             $query->limit($num);
         }

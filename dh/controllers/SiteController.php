@@ -368,7 +368,7 @@ class SiteController extends Controller {
                 $websites = Website::get_website(null, $cate['id']);
                 $cates[$key]['website'] = $websites;
             }
-            $cache->set('index_page', $cates);
+            $cache->set('index_page', $cates, 360);
         }
 
         return $this->render('index', ['cates' => $cates]);
