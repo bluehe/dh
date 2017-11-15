@@ -26,30 +26,12 @@ $system = Yii::$app->cache->get('system_info');
         </div>
     </div>
 </footer>
-<script>
-<?php $this->beginBlock('lazy') ?>
-    //lazyload();
-    $("img.lazyload").lazyload({
-        threshold: 500
-    });
-    <?php $this->endBlock() ?>
-</script>
-<?php $this->registerJs($this->blocks['lazy'], \yii\web\View::POS_END); ?>
-<script>
-<?php $this->beginBlock('baidu')
-?>
-//    (function () {
-//        var bp = document.createElement('script');
-//        var curProtocol = window.location.protocol.split(':')[0];
-//        if (curProtocol === 'https') {
-//            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-//        } else {
-//            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-//        }
-//        var s = document.getElementsByTagName("script")[0];
-//        s.parentNode.insertBefore(bp, s);
-//    })();
-<?php $this->endBlock() ?>
-</script>
-<?php //$this->registerJs($this->blocks['baidu'], \yii\web\View::POS_END);  ?>
+<div class="CornerButtons">
+    <div class="CornerAnimayedFlex">
+        <button class="Button CornerButton Button--plain" title="建议反馈" type="button"><i class="fa fa-comments"></i></button>
+    </div>
+    <div class="CornerAnimayedFlex" id="to-top">
+        <button class="Button CornerButton Button--plain" title="回到顶部" type="button"><i class="fa fa-chevron-up"></i></button>
+    </div>
+</div>
 

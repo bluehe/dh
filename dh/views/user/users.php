@@ -1,9 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
 use dh\models\User;
 use dh\models\UserLevel;
 use kartik\daterange\DateRangePicker;
@@ -23,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
 
-            <?php Pjax::begin(); ?>
+
             <?=
             GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -48,7 +46,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'format' => 'raw',
                     ],
-                    'username',
+                    [
+                        'attribute' => 'username',
+                        'format' => 'raw',
+                        'value' =>
+                        function($model, $key) {
+
+                            return Html::a($model->username, ['/site/people', 'id' => $key], ['target' => '_blank']);
+                        },
+                        'headerOptions' => ['width' => '60'],
+                    ],
                     'nickname',
                     'email',
                     'tel',
@@ -109,27 +116,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'updated_at',
                     ['class' => 'yii\grid\ActionColumn',
                         'header' => '操作',
-                        'template' => '{update} {delete}', //只需要展示删除和更新
+                        'template' => '{update}', //只需要展示删除和更新
                         'buttons' => [
                             'update' => function($url, $model, $key) {
                                 return Html::a('<i class="fa fa-pencil"></i> 修改', ['users-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
-                            },
-                            'delete' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['users-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '你确定要删除吗？',]]);
                             },
                         ],
                     ],
                 ],
             ]);
             ?>
-            <?php Pjax::end(); ?>        </div>
+        </div>
     </div>
 </div>
-<script>
-<?php $this->beginBlock('users') ?>
-
-
-
-<?php $this->endBlock() ?>
-</script>
-<?php $this->registerJs($this->blocks['users'], \yii\web\View::POS_END); ?>
