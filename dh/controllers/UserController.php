@@ -86,17 +86,17 @@ class UserController extends Controller {
      * Lists all User models.
      * @return mixed
      */
-    public function actionUser() {
+    public function actionUsers() {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('user', [
+        return $this->render('users', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionUserChange($id) {
+    public function actionUsersChange($id) {
         $auth = Yii::$app->authManager;
         $Role_admin = $auth->getRole('admin');
         if (!$auth->getAssignment($Role_admin->name, $id)) {

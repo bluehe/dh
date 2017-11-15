@@ -13,10 +13,10 @@ use kartik\daterange\DateRangePicker;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '用户管理';
-$this->params['breadcrumbs'][] = ['label' => '用户管理', 'url' => ['user']];
+$this->params['breadcrumbs'][] = ['label' => '用户管理', 'url' => ['users']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-index">
+<div class="users-index">
 
     <div class="box box-primary">
         <div class="box-body">
@@ -100,8 +100,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'status',
                         'value' =>
                         function($model, $key) {
-                            return Html::a($model->Status, ['user/user-change', 'id' => $key], ['class' => 'btn btn-xs ' . ($model->status == User::STATUS_ACTIVE ? 'btn-success' : 'btn-danger')]);
-                        },
+                            return Html::a($model->Status, ['user/users-change', 'id' => $key], ['class' => 'btn btn-xs ' . ($model->status == User::STATUS_ACTIVE ? 'btn-success' : 'btn-danger')]);
+            },
                         'format' => 'raw',
                         'filter' => User::$List['status'],
                         'headerOptions' => ['width' => '80'],
@@ -126,22 +126,10 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <script>
-<?php $this->beginBlock('user') ?>
+    <?php $this->beginBlock('users') ?>
 
-    //状态切换
-    $('.user-index').on('click', '.change', function () {
-        var key = $(this).parents('tr').data('key');
-        $.getJSON("<?= Url::toRoute('ajax-user/change-user-stat') ?>", function (data) {
-            if (data.stat === 'success') {
-                $('.user-sign').addClass('btn-default').attr('disabled', 'disabled').html('已签到').removeClass('btn-primary user-sign');
-                my_alert('success', data.msg, 3000);
-            } else if (data.stat === 'fail') {
-                my_alert('danger', data.msg, 3000);
-            }
-        });
-
-    });
+   
 
 <?php $this->endBlock() ?>
 </script>
-<?php $this->registerJs($this->blocks['user'], \yii\web\View::POS_END); ?>
+<?php $this->registerJs($this->blocks['users'], \yii\web\View::POS_END); ?>

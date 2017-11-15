@@ -81,4 +81,10 @@ class UserLog extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'uid']);
     }
 
+    public static function get_day_total($a = 'created_at', $start = '', $end = '') {
+
+        $query = static::find()->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
+        return $query->select(['count(distinct uid)'])->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->indexBy("FROM_UNIXTIME($a, '%Y-%m-%d')")->column();
+    }
+
 }

@@ -130,9 +130,10 @@ class AjaxController extends Controller {
                 $sign->y = date('Y', time());
                 $sign->m = date('m', time());
                 $sign->d = date('d', time());
+                $sign->sign_at = strtotime(date('Y-m-d', time()));
                 $sign->created_at = time();
-                $yes_t = strtotime(" -1 day");
-                $yest = UserSign::find()->where(['uid' => Yii::$app->user->identity->id, 'y' => date('Y', $yes_t), 'm' => date('m', $yes_t), 'd' => date('d', $yes_t)])->one();
+              
+                $yest = UserSign::find()->where(['uid' => Yii::$app->user->identity->id, 'sign_at' => strtotime(date('Y-m-d', strtotime("-1 day")))])->one();
                 $sign->series = ($yest === null) ? 1 : $yest->series + 1;
 
                 $transaction = Yii::$app->db->beginTransaction();

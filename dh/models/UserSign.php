@@ -32,10 +32,8 @@ class UserSign extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['uid', 'y', 'm', 'd', 'created_at'], 'required'],
-            [['uid', 'series', 'created_at'], 'integer'],
-            [['y'], 'string', 'max' => 4],
-            [['m', 'd'], 'string', 'max' => 2],
+            [['uid', 'sign_at', 'created_at'], 'required'],
+            [['uid', 'series', 'sign_at', 'created_at'], 'integer'],
             [['note'], 'string', 'max' => 255],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
         ];
@@ -48,11 +46,9 @@ class UserSign extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'uid' => '用户',
-            'y' => '年',
-            'm' => '月',
-            'd' => '日',
             'series' => '连续天数',
             'note' => '备注',
+            'sign_at' => '签到日期',
             'created_at' => '签到时间',
         ];
     }
@@ -64,10 +60,17 @@ class UserSign extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'uid']);
     }
 
-    //是否关注
-    public static function exist_sign($uid) {
-        $time = strtotime(date('Y-m-d', time()));
-        return static::find()->where(['and', ['>', 'created_at', $time], ['uid' => $uid]])->exists();
+    //是否签到
+    public static function exist_sign($uid, $time = '') {
+        if (!$time) {
+            $time = strtotime(date('Y-m-d', time()));
+        }
+        return static::find()->where(['uid' => $uid, 'sign_at' => $time])->exists();
+    }
+
+    public static function get_day_total($a = 'sign_at', $start = '', $end = '') {
+        $query = static::find()->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
+        return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME($a, '%Y-%m-%d')")->column();
     }
 
 }
