@@ -327,7 +327,7 @@ class User extends ActiveRecord implements IdentityInterface {
     public static function get_day_total($a = 'created_at', $start = '', $end = '') {
 
         $query = static::find()->where(['status' => self::STATUS_ACTIVE])->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
-        return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME($a, '%Y-%m-%d')")->column();
+        return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)'])->indexBy("FROM_UNIXTIME($a,'%Y-%m-%d')")->column();
     }
 
 }
