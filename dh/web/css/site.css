@@ -972,6 +972,9 @@ a:hover,a:focus{text-decoration: none}
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.1);
     box-shadow: 0 1px 3px rgba(0,0,0,.1);
 }
+#to-top{
+    display: none;
+}
 
 @media screen and (max-width: 767px){
     .main-header{

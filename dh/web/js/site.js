@@ -29,7 +29,6 @@ $(document).ready(function () {
         threshold: 500
     });
 
-    $("#to-top").hide();
     $(function () {
         $(window).scroll(function () {
             if ($(window).scrollTop() > 500) {
