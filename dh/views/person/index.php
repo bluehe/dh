@@ -2,6 +2,10 @@
 /* @var $this yii\web\View */
 
 use yii\bootstrap\Modal;
+use yii\widgets\Pjax;
+use yii\grid\GridView;
+use dh\models\Suggest;
+use yii\helpers\Html;
 
 $this->title = '首页';
 
@@ -12,70 +16,88 @@ mb_regex_encoding("UTF-8");
 <div class="row">
     <!-- Left col -->
     <section class="col-lg-7 connectedSortable">
-        <!-- TO DO List -->
-
-        <div class="box box-primary repairorder">
+        <div class="box box-primary suggestorder">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
 
 
-                <h3 class="box-title"><i class="fa fa-wrench"></i> 报修广场</h3>
-
-
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-
-
-            </div>
-            <!-- /.box-body -->
-
-        </div>
-
-        <div class="box box-primary pickuporder">
-            <div class="box-header ui-sortable-handle" style="cursor: move;">
-
-
-                <h3 class="box-title"><i class="fa fa-suitcase"></i> 拾物招领</h3>
+                <h3 class="box-title"><i class="fa fa-commenting-o"></i> 建议反馈</h3>
 
 
             </div>
             <!-- /.box-header -->
 
             <div class="box-body">
-
+                <?php
+                Pjax::begin();
+                ?>
+                <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+                <?=
+                GridView::widget([
+                    'dataProvider' => $suggest,
+                    'layout' => "<div class=table-responsive>{items}</div>\n{pager}",
+                    'pager' => [
+                        'options' => ['class' => 'pagination pagination-sm inline']
+                    ],
+                    'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        'created_at:datetime',
+                        'content:ntext',
+                        // 'reply_uid',
+                        [
+                            'attribute' => 'updated_at',
+                            'value' =>
+                            function($model) {
+                                return $model->updated_at ? date('Y-m-d H:i:s', $model->updated_at) : '';
+                            },
+                        ],
+                        'reply_content:ntext',
+                        [
+                            'attribute' => 'stat',
+                            'value' =>
+                            function($model) {
+                                return Html::tag('span', $model->Stat, ['class' => 'btn btn-xs disabled ' . ($model->stat == Suggest::STAT_OPEN ? 'btn-success' : 'btn-danger')]);
+                            },
+                            'format' => 'raw',
+                        ],
+                    ],
+                ]);
+                ?>
+                <?php Pjax::end(); ?>
 
             </div>
             <!-- /.box-body -->
-
-
         </div>
-
-
-
-
 
     </section>
     <!-- /.Left col -->
     <!-- right col (We are only adding the ID to make the widgets sortable)-->
     <section class="col-lg-5 connectedSortable">
-        <div class="box box-primary suggestorder">
-            <div class="box-header ui-sortable-handle" style="cursor: move;">
+        <?php Pjax::begin(); ?>
+        <div class="nav-tabs-custom" style="cursor: move;">
 
+            <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                <li><a href="#enternews" data-toggle="tab">娱乐</a></li>
+                <li><a href="#mil" data-toggle="tab">军事</a></li>
 
-                <h3 class="box-title"><i class="fa fa-commenting-o"></i> 投诉建议</h3>
+                <li class="active"><a href="#internet" data-toggle="tab">互联网</a></li>
+                <li class="pull-left header"><i class="fa fa-newspaper-o"></i> 新闻</li>
+            </ul>
+            <div class="tab-content">
+                <div class="baidunews tab-pane" id="enternews" >
+                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=enternews&pn=1&tn=newsbrofcu"></script>
+                </div>
+                <div class="baidunews tab-pane" id="mil" >
+                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=mil&pn=1&tn=newsbrofcu"></script>
+                </div>
 
+                <div class="baidunews tab-pane active" id="internet" >
+                    <script language="JavaScript" type="text/JavaScript" src="//news.baidu.com/n?cmd=1&class=internet&pn=1&tn=newsbrofcu"></script>
+                </div>
 
             </div>
-            <!-- /.box-header -->
-
-            <div class="box-body">
-
-
-            </div>
-            <!-- /.box-body -->
-
-
         </div>
+        <?php Pjax::end(); ?>
 
     </section>
     <!-- right col -->

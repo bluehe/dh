@@ -29,8 +29,8 @@ $system = Yii::$app->cache->get('system_info');
         Breadcrumbs::widget(
                 [
                     'homeLink' => [
-                        'label' => '个人中心',
-                        'url' => Url::toRoute(['user/index']),
+                        'label' => '首页',
+                        'url' => Url::toRoute(['person/index']),
                         'template' => '<li><i class="fa fa-home"></i> {link}</li>'
                     ],
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

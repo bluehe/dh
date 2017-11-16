@@ -65,3 +65,13 @@
 .icon_level_c6 {
     background-color: #ad0606;
 }
+
+/*百度新闻*/
+.baidunews>div:not(.baidu),.baidu div{
+    display: none;
+}
+
+.baidu{
+    line-height: 24px;
+}
+.baidu span{color:#6f6f6f;font-size:12px}
