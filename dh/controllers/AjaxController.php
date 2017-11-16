@@ -16,6 +16,7 @@ use dh\models\UserSign;
 use dh\models\UserPoint;
 use dh\models\UserAtten;
 use dh\components\CommonHelper;
+use dh\models\Suggest;
 
 /**
  * Api controller
@@ -132,7 +133,7 @@ class AjaxController extends Controller {
                 $sign->d = date('d', time());
                 $sign->sign_at = strtotime(date('Y-m-d', time()));
                 $sign->created_at = time();
-              
+
                 $yest = UserSign::find()->where(['uid' => Yii::$app->user->identity->id, 'sign_at' => strtotime(date('Y-m-d', strtotime("-1 day")))])->one();
                 $sign->series = ($yest === null) ? 1 : $yest->series + 1;
 
@@ -209,6 +210,36 @@ class AjaxController extends Controller {
                 }
             } else {
                 return json_encode(['stat' => 'fail', 'msg' => '已经关注！']);
+            }
+        }
+    }
+
+    /**
+     * 建议反馈
+     * @return json
+     */
+    public function actionSuggest() {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        } else {
+            $model = new Suggest();
+            $model->loadDefaultValues();
+            if ($model->load(Yii::$app->request->post())) {
+
+                $model->created_at = time();
+                $model->uid = Yii::$app->user->identity->id;
+
+                if ($model->save()) {
+                    return json_encode(['stat' => 'success']);
+                } else {
+                    return json_encode(['stat' => 'fail', 'msg' => '操作失败！']);
+                }
+            } else {
+
+                return $this->renderAjax('suggest', [
+                            'model' => $model,
+                ]);
             }
         }
     }

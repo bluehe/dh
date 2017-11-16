@@ -75,7 +75,7 @@ Modal::begin([
 Modal::end();
 ?>
 <script>
-<?php $this->beginBlock('js') ?>
+<?php $this->beginBlock('user') ?>
     $('.category').each(function () {
         var l = $(this).find('.website-content .list-group-item').length;
         if (l >= 10) {
@@ -261,5 +261,5 @@ Modal::end();
     });
 <?php $this->endBlock() ?>
 </script>
-<?php $this->registerJs($this->blocks['js'], \yii\web\View::POS_END); ?>
+<?php $this->registerJs($this->blocks['user'], \yii\web\View::POS_END); ?>
 

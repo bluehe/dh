@@ -1,4 +1,8 @@
 <?php
+
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 $system = Yii::$app->cache->get('system_info');
@@ -27,11 +31,34 @@ $system = Yii::$app->cache->get('system_info');
     </div>
 </footer>
 <div class="CornerButtons">
-    <div class="CornerAnimayedFlex">
+    <div class="CornerAnimayedFlex" id="suggest">
         <button class="Button CornerButton Button--plain" title="建议反馈" type="button"><i class="fa fa-comments"></i></button>
     </div>
     <div class="CornerAnimayedFlex" id="to-top">
         <button class="Button CornerButton Button--plain" title="回到顶部" type="button"><i class="fa fa-chevron-up"></i></button>
     </div>
 </div>
+<?php
+Modal::begin([
+    'id' => 'suggest-modal',
+    'header' => '<h4 class="modal-title">建议反馈</h4>',
+    'options' => [
+        'tabindex' => false
+    ],
+]);
+Modal::end();
+?>
+<script>
+<?php $this->beginBlock('footer') ?>
+    //网址编辑
+    $('#suggest').on('click', function () {
+        $.get('<?= Url::toRoute('ajax/suggest') ?>', function (data) {
+            $('#suggest-modal .modal-body').html(data);
+            $('#suggest-modal').modal('show');
+        }
+        );
+    });
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJs($this->blocks['footer'], \yii\web\View::POS_END); ?>
 
