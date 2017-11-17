@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dh\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model dms\models\RepairOrder */
@@ -19,10 +20,14 @@ use yii\widgets\ActiveForm;
         ]);
         ?>
 
-
         <div class="form-group">
-            <label class="col-md-3 control-label"><?= $model->getAttributeLabel('type') ?></label>
-            <div class="col-md-6" style="padding-top: 7px;"><?= $model->Type ?></div>
+            <label class="col-md-3 control-label"><?= $model->getAttributeLabel('created_at') ?></label>
+            <div class="col-md-6" style="padding-top: 7px;"><?= date('Y-m-d H:i:s', $model->created_at) ?></div>
+            <div class="col-md-3"><div class="help-block"></div></div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label"><?= $model->getAttributeLabel('uid') ?></label>
+            <div class="col-md-6" style="padding-top: 7px;"><?= User::get_nickname($model->uid) ?></div>
             <div class="col-md-3"><div class="help-block"></div></div>
         </div>
         <div class="form-group">
@@ -30,16 +35,8 @@ use yii\widgets\ActiveForm;
             <div class="col-md-6" style="padding-top: 7px;"><?= $model->content ?></div>
             <div class="col-md-3"><div class="help-block"></div></div>
         </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label"><?= $model->getAttributeLabel('name') ?></label>
-            <div class="col-md-6" style="padding-top: 7px;"><?= $model->name ?></div>
-            <div class="col-md-3"><div class="help-block"></div></div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label"><?= $model->getAttributeLabel('tel') ?></label>
-            <div class="col-md-6" style="padding-top: 7px;"><?= $model->tel ?></div>
-            <div class="col-md-3"><div class="help-block"></div></div>
-        </div>
+
+
         <?= $form->field($model, 'reply_content')->textarea(['rows' => '6']) ?>
 
         <div class="col-md-6 col-xs-6 text-right">

@@ -22,7 +22,8 @@ use Yii;
 class Suggest extends \yii\db\ActiveRecord {
 
     const STAT_OPEN = 1;
-    const STAT_CLOSE = 2;
+    const STAT_CLOSE = -1;
+    const STAT_REPLY = 2;
 
     /**
      * @inheritdoc
@@ -39,10 +40,11 @@ class Suggest extends \yii\db\ActiveRecord {
             [['uid', 'reply_uid', 'stat'], 'integer'],
             [['content', 'reply_content'], 'string'],
             [['uid', 'content'], 'required'],
+            [['reply_content'], 'required', 'on' => 'reply'],
             [['uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uid' => 'id']],
             [['reply_uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['reply_uid' => 'id']],
             ['stat', 'default', 'value' => self::STAT_OPEN],
-            ['stat', 'in', 'range' => [self::STAT_OPEN, self::STAT_CLOSE]],
+            ['stat', 'in', 'range' => [self::STAT_OPEN, self::STAT_CLOSE, self::STAT_REPLY]],
         ];
     }
 
@@ -57,15 +59,16 @@ class Suggest extends \yii\db\ActiveRecord {
             'created_at' => '提交时间',
             'updated_at' => '回复时间',
             'reply_uid' => '回复人',
-            'reply_content' => '回复内容',
+            'reply_content' => '回复',
             'stat' => '状态',
         ];
     }
 
     public static $List = [
         'stat' => [
-            self::STAT_OPEN => "提交",
-            self::STAT_CLOSE => "关闭"
+            self::STAT_OPEN => "已提交",
+            self::STAT_CLOSE => "取消",
+            self::STAT_REPLY => "已回复"
         ]
     ];
 

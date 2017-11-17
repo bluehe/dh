@@ -43,20 +43,11 @@ mb_regex_encoding("UTF-8");
                         ['class' => 'yii\grid\SerialColumn'],
                         'created_at:datetime',
                         'content:ntext',
-                        // 'reply_uid',
-                        [
-                            'attribute' => 'updated_at',
-                            'value' =>
-                            function($model) {
-                                return $model->updated_at ? date('Y-m-d H:i:s', $model->updated_at) : '';
-                            },
-                        ],
-                        'reply_content:ntext',
                         [
                             'attribute' => 'stat',
                             'value' =>
                             function($model) {
-                                return Html::tag('span', $model->Stat, ['class' => 'btn btn-xs disabled ' . ($model->stat == Suggest::STAT_OPEN ? 'btn-success' : 'btn-danger')]);
+                                return Html::tag('span', $model->Stat, ['class' => ($model->stat == Suggest::STAT_OPEN ? 'text-aqua' : ($model->stat == Suggest::STAT_REPLY ? 'text-green' : 'text-red') )]);
                             },
                             'format' => 'raw',
                         ],
@@ -73,7 +64,7 @@ mb_regex_encoding("UTF-8");
     <!-- /.Left col -->
     <!-- right col (We are only adding the ID to make the widgets sortable)-->
     <section class="col-lg-5 connectedSortable">
-        <?php Pjax::begin(); ?>
+<?php Pjax::begin(); ?>
         <div class="nav-tabs-custom" style="cursor: move;">
 
             <ul class="nav nav-tabs pull-right ui-sortable-handle">
@@ -97,7 +88,7 @@ mb_regex_encoding("UTF-8");
 
             </div>
         </div>
-        <?php Pjax::end(); ?>
+<?php Pjax::end(); ?>
 
     </section>
     <!-- right col -->

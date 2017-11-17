@@ -75,3 +75,20 @@
     line-height: 24px;
 }
 .baidu span{color:#6f6f6f;font-size:12px}
+
+
+/*弹出查看*/
+.repaire-view .timeline>li>.timeline-item {
+    border:1px solid #ddd;
+}
+.repaire-view .timeline:before {
+    left:43px;
+}
+.repaire-view .timeline>li>.fa {left:20px;width:50px;font-size: 14px;}
+.repaire-view .timeline>li>.timeline-item{margin-left: 72px;}
+@media (min-width: 768px){
+    .repaire-view .dl-horizontal dt {width:60px}
+    .repaire-view .dl-horizontal dd {
+        margin-left: 80px;
+    }
+}

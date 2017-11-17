@@ -19,7 +19,7 @@ class PersonController extends Controller {
      */
     public function actionIndex() {
         $suggest = new ActiveDataProvider([
-            'query' => Suggest::find(),
+            'query' => Suggest::find()->where(['uid' => Yii::$app->user->identity->id]),
             'pagination' => ['pageSize' => 5],
             'sort' => ['defaultOrder' => [
                     'id' => SORT_DESC,
@@ -36,7 +36,7 @@ class PersonController extends Controller {
      */
     public function actionSuggest() {
         $dataProvider = new ActiveDataProvider([
-            'query' => Suggest::find(),
+            'query' => Suggest::find()->where(['uid' => Yii::$app->user->identity->id]),
             'sort' => ['defaultOrder' => [
                     'id' => SORT_DESC,
                 ]],
@@ -45,6 +45,79 @@ class PersonController extends Controller {
         return $this->render('suggest', [
                     'dataProvider' => $dataProvider,
         ]);
+    }
+
+    /**
+     * Creates a new Suggest model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionSuggestCreate() {
+        $model = new Suggest();
+        $model->loadDefaultValues();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created_at = time();
+            $model->uid = Yii::$app->user->identity->id;
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '发布成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '发布失败。');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            return $this->renderAjax('suggest-update', [
+                        'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionSuggestUpdate($id) {
+
+        $model = Suggest::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => Suggest::STAT_OPEN]);
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '操作成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '操作失败。');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            if ($model !== null) {
+                return $this->renderAjax('suggest-update', [
+                            'model' => $model,
+                ]);
+            } else {
+                Yii::$app->session->setFlash('error', '没有权限。');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+    }
+
+    public function actionSuggestClose($id) {
+        $model = Suggest::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id, 'stat' => Suggest::STAT_OPEN]);
+
+        if ($model !== null) {
+            $model->stat = Suggest::STAT_CLOSE;
+            $model->updated_at = time();
+            $model->save();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSuggestView($id) {
+        $model = Suggest::findOne(['id' => $id, 'uid' => Yii::$app->user->identity->id]);
+        if ($model !== null) {
+            return $this->renderAjax('suggest-view', [
+                        'model' => $model,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', '没有权限。');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     }
 
 }
