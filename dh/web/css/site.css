@@ -159,6 +159,7 @@ a:hover,a:focus{text-decoration: none}
 /*推荐*/
 .content-wrapper{
     background-color: #e1eff4;
+    min-height: 20px;
 }
 .recommend{
     padding: 20px 0;
@@ -168,6 +169,8 @@ a:hover,a:focus{text-decoration: none}
 }
 .recommend img{
     margin-bottom: 5px;
+    width: 65px;
+    height: 65px;
 }
 .recommend img:hover {
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
