@@ -18,9 +18,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Recommend extends \yii\db\ActiveRecord {
 
-    const STAT_WAIT = 1;
-    const STAT_OPEN = 2;
-    const STAT_CLOSE = 3;
+    const STAT_OPEN = 1;
+    const STAT_CLOSE = 2;
 
     /**
      * @inheritdoc
@@ -34,13 +33,13 @@ class Recommend extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['name', 'url', 'img', 'creared_at', 'update_at'], 'required', 'message' => '{attribute}不能为空'],
-            [['creared_at', 'update_at', 'sort_order', 'stat', 'click_num'], 'integer'],
+            [['name', 'url', 'img'], 'required', 'message' => '{attribute}不能为空'],
+            [['created_at', 'updated_at', 'sort_order', 'stat', 'click_num'], 'integer'],
             [['name'], 'string', 'max' => 4, 'message' => '{attribute}最多4个字符'],
-            [['url'], 'string', 'max' => 255],
-            [['img'], 'string', 'max' => 64],
-            [['click_num'], 'default', 'value' => 0],
-            [['stat'], 'default', 'value' => self::STAT_WAIT],
+            [['url', 'img'], 'string', 'max' => 255],
+            ['url', 'url', 'defaultScheme' => 'http'],
+            [['click_num', 'sort_order'], 'default', 'value' => 0],
+            [['stat'], 'default', 'value' => self::STAT_OPEN],
         ];
     }
 
@@ -63,8 +62,8 @@ class Recommend extends \yii\db\ActiveRecord {
             'url' => '链接',
             'img' => '图片',
             'click_num' => '点击数',
-            'creared_at' => '创建时间',
-            'update_at' => '更新时间',
+            'created_at' => '创建时间',
+            'updated_at' => '更新时间',
             'sort_order' => '排序',
             'stat' => '状态',
         ];
@@ -72,7 +71,6 @@ class Recommend extends \yii\db\ActiveRecord {
 
     public static $List = [
         'stat' => [
-            self::STAT_WAIT => "等待",
             self::STAT_OPEN => "启用",
             self::STAT_CLOSE => "关闭"
         ]

@@ -13,7 +13,7 @@ use kartik\daterange\DateRangePicker;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '建议反馈';
-$this->params['breadcrumbs'][] = ['label' => '业务中心', 'url' => ['suggest']];
+$this->params['breadcrumbs'][] = ['label' => '业务中心', 'url' => ['suggest-list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="suggest-index">

@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'label' => '头像',
                         'value' =>
                         function($model) {
-                            return Html::img($model->avatar ? $model->avatar : '@web/image/user.png', ['class' => 'img-rounded', 'width' => 30, 'height' => 30]);
+                            return Html::img($model->avatar ? $model->avatar : '@web/image/user.png', ['class' => 'img-rounded', 'width' => 23, 'height' => 23]);
                         },
                         'format' => 'raw',
                     ],
