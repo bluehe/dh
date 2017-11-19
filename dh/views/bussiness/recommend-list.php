@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
 
             <p>
-                <?= Html::a('添加新内容', ['recommend-create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('添加新网址', ['recommend-create'], ['class' => 'btn btn-success']) ?>
             </p>
             <?php Pjax::begin(); ?>                            <?=
             GridView::widget([
