@@ -37,7 +37,7 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
 
                     <div class="user-menu">
                         <a href="javascript:void(0);">
-                            <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : '@web/image/user.png' ?>" class="user-image" />
+                            <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : $directoryAsset . '/image/user.png' ?>" class="user-image" />
                             <span class="name"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
 
                         </a>

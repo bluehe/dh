@@ -159,6 +159,9 @@ Modal::end();
     });
     //分类删除
     $('.website').on('click', '.category-delete', function () {
+        if (!confirm("是否确认删除")) {
+            return false;
+        }
         var _this = $(this).parents('.category');
         var id = _this.attr('id');
         if (id) {
@@ -216,9 +219,7 @@ Modal::end();
     });
     //网址删除
     $('.website').on('click', '.website-delete', function () {
-        if (!confirm("是否确认删除")) {
-            return false;
-        }
+
         var _this = $(this).parents('.list-group-item');
         var id = _this.attr('id');
         if (id) {
@@ -229,7 +230,7 @@ Modal::end();
                         _this.parents('.category').find('.websiteSortable').addClass('sort');
                     }
                     _this.remove();
-                    my_alert('success', '删除成功！', 3000);
+
                 } else if (data.stat === 'fail') {
                     my_alert('danger', data.msg, 3000);
                 }
