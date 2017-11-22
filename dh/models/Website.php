@@ -156,6 +156,10 @@ class Website extends \yii\db\ActiveRecord {
         return $this->hasOne(Website::className(), ['id' => 'share_id']);
     }
 
+    public function getU() {
+        return $this->hasOne(User::className(), ['id' => 'uid'])->via('c');
+    }
+
     public static function findMaxSort($cid, $stat = '') {
         $query = static::find()->where(['cid' => $cid]);
         if ($stat) {
@@ -182,6 +186,11 @@ class Website extends \yii\db\ActiveRecord {
         }
 
         $num = $query->count();
+        return $num;
+    }
+
+    public static function get_category_website_num($cid, $stat = '') {
+        $num = static::find()->andFilterWhere(['cid' => $cid, 'stat' => $stat])->count();
         return $num;
     }
 

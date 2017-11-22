@@ -264,7 +264,10 @@ class AjaxController extends Controller {
                 try {
                     $cate->save(false);
 
-                    $query = Website::find()->where(['cid' => $id, 'stat' => Website::STAT_OPEN, 'is_open' => Website::ISOPEN_OPEN]);
+                    $query = Website::find()->where(['cid' => $id, 'stat' => Website::STAT_OPEN, 'is_open' => Website::ISOPEN_OPEN])->limit(10);
+                    if ($model->uid) {
+                        $query->orderBy(['sort_order' => SORT_ASC]);
+                    }
                     foreach ($query->each() as $website) {
                         $w = new Website();
                         $w->loadDefaultValues();

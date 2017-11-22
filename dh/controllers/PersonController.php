@@ -6,6 +6,8 @@ use Yii;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use dh\models\Suggest;
+use dh\models\Website;
+use dh\models\Category;
 
 /**
  * Person controller
@@ -118,6 +120,46 @@ class PersonController extends Controller {
             Yii::$app->session->setFlash('error', '没有权限。');
             return $this->redirect(Yii::$app->request->referrer);
         }
+    }
+
+    /**
+     * Lists all Website models.
+     * @return mixed
+     */
+    public function actionWebsite() {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Website::find()->joinWith(['c', 'u'])->where(['uid' => Yii::$app->user->identity->id])->orderBy([Category::tableName() . '.sort_order' => SORT_ASC, Website::tableName() . '.stat' => SORT_ASC, Website::tableName() . '.sort_order' => SORT_ASC]),
+        ]);
+        $dataProvider->setSort(false);
+
+        return $this->render('website', [
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionWebsiteDelete($id) {
+        $model = Website::findOne($id);
+        if ($model !== null && $model->stat !== Website::STAT_OPEN) {
+            $model->delete();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionWebsiteRecovery($id) {
+        $model = Website::findOne($id);
+        $model->stat = Website::STAT_OPEN;
+        $model->is_open = Website::ISOPEN_OPEN;
+        $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
+
+        if ($model->save()) {
+            Yii::$app->session->setFlash('success', '操作成功。');
+        } else {
+            Yii::$app->session->setFlash('error', '操作失败。');
+        }
+
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 }

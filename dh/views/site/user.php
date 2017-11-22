@@ -45,7 +45,7 @@ $this->title = '我的网址';
                                             <div class="dropdown-menu content-icon <?= $website['share_status'] == Website::SHARE_DEFAULT ? '' : 'list3' ?>" aria-labelledby="dropdownMenu<?= $website['id'] ?>">
                                                 <?= $website['share_status'] == Website::SHARE_DEFAULT ? '<i class="fa fa-share-alt website-share" title="分享"></i>' : '' ?>
                                                 <i class="fa fa-edit website-edit" title="编辑" ></i>
-                                                <i class="fa fa-trash-o website-delete" title="删除"></i>
+                                                <i class="fa fa-trash-o website-delete" title="隐藏"></i>
                                                 <i class="fa <?= $website['is_open'] == Website::ISOPEN_OPEN ? 'fa-eye-slash' : 'fa-eye' ?> website-open" title="<?= $website['is_open'] == Website::ISOPEN_OPEN ? '私有' : '公开' ?>"></i>
                                             </div>
                                         </div>
@@ -159,9 +159,6 @@ Modal::end();
     });
     //分类删除
     $('.website').on('click', '.category-delete', function () {
-        if (!confirm("是否确认删除")) {
-            return false;
-        }
         var _this = $(this).parents('.category');
         var id = _this.attr('id');
         if (id) {
