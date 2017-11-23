@@ -91,8 +91,6 @@ return [
             'site/*',
             'ajax/*',
             'api/*',
-            'admin/*',
-            'gii/*',
             'debug/*'
         ]
     ],
