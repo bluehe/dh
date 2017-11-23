@@ -112,7 +112,7 @@ $fieldOptions4 = [
                                 $form
                                 ->field($model_s, 'nickname', $fieldOptions1)
                                 ->label(false)
-                                ->textInput(['placeholder' => $model->getAttributeLabel('nickname')])
+                                ->textInput(['placeholder' => $model_s->getAttributeLabel('nickname')])
                         ?>
 
                         <?=
