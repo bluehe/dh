@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Html::a('<i class="fa fa-pencil"></i> 修改', ['update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
                 },
                 'delete' => function($url, $model, $key) {
-                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '删除专业将会影响相关教师及学生，此操作不能恢复，你确定要删除专业吗？',]]);
+                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '确定删除吗？',]]);
                 },
                 ],
                 ],

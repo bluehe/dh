@@ -9,6 +9,8 @@ use dh\models\Suggest;
 use dh\models\SuggestSearch;
 use dh\models\Recommend;
 use yii\imagine\Image;
+use dh\models\CategorySearch;
+use dh\models\Category;
 
 class BussinessController extends Controller {
 
@@ -246,6 +248,60 @@ class BussinessController extends Controller {
             $url = Yii::$app->request->post('url');
             return $this->renderAjax('_jcrop', ['url' => $url]);
         }
+    }
+
+    /**
+     * Lists all Category models.
+     * @return mixed
+     */
+    public function actionCategoryList() {
+        $searchModel = new CategorySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('category-list', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionCategoryCreate() {
+        $model = new Category();
+        $model->loadDefaultValues();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', '创建成功。');
+            return $this->redirect(['category-update', 'id' => $model->id]);
+        } else {
+            return $this->render('category-create', [
+                        'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionCategoryUpdate($id) {
+        $model = Category::findOne($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '修改成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '修改失败。');
+            }
+        }
+
+        return $this->render('category-update', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionCategoryDelete($id) {
+        $model = Category::findOne($id);
+        if ($model !== null) {
+
+            $model->delete();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 }
