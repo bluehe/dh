@@ -386,6 +386,7 @@ class SiteController extends Controller {
             $c->loadDefaultValues();
             $c->uid = Yii::$app->user->identity->id;
             $c->title = '新分类';
+            $c->sort_order = 1;
             if ($c->save()) {
                 return $this->goHome();
             } else {
