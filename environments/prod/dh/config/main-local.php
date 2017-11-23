@@ -8,7 +8,7 @@ return [
             'schemaCacheDuration' => 24 * 3600,
             'charset' => 'utf8',
             'tablePrefix' => 'dh_',
-            'dsn' => 'mysql:host=106.14.172.65;dbname=dh',
+            'dsn' => 'mysql:host=106.14.172.65;dbname=wzgxpt',
             'username' => 'easyscm',
             'password' => 'easyscm1123',
         ],
@@ -26,7 +26,7 @@ return [
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['admin@gxgygl.com' => '管理系统']
+                'from' => ['admin@gxgygl.com' => '网址共享平台']
             ],
         ],
         'authClientCollection' => [
@@ -34,13 +34,13 @@ return [
             'clients' => [
                 'github' => [
                     'class' => 'yii\authclient\clients\GitHub',
-                    'clientId' => '441b767ffa92ee879471',
-                    'clientSecret' => 'b16da9ef4cf8d97a12e035dd4dff413c6198ad0d',
+                    'clientId' => 'fc2b9154f8e7e234b4ea',
+                    'clientSecret' => '685f5c532095050092bb207b773a41a78aceb68f',
                 ],
                 'weibo' => [
                     'class' => 'common\widgets\WeiboClient',
-                    'clientId' => '1982328261',
-                    'clientSecret' => 'd9cb383e6c9dc564800a8009a96f9720',
+                    'clientId' => '3299253752',
+                    'clientSecret' => '36adfd987716cabd291cb20bec7d6e9b',
                 ],
                 'qq' => [
                     'class' => 'common\widgets\QQClient',
