@@ -110,6 +110,13 @@ $fieldOptions4 = [
 
                         <?=
                                 $form
+                                ->field($model, 'nickname', $fieldOptions1)
+                                ->label(false)
+                                ->textInput(['placeholder' => $model->getAttributeLabel('nickname')])
+                        ?>
+
+                        <?=
+                                $form
                                 ->field($model_s, 'email', $fieldOptions2)
                                 ->label(false)
                                 ->textInput(['placeholder' => $model_s->getAttributeLabel('email')])
