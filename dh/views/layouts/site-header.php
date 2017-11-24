@@ -116,7 +116,7 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
             <div class="container recommend">
                 <?php foreach ($recommend as $r) { ?>
                     <div class="col-lg-1 col-xs-2 text-center">
-                        <?= Html::a(Html::img($r['img'], ['class' => 'img-rounded img-responsive center-block']) . '<span class="hidden-xs">' . $r['name'] . '</span>', $r['url'], ['data-id' => $r['id'], 'class' => 'clickurl', 'target' => '_blank']) ?>
+                                <?= Html::a(Html::img($r['img'], ['class' => 'img-rounded img-responsive center-block', 'width' => 65, 'height' => 65]) . '<span class="hidden-xs">' . $r['name'] . '</span>', $r['url'], ['data-id' => $r['id'], 'class' => 'clickurl', 'target' => '_blank']) ?>
 
                     </div>
                     <?php
