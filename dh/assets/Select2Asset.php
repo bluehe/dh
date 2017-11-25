@@ -11,11 +11,11 @@ class Select2Asset extends AssetBundle {
 
     public $sourcePath = '@vendor/almasaeed2010/adminlte'; //路径
     public $css = [
-        'plugins/select2/select2.min.css', //css
+        'bower_components/select2/dist/css/select2.min.css', //css
     ];
     public $js = [
-        'plugins/select2/select2.full.min.js',
-        'plugins/jQueryUI/jquery-ui.min.js',
+        'bower_components/select2/dist/js/select2.full.min.js',
+        'bower_components/jquery-ui/jquery-ui.min.js',
     ];
     public $depends = [
     ];
