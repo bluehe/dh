@@ -381,18 +381,8 @@ class SiteController extends Controller {
                 $websites = Website::get_website(NULL, $cate['id']);
                 $cates[$key]['website'] = $websites;
             }
-        } else {
-            $c = new Category();
-            $c->loadDefaultValues();
-            $c->uid = Yii::$app->user->identity->id;
-            $c->title = '新分类';
-            $c->sort_order = 1;
-            if ($c->save()) {
-                return $this->goHome();
-            } else {
-                return $this->redirect('site/all');
-            }
         }
+        $common = Website::get_common(Yii::$app->user->identity->id);
         return $this->render('user', ['cates' => $cates]);
     }
 
