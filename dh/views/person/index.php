@@ -64,7 +64,7 @@ mb_regex_encoding("UTF-8");
     <!-- /.Left col -->
     <!-- right col (We are only adding the ID to make the widgets sortable)-->
     <section class="col-lg-5 connectedSortable">
-<?php Pjax::begin(); ?>
+        <?php Pjax::begin(); ?>
         <div class="nav-tabs-custom" style="cursor: move;">
 
             <ul class="nav nav-tabs pull-right ui-sortable-handle">
@@ -88,7 +88,7 @@ mb_regex_encoding("UTF-8");
 
             </div>
         </div>
-<?php Pjax::end(); ?>
+        <?php Pjax::end(); ?>
 
     </section>
     <!-- right col -->
@@ -107,21 +107,21 @@ Modal::end();
 
 <script>
 <?php $this->beginBlock('index') ?>
-    $(".connectedSortable").sortable({
-        placeholder: "sort-highlight",
-        connectWith: ".connectedSortable",
-        handle: ".box-header, .nav-tabs",
-        forcePlaceholderSize: true,
-        zIndex: 999999
-    });
-    $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
-    //jQuery UI sortable for the todo list
-    $(".todo-list").sortable({
-        placeholder: "sort-highlight",
-        handle: ".handle",
-        forcePlaceholderSize: true,
-        zIndex: 999999
-    });
+//    $(".connectedSortable").sortable({
+//        placeholder: "sort-highlight",
+//        connectWith: ".connectedSortable",
+//        handle: ".box-header, .nav-tabs",
+//        forcePlaceholderSize: true,
+//        zIndex: 999999
+//    });
+//    $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
+//    //jQuery UI sortable for the todo list
+//    $(".todo-list").sortable({
+//        placeholder: "sort-highlight",
+//        handle: ".handle",
+//        forcePlaceholderSize: true,
+//        zIndex: 999999
+//    });
 <?php $this->endBlock() ?>
 </script>
 <?php $this->registerJs($this->blocks['index'], \yii\web\View::POS_END); ?>
