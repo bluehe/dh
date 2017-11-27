@@ -170,7 +170,7 @@ class Website extends \yii\db\ActiveRecord {
         return $query->max('sort_order');
     }
 
-    public static function get_website($limit = '', $cid = NULL, $stat = '', $is_open = '') {
+    public static function get_website($limit = '', $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {
         $query = static::find()->andFilterWhere(['cid' => $cid, 'stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
         if ($limit) {
             $query->limit($limit);
