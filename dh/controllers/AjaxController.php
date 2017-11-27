@@ -399,8 +399,8 @@ class AjaxController extends Controller {
         $model = Category::findOne($id);
         if (!Yii::$app->user->isGuest && $model->uid == Yii::$app->user->identity->id) {
 
-            if (Category::get_category_num($model->uid, '', Category::STAT_OPEN) > 1) {
-                $model->stat = Category::STAT_CLOSE;
+//            if (Category::get_category_num($model->uid, '', Category::STAT_OPEN) > 1) {
+            $model->stat = Category::STAT_CLOSE;
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     $model->save(false);
@@ -412,9 +412,9 @@ class AjaxController extends Controller {
                     $transaction->rollBack();
                     return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
                 }
-            } else {
-                return json_encode(['stat' => 'fail', 'msg' => '至少保留一个分类']);
-            }
+    //            } else {
+//                return json_encode(['stat' => 'fail', 'msg' => '至少保留一个分类']);
+//            }
         }
         return json_encode(['stat' => 'error']);
     }
