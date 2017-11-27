@@ -6,7 +6,6 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\Html;
-
 /**
  * Class Menu
  * Theme menu widget.
@@ -17,8 +16,14 @@ class Menu extends \yii\widgets\Menu {
      * @inheritdoc
      */
     public $linkTemplate = '<a href="{url}">{icon} {label}</a>';
+    /**
+     * @inheritdoc
+     * Styles all labels of items on sidebar by AdminLTE
+     */
+    public $labelTemplate = '<span>{label}</span>';
     public $submenuTemplate = "\n<ul class='treeview-menu' {show}>\n{items}\n</ul>\n";
     public $activateParents = true;
+    public $defaultIconHtml = '<i class="fa fa-circle-o"></i> ';
 
     /**
      * @inheritdoc
@@ -67,7 +72,7 @@ class Menu extends \yii\widgets\Menu {
         foreach ($items as $i => $item) {
             $options = array_merge($this->itemOptions, ArrayHelper::getValue($item, 'options', []));
             $tag = ArrayHelper::remove($options, 'tag', 'li');
-            $class = ['treeview'];
+            $class = [];
             if ($item['active']) {
                 $class[] = $this->activeCssClass;
             }
@@ -90,6 +95,11 @@ class Menu extends \yii\widgets\Menu {
                     '{show}' => $item['active'] ? "style='display: block'" : '',
                     '{items}' => $this->renderItems($item['items']),
                 ]);
+				if (isset($options['class'])) {
+                    $options['class'] .= ' treeview';
+                } else {
+                    $options['class'] = 'treeview';
+                }
             }
             $lines[] = Html::tag($tag, $menu, $options);
         }

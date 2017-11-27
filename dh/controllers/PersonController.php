@@ -151,14 +151,22 @@ class PersonController extends Controller {
         $model->stat = Website::STAT_OPEN;
         $model->is_open = Website::ISOPEN_OPEN;
         $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
-
-        if ($model->save()) {
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if ($model->c->stat != Category::STAT_OPEN) {
+                $cate = Category::findOne($model->cid);
+                $cate->stat = Category::STAT_OPEN;
+                $cate->sort_order = Category::findMaxSort($cate->uid, Category::STAT_OPEN) + 1;
+                $cate->save();
+            }
+            $model->save();
+            $transaction->commit();
             Yii::$app->session->setFlash('success', '操作成功。');
-        } else {
+        } catch (\Exception $e) {
+            $transaction->rollBack();
             Yii::$app->session->setFlash('error', '操作失败。');
         }
-
-
+       
         return $this->redirect(Yii::$app->request->referrer);
     }
 

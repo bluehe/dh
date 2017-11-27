@@ -22,6 +22,23 @@ $this->title = '我的网址';
             <div class="row">
                 <?php Pjax::begin(); ?>
                 <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12 categorySortable">
+                    <div class="category category_unsort" id="0">
+                        <div class="website-header">
+                            <b>常用网址</b>
+                            <span class="header-icon"><i class="fa fa-plus category-add"  title="添加分类"></i></span>
+                        </div>
+                        <div class="website-content list-group">
+
+                            <?php foreach ($common as $website) { ?>
+                            <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" data-id="<?= $website['id'] ?>">
+                                    <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]) ?>
+                                        <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
+
+                                    </div>
+                            <?php } ?>
+
+                        </div>
+                    </div>
                     <?php foreach ($cates as $cate) { ?>
                         <div class="category" id="<?= $cate['id'] ?>">
 
@@ -89,6 +106,7 @@ Modal::end();
         placeholder: "category sort-highlight",
         containment: ".website",
         handle: ".website-header",
+        items:'.category:not(.category_unsort)',
         opacity: 0.8,
         forcePlaceholderSize: true,
         forceHelperSize: true,

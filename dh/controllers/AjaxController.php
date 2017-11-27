@@ -425,12 +425,13 @@ class AjaxController extends Controller {
      */
     public function actionCategoryAdd($id) {
 
-        $cate = Category::findOne($id);
-        if (!Yii::$app->user->isGuest && $cate->uid == Yii::$app->user->identity->id) {
+       
+        if (!Yii::$app->user->isGuest) {
+            $cate = Category::findOne($id);
             $model = new Category();
             $model->loadDefaultValues();
             $model->uid = Yii::$app->user->identity->id;
-            $model->sort_order = $cate->sort_order + 1;
+            $model->sort_order = ($cate == null ? 1 : $cate->sort_order + 1);
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {

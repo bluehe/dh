@@ -382,8 +382,8 @@ class SiteController extends Controller {
                 $cates[$key]['website'] = $websites;
             }
         }
-        $common = Website::get_common(Yii::$app->user->identity->id);
-        return $this->render('user', ['cates' => $cates]);
+        $common = Website::get_website_order(10, Yii::$app->user->identity->id);
+        return $this->render('user', ['cates' => $cates, 'common' => $common]);
     }
 
     public function actionPeople($id) {

@@ -9,12 +9,12 @@ use yii\web\AssetBundle;
  */
 class StatisticsAsset extends AssetBundle {
 
-    public $sourcePath = '@vendor/almasaeed2010/adminlte/plugins'; //路径
+    public $sourcePath = '@vendor/almasaeed2010/adminlte/bower_components'; //路径
     public $css = [
             //'daterangepicker/daterangepicker.css',
     ];
     public $js = [
-        'jQueryUI/jquery-ui.min.js',
+        'jquery-ui/jquery-ui.min.js',
             //'daterangepicker/moment.min.js',
             //'daterangepicker/daterangepicker.js',
     ];

@@ -170,12 +170,26 @@ class Website extends \yii\db\ActiveRecord {
         return $query->max('sort_order');
     }
 
-    public static function get_website($limit = '', $cid = NULL, $stat = self::STAT_OPEN, $is_open = '') {
+    public static function get_website($limit = '', $cid = NULL, $stat = '', $is_open = '') {
         $query = static::find()->andFilterWhere(['cid' => $cid, 'stat' => $stat, 'is_open' => $is_open])->orderBy(['sort_order' => SORT_ASC]);
         if ($limit) {
             $query->limit($limit);
         }
         $websites = $query->indexBy('id')->asArray()->all();
+        return $websites;
+    }
+
+    public static function get_website_order($limit = '', $uid = NULL, $is = '', $stat = self::STAT_OPEN, $is_open = '') {
+        $query = static::find()->joinWith('c')->andFilterWhere([self::tableName() . '.stat' => $stat, self::tableName() . '.is_open' => $is_open])->orderBy(['click_num' => SORT_DESC]);
+        if ($limit) {
+            $query->limit($limit);
+        }
+        if ($is == 'not') {
+            $query->andWhere(['not', ['uid' => $uid]]);
+        } else {
+            $query->andWhere(['uid' => $uid]);
+        }
+        $websites = $query->asArray()->all();
         return $websites;
     }
 
