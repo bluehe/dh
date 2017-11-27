@@ -537,6 +537,9 @@ a:hover,a:focus{text-decoration: none}
     width:24.5%;
     float: left;
 }
+.website .category_unsort{
+   background-color: #fffeee;
+}
 .category.sort-highlight {
     background-color: #f4c2e9;
     opacity: .2;
@@ -625,6 +628,9 @@ a:hover,a:focus{text-decoration: none}
 }
 .websiteSortable .list-group-item{
     cursor: move;
+}
+.category_unsort .list-group-item {
+    background-color: #fffeee;
 }
 .list-group-item.sort-highlight {
     background-color: #f4c2e9;
