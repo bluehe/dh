@@ -16,8 +16,8 @@ if (Yii::$app->controller->id === 'site') {
             <meta charset="<?= Yii::$app->charset ?>">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <?= Html::csrfMetaTags() ?>
-            <title><?= Html::encode($this->title) ?> - <?= System::getValue('system_title') ? System::getValue('system_title') : Yii::$app->name ?></title>
-            <meta name="keywords" content="<?= System::getValue('system_keywords') ?>">
+            <title><?= $this->title ? Html::encode($this->title) . ' - ' : '' ?><?= System::getValue('system_title') ? System::getValue('system_title') : Yii::$app->name ?></title>
+                <meta name="keywords" content="<?= System::getValue('system_keywords') ?>">
             <meta name="description" content="<?= System::getValue('system_desc') ?>">
             <?php $this->head() ?>
         </head>
