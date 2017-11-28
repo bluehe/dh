@@ -15,7 +15,7 @@ class CommonAsset extends AssetBundle {
     ];
     public $js = [
 //        'PACE/pace.min.js',
-        'jquery-slimScroll/jquery.slimscroll.min.js',
+        'jquery-slimscroll/jquery.slimscroll.min.js',
         'fastclick/lib/fastclick.js',
     ];
     public $depends = [
