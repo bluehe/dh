@@ -983,6 +983,41 @@ a:hover,a:focus{text-decoration: none}
     display: none;
 }
 
+/*帮助*/
+.help{
+    padding: 20px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #fff;
+    margin-bottom: 20px;
+}
+.help-title{
+    width: 262.5px;
+}
+.help-title.affix{
+    top: 20px;
+    position: fixed;
+
+}
+.help-title.affix-bottom {
+    position: absolute;
+}
+.help-title .nav>li>a {
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+    margin-top: 5px;
+}
+.help-title .nav>.active>a, .help-title .nav>.active:hover>a, .help-title .nav>.active:focus>a,.help-title .nav>li>a:hover, .help-title .nav>li>a:focus {
+    background-color: #cadcdd;
+}
+.help .section h1 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
 @media screen and (max-width: 767px){
     .main-header{
         position: fixed;
@@ -1187,6 +1222,12 @@ a:hover,a:focus{text-decoration: none}
     background: #3c8dbc;
     color:#fff;
 }
+
+.skin-blue .help-title .nav>.active>a,.skin-blue .help-title .nav>.active:hover>a,.skin-blue .help-title .nav>.active:focus>a,.skin-blue .help-title .nav>li>a:hover,.skin-blue .help-title .nav>li>a:focus {
+    color: #fff;
+    background-color: #3c8dbc;
+}
+
 @media screen and (max-width: 767px){
     .skin-blue .social-auth-links{
         border-top: 1px solid #3c8dbc;

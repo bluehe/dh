@@ -401,18 +401,18 @@ class AjaxController extends Controller {
 
 //            if (Category::get_category_num($model->uid, '', Category::STAT_OPEN) > 1) {
             $model->stat = Category::STAT_CLOSE;
-                $transaction = Yii::$app->db->beginTransaction();
-                try {
-                    $model->save(false);
-                    Website::updateAll(['stat' => Website::STAT_CLOSE], ['cid' => $id, 'stat' => Website::STAT_OPEN]);
-                    Category::updateAllCounters(['sort_order' => -1], ['and', ['uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
-                    $transaction->commit();
-                    return json_encode(['stat' => 'success']);
-                } catch (\Exception $e) {
-                    $transaction->rollBack();
-                    return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
-                }
-    //            } else {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save(false);
+                Website::updateAll(['stat' => Website::STAT_CLOSE], ['cid' => $id, 'stat' => Website::STAT_OPEN]);
+                Category::updateAllCounters(['sort_order' => -1], ['and', ['uid' => $model->uid, 'stat' => Category::STAT_OPEN], ['>', 'sort_order', $model->sort_order]]);
+                $transaction->commit();
+                return json_encode(['stat' => 'success']);
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                return json_encode(['stat' => 'fail', 'msg' => '操作失败']);
+            }
+            //            } else {
 //                return json_encode(['stat' => 'fail', 'msg' => '至少保留一个分类']);
 //            }
         }
@@ -425,7 +425,7 @@ class AjaxController extends Controller {
      */
     public function actionCategoryAdd($id) {
 
-       
+
         if (!Yii::$app->user->isGuest) {
             $cate = Category::findOne($id);
             $model = new Category();
@@ -545,6 +545,36 @@ class AjaxController extends Controller {
                 }
             } else {
                 return json_encode(['stat' => 'fail', 'msg' => '同一分类最多10个网址']);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 添加网址
+     * @return json
+     */
+    public function actionWebsiteAddurl() {
+
+        if (!Yii::$app->user->isGuest) {
+
+            $model = new Website();
+            $model->loadDefaultValues();
+
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->sort_order = Website::findMaxSort($model->cid, Website::STAT_OPEN) + 1;
+                if ($model->save()) {
+                    return json_encode(['stat' => 'success', 'id' => $model->id, 'cid' => $model->cid, 'title' => $model->title, 'url' => $model->url, 'host' => $model->host, 'is_open' => $model->is_open == Website::ISOPEN_OPEN ? true : false]);
+                } else {
+                    return json_encode(['stat' => 'fail', 'msg' => '添加失败']);
+                }
+            } else {
+                $model->title = Yii::$app->request->get('title');
+                $model->url = Yii::$app->request->get('url');
+                return $this->renderAjax('website-addurl', [
+                            'model' => $model,
+                ]);
             }
         } else {
             return false;

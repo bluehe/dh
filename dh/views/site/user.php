@@ -30,11 +30,11 @@ $this->title = '我的网址';
                         <div class="website-content list-group">
 
                             <?php foreach ($common as $website) { ?>
-                            <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" data-id="<?= $website['id'] ?>">
+                                <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" data-id="<?= $website['id'] ?>">
                                     <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]) ?>
-                                        <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
+                                    <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
 
-                                    </div>
+                                </div>
                             <?php } ?>
 
                         </div>
@@ -106,7 +106,7 @@ Modal::end();
         placeholder: "category sort-highlight",
         containment: ".website",
         handle: ".website-header",
-        items:'.category:not(.category_unsort)',
+        items: '.category:not(.category_unsort)',
         opacity: 0.8,
         forcePlaceholderSize: true,
         forceHelperSize: true,
@@ -278,4 +278,18 @@ Modal::end();
 <?php $this->endBlock() ?>
 </script>
 <?php $this->registerJs($this->blocks['user'], \yii\web\View::POS_END); ?>
+<?php if (Yii::$app->request->get('title') && Yii::$app->request->get('url')) { ?>
+    <script>
+    <?php $this->beginBlock('addurl') ?>
+        $.get('<?= Url::toRoute('ajax/website-addurl') ?>', {title: '<?= Yii::$app->request->get('title') ?>', url: '<?= Yii::$app->request->get('url') ?>'},
+                function (data) {
+                    $('#user-modal .modal-title').html('添加网址');
+                    $('#user-modal .modal-body').html(data);
+                    $('#user-modal').modal('show');
+                }
+        );
+    <?php $this->endBlock() ?>
+    </script>
+    <?php $this->registerJs($this->blocks['addurl'], \yii\web\View::POS_END); ?>
 
+<?php } ?>

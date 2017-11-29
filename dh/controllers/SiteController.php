@@ -415,4 +415,8 @@ class SiteController extends Controller {
         ]);
     }
 
+    public function actionHelp() {
+        return $this->render('help');
+    }
+
 }

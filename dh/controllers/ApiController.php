@@ -54,6 +54,23 @@ class ApiController extends Controller {
         return $file;
     }
 
+    public function actionAddurl($url, $title) {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        } else {
+            $cates = Category::get_category_sql(Yii::$app->user->identity->id)->asArray()->all();
+            if (count($cates) > 0) {
+                foreach ($cates as $key => $cate) {
+                    $websites = Website::get_website(NULL, $cate['id']);
+                    $cates[$key]['website'] = $websites;
+                }
+            }
+            $common = Website::get_website_order(10, Yii::$app->user->identity->id);
+
+            return $this->render('site/user', ['cates' => $cates, 'common' => $common]);
+        }
+    }
+
     public function actionWebhooks() {
         // GitHub Webhook Secret
         // Keep it the same with the 'Secret' field on your Webhooks / Manage webhook page of your respostory.
