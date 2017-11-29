@@ -22,7 +22,7 @@ use dh\models\Category;
         ]);
         ?>
 
-        <?= $form->field($model, 'cid')->dropDownList(Category::get_user_category(Yii::$app->user->identity->id), ['prompt' => '无']) ?>
+        <?= $form->field($model, 'cid')->dropDownList(Category::get_user_category(Yii::$app->user->identity->id, true), ['prompt' => '无']) ?>
 
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

@@ -158,8 +158,13 @@ class Category extends \yii\db\ActiveRecord {
         return $category;
     }
 
-    public static function get_user_category($uid = NULL) {
-        $category = static::find()->where(['uid' => $uid])->andWhere(['stat' => self::STAT_OPEN])->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
+    public static function get_user_category($uid = NULL, $is = false) {
+        $query = static::find()->where(['uid' => $uid])->andWhere(['stat' => self::STAT_OPEN]);
+        if ($is) {
+            $cids = Website::find()->joinWith('c')->select([Website::tableName() . '.cid'])->where(['uid' => $uid, Website::tableName() . '.stat' => Website::STAT_OPEN])->groupBy([Website::tableName() . '.cid'])->having(['>=', 'count(*)', 10])->column();
+            $query->andWhere(['not', ['id' => $cids]]);
+        }
+        $category = $query->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])->all();
         return ArrayHelper::map($category, 'id', 'title');
     }
 
