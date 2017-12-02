@@ -22,6 +22,9 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
             <div class="pull-left">
                 <a href="javascript:void(0);" class="change-skin" data-skin="<?= Yii::$app->params['skin'] ?>"><i class="fa fa-exchange"></i> 更换皮肤</a>
                 <a href="javascript:void(0);" class="change-plate" data-plate="<?= Yii::$app->params['plate'] ?>"><i class="fa fa-refresh"></i> 切换板式</a>
+                <?=
+                Html::a('<i class="fa fa-info-circle"></i> 新手帮助', ['/site/help'])
+                ?>
             </div>
             <!--右侧功能块-->
             <div class="pull-right">
@@ -116,7 +119,7 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
             <div class="container recommend">
                 <?php foreach ($recommend as $r) { ?>
                     <div class="col-lg-1 col-xs-2 text-center">
-                                <?= Html::a(Html::img($r['img'], ['class' => 'img-rounded img-responsive center-block', 'width' => 65, 'height' => 65]) . '<span class="hidden-xs">' . $r['name'] . '</span>', $r['url'], ['data-id' => $r['id'], 'class' => 'clickurl', 'target' => '_blank']) ?>
+                        <?= Html::a(Html::img($r['img'], ['class' => 'img-rounded img-responsive center-block', 'width' => 65, 'height' => 65]) . '<span class="hidden-xs">' . $r['name'] . '</span>', $r['url'], ['data-id' => $r['id'], 'class' => 'clickurl', 'target' => '_blank']) ?>
 
                     </div>
                     <?php
