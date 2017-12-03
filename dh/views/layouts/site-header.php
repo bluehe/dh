@@ -18,41 +18,44 @@ $recommend = Recommend::get_recommend(Recommend::STAT_OPEN, 12);
 <header>
     <div class="main-header">
         <div class="container">
-
-            <div class="pull-left">
-                <a href="javascript:void(0);" class="change-skin" data-skin="<?= Yii::$app->params['skin'] ?>"><i class="fa fa-exchange"></i> 更换皮肤</a>
-                <a href="javascript:void(0);" class="change-plate" data-plate="<?= Yii::$app->params['plate'] ?>"><i class="fa fa-refresh"></i> 切换板式</a>
-                <?=
-                Html::a('<i class="fa fa-info-circle"></i> 新手帮助', ['/site/help'])
-                ?>
-            </div>
-            <!--右侧功能块-->
-            <div class="pull-right">
-
-                <?php if (Yii::$app->user->isGuest) { ?>
+            <div class="row">
+                <div class="col-lg-6 col-xs-12 pull-left">
+                    <a href="javascript:void(0);" class="change-skin" data-skin="<?= Yii::$app->params['skin'] ?>"><i class="fa fa-exchange"></i> 更换皮肤</a>
+                    <a href="javascript:void(0);" class="change-plate" data-plate="<?= Yii::$app->params['plate'] ?>"><i class="fa fa-refresh"></i> 切换板式</a>
                     <?=
-                    Html::a('<i class="fa fa-sign-in"></i> 登录', ['/site/login'])
+                    Html::a('<i class="fa fa-info-circle"></i> 新手帮助', ['/site/help'])
                     ?>
-                    <?=
-                    Html::a('<i class="fa fa-pencil"></i> 注册', ['/site/signup'])
-                    ?>
-                <?php } else { ?>
+                </div>
+                <!--右侧功能块-->
+                <div class="col-lg-6 col-xs-12">
 
-                    <div class="user-menu">
-                        <a href="javascript:void(0);">
-                            <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : $directoryAsset . '/image/user.png' ?>" class="user-image" />
-                            <span class="name"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
-
-                        </a>
-                        <div class="myhome">
-                            <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['person/index']) ?>
-                            <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['site/logout'], ['data-method' => 'post']) ?>
+                    <?php if (Yii::$app->user->isGuest) { ?>
+                        <div class="pull-right">
+                            <?=
+                            Html::a('<i class="fa fa-sign-in"></i> 登录', ['/site/login'])
+                            ?>
+                            <?=
+                            Html::a('<i class="fa fa-pencil"></i> 注册', ['/site/signup'])
+                            ?>
                         </div>
-                    </div>
+                    <?php } else { ?>
 
-                <?php } ?>
+                        <div class="user-menu pull-right">
+                            <a href="javascript:void(0);">
+                                <img src="<?= Yii::$app->user->identity->avatar ? Yii::$app->user->identity->avatar : $directoryAsset . '/image/user.png' ?>" class="user-image" />
+                                <span class="name"><?= Yii::$app->user->identity->nickname ? Yii::$app->user->identity->nickname : Yii::$app->user->identity->username ?></span>
+
+                            </a>
+                            <div class="myhome">
+                                <?= Html::a('<i class="fa fa-home"></i><span>个人中心</span>', ['person/index']) ?>
+                                <?= Html::a('<i class="fa fa-sign-out"></i><span>退出</span>', ['site/logout'], ['data-method' => 'post']) ?>
+                            </div>
+                        </div>
+
+                    <?php } ?>
 
 
+                </div>
             </div>
             <nav class="navbar navbar-inverse visible-xs navbar-fixed-top">
                 <div class="container-fluid">

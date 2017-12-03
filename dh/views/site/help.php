@@ -2,8 +2,6 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\bootstrap\Modal;
 ?>
 <div class="container">
 
@@ -16,13 +14,11 @@ use yii\bootstrap\Modal;
                     <li><a href="#cat">分类管理</a></li>
                     <li><a href="#url">网址管理</a></li>
                     <li><a href="#url_adds">网址收藏、举报</a></li>
-                    <li><a href="#suggest">建议反馈</a></li>
+                    <li><a href="#suggests">建议反馈</a></li>
                 </ul>
             </div>
         </section>
         <section class="col-lg-9">
-
-
             <div class="help">
                 <div class="section" id="quit">
                     <h1>一键收藏</h1>
@@ -55,7 +51,6 @@ use yii\bootstrap\Modal;
                         <?= Html::img('@web/image/help/login.png', ['class' => 'img-responsive']) ?>
                     </div>
                 </div>
-
                 <div class="section" id="cat">
                     <h1>分类管理</h1>
                     <div>
@@ -88,16 +83,14 @@ use yii\bootstrap\Modal;
                         <?= Html::img('@web/image/help/website5.png', ['class' => 'img-responsive']) ?>
                     </div>
                 </div>
-                <div class="section" id="suggest">
+                <div class="section" id="suggests">
                     <h1>建议反馈</h1>
                     <div>
                         <p>点击页面右下角的“建议反馈”按钮，就能进行留言操作，有益的留言将会有相应的奖励。</p>
                         <?= Html::img('@web/image/help/suggest.png', ['class' => 'img-responsive']) ?>
                     </div>
                 </div>
-
-
-
+            </div>
         </section>
     </div>
 </div>
