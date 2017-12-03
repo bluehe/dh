@@ -17,8 +17,8 @@ class CategorySearch extends Category {
      */
     public function rules() {
         return [
-            [['id', 'uid', 'cid', 'collect_num', 'sort_order', 'created_at', 'updated_at', 'is_open', 'stat'], 'integer'],
-            [['title'], 'safe'],
+            [['id', 'cid', 'collect_num', 'sort_order', 'created_at', 'updated_at', 'is_open', 'stat'], 'integer'],
+            [['title', 'uid'], 'safe'],
         ];
     }
 
@@ -57,13 +57,20 @@ class CategorySearch extends Category {
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'uid' => $this->uid,
             'cid' => $this->cid,
             'collect_num' => $this->collect_num,
             'sort_order' => $this->sort_order,
             'is_open' => $this->is_open,
             'stat' => $this->stat,
         ]);
+        if ($this->uid) {
+            if ($this->uid == '系统') {
+                $u = NULL;
+            } else {
+                $u = User::find()->select(['id'])->andFilterWhere(['like', 'username', $this->uid])->column();
+            }
+            $query->andWhere(['uid' => $u]);
+        }
 
         $query->andFilterWhere(['like', 'title', $this->title]);
 

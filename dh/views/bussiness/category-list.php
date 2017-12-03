@@ -32,7 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
-                    'uid',
+                    [
+                        'attribute' => 'uid',
+                        'value' =>
+                        function($model) {
+                            return $model->uid ? $model->u->username : '';
+                        },
+                    ],
 //                    'cid',
                     'title',
                     'collect_num',
