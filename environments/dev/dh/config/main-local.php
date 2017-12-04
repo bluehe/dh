@@ -26,7 +26,7 @@ $config = [
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['admin@gxgygl.com' => '管理系统']
+                'from' => ['dh@gxgygl.com' => '管理系统']
             ],
         ],
         'authClientCollection' => [

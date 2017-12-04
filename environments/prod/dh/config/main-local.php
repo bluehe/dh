@@ -26,7 +26,7 @@ return [
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['admin@gxgygl.com' => '网址共享平台']
+                'from' => ['dh@gxgygl.com' => '网址共享平台']
             ],
         ],
         'authClientCollection' => [
