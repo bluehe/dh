@@ -7,7 +7,6 @@ use dh\models\Website;
 use yii\bootstrap\Modal;
 use yii\widgets\Pjax;
 
-$this->title = '我的网址';
 ?>
 <div class="container">
     <div class="row content">
@@ -15,7 +14,6 @@ $this->title = '我的网址';
             <?=
             $this->render('left.php')
             ?>
-
 
         </section>
         <section class="col-lg-9">
