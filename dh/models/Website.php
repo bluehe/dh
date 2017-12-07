@@ -230,7 +230,7 @@ class Website extends \yii\db\ActiveRecord {
         $websites = $query->asArray()->all();
         $data = [];
         foreach ($websites as $website) {
-            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'img' => Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]), 'title' => $website['title'], 'label' => $website['num']];
+            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'img' => Html::img(Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])), 'title' => $website['title'], 'label' => $website['num']];
         }
         return $data;
     }
@@ -243,7 +243,7 @@ class Website extends \yii\db\ActiveRecord {
         $websites = $query->asArray()->all();
         $data = [];
         foreach ($websites as $website) {
-            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'img' => Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]), 'title' => $website['title'], 'label' => $website['num']];
+            $data[] = ['id' => $website['id'], 'url' => $website['url'], 'img' => Html::img(Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])), 'title' => $website['title'], 'label' => $website['num']];
         }
         return $data;
     }
