@@ -5,8 +5,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use dh\models\Website;
 use yii\bootstrap\Modal;
-use yii\widgets\Pjax;
-
 ?>
 <div class="container">
     <div class="row content">
@@ -18,7 +16,7 @@ use yii\widgets\Pjax;
         </section>
         <section class="col-lg-9">
             <div class="row">
-                <?php Pjax::begin(); ?>
+
                 <div class="website plate-<?= Yii::$app->params['plate'] ?> col-lg-12 categorySortable">
                     <div class="category category_unsort" id="0">
                         <div class="website-header">
@@ -74,7 +72,6 @@ use yii\widgets\Pjax;
 
                 </div>
 
-                <?php Pjax::end(); ?>
             </div>
         </section>
     </div>
