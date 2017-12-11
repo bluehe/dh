@@ -100,7 +100,7 @@ class Website extends \yii\db\ActiveRecord {
             'host' => '域名',
             'sort_order' => '排序',
             'click_num' => '点击数',
-            'share_stat' => '关联状态',
+            'share_status' => '关联状态',
             'share_id' => '关联ID',
             'collect_num' => '收藏次数',
             'created_at' => '创建时间',

@@ -128,7 +128,7 @@ class PersonController extends Controller {
      */
     public function actionWebsite() {
         $dataProvider = new ActiveDataProvider([
-            'query' => Website::find()->joinWith(['c', 'u'])->where(['uid' => Yii::$app->user->identity->id])->andWhere(['not', [Website::tableName() . '.stat' => Website::STAT_DELETE]])->orderBy([Category::tableName() . '.sort_order' => SORT_ASC, Website::tableName() . '.stat' => SORT_ASC, Website::tableName() . '.sort_order' => SORT_ASC]),
+            'query' => Website::find()->joinWith(['c', 'user'])->where(['uid' => Yii::$app->user->identity->id])->andWhere(['not', [Website::tableName() . '.stat' => Website::STAT_DELETE]])->orderBy([Category::tableName() . '.sort_order' => SORT_ASC, Website::tableName() . '.stat' => SORT_ASC, Website::tableName() . '.sort_order' => SORT_ASC]),
         ]);
         $dataProvider->setSort(false);
 
@@ -166,7 +166,7 @@ class PersonController extends Controller {
             $transaction->rollBack();
             Yii::$app->session->setFlash('error', '操作失败。');
         }
-       
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 

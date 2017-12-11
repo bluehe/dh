@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use dh\models\User;
 use dh\models\UserLevel;
+use dh\models\Website;
 use kartik\daterange\DateRangePicker;
 
 /* @var $this yii\web\View */
@@ -62,6 +63,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'plate',
                     // 'skin',
                     [
+                        'label' => '网址',
+                        'value' =>
+                        function($model) {
+
+                            return Website::get_website_num($model->id, '', Website::STAT_OPEN);
+                        },
+                        'headerOptions' => ['width' => '50'],
+                    ],
+                    [
                         'label' => '等级',
                         'format' => 'raw',
                         'value' =>
@@ -101,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'linkedCalendars' => false,
                             ],
                         ]),
-                        'headerOptions' => ['width' => '230'],
+                        'headerOptions' => ['width' => '235'],
                     ],
                     [
                         'attribute' => 'status',

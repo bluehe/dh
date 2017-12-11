@@ -11,6 +11,8 @@ use dh\models\Recommend;
 use yii\imagine\Image;
 use dh\models\CategorySearch;
 use dh\models\Category;
+use dh\models\Website;
+use dh\models\WebsiteSearch;
 
 class BussinessController extends Controller {
 
@@ -302,6 +304,20 @@ class BussinessController extends Controller {
         }
 
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Lists all Website models.
+     * @return mixed
+     */
+    public function actionWebsiteList() {
+        $searchModel = new WebsiteSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('website-list', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
     }
 
 }

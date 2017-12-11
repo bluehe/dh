@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'linkedCalendars' => false,
                             ],
                         ]),
-                        'headerOptions' => ['width' => '230'],
+                        'headerOptions' => ['width' => '235'],
                     ],
                     [
                         'attribute' => 'uid',
