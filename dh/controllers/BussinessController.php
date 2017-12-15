@@ -320,4 +320,50 @@ class BussinessController extends Controller {
         ]);
     }
 
+    public function actionWebsiteCreate() {
+
+        $model = new Website();
+        $model->loadDefaultValues();
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '操作成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '操作失败。');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            return $this->renderAjax('website-create', [
+                        'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionWebsiteUpdate($id) {
+
+        $model = Website::findOne($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '操作成功。');
+            } else {
+                Yii::$app->session->setFlash('error', '操作失败。');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            return $this->renderAjax('website-create', [
+                        'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionWebsiteDelete($id) {
+        $model = Website::findOne($id);
+        if ($model !== null) {
+            $model->delete();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 }

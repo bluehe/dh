@@ -1,9 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use dh\models\Website;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel dh\models\WebsiteSearch */
@@ -20,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
             <p>
-                <?= Html::a('添加网址', ['website-create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('添加网址', ['#'], ['data-toggle' => 'modal', 'data-target' => '#website-modal', 'class' => 'btn btn-success website-create']) ?>
             </p>
             <?php Pjax::begin(); ?>                            <?=
             GridView::widget([
@@ -92,10 +94,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '{update} {delete}',
                         'buttons' => [
                             'update' => function($url, $model, $key) {
-                                return $model->c->uid ? '' : Html::a('<i class="fa fa-pencil"></i> 修改', ['update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+                                return $model->c->uid ? '' : Html::a('<i class="fa fa-pencil"></i> 修改', ['#'], ['data-toggle' => 'modal', 'data-target' => '#website-modal', 'class' => 'btn btn-primary btn-xs website-update',]);
                             },
                             'delete' => function($url, $model, $key) {
-                                return $model->c->uid ? '' : Html::a('<i class="fa fa-trash-o"></i> 删除', ['delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '确定删除吗？',]]);
+                                return $model->c->uid ? '' : Html::a('<i class="fa fa-trash-o"></i> 删除', ['website-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '确定删除吗？',]]);
                             },
                         ],
                     ],
@@ -105,3 +107,38 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php Pjax::end(); ?>        </div>
     </div>
 </div>
+<?php
+Modal::begin([
+    'id' => 'website-modal',
+    'header' => '<h4 class="modal-title"></h4>',
+    'options' => [
+        'tabindex' => false
+    ],
+]);
+Modal::end();
+?>
+<script>
+<?php $this->beginBlock('website') ?>
+    $('.website-index').on('click', '.website-create', function () {
+        $('.modal-title').html('添加网址');
+        $('.modal-body').html('');
+        $.get('<?= Url::toRoute('website-create') ?>',
+                function (data) {
+                    $('.modal-body').html(data);
+                }
+        );
+    });
+
+    $('.website-index').on('click', '.website-update', function () {
+        $('.modal-title').html('修改网址');
+        $('.modal-body').html('');
+        $.get('<?= Url::toRoute('website-update') ?>', {id: $(this).closest('tr').data('key')},
+                function (data) {
+                    $('.modal-body').html(data);
+                }
+        );
+    });
+
+<?php $this->endBlock() ?>
+</script>
+<?php $this->registerJs($this->blocks['website'], \yii\web\View::POS_END); ?>

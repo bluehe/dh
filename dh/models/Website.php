@@ -115,7 +115,6 @@ class Website extends \yii\db\ActiveRecord {
             self::STAT_OPEN => "启用",
             self::STAT_CLOSE => "关闭",
             self::STAT_BLACK => "拉黑",
-            self::STAT_DELETE => "删除"
         ],
         'is_open' => [
             self::ISOPEN_OPEN => "公开",
