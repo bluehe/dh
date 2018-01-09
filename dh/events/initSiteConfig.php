@@ -93,6 +93,7 @@ class initSiteConfig extends Event {
                 $log->created_at = time();
                 $log->uid = Yii::$app->user->identity->id;
                 if ($log->save()) {
+                    \dh\models\User::updateAll(['last_login' => time()], ['id' => Yii::$app->user->identity->id]);
                     $cookie = new Cookie([
                         'name' => 'login',
                         'expire' => $time + 86400,

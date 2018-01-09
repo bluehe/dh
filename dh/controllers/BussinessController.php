@@ -299,7 +299,6 @@ class BussinessController extends Controller {
     public function actionCategoryDelete($id) {
         $model = Category::findOne($id);
         if ($model !== null) {
-
             $model->delete();
         }
 
@@ -363,6 +362,17 @@ class BussinessController extends Controller {
             $model->delete();
         }
 
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionWebsiteBlack($id) {
+        $model = Website::findOne($id);
+        $model->stat = Website::STAT_BLACK;
+        if ($model->save()) {
+            Yii::$app->session->setFlash('success', '操作成功。');
+        } else {
+            Yii::$app->session->setFlash('error', '操作失败。');
+        }
         return $this->redirect(Yii::$app->request->referrer);
     }
 

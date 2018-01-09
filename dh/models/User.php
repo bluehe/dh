@@ -52,7 +52,7 @@ class User extends ActiveRecord implements IdentityInterface {
     public function rules() {
         return [
             [['username', 'auth_key', 'password_hash'], 'required'],
-            [['point', 'status', 'created_at', 'updated_at', 'plate'], 'integer'],
+            [['point', 'status', 'created_at', 'updated_at', 'plate', 'last_login'], 'integer'],
             [['username', 'email', 'tel', 'nickname'], 'unique', 'message' => '{attribute}已经存在'],
             [['username', 'nickname'], 'string', 'max' => 32],
             [['username'], 'string', 'min' => 4],
@@ -79,6 +79,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'skin' => '皮肤',
             'point' => '积分',
             'status' => '状态',
+            'last_login' => '上次登录',
             'created_at' => '注册时间',
             'updated_at' => '更新时间',
         ];

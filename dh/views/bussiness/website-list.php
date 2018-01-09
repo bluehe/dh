@@ -91,13 +91,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     ['class' => 'yii\grid\ActionColumn',
                         'header' => '操作',
-                        'template' => '{update} {delete}',
+                        'template' => '{update} {delete} {black}',
                         'buttons' => [
                             'update' => function($url, $model, $key) {
                                 return $model->c->uid ? '' : Html::a('<i class="fa fa-pencil"></i> 修改', ['#'], ['data-toggle' => 'modal', 'data-target' => '#website-modal', 'class' => 'btn btn-primary btn-xs website-update',]);
                             },
                             'delete' => function($url, $model, $key) {
                                 return $model->c->uid ? '' : Html::a('<i class="fa fa-trash-o"></i> 删除', ['website-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '确定删除吗？',]]);
+                            },
+                            'black' => function($url, $model, $key) {
+                                return $model->c->uid && $model->stat != Website::STAT_BLACK ? Html::a('<i class="fa fa-warning"></i> 拉黑', ['website-black', 'id' => $key], ['class' => 'btn btn-warning btn-xs', 'data' => ['confirm' => '确定拉黑吗？',]]) : '';
                             },
                         ],
                     ],

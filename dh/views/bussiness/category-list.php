@@ -65,10 +65,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '{update} {delete}', //只需要展示删除和更新
                         'buttons' => [
                             'update' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-pencil"></i> 修改', ['category-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
+                                return $model->uid ? '' : Html::a('<i class="fa fa-pencil"></i> 修改', ['category-update', 'id' => $key], ['class' => 'btn btn-primary btn-xs',]);
                             },
                             'delete' => function($url, $model, $key) {
-                                return Html::a('<i class="fa fa-trash-o"></i> 删除', ['category-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '确定删除吗？',]]);
+                                return $model->uid ? '' : Html::a('<i class="fa fa-trash-o"></i> 删除', ['category-delete', 'id' => $key], ['class' => 'btn btn-danger btn-xs', 'data' => ['confirm' => '确定删除吗？',]]);
                             },
                         ],
                     ],

@@ -91,6 +91,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['width' => '80'],
                     ],
                     [
+                        'attribute' => 'last_login',
+                        'value' =>
+                        function($model) {
+                            return $model->last_login > 0 ? date('Y-m-d H:i:s', $model->last_login) : '';
+                        },
+                    ],
+                    [
                         'attribute' => 'created_at',
                         'value' =>
                         function($model) {
