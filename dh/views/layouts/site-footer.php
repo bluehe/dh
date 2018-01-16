@@ -20,7 +20,7 @@ $system = Yii::$app->cache->get('system_info');
             </div>
 
             <div class="text-center copyright">
-                <div>&copy; <?= date('Y', time()) ?> <a href="<?= Yii::$app->homeUrl ?>"><?= Yii::$app->name ?>.</a>  All rights reserved.</div>
+                <div>&copy; 2017-<?= date('Y', time()) ?> <a href="<?= Yii::$app->homeUrl ?>"><?= Yii::$app->name ?>.</a>  All rights reserved.</div>
                 <div>
                     <a href = "http://www.miibeian.gov.cn/" target = "_blank"><?= $system['system_icp']; ?></a>
                     <?= $system['system_statcode']; ?>
