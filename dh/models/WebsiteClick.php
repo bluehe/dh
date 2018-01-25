@@ -67,4 +67,9 @@ class WebsiteClick extends \yii\db\ActiveRecord {
         return $this->hasOne(Website::className(), ['id' => 'website']);
     }
 
+    public static function get_day_total($a = 'created_at', $start = '', $end = '') {
+        $query = static::find()->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
+        return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)', 'wday' => "FROM_UNIXTIME($a,'%Y-%m-%d')"])->indexBy('wday')->column();
+    }
+
 }

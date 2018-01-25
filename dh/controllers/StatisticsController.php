@@ -9,6 +9,7 @@ use dh\models\UserLog;
 use dh\models\UserSign;
 use dh\models\Category;
 use dh\models\Website;
+use dh\models\WebsiteClick;
 
 class StatisticsController extends Controller {
 
@@ -61,9 +62,10 @@ class StatisticsController extends Controller {
 
         //网址趋势
         $day_category_user = Category::get_day_total('created_at', $start, $end, NULL, 'not');
-
         $day_website_user = Website::get_day_total('created_at', $start, $end, NULL, 'not');
         $day_website_site = Website::get_day_total('created_at', $start, $end);
+
+        $day_website_click = WebsiteClick::get_day_total('created_at', $start, $end);
 
 //        $day_website_add = UserSign::get_day_total('created_at', $start, $end);
 //        $day_website_collect = UserSign::get_day_total('created_at', $start, $end);
@@ -72,16 +74,19 @@ class StatisticsController extends Controller {
         $data_category_user = [];
         $data_website_user = [];
         $data_website_site = [];
+        $data_website_click = [];
 
         for ($i = $start; $i < $end; $i = $i + 86400) {
             $j = date('Y-m-d', $i);
             $data_category_user[] = ['name' => $j, 'y' => isset($day_category_user[$j]) ? (int) $day_category_user[$j] : 0];
             $data_website_user[] = ['name' => $j, 'y' => isset($day_website_user[$j]) ? (int) $day_website_user[$j] : 0];
             $data_website_site[] = ['name' => $j, 'y' => isset($day_website_site[$j]) ? (int) $day_website_site[$j] : 0];
+            $data_website_click[] = ['name' => $j, 'y' => isset($day_website_click[$j]) ? (int) $day_website_click[$j] : 0];
         }
         $series['day'][] = ['type' => 'line', 'name' => '用户分类', 'data' => $data_category_user];
         $series['day'][] = ['type' => 'line', 'name' => '用户网址', 'data' => $data_website_user];
         $series['day'][] = ['type' => 'line', 'name' => '本站网址', 'data' => $data_website_site];
+        $series['day'][] = ['type' => 'line', 'name' => '网址点击', 'data' => $data_website_click];
 
 
         return $this->render('website', ['series' => $series, 'start' => $start, 'end' => $end]);
