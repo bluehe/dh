@@ -140,7 +140,11 @@ class PersonController extends Controller {
     public function actionWebsiteDelete($id) {
         $model = Website::findOne($id);
         if ($model !== null && $model->stat !== Website::STAT_OPEN) {
-            $model->delete();
+            if (Website::get_category_website_num($model->cid) <= 1) {
+                Category::deleteAll(['id' => $model->cid]);
+            } else {
+                $model->delete();
+            }
         }
 
         return $this->redirect(Yii::$app->request->referrer);

@@ -78,8 +78,7 @@ class Website extends \yii\db\ActiveRecord {
     public function beforeSave($insert) {
         // 注意，重载之后要调用父类同名函数
         if (parent::beforeSave($insert)) {
-            $this->url = strtolower($this->url);
-            $host = parse_url($this->url, PHP_URL_HOST);
+            $host = strtolower(parse_url($this->url, PHP_URL_HOST));
             $this->host = preg_replace("/^(www\.)?/is", "", $host);
             return true;
         } else {
