@@ -204,6 +204,7 @@ class Website extends \yii\db\ActiveRecord {
         return $num;
     }
 
+//    分类网址数
     public static function get_category_website_num($cid, $stat = '') {
         $num = static::find()->andFilterWhere(['cid' => $cid, 'stat' => $stat])->count();
         return $num;
