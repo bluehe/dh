@@ -248,4 +248,16 @@ class Website extends \yii\db\ActiveRecord {
         return $data;
     }
 
+    //统计-网址每日增加数
+    public static function get_day_total($a = 'created_at', $start = '', $end = '', $uid = NULL, $is = '') {
+        $query = static::find()->joinWith('c')->where([self::tableName() . '.stat' => self::STAT_OPEN])->andFilterWhere(['>=', self::tableName() . '.' . $a, $start])->andFilterWhere(['<=', self::tableName() . '.' . $a, $end]);
+        if ($is == 'not') {
+            $query->andWhere(['not', ['uid' => $uid]]);
+        } else {
+            $query->andWhere(['uid' => $uid]);
+        }
+
+        return $query->groupBy(["FROM_UNIXTIME(" . self::tableName() . "." . $a . ", '%Y-%m-%d')"])->select(['count(*)', 'wday' => "FROM_UNIXTIME(" . self::tableName() . "." . $a . ",'%Y-%m-%d')"])->indexBy('wday')->column();
+    }
+
 }

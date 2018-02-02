@@ -182,4 +182,16 @@ class Category extends \yii\db\ActiveRecord {
         return $num;
     }
 
+    //统计-分类每日增加数
+    public static function get_day_total($a = 'created_at', $start = '', $end = '', $uid = NULL, $is = '') {
+         $query = static::find()->where(['stat' => self::STAT_OPEN])->andFilterWhere(['>=', $a, $start])->andFilterWhere(['<=', $a, $end]);
+        if ($is == 'not') {
+            $query->andWhere(['not', ['uid' => $uid]]);
+        } else {
+            $query->andWhere(['uid' => $uid]);
+        }
+       
+        return $query->groupBy(["FROM_UNIXTIME($a, '%Y-%m-%d')"])->select(['count(*)', "FROM_UNIXTIME($a,'%Y-%m-%d')"])->indexBy("FROM_UNIXTIME($a,'%Y-%m-%d')")->column();
+    }
+
 }
