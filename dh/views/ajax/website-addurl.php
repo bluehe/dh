@@ -31,6 +31,8 @@ use dh\models\Category;
 
         <?= $form->field($model, 'is_open')->radioList(Website::$List['is_open'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
+        <?= $form->field($model, 'note')->textarea(['rows' => 3]) ?>
+
         <div class="col-md-6 col-xs-6 text-right">
 
             <?= Html::submitButton('确定', ['class' => 'btn btn-primary']) ?>

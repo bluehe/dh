@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'note')->textarea(['rows' => 3]) ?>
+
         <div class="col-md-6 col-xs-6 text-right">
 
             <?= Html::submitButton('确定', ['class' => 'btn btn-primary']) ?>

@@ -55,7 +55,7 @@ class Website extends \yii\db\ActiveRecord {
         return [
             [['cid', 'title', 'url', 'sort_order'], 'required'],
             [['cid', 'sort_order', 'click_num', 'collect_num', 'is_open', 'created_at', 'updated_at', 'stat'], 'integer'],
-            [['title', 'url', 'host'], 'string', 'max' => 255],
+            [['title', 'url', 'host', 'note'], 'string', 'max' => 255],
             ['url', 'url', 'defaultScheme' => 'http'],
             [['cid'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cid' => 'id']],
             [['share_id'], 'exist', 'skipOnError' => true, 'targetClass' => Website::className(), 'targetAttribute' => ['share_id' => 'id']],
@@ -97,6 +97,7 @@ class Website extends \yii\db\ActiveRecord {
             'title' => '名称',
             'url' => '网址',
             'host' => '域名',
+            'note' => '备注',
             'sort_order' => '排序',
             'click_num' => '点击数',
             'share_status' => '关联状态',

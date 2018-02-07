@@ -48,9 +48,9 @@ use yii\bootstrap\Modal;
                             <div class="website-content list-group websiteSortable">
 
                                 <?php foreach ($cate['website'] as $website) { ?>
-                                <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" id="<?= $website['id'] ?>" data-id="<?= $website['id'] ?>">
-                                            <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]) ?>
-                                        <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['title'] ?>"><?= $website['title'] ?></a>
+                                    <div class="list-group-item<?= $website['is_open'] == Website::ISOPEN_OPEN ? '' : ' list-group-item-warning' ?>" id="<?= $website['id'] ?>" data-id="<?= $website['id'] ?>">
+                                        <?= Html::img('@web/image/default_ico.png', ['class' => 'lazyload', 'data-original' => Url::to(Yii::$app->params['img_url'] . '/api/getfav?url=' . $website['host'])]) ?>
+                                        <a class="clickurl" target="_blank" href="<?= $website['url'] ?>" title="<?= $website['note'] ? website['note'] : website['title'] ?>"><?= $website['title'] ?></a>
                                         <div class="dropdown pull-right">
                                             <span class="dropdown-toggle" id="dropdownMenu<?= $website['id'] ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                 <i class="fa fa-caret-square-o-down" title="操作"></i>

@@ -28,6 +28,8 @@ use dh\models\Website;
 
         <?= $form->field($model, 'is_open')->radioList(Website::$List['is_open'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
+        <?= $form->field($model, 'note')->textarea(['rows' => 3]) ?>
+
         <div class="col-md-6 col-xs-6 text-right">
 
             <?= Html::submitButton('确定', ['class' => 'btn btn-primary']) ?>
@@ -67,14 +69,14 @@ use dh\models\Website;
                             + '</div></div></div>';
                     $('#user-modal').modal('hide');
                     $('.category[id=<?= $model->cid ?>]').find('.list-group').append(str);
-                    if($('.category[id=<?= $model->cid ?>]').find('.website-content .list-group-item').length>=10){
-                         $('.category[id=<?= $model->cid ?>]').find('.add_page').hide();
-                         $('.category[id=<?= $model->cid ?>]').find('.websiteSortable').removeClass('sort');
+                    if ($('.category[id=<?= $model->cid ?>]').find('.website-content .list-group-item').length >= 10) {
+                        $('.category[id=<?= $model->cid ?>]').find('.add_page').hide();
+                        $('.category[id=<?= $model->cid ?>]').find('.websiteSortable').removeClass('sort');
                     }
                     my_alert('success', '添加成功！', 3000);
-                }else if(data.stat==='fail'){
-                $('#user-modal').modal('hide');
-                my_alert('danger', data.msg, 3000);
+                } else if (data.stat === 'fail') {
+                    $('#user-modal').modal('hide');
+                    my_alert('danger', data.msg, 3000);
                 }
 
             }
