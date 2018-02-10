@@ -26,7 +26,7 @@ use dh\models\Category;
 
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'note')->textarea(['rows' => 3]) ?>
+        <?= $form->field($model, 'note')->textarea(['rows' => 3])->hint('仅自己可见') ?>
 
         <div class="col-md-6 col-xs-6 text-right">
 

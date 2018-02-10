@@ -28,7 +28,7 @@ use dh\models\Website;
 
         <?= $form->field($model, 'is_open')->radioList(Website::$List['is_open'], ['itemOptions' => ['labelOptions' => ['class' => 'radio-inline']]]) ?>
 
-        <?= $form->field($model, 'note')->textarea(['rows' => 3]) ?>
+        <?= $form->field($model, 'note')->textarea(['rows' => 3])->hint('仅自己可见') ?>
 
         <div class="col-md-6 col-xs-6 text-right">
 
