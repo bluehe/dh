@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'note')->textarea(['rows' => 3])->hint('仅自己可见') ?>
+        <?= $form->field($model, 'note')->textarea(['rows' => 3, 'resize' => 'vertical'])->hint('仅自己可见') ?>
 
         <div class="col-md-6 col-xs-6 text-right">
 
