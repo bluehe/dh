@@ -352,6 +352,8 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
+        echo '由于运维在网站升级过程中不小心把数据全部删除，本网站暂停服务，对此造成的不便深表歉意。';
+        return true;
         if (Yii::$app->user->isGuest) {
             return $this->redirect('site/all');
         } else {
